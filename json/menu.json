@@ -1,0 +1,26 @@
+[
+    {
+      "Name": "All Products",
+      "Icc":"mdi:tags"
+    },
+    {
+      "Name": "Category",
+      "Icc":"bxs:category"
+    },
+    {
+      "Name": "Collection Items",
+      "Icc":"bi:collection-fill"
+    },
+    {
+      "Name": "Product Types",
+      "Icc":"bi:boxes"
+    },
+    {
+      "Name": "New",
+      "Icc":"mdi:new-box"
+    },
+    {
+      "Name": "Discounted",
+      "Icc":"entypo:new"
+    }
+  ]

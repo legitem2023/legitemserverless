@@ -1,0 +1,47 @@
+[
+    {
+        "Name": "Dashboard",
+        "Icon": "material-symbols:dashboard",
+        "URL": "Dashboard"
+    },
+    {
+        "Name": "Inventory",
+        "Icon": "material-symbols:inventory-sharp",
+        "URL": "Inventory"
+    },
+    {
+        "Name": "Transaction",
+        "Icon": "grommet-icons:transaction",
+        "URL": "Transaction"
+    },
+    {
+        "Name": "Sales",
+        "Icon": "game-icons:coins",
+        "URL": "Sales"
+    },
+    {
+        "Name": "After Service",
+        "Icon": "carbon:return",
+        "URL": "After_Service"
+    },
+    {
+        "Name": "Statistics",
+        "Icon": "mdi:graph-bar",
+        "URL": "Statistics"
+    },
+    {
+        "Name": "Accounts",
+        "Icon": "mdi:accounts-group",
+        "URL": "Accounts"
+    },
+    {
+        "Name": "Settings",
+        "Icon": "material-symbols:settings",
+        "URL": "Settings"
+    },
+    {
+        "Name": "Messages",
+        "Icon": "typcn:messages",
+        "URL": "Messages"
+    }
+]

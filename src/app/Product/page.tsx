@@ -8,7 +8,7 @@ type InventoryItem = {
   color: string | null;
 };
 
-export default function Home() {
+export default function Product() {
   return (
     <main className="flex flex-wrap justify-center items-center w-full md:w-full lg:w-[100%]">
         <Thumbnail/>

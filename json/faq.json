@@ -1,0 +1,42 @@
+[
+    {
+        "question": "How can I place an order?",
+        "answer": "Ordering from Legitem is easy! Simply browse our website, add your desired items to the shopping cart, and proceed to checkout. Follow the prompts to enter your shipping and payment information to complete your purchase."
+    },
+    {
+        "question": "What payment methods do you accept?",
+        "answer": "We accept various payment methods, including major credit/debit cards (Visa, MasterCard, American Express), PayPal, and other secure payment gateways."
+    },
+    {
+        "question": "How can I track my order?",
+        "answer": "Once your order has been shipped, you will receive a confirmation email with a tracking number. You can use this tracking number on our website's tracking page or directly on the courier's website to monitor the status of your delivery."
+    },
+    {
+        "question": "What is your return policy?",
+        "answer": "We want you to love what you ordered! If you are not completely satisfied with your purchase, you may return unworn and unwashed items within 30 days for a full refund or exchange. Please see our Returns & Exchanges policy for more details."
+    },
+    {
+        "question": "Do you ship internationally?",
+        "answer": "At the moment, we only ship within [your country/region]. However, we are working on expanding our shipping capabilities to serve more customers worldwide in the future."
+    },
+    {
+        "question": "How do I contact customer support?",
+        "answer": "If you have any questions, concerns, or need assistance, our dedicated customer support team is here to help. You can reach us via email at [Your email address] or by phone at [Your phone number]. We strive to respond to all inquiries promptly."
+    },
+    {
+        "question": "Is my personal information secure?",
+        "answer": "Yes, protecting your privacy and personal information is important to us. We use industry-standard security measures to safeguard your data and ensure a safe shopping experience on our website."
+    },
+    {
+        "question": "How can I stay updated on new arrivals and promotions?",
+        "answer": "Stay connected with Legitem by following us on social media (insert links to your social media profiles) and subscribing to our newsletter. You'll be the first to know about the latest trends, exclusive offers, and more."
+    },
+    {
+        "question": "Can I cancel or modify my order after it has been placed?",
+        "answer": "Once an order is placed, we begin processing it immediately to ensure quick delivery. Therefore, we are unable to guarantee changes or cancellations after the order has been confirmed. Please contact us as soon as possible if you need assistance with your order."
+    },
+    {
+        "question": "Do you offer gift cards?",
+        "answer": "Yes, we offer Legitem gift cards that make the perfect gift for any occasion. Gift cards are available for purchase on our website and can be redeemed online."
+    }
+]

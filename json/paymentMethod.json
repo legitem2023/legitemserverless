@@ -1,0 +1,16 @@
+[{
+    "Method":"COD",
+    "ICON":"https://cdn-icons-png.flaticon.com/512/2897/2897853.png",
+    "Selected":true
+},
+{
+    "Method":"GCASH",
+    "ICON":"https://www.bworldonline.com/wp-content/uploads/2021/09/GCash_Horizontal-Full-Blue-Transparent.png",
+    "Selected":false
+},
+{
+    "Method":"PayMaya",
+    "ICON":"https://upload.wikimedia.org/wikipedia/commons/9/9a/PayMaya_Logo.png",
+    "Selected":false
+}
+]

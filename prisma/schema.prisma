@@ -1,0 +1,73 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id    String  @id @default(uuid())
+  email String  @unique
+  accountCode String @unique
+  password String?
+  Inventory Inventory[]
+  accountLevel String?
+  loginAttemp String?
+  macAddress String?
+  agentIdentity String?
+  image String?
+  nameOfStore String?
+  dateCreated DateTime  @default(now())
+  dateUpdated DateTime? @updatedAt
+  AccountDetails AccountDetails[]
+}
+
+model AccountDetails {
+  id        Int     @id @default(autoincrement())
+  userId String
+  User User @relation(fields: [userId], references: [id])
+  fullname    String?
+  storeName   String?
+  contactNo String?
+  Address String?
+  accountEmail  String
+}
+
+model Inventory {
+  id          String  @id @default(uuid())
+  productCode String?
+  category    String?
+  productType String?
+  imageReferences String?
+  model       String?
+  styleCode   String?
+  name        String?
+  color       String?
+  size        String?
+  price       Float?
+  stock       Float?
+  status      String?  // Changed from 'Status' to 'status' (convention)
+  thumbnail   String?
+  parentId    String?
+  creator     String?
+  editor      String?
+  dateCreated DateTime  @default(now())
+  dateUpdated DateTime? @updatedAt
+  accountCode  String
+  User User? @relation(fields: [accountCode], references: [accountCode])
+}
+model Inv_subthumbnail {
+    id Int @id @default(autoincrement())
+    subImageRelationParent Int?
+    subImageRelationChild String
+    isVideo Boolean  @default(false)
+    ImagePath String?
+}

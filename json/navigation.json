@@ -1,0 +1,27 @@
+[
+    {
+        "Name":"Home",
+        "icon":"ic:baseline-home",
+        "Link":"./Home"
+    },
+    {
+        "Name":"Products",
+        "icon":"bi:tags-fill",
+        "Link":"./Product"
+    },
+    {
+        "Name":"Crowd",
+        "icon":"simple-icons:crowdsource",
+        "Link":"./Crowd"
+    },
+    {
+        "Name":"Account",
+        "icon":"mdi:badge-account-horizontal",
+        "Link":"./Account"
+    },
+    {
+        "Name":"Cart",
+        "icon":"mdi:cart",
+        "Link":"./Cart"
+    }
+]

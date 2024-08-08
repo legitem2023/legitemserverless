@@ -18,16 +18,51 @@
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  background:rgb(230, 230, 230);
+  height: 100%;
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
+}
+.image-gallery-svg{
+  height:30px!important;
+  width:30px!important;
+  outline:0;
+  font-size: 20px!important;
+}
+#Aside{
+  transition: ease 0.5s;
+}
+.ShareContainer div{
+  padding:10px;
+}
+.logo{
+  background-image: url('http://localhost:3000/LegitemShield.png');
+  background-position: center;
+  background-size: auto 80%;
+  background-repeat: no-repeat;
+}
+.customSharing button{
+  margin:10px;
+}
+.css-19kzrtu {
+  padding: 10px!important;
+}
+.headLabel{
+  display:flex;
+}
+.addShadow{
+  box-shadow: 0.5px 0.5px 3px #00290c;
+}
+.image-gallery-content{
+  box-shadow: 0.5px 0.5px 3px #00290c;
+  border:solid 4px rgb(62, 134, 33);
+}
+@media only screen and (max-width:600px){
+  .headLabel{
+    display:none;
+  }  
 }

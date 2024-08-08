@@ -1,0 +1,53 @@
+[{
+    "Name":"Animals & Pets",
+    "icon":"dashicons:pets"
+   },{
+    "Name":"Architecture",
+    "icon":"clarity:design-line"
+   },{
+    "Name":"Art & Abstract",
+    "icon":"carbon:lasso-polygon"
+   },{
+    "Name":"Cars & Vehicles",
+    "icon":"clarity:car-solid"
+   },{
+    "Name":"Characters & Creatures",
+    "icon":"game-icons:frankenstein-creature"
+   },{
+    "Name":"Cultural Heritage & History",
+    "icon":"healthicons:agriculture-worker"
+   },{
+    "Name":"Electronics & Gadgets",
+    "icon":"emojione-monotone:mobile-phone-with-arrow"
+   },{
+    "Name":"Fashion & Style",
+    "icon":"icon-park-outline:clothes-cardigan"
+   },{
+    "Name":"Food & Drink",
+    "icon":"dashicons:food"
+   },{
+    "Name":"Furniture & Home",
+    "icon":"map:furniture-store"
+   },{
+    "Name":"Nature & Plants",
+    "icon":"akar-icons:plant"
+   },{
+    "Name":"News & Politics",
+    "icon":"map:political"
+   },{
+    "Name":"People",
+    "icon":"akar-icons:people-group"
+   },{
+    "Name":"Places & Travel",
+    "icon":"ps:facebook-places"
+   },{
+    "Name":"Science & Technology",
+    "icon":"wpf:integrated-circuit"
+   },{
+    "Name":"Sports & Fitness",
+    "icon":"ic:outline-sports-basketball"
+   },{
+    "Name":"Weapons & Military",
+    "icon":"emojione-monotone:crossed-swords"
+   }
+  ]

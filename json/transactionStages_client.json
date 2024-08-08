@@ -1,0 +1,32 @@
+[
+    {
+        "Name":"New",
+        "Image":"https://api.iconify.design/clarity/new-solid.svg",
+        "URL":""
+    },
+    {
+        "Name":"Recieve",
+        "Image":"https://api.iconify.design/mdi/hand-extended.svg",
+        "URL":""
+    },
+    {
+        "Name":"Packed",
+        "Image":"https://api.iconify.design/typcn/download.svg",
+        "URL":""
+    },
+    {
+        "Name":"Handed By Logistic Partner",
+        "Image":"https://cdn-icons-png.flaticon.com/512/61/61535.png",
+        "URL":""
+    },
+    {
+        "Name":"Out of Delivery",
+        "Image":"https://api.iconify.design/mdi/truck-delivery-outline.svg",
+        "URL":""
+    },
+    {
+        "Name":"Delivered",
+        "Image":"https://api.iconify.design/mdi/package-variant-closed-delivered.svg",
+        "URL":""
+    }
+]
