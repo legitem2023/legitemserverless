@@ -6,6 +6,7 @@ import Share from '../Share/Share';
 import Link from 'next/link';
 import TabData from './TabData';
 import { useParams } from 'next/navigation';
+import Loading from '../UI/Loading';
 type Inventory = {
     id: string;
     name: string | null;
@@ -20,28 +21,34 @@ type Props = {
 
 const ProductView = () => {
     const [useProduct, setProducts] = useState([]);
+    const [loading, setLoading] = useState<boolean>(true);
     useEffect(() => {
-      async function fetchInventory() {
-        try {
-          const response = await fetch('/api/readThumbnail');
-          if (!response.ok) {
-            throw new Error('Network response was not ok');
+        async function fetchInventory() {
+          try {
+            const response = await fetch('/api/readThumbnail');
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            const data = await response.json();
+            setProducts(data);
+          } catch (error) {
+            console.error('Failed to fetch products:', error);
+          } finally {
+            setLoading(false);
           }
-          const data = await response.json();
-          setProducts(data);
-        } catch (error) {
-          console.error('Failed to fetch skills:', error);
         }
-      }
-  
-      fetchInventory();
-    }, [])
+        fetchInventory();
+      }, []);
 
     const searchParams = useParams();
     const filtered = useProduct.filter((item: any) => item.id === searchParams.id);
     return (
         <div className="flex flex-wrap transform scale-98 h-[100vh]">
-            {filtered.map((view: any, idx: number) => (
+      {loading ? (
+        <Loading />
+      ) : (
+        <div>
+                        {filtered.map((view: any, idx: number) => (
                 <div key={idx} className="grid lg:grid-cols-4 gap-0 bg-[#f1f1f1] w-[100vw]">
                     <div className="lg:col-span-3 grid lg:grid-cols-3">
                         <div className='lg:col-span-3 bg-gradient-to-l from-lime-500 via-lime-700 to-lime-800'>
@@ -104,6 +111,11 @@ const ProductView = () => {
                     </div>
                 </div>
             ))}
+        </div>
+      )}
+
+
+
         </div>
     )
 }

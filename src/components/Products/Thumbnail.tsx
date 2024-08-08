@@ -11,6 +11,7 @@ import useNav from '../../../store/useNav';
 import { truncateString } from '../../../utils/script';
 import Link from 'next/link';
 import Titlebar from '../UI/Titlebar';
+import Loading from '../UI/Loading';
 
 type Sorting = 'name' | 'price' | '';
 
@@ -100,9 +101,7 @@ const Thumbnail = () => {
   return (
     <div className='flex flex-wrap justify-left md:justify-center gap-0 md:w-full lg:w-[55.56vw]'>
       {loading ? (
-        <div className='flex justify-center w-[100%]'>
-          <p>Loading...</p>
-        </div>
+        <Loading />
       ) : (
         <>
         <div className='flex justify-center w-[100%]'>

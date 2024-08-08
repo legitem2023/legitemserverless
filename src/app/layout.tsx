@@ -31,7 +31,7 @@ export default function RootLayout({
           src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"
           strategy="lazyOnload"
         />
-      <div className="flex flex-wrap h-[100vh]">
+      <div className="flex flex-wrap">
         <div className="flex flex-1 justify-center h-[8vh] align-center bg-gradient-to-t from-lime-500 via-lime-700 to-lime-800 z-50">
           <Header/>
         </div>
