@@ -54,7 +54,7 @@ export default function TabData({ data }: any) {
         <Gallery data={data} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        <ModelViewer />
+        <ModelViewer/>
       </CustomTabPanel>
     </Box>
   );

@@ -141,9 +141,9 @@ const Thumbnail = () => {
                   />
                 </Link>
                 <div className="relative text-white grid grid-cols-3">
-                  <span className="flex-1 col-span-1 text-shadow-sm">Name</span><span className='col-span-2'>{truncateString(product.name, 25)}</span>
+                  <span className="flex-1 col-span-1 text-shadow-sm text-xs">Name</span><span className='col-span-2 text-xs'>{truncateString(product.name, 25)}</span>
                   <span className='col-span-3 flex justify-center'><Ratings /></span>
-                  <span className="flex-1 col-span-2">Views</span><span className='col-span-1'>(0)</span>
+                  <span className="flex-1 col-span-2 text-xs">Views</span><span className='col-span-1 text-xs'>(0)</span>
                 </div>
                 <div className="relative text-white m-3 flex flex-wrap flex-row">
                   <span className="flex-1 block bg-white rounded-full text-lime-950 text-xs font-bold px-2 py-1 leading-none flex items-center"><PriceDisplay amount={product.price} /></span>

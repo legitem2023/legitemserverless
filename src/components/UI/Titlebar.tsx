@@ -5,7 +5,7 @@ type MyComponentProps = {
   
 const Titlebar:React.FC<MyComponentProps> = ({title}) => {
   return (
-    <div className='flex flex-col justify-center'>{title}</div>
+    <div className='flex flex-col justify-center p-2'>{title}</div>
   )
 }
 
