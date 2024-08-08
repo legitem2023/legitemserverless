@@ -6,13 +6,22 @@ import Paragraph from '../Partial/Paragraph';
 import ParagraphAll from '../../../json/Paragraph.json'
 import Accordion from '../Accordion/Accordion';
 import faq from '../../../json/faq.json';
+import { HomeGallery } from '../Gallery/HomeGallery';
 const Home = () => {
 
 
 
   return (
     <div className='flex flex-wrap justify-left md:justify-center gap-0 md:w-full lg:w-[55.56vw]'>
+        
         <div className="grid w-[100vw]">
+            <div className='flex flex-1 p-2 border-b-4 border-t-4 border-solid border-lime-800 flex-row align-center bg-lime-600'>
+                <div className='flex flex-col justify-center p-2'><Icon icon="mdi:tags" /></div>
+                <Titlebar title="Categories"/>
+            </div>
+            <div>
+            <HomeGallery/>
+            </div>
             <div className='flex flex-1 p-2 border-b-4 border-t-4 border-solid border-lime-800 flex-row align-center bg-lime-600'>
                 <div className='flex flex-col justify-center p-2'><Icon icon="mdi:tags" /></div>
                 <Titlebar title="About"/>
