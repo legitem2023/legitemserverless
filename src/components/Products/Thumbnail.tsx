@@ -29,7 +29,7 @@ const Thumbnail = () => {
   useEffect(() => {
     async function fetchInventory() {
       try {
-        const response = await fetch('/api/readThumbnail');
+        const response = await fetch('/api/Query/readThumbnail');
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
@@ -127,9 +127,8 @@ const Thumbnail = () => {
             </div>
           </div>
           <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 w-[100vw]">
-            <div className='flex flex-1 p-2 border-b-4 border-t-4 border-solid col-span-2 sm:grid-cols-2 md:col-span-3 lg:col-span-4 xl:col-span-5 2xl:col-span-6 border-lime-800 flex-row align-center bg-lime-600'>
-              <div className='flex flex-col justify-center p-2'><Icon icon="mdi:tags" /></div>
-              <Titlebar title="Products"/>
+            <div className='flex flex-1  col-span-2 sm:grid-cols-2 md:col-span-3 lg:col-span-4 xl:col-span-5 2xl:col-span-6 flex-row align-center'>
+              <Titlebar title="Products" Icons='mdi:cart'/>
             </div>
             {paginatedProducts?.map((product: any, i: number) => (
               <div key={i} className="flex-shrink-0 relative overflow-hidden border-4 border-lime-600 bg-lime-600 rounded-lg max-w-xs cursor-pointer m-1 addShadow">
@@ -141,9 +140,12 @@ const Thumbnail = () => {
                   />
                 </Link>
                 <div className="relative text-white grid grid-cols-3">
-                  <span className="flex-1 col-span-1 text-shadow-sm text-xs">Name</span><span className='col-span-2 text-xs'>{truncateString(product.name, 25)}</span>
+                  <span className="flex-1 col-span-1 text-shadow-sm text-xs">Name</span>
+                  <span className='col-span-2 text-xs'>{truncateString(product.name, 25)}</span>
                   <span className='col-span-3 flex justify-center'><Ratings /></span>
-                  <span className="flex-1 col-span-2 text-xs">Views</span><span className='col-span-1 text-xs'>(0)</span>
+                  <span className="flex-1 col-span-1 text-shadow-sm text-xs">View</span>
+                  <span className='col-span-2 text-xs'>(0)</span>
+
                 </div>
                 <div className="relative text-white m-3 flex flex-wrap flex-row">
                   <span className="flex-1 block bg-white rounded-full text-lime-950 text-xs font-bold px-2 py-1 leading-none flex items-center"><PriceDisplay amount={product.price} /></span>

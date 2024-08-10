@@ -26,17 +26,14 @@ export const HomeGallery = () => {
     fetchInventory();
   }, []);
 
-
+console.log(useProduct)
   return (
-    <div>
-      <div className="slider-container flex justify-center  sm:w-[100vw] md:w-[55.56vw] lg:w-[55.56vw] xl:w-[55.56vw] 2xl:w-[55.56vw]  bg-lime-900 p-2">
-      <Swiper
+    <Swiper
       spaceBetween={50}
       slidesPerView={4}
       loop={true}
       onSlideChange={() => console.log('slide change')}
-      onSwiper={(swiper) => console.log(swiper)}
-    >
+      onSwiper={(swiper) => console.log(swiper)}>
       {useProduct.map((item:any, i:any) => (
         <SwiperSlide key={i}>
             <Image key={i} src={item.thumbnail} alt={"alt" + i} width='200' height='150' />
@@ -44,8 +41,7 @@ export const HomeGallery = () => {
         </SwiperSlide>
         ))}
     </Swiper>
-      </div>
-    </div>
+
   );
 }
 

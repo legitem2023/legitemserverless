@@ -16,46 +16,40 @@ const Home = () => {
     <div className='flex flex-wrap justify-left md:justify-center gap-0 md:w-full lg:w-[55.56vw]'>
         
         <div className="grid w-[100vw]">
-            <div className='flex flex-1 p-2 border-b-4 border-t-4 border-solid border-lime-800 flex-row align-center bg-lime-600'>
-                <div className='flex flex-col justify-center p-2'><Icon icon="bx:category-alt" /></div>
-                <Titlebar title="Categories"/>
+            <div className='flex flex-1 flex-row align-center'>
+                <Titlebar title="Categories" Icons='bx:category'/>
             </div>
-            <div>
+            
             <HomeGallery/>
-            </div>
-            <div className='flex flex-1 p-2 border-b-4 border-t-4 border-solid border-lime-800 flex-row align-center bg-lime-600'>
-                <div className='flex flex-col justify-center p-2'><Icon icon="mdi:about" /></div>
-                <Titlebar title="About"/>
+        
+            <div className='flex flex-1 flex-row align-center'>
+                <Titlebar title="About" Icons='mdi:about'/>
             </div>
             <div>
                 <Paragraph Paragraph={ParagraphAll[0].Name}/>
             </div>
-            <div className='flex flex-1 p-2 border-b-4 border-t-4 border-solid border-lime-800 flex-row align-center bg-lime-600'>
-                <div className='flex flex-col justify-center p-2'><Icon icon="bxs:hand" /></div>
-                <Titlebar title="Disclaimer"/>
+            <div className='flex flex-1 flex-row align-center'>
+                <Titlebar title="Disclaimer" Icons='bxs:hand'/>
             </div>
             <div>
                 <Paragraph Paragraph={ParagraphAll[1].Name}/>
             </div>
-            <div className='flex flex-1 p-2 border-b-4 border-t-4 border-solid border-lime-800 flex-row align-center bg-lime-600'>
-                <div className='flex flex-col justify-center p-2'><Icon icon="wpf:faq" /></div>
-                <Titlebar title="Frequently Asked Questions"/>
+            <div className='flex flex-1 flex-row align-center'>
+                <Titlebar title="Frequently Asked Questions" Icons='wpf:faq'/>
             </div>
             <div>
                 {
                     faq.map((faq: any) => <Accordion key={faq.question} title={faq.question}>{faq.answer}</Accordion>)
                 }
             </div>
-            <div className='flex flex-1 p-2 border-b-4 border-t-4 border-solid border-lime-800 flex-row align-center bg-lime-600'>
-                <div className='flex flex-col justify-center p-2'><Icon icon="material-symbols:privacy-tip" /></div>
-                <Titlebar title="Privacy"/>
+            <div className='flex flex-1 flex-row align-center'>
+                <Titlebar title="Privacy" Icons='material-symbols:privacy-tip'/>
             </div>
             <div className='flex flex-1 p-2 border-b-4 border-t-4 border-solid border-lime-800 flex-row align-center bg-[#f1f1f1]'>
                 <Privacy/>
             </div>
-            <div className='flex flex-1 p-2 border-b-4 border-t-4 border-solid border-lime-800 flex-row align-center bg-lime-600'>
-                <div className='flex flex-col justify-center p-2'><Icon icon="ic:baseline-phone" /></div>
-                <Titlebar title="Contact Us"/>
+            <div className='flex flex-1 flex-row align-center'>
+                <Titlebar title="Contact Us" Icons='ic:baseline-phone'/>
             </div>
 
             

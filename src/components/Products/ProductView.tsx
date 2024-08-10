@@ -25,7 +25,7 @@ const ProductView = () => {
     useEffect(() => {
         async function fetchInventory() {
           try {
-            const response = await fetch('/api/readThumbnail');
+            const response = await fetch('/api/Query/readThumbnail');
             if (!response.ok) {
               throw new Error('Network response was not ok');
             }

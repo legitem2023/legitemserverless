@@ -1,24 +1,153 @@
 [
     {    
-        "category":"Fashion & Style",
-        "type":"Apparels"
+        "category":"Physical Products",
+        "type":"Electronics"
     },
     {    
-        "category":"Fashion & Style",
-        "type":"Shoes"
+        "category":"Physical Products",
+        "type":"Apparel"
     },
     {    
-        "category":"Fashion & Style",
-        "type":"Watch"
+        "category":"Physical Products",
+        "type":"Home Goods"
     },
     {    
-        "category":"Fashion & Style",
-        "type":"Jewelries"
+        "category":"Physical Products",
+        "type":"Books"
     },
     {    
-        "category":"Fashion & Style",
-        "type":"Accessories"
+        "category":"Physical Products",
+        "type":"Beauty Products"
+    },
+    {    
+        "category":"Physical Products",
+        "type":"Toys and Games"
     }
 
+
+
+    ,
+    {    
+        "category":"Physical Products",
+        "type":"Health Products"
+    }
+    ,
+    {    
+        "category":"Physical Products",
+        "type":"Sports Equipment"
+    }
+    ,
+    {    
+        "category":"Physical Products",
+        "type":"Automotive Parts"
+    }
+    ,
+    {    
+        "category":"Digital Products",
+        "type":"Software"
+    }
+    ,
+    {    
+        "category":"Digital Products",
+        "type":"Courses and Training"
+    }
+    ,
+    {    
+        "category":"Digital Products",
+        "type":"E-books"
+    }
+    ,
+    {    
+        "category":"Digital Products",
+        "type":"Music"
+    }
+    ,
+    {    
+        "category":"Digital Products",
+        "type":"Videos"
+    }
+
+
+
+    ,
+    {    
+        "category":"Digital Products",
+        "type":"Templates"
+    }
+    ,
+    {    
+        "category":"Digital Products",
+        "type":"Subscriptions"
+    }
+    ,
+    {    
+        "category":"Services",
+        "type":"Consulting"
+    }
+    ,
+    {    
+        "category":"Services",
+        "type":"Design Services"
+    }
+    ,
+    {    
+        "category":"Services",
+        "type":"Maintenance and Support"
+    }
+    ,
+    {    
+        "category":"Services",
+        "type":"Travel and Experiences"
+    }
+    ,
+    {    
+        "category":"Subscription Boxes",
+        "type":"Monthly Boxes"
+    }
+    ,
+    {    
+        "category":"Subscription Boxes",
+        "type":"Curated Collections"
+    }
+    ,
+    {    
+        "category":"Virtual Goods",
+        "type":"In-Game Items"
+    }
+    ,
+    {    
+        "category":"Virtual Goods",
+        "type":"Digital Art"
+    }
+    ,
+    {    
+        "category":"Pre-Orders and Crowdfunding Products",
+        "type":"Innovative Products"
+    }
+    ,
+    {    
+        "category":"Pre-Orders and Crowdfunding Products",
+        "type":"Exclusive Releases"
+    }    ,
+    {    
+        "category":"Bundles",
+        "type":"Product Bundles"
+    }    ,
+    {    
+        "category":"Bundles",
+        "type":"Service Packages"
+    }    ,
+    {    
+        "category":"Wholesale Products",
+        "type":"Bulk Orders"
+    }    ,
+    {    
+        "category":"Wholesale Products",
+        "type":"Business Supplies"
+    }    ,
+    {    
+        "category":"Wholesale Products",
+        "type":"Innovative Products"
+    }
 
 ]

@@ -3,7 +3,7 @@ import { Icon } from '@iconify/react/dist/iconify.js';
 import React from 'react'
 import navigation from '../../../json/navigation.json'
 import useCollapse from '../../../store/useCollapse';
-import { useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import useNav from '../../../store/useNav';
 import CollapsibleComponent from './CollapsibleComponent';
@@ -48,6 +48,13 @@ const Header: React.FC = () => {
       )
     });
   });
+
+  const pathname = usePathname();
+  const isAdminRoute = pathname.startsWith('/Administrator');
+
+  if (isAdminRoute) {
+    return null; // Return null if not on an admin route
+  }
 
   return (
     <nav className='flex flex-wrap flex-row h-[8vh] w-[100vw] lg:w-[100vw]'>

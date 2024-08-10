@@ -1,8 +1,6 @@
-'use client'
-import React from 'react'
-import Tabs from '../Partial/Tabs';
+import Tabs from "@/components/Partial/Tabs";
 
-const Account:React.FC = () => {
+export default function Home() {
   const tabs = [
     { label: 'Profile', content: <div>Content for Tab 1</div> },
     { label: 'Address Book', content: <div>Content for Tab 2</div> },
@@ -10,10 +8,9 @@ const Account:React.FC = () => {
     { label: 'Wish List', content: <div>Content for Tab 3</div> },
   ];
   return (
-    <div className="p-8 w-[55.56vw]">
-    <Tabs tabs={tabs} />
-  </div>
-  )
+    
+    <main className="flex flex-wrap justify-center items-center w-full md:w-full lg:w-[100%]">
+          <Tabs tabs={tabs} />
+    </main>
+  );
 }
-
-export default Account

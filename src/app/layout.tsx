@@ -5,7 +5,8 @@ import Head from "next/head";
 import Script from "next/script";
 import Header from "@/components/Partial/Header";
 import Aside from "@/components/Partial/Aside";
-
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -18,6 +19,8 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+  
   return (
     <html lang="en">
       <Head>
@@ -26,6 +29,16 @@ export default function RootLayout({
         <title>Legitem</title>
       </Head>
       <body className={inter.className}>
+      <ToastContainer position="top-center"
+                      autoClose={1000}
+                      hideProgressBar={false}
+                      newestOnTop={false}
+                      closeOnClick
+                      rtl={false}
+                      pauseOnFocusLoss
+                      draggable
+                      pauseOnHover
+                      theme='light'/>
       <Script
           type="module"
           src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"
@@ -36,7 +49,7 @@ export default function RootLayout({
           <Header/>
         </div>
         {children}
-        <Aside />
+        <Aside/>
       </div>
         </body>
     </html>
