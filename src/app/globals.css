@@ -90,5 +90,8 @@ body {
 @media only screen and (max-width:600px){
   .headLabel{
     display:none;
-  }  
+  }
+  .Loading{
+    background-size: 20% auto;
+  }
 }

@@ -37,8 +37,9 @@ const Aside: React.FC = () => {
   }, [status]);
   const pathname = usePathname();
   const isAdminRoute = pathname.startsWith('/Administrator');
+  const isAdminRoute_2 = pathname.startsWith('/Account');
 
-  if (isAdminRoute) {
+  if (isAdminRoute || isAdminRoute_2) {
     return null; // Return null if not on an admin route
   }
 

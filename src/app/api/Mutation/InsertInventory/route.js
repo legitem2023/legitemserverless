@@ -2,10 +2,7 @@ import prisma from '../../../../../lib/prisma';
 
 export async function POST(request) {
   try {
-    // Parse the request body as JSON
     const data = await request.json();
-    console.log(data);
-    // Create inventory record
     const Insert_inventory = await prisma.inventory.create({
       data: data
     });
@@ -14,6 +11,5 @@ export async function POST(request) {
 
   } catch (error) {
     return new Response(JSON.stringify(error), { status: 500, headers: { 'Content-Type': 'application/json' } });
-
   }
 }

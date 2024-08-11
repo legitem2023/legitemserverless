@@ -10,6 +10,7 @@ export async function GET(request) {
         thumbnail: true,
         category: true,
         color: true,
+        stock: true,
       },
     });
     return new Response(JSON.stringify(Inventory), { status: 200, headers: { 'Content-Type': 'application/json' } });

@@ -101,40 +101,42 @@ const Thumbnail = () => {
 
   const paginatedProducts = sortedProducts?.slice(startIndex, endIndex);
 
+
   return (
     <div className='flex flex-wrap justify-left md:justify-center gap-0 md:w-full lg:w-[55.56vw]'>
+        <div className='flex justify-center w-[100%]'>
+          <div className='lg:m-1 m-1 flex flex-wrap flex-row'>
+            <div className='flex-1'>
+              <Gallery data={useProduct} />
+            </div>
+          </div>
+        </div>
+        <div className='flex justify-center w-[100%]'>
+          <div className='flex flex-row m-1 w-[100%] gap-1 p-1 border-4 border-solid border-lime-600 bg-gradient-to-r from-lime-500 via-lime-700 to-lime-800'>
+            <Input
+              value={search}
+              placeholder='Search'
+              onChange={handleSearch}
+              className='bg-transparent'
+            />
+            <select className='w-[20vw]' onChange={(e: React.ChangeEvent<HTMLSelectElement>) => handleSort(e.target.value as Sorting)}>
+              <option value=''>Sort</option>
+              <option value='name'>By Name</option>
+              <option value='price'>By Price</option>
+            </select>
+          </div>
+        </div>
       {loading ? (
         <Loading />
       ) : (
+        // {paginatedProducts.length < 1?"No Data Found":""}
         <>
-        <div className='flex justify-center w-[100%]'>
-        <div className='flex flex-row m-1 w-[100%]'>
-          <Input
-            value={search}
-            placeholder='Search'
-            onChange={handleSearch}
-            className='bg-transparent'
-          />
-          <select className='w-[20vw]' onChange={(e: React.ChangeEvent<HTMLSelectElement>) => handleSort(e.target.value as Sorting)}>
-            <option value=''>Sort</option>
-            <option value='name'>By Name</option>
-            <option value='price'>By Price</option>
-          </select>
-        </div>
-      </div>
-          <div className='flex justify-center w-[100%]'>
-            <div className='lg:m-1 m-1 flex flex-wrap flex-row'>
-              <div className='flex-1'>
-                <Gallery data={paginatedProducts} />
-              </div>
-            </div>
-          </div>
-          <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 w-[100vw]">
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 w-[100vw] m-1">
             <div className='flex flex-1  col-span-2 sm:grid-cols-2 md:col-span-3 lg:col-span-4 xl:col-span-5 2xl:col-span-6 flex-row align-center'>
               <Titlebar title="Products" Icons='mdi:cart'/>
             </div>
             {paginatedProducts?.map((product: any, i: number) => (
-              <div key={i} className="flex-shrink-0 relative overflow-hidden border-4 border-lime-600 bg-lime-600 rounded-lg max-w-xs cursor-pointer m-1 addShadow">
+              <div key={i} className="flex-shrink-0 relative overflow-hidden border-4 border-lime-600 rounded-lg max-w-xs cursor-pointer m-1 addShadow bg-gradient-to-t from-lime-500 via-lime-700 to-lime-800">
                 <Link href={`/ProductView/${product.id}`}>
                   <Image
                     src={product.thumbnail===null || product.thumbnail===""?noImage.src:product.thumbnail}
@@ -145,18 +147,21 @@ const Thumbnail = () => {
                     quality={1}
                   />
                 </Link>
-                <div className="relative text-white grid grid-cols-3">
-                  <span className="flex-1 col-span-1 text-shadow-sm text-xs">Name</span>
-                  <span className='col-span-2 text-xs'>{truncateString(product.name, 25)}</span>
-                  <span className='col-span-3 flex justify-center'><Ratings /></span>
+                <div className="relative text-white grid grid-cols-3 p-1">
+                  <span className="flex-1 col-span-1 text-shadow-sm text-sm font-bold">Name</span>
+                  <span className='col-span-2 text-sm font-bold'>{truncateString(product.name, 25)}</span>
+                  <span className="flex-1 col-span-1 text-shadow-sm text-xs">Stock</span>
+                  <span className='col-span-2 text-xs'>{product.stock} pc(s)</span>
                   <span className="flex-1 col-span-1 text-shadow-sm text-xs">View</span>
                   <span className='col-span-2 text-xs'>(0)</span>
-
                 </div>
                 <div className="relative text-white m-3 flex flex-wrap flex-row">
                   <span className="flex-1 block bg-white rounded-full text-lime-950 text-xs font-bold px-2 py-1 leading-none flex items-center"><PriceDisplay amount={product.price} /></span>
                   <span className="flex-1 flex bg-transparent justify-center align-center rounded-full py-1"></span>
                   <span className="flex-1 flex bg-lime-800 justify-center align-center rounded-full py-1"><Icon icon="fa-solid:cart-plus" style={{ right: "0px" }} /></span>
+                </div>
+                <div className="relative text-white m-3 flex flex-wrap flex-row justify-center align-center item-center">
+                  <span className='col-span-3 flex'><Ratings /></span>
                 </div>
               </div>
             ))}

@@ -3,7 +3,7 @@ import { Icon } from '@iconify/react/dist/iconify.js';
 import React from 'react'
 import navigation from '../../../json/navigation.json'
 import useCollapse from '../../../store/useCollapse';
-import { usePathname } from 'next/navigation';
+import { usePathname,useRouter } from 'next/navigation';
 import Link from 'next/link';
 import useNav from '../../../store/useNav';
 import CollapsibleComponent from './CollapsibleComponent';
@@ -11,7 +11,7 @@ import CollapsibleComponent from './CollapsibleComponent';
 const Header: React.FC = () => {
   const { status, setOn, setOff } = useCollapse();
   const { setNav } = useNav();
-
+  const router = useRouter();
   const handle = (e: any) => {
     const data: boolean = e.target.checked;
     data === true ? setOn() : setOff();
@@ -35,10 +35,10 @@ const Header: React.FC = () => {
         <CollapsibleComponent key={item.Link} title="Account" icon="mdi:account-tie">
           <div className='flex flex-wrap bg-[#f1f1f1] absolute w-[300px] my-2 portrait:my-5 portrait:w-[100vw] portrait:left-0 portrait:right-0 portrait:mx-auto'>
             <ul className='flex flex-wrap flex-col bg[#f1f1f1] w-[300px] portrait:w-[100%] left-0 mx-auto' >
-              <li className='p-2 hover:bg-lime-500'>Profile</li>
-              <li className='p-2 hover:bg-lime-500'>My Orders</li>
-              <li className='p-2 hover:bg-lime-500'>Likes</li>
-              <li className='p-2 hover:bg-lime-500'>Logout</li>
+              <li className='hover:bg-lime-500 p-2' onClick={()=>router.push('/Account')}>Profile</li>
+              <li className='hover:bg-lime-500 p-2' onClick={()=>router.push('/Account')}>My Orders</li>
+              <li className='hover:bg-lime-500 p-2' onClick={()=>router.push('/Account')}>Likes</li>
+              <li className='hover:bg-lime-500 p-2'>Logout</li>
             </ul>
           </div>
         </CollapsibleComponent>

@@ -15,7 +15,7 @@ const Home = () => {
   return (
     <div className='flex flex-wrap justify-left md:justify-center gap-0 md:w-full lg:w-[55.56vw]'>
         
-        <div className="grid w-[100vw]">
+        <div className="grid w-[100vw] m-1">
             <div className='flex flex-1 flex-row align-center'>
                 <Titlebar title="Categories" Icons='bx:category'/>
             </div>

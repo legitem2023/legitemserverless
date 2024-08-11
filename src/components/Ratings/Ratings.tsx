@@ -6,9 +6,10 @@ export default function Ratings() {
   return (
     <Stack spacing={1}>
       <Rating 
-        name="half-rating" 
-        defaultValue={0.1} 
+        name="size-large" 
+        defaultValue={5} 
         precision={0.1} 
+        readOnly
         onChangeActive={(event, newHover) => {
         console.log(newHover)
         }}/>

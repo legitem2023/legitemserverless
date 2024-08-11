@@ -1,16 +1,20 @@
 'use client'
 import React from 'react'
 import Tabs from '../Partial/Tabs';
+import Profile from './Profile';
+import AddressBook from './AddressBook';
+import MyOrder from './MyOrder';
+import WishList from './WishList';
 
 const Account:React.FC = () => {
   const tabs = [
-    { label: 'Profile', content: <div>Content for Tab 1</div> },
-    { label: 'Address Book', content: <div>Content for Tab 2</div> },
-    { label: 'My Orders', content: <div>Content for Tab 3</div> },
-    { label: 'Wish List', content: <div>Content for Tab 3</div> },
+    { icon: 'mdi:badge-account-horizontal', label: 'Profile', content: <Profile/> },
+    { icon: 'icomoon-free:address-book', label: 'Address Book', content: <AddressBook/> },
+    { icon: 'mdi:border-all', label: 'My Orders', content: <MyOrder/> },
+    { icon: 'mdi:star', label: 'Wish List', content: <WishList/> },
   ];
   return (
-    <div className="p-8 w-[55.56vw]">
+  <div className={'flex flex-wrap justify-left md:justify-center gap-0 md:w-full lg:w-[100vw] ' }>
     <Tabs tabs={tabs} />
   </div>
   )

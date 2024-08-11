@@ -8,12 +8,12 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 
 export default function Home() {
   const tabs = [
-    { label: 'Dashboard', content: <Dashboard/> },
-    { label: 'Inventory', content: <Inventory/> },
-    { label: 'Orders', content: <Orders/> },
-    { label: 'Statistics', content: <Orders/> },
-    { label: 'Accounts', content: <Accounts/> },
-    { label: 'Tutorials', content: <div>Content for Tab 3</div> },
+    { icon:'mdi:view-dashboard',label: 'Dashboard', content: <Dashboard/> },
+    { icon:'material-symbols:inventory',label: 'Inventory', content: <Inventory/> },
+    { icon:'mdi:tags',label: 'Orders', content: <Orders/> },
+    { icon:'akar-icons:statistic-up',label: 'Statistics', content: <Orders/> },
+    { icon:'mdi:accounts-group',label: 'Accounts', content: <Accounts/> },
+    { icon:'mdi:cast-tutorial',label: 'Tutorials', content: <div>Content for Tab 3</div> },
 
   ];
   return (
