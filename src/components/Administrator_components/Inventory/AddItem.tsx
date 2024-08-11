@@ -68,8 +68,8 @@ const AddItem = () => {
             productType: selectedOptionProductType,
             size: size,
             color: color,
-            price: price,
-            stock: stock,
+            price: parseFloat(price),
+            stock: parseInt(stock),
             name: name,
             creator: 'Robert Marquez', // replace with dynamic value if needed
             editor: 'Robert Marquez', // replace with dynamic value if needed
