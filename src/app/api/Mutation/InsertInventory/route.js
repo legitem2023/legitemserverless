@@ -1,4 +1,3 @@
-import { NextRequest, NextResponse } from 'next/server';
 import prisma from '../../../../../lib/prisma';
 
 export async function POST(request) {
@@ -24,10 +23,7 @@ export async function POST(request) {
 
     for (const field of requiredFields) {
       if (data[field] === undefined || data[field] === null || data[field] === '') {
-        return new NextResponse(
-          JSON.stringify({ error: `Missing required field: ${field}` }),
-          { status: 400, headers: { 'Content-Type': 'application/json' } }
-        );
+        return new Response(JSON.stringify(data), { status: 400, headers: { 'Content-Type': 'application/json' } });
       }
     }
 
@@ -49,15 +45,10 @@ export async function POST(request) {
       },
     });
 
-    return new NextResponse(
-      JSON.stringify(Insert_inventory),
-      { status: 200, headers: { 'Content-Type': 'application/json' } }
-    );
+    return new Response(JSON.stringify(Insert_inventory), { status: 200, headers: { 'Content-Type': 'application/json' } });
+
   } catch (error) {
-    console.error('Error fetching Inventory:', error);
-    return new NextResponse(
-      JSON.stringify({ error: 'Error fetching Inventory' }),
-      { status: 500, headers: { 'Content-Type': 'application/json' } }
-    );
+    return new Response(JSON.stringify(error), { status: 500, headers: { 'Content-Type': 'application/json' } });
+
   }
 }
