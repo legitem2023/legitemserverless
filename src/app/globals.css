@@ -40,7 +40,7 @@ body {
   padding:10px;
 }
 .logo{
-  background-image: url('http://localhost:3000/LegitemShield.png');
+  background-image: url('../../public/LegitemShield.png');
   background-position: center;
   background-size: auto 80%;
   background-repeat: no-repeat;
