@@ -25,7 +25,7 @@ const Pagination = ({
   );
 
   return (
-    <div className='flex justify-center my-4'>
+    <div className='flex justify-center my-4 bg-stone-400 border-4 border-stone-500 p-2'>
       <button
         onClick={() => onPageChange(1)}
         disabled={currentPage === 1}

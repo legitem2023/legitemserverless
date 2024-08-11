@@ -19,9 +19,9 @@ const Home = () => {
             <div className='flex flex-1 flex-row align-center'>
                 <Titlebar title="Categories" Icons='bx:category'/>
             </div>
-            
-            <HomeGallery/>
-        
+            {/* <div className='flex relative'> */}
+                <HomeGallery/>
+            {/* </div> */}
             <div className='flex flex-1 flex-row align-center'>
                 <Titlebar title="About" Icons='mdi:about'/>
             </div>

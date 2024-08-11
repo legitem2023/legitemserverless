@@ -1,3 +1,4 @@
+import Accounts from "@/components/Administrator_components/Accounts/Accounts";
 import Dashboard from "@/components/Administrator_components/Dashboard/Dashboard";
 import Inventory from "@/components/Administrator_components/Inventory/Inventory";
 import Orders from "@/components/Administrator_components/Orders/Orders";
@@ -10,7 +11,10 @@ export default function Home() {
     { label: 'Dashboard', content: <Dashboard/> },
     { label: 'Inventory', content: <Inventory/> },
     { label: 'Orders', content: <Orders/> },
-    { label: 'Accounts', content: <div>Content for Tab 3</div> },
+    { label: 'Statistics', content: <Orders/> },
+    { label: 'Accounts', content: <Accounts/> },
+    { label: 'Tutorials', content: <div>Content for Tab 3</div> },
+
   ];
   return (
     <main className="flex flex-wrap justify-center items-center w-full md:w-full lg:w-[100%]">

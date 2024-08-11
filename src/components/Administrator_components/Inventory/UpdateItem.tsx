@@ -3,12 +3,14 @@ import React, { useState } from 'react';
 import CategoryJSON from '../../../../json/ProductType.json';
 import ProductType from '../../../../json/ProductType.json';
 import Titlebar from '@/components/UI/Titlebar';
-import useToggleStore from '../../../../store/usetoggle';
-import { toast } from 'react-toastify';
 import { showToast } from '../../../../utils/toastUtils';
 import { Icon } from '@iconify/react/dist/iconify.js';
+import usetoggleEditInv from '../../../../store/usetoggleEditInv';
+import Image from 'next/image';
+import legitem from '../../../../public/LegitemShield.png'
+import noImage from '../../../../public/NoImage.png';
 
-const AddItem = () => {
+const UpdateItem = ({ product }: any) => {
     const [selectedOptionCategory, setSelectedOptionCategory] = useState<string>('');
     const [selectedOptionProductType, setSelectedOptionProductType] = useState<string>('');
     const [productCode, setProductCode] = useState<string>('');
@@ -18,11 +20,13 @@ const AddItem = () => {
     const [price, setPrice] = useState<string>('');
     const [stock, setStock] = useState<string>('');
     const [name, setName] = useState<string>('');
-    const { isToggled, toggle } = useToggleStore();
+    const {toggleEdit } = usetoggleEditInv();
 
     const handleChangeCategory = (value: string) => {
         setSelectedOptionCategory(value);
     };
+
+    console.log(product)
 
     const handleChangeProductType = (value: string) => {
         setSelectedOptionProductType(value);
@@ -38,8 +42,8 @@ const AddItem = () => {
     });
 
     const CategoryOptions = distinctCategories.map((item) => ({
-        "value": item.category,
-        "label": item.category,
+        value: item.category,
+        label: item.category,
     }));
 
     const ProductTypeOptions = selectedOptionCategory === ''
@@ -52,65 +56,23 @@ const AddItem = () => {
         "label": item.type,
       }));
   
-  
-//*******************************************************************/
+
     const handleSubmit = async () => {
-        // Check if all required fields are filled
-        if (!productCode || !styleCode || !selectedOptionCategory || !selectedOptionProductType || !size || !color || !price || !stock || !name) {
-            showToast('error', 'Please fill in all required fields.');
-            return;
-        }
-
-        const payload = {
-            productCode: productCode,
-            styleCode: styleCode,
-            category: selectedOptionCategory,
-            productType: selectedOptionProductType,
-            size: size,
-            color: color,
-            price: price,
-            stock: stock,
-            name: name,
-            creator: 'Robert Marquez', // replace with dynamic value if needed
-            editor: 'Robert Marquez', // replace with dynamic value if needed
-            accountCode: 'Em001', // replace with dynamic value if needed
-        };
-        try {
-            const response = await fetch('/api/Mutation/InsertInventory', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(payload),
-            });
-
-            if (response.ok) {
-                const result = await response.json();
-                showToast('success', 'Item added successfully!');
-                console.log('Success:', result);
-                // Optionally, reset the form or handle success here
-            } else {
-                showToast('error', response.statusText);
-                console.error('Error:', response.statusText);
-                // Handle error response here
-            }
-        } catch (error:any) {
-            showToast('error', error.message);
-            console.error('Error:', error);
-            // Handle network or unexpected errors here
-        }
     };
-//*******************************************************************/
+
     return (
         <div className='left-0 top-0 w-[100vw] h-[100vh] bg-lime-950 fixed flex items-center justify-center z-50'>
             <div className='w-[50vw] p-1 flex flex-col items-center justify-center bg-[#f1f1f1] relative'>
-                <Titlebar title="Add Item" Icons='gridicons:add' />
-                <Icon icon='mdi:close' className='cursor-pointer text-black-500 bg-[#ff0000] text-3xl flex absolute top-0 right-0 border radius-[100%]' onClick={toggle} />
+                <Titlebar title="Update Item" Icons='material-symbols:save' />
+                <Icon icon='mdi:close' className='cursor-pointer text-black-500 bg-[#ff0000] text-3xl flex absolute top-0 right-0 border radius-[100%]' onClick={toggleEdit} />
+                <div className='w-[100%] m-1 flex flex-col align-left justify-center'>
+                    <Image src={product.thumbnail==='' || product.thumbnail===null?noImage:product.thumbnail} alt={product.name} width={200} height={200} className="m-1"/> 
+                </div>                
                 <input
                     type='text'
                     className='p-2 m-1 w-full'
                     placeholder='Product Code'
-                    value={productCode}
+                    defaultValue={product.productCode}
                     onChange={(e) => setProductCode(e.target.value)}
                     required
                 />
@@ -118,7 +80,7 @@ const AddItem = () => {
                     type='text'
                     className='p-2 m-1 w-full'
                     placeholder='Style Code'
-                    value={styleCode}
+                    defaultValue={product.styleCode}
                     onChange={(e) => setStyleCode(e.target.value)}
                     required
                 />
@@ -146,7 +108,7 @@ const AddItem = () => {
                     type='text'
                     className='p-2 m-1 w-full'
                     placeholder='Size'
-                    value={size}
+                    defaultValue={product.size}
                     onChange={(e) => setSize(e.target.value)}
                     required
                 />
@@ -154,7 +116,7 @@ const AddItem = () => {
                     type='text'
                     className='p-2 m-1 w-full'
                     placeholder='Color'
-                    value={color}
+                    defaultValue={product.color}
                     onChange={(e) => setColor(e.target.value)}
                     required
                 />
@@ -162,7 +124,7 @@ const AddItem = () => {
                     type='number'
                     className='p-2 m-1 w-full'
                     placeholder='Price'
-                    value={price}
+                    defaultValue={product.price}
                     onChange={(e) => setPrice(e.target.value)}
                     required
                 />
@@ -170,7 +132,7 @@ const AddItem = () => {
                     type='number'
                     className='p-2 m-1 w-full'
                     placeholder='Stock'
-                    value={stock}
+                    defaultValue={product.stock}
                     onChange={(e) => setStock(e.target.value)}
                     required
                 />
@@ -178,16 +140,16 @@ const AddItem = () => {
                     type='text'
                     className='p-2 m-1 w-full'
                     placeholder='Name'
-                    value={name}
+                    defaultValue={product.name}
                     onChange={(e) => setName(e.target.value)}
                     required
                 />
-                <button className='bg-lime-500 text-white py-2 px-4 mt-2' onClick={handleSubmit}>
-                    Add
+                <button className='bg-lime-700 text-white py-2 px-4 mt-2 flex flex-row justify-center items-center shadow-xs' onClick={handleSubmit}>
+                <Icon icon="ic:sharp-save" /> Update
                 </button>
             </div>
         </div>
     );
 }
 
-export default AddItem;
+export default UpdateItem;

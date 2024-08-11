@@ -12,7 +12,8 @@ import { truncateString } from '../../../utils/script';
 import Link from 'next/link';
 import Titlebar from '../UI/Titlebar';
 import Loading from '../UI/Loading';
-
+import noImage from '../../../public/NoImage.png';
+import Image from 'next/image';
 type Sorting = 'name' | 'price' | '';
 
 const Thumbnail = () => {
@@ -133,10 +134,13 @@ const Thumbnail = () => {
             {paginatedProducts?.map((product: any, i: number) => (
               <div key={i} className="flex-shrink-0 relative overflow-hidden border-4 border-lime-600 bg-lime-600 rounded-lg max-w-xs cursor-pointer m-1 addShadow">
                 <Link href={`/ProductView/${product.id}`}>
-                  <img
-                    src={product.thumbnail}
+                  <Image
+                    src={product.thumbnail===null || product.thumbnail===""?noImage.src:product.thumbnail}
                     className="relative w-[100%] transition-transform transform hover:scale-110 duration-500"
                     alt={"alt" + i}
+                    width='600'
+                    height='469'
+                    quality={1}
                   />
                 </Link>
                 <div className="relative text-white grid grid-cols-3">
@@ -155,7 +159,7 @@ const Thumbnail = () => {
               </div>
             ))}
           </div>
-          <div className='flex justify-center w-[100vw]'>
+          <div className='flex sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6  justify-center w-[100vw] '>
             <Pagination
               currentPage={currentPage}
               totalPages={totalPages}

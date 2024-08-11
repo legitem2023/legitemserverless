@@ -78,6 +78,15 @@ body {
 .AddItem{
   z-index: 99999;
 }
+.image-gallery-slide img {
+  width: 100vw!important;
+  height: auto;
+  max-height: 80vh;
+  object-fit: cover;
+  overflow: hidden;
+  object-position: center center;
+}
+
 @media only screen and (max-width:600px){
   .headLabel{
     display:none;

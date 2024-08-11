@@ -17,9 +17,6 @@ const Header: React.FC = () => {
     data === true ? setOn() : setOff();
   }
 
-
- 
-
   let menu = ((navigation: any) => {
     return navigation.map((item: any) => {
       return item.Name !== 'Account' ? (

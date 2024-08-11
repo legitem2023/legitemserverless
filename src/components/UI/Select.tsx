@@ -22,11 +22,11 @@ const Select: React.FC<SelectProps> = ({ options, value, onChange, label, placeh
         onChange={(e) => onChange(e.target.value)}
         className="p-2 w-[100%] border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
       >
-        {placeholder && (
-          <option value="" disabled>
+        {/* {placeholder && (
+          <option value="" disabled key='001'>
             {placeholder}
           </option>
-        )}
+        )} */}
         {options.map((option) => (
           <option key={option.value} value={option.value}>
             {option.label}
