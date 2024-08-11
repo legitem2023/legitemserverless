@@ -1,5 +1,6 @@
 import React from 'react';
 import { Icon } from '@iconify/react';
+import useCurrentPage from '../../../store/useCurrentPage';
 
 
 type PaginationProps = {
@@ -13,6 +14,14 @@ const Pagination = ({
   totalPages,
   onPageChange,
 }: PaginationProps) => {
+
+  const { setCurrentPage } = useCurrentPage();
+
+
+
+
+
+
   const siblingsCount = 2;
 
   const range = (start: number, end: number) => {
@@ -27,13 +36,13 @@ const Pagination = ({
   return (
     <div className='flex justify-center my-4 bg-stone-400 border-4 border-stone-500 p-2'>
       <button
-        onClick={() => onPageChange(1)}
+        onClick={() => {onPageChange(1);setCurrentPage(currentPage + 1)}}
         disabled={currentPage === 1}
         className='mx-1 px-3 py-1 bg-transparent text-black rounded hover:bg-palette_gray hover:text-palette_white'>
         <Icon icon="gg:chevron-double-right" style={{transform:'scaleX(-1)'}} />
       </button>
       <button
-        onClick={() => onPageChange(currentPage - 1)}
+        onClick={() => {onPageChange(currentPage - 1);setCurrentPage(currentPage - 1)}}
         disabled={currentPage === 1}
         className='mx-1 px-3 py-1 bg-transparent text-black rounded hover:bg-palette_gray hover:text-palette_white'>
         <Icon icon="gg:chevron-right" style={{transform:'scaleX(-1)'}}/>
@@ -42,7 +51,7 @@ const Pagination = ({
       {pagesToShow.map(page => (
         <button
           key={page}
-          onClick={() => onPageChange(page)}
+          onClick={() => {onPageChange(page);setCurrentPage(page)}}
           className={`mx-1 px-3 py-1 ${currentPage === page
             ? 'bg-lime-500 text-white hover:bg-lime-700'
             : 'text-black bg-transparent hover:bg-lime-800 hover:text-palette_white'
@@ -52,14 +61,14 @@ const Pagination = ({
       ))}
 
       <button
-        onClick={() => onPageChange(currentPage + 1)}
+        onClick={() => {onPageChange(currentPage + 1);setCurrentPage(currentPage + 1)}}
         disabled={currentPage === totalPages}
         className='mx-1 px-3 py-1 bg-transparent text-black rounded hover:bg-palette_gray hover:text-palette_white'>
         <Icon icon="gg:chevron-right" />
       </button>
 
       <button
-        onClick={() => onPageChange(totalPages)}
+        onClick={() => {onPageChange(totalPages);setCurrentPage(totalPages)}}
         disabled={currentPage === totalPages}
         className='mx-1 px-3 py-1 bg-transparent text-black rounded hover:bg-palette_gray hover:text-palette_white'>
         <Icon icon="gg:chevron-double-right"/>

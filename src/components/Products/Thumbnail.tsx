@@ -14,14 +14,16 @@ import Titlebar from '../UI/Titlebar';
 import Loading from '../UI/Loading';
 import noImage from '../../../public/NoImage.png';
 import Image from 'next/image';
+import useCurrentPage from '../../../store/useCurrentPage';
 type Sorting = 'name' | 'price' | '';
 
 const Thumbnail = () => {
   const { text } = useCategory();
   const { setNav } = useNav();
+  const { currentPageNo,  } = useCurrentPage();
 
   const [search, setSearch] = useState<string>('');
-  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [currentPage, setCurrentPage] = useState<number>(currentPageNo);
   const [sortBy, setSortBy] = useState<Sorting>('price');
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc' | ''>('desc');
   const [useProduct, setProducts] = useState<any[]>([]);

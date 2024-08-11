@@ -12,14 +12,16 @@ import { formatMoney } from '../../../../utils/formatMoney';
 import { truncateString } from '../../../../utils/script';
 import UpdateItem from './UpdateItem';
 import usetoggleEditInv from '../../../../store/usetoggleEditInv';
+import useCurrentPage from '../../../../store/useCurrentPage';
 type Sorting = 'name' | 'price' | '';
 
 const Inventory = () => {
     const { text } = useCategory();
     const { setNav } = useNav();
-  
+    const { currentPageNo,  } = useCurrentPage();
+
     const [search, setSearch] = useState<string>('');
-    const [currentPage, setCurrentPage] = useState<number>(1);
+    const [currentPage, setCurrentPage] = useState<number>(currentPageNo);
     const [sortBy, setSortBy] = useState<Sorting>('price');
     const [sortDirection, setSortDirection] = useState<'asc' | 'desc' | ''>('desc');
     const [useProducts, setProducts] = useState<any[]>([]);

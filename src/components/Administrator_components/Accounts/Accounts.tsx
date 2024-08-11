@@ -8,12 +8,15 @@ import { Icon } from '@iconify/react/dist/iconify.js';
 import Pagination from '@/components/Pagination/Pagination';
 import usetoggleShowAdd from '../../../../store/usetoggleShowAdd';
 import AddAccount from './AddAcount';
+import useCurrentPage from '../../../../store/useCurrentPage';
 
 type Sorting = 'name' | 'price' | '';
 
 const Accounts = () => {
+    const { currentPageNo  } = useCurrentPage();
+
     const [search, setSearch] = useState<string>('');
-    const [currentPage, setCurrentPage] = useState<number>(1);
+    const [currentPage, setCurrentPage] = useState<number>(currentPageNo);
     const [sortBy, setSortBy] = useState<Sorting>('price');
     const [sortDirection, setSortDirection] = useState<'asc' | 'desc' | ''>('desc');
     const [useAccounts, setAccounts] = useState<any[]>([]);
