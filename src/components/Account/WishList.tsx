@@ -3,7 +3,7 @@ import Titlebar from '../UI/Titlebar'
 
 const WishList = () => {
   return (
-    <div>
+    <div className='w-[100vw]'>
         <Titlebar title="Wish List" Icons='ic:baseline-heart-outline'/>
     </div>
   )

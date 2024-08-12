@@ -15,7 +15,7 @@ const Accordion: React.FC<CollapseProps> = ({ title, children }) => {
     <div className="border rounded-md shadow-sm my-1">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex justify-between items-center w-full p-4 text-left bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring focus:ring-gray-300"
+        className="flex justify-between items-center w-full p-2 text-left bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring focus:ring-gray-300"
       >
         <span>{title}</span>
         <svg

@@ -1,7 +1,7 @@
 'use client';
-
 import { Icon } from '@iconify/react/dist/iconify.js';
 import { useState, useEffect, ReactNode } from 'react';
+import useMenutoggle from '../../../store/useMenutoggle';
 
 interface Tab {
   label: string;
@@ -15,39 +15,53 @@ interface TabsProps {
 
 const Tabs: React.FC<TabsProps> = ({ tabs }) => {
   const [activeTab, setActiveTab] = useState<number>(0);
+  const { isMenuToggled,menutoggle } = useMenutoggle();
 
-  // Retrieve the active tab from localStorage on component mount
   useEffect(() => {
     const storedActiveTab = localStorage.getItem('activeTab');
     if (storedActiveTab !== null) {
-      setActiveTab(parseInt(storedActiveTab, 10)); // Make sure to parse the string to a number
+      setActiveTab(parseInt(storedActiveTab, 10));
     }
   }, []);
 
-  // Update localStorage whenever the active tab changes
   const handleTabClick = (index: number) => {
     setActiveTab(index);
-    localStorage.setItem('activeTab', String(index)); // Save the index as a string
+    localStorage.setItem('activeTab', String(index));
+    menutoggle();
   };
 
+
   return (
-    <div className="flex w-[100vw]">
-      <div className="flex flex-col border-r bg-lime-700 h-[100%]">
+    <div className="flex flex-col md:flex-row w-full top-10vh">
+      <div
+        className={`fixed top-[8vh] 
+                    left-0 
+                    z-10 
+                    h-full 
+                    bg-lime-700 
+                    border-r 
+                    border-lime-800 
+                    landscape:w-[22vw] 
+                    portrait:w-[100vw] 
+                    transition-transform 
+                    transform 
+                    ${ isMenuToggled ? 'portrait:translate-x-0':'portrait:-translate-x-full'}`}>
         {tabs.map((tab, index) => (
           <button
             key={index}
-            className={`flex flex-row items-center py-2 px-4 focus:outline-none ease-in-out duration-300 text-left w-[21.80vw] ${
+            className={`flex flex-row items-center py-2 px-4 focus:outline-none ease-in-out duration-300 text-left w-full ${
               activeTab === index
-                ? 'border-r-4 border-lime-500 text-[#ffffff] bg-lime-600'
-                : 'border-r-4 border-stone-500 text-black-600 hover:text-lime-500'
+                ? 'border-b-4 border-t-4 border-r-4 border-lime-500 text-white bg-lime-600'
+                : 'border-b-4 border-t-4 border-solid border-lime-800 flex-row align-center text-black-600 hover:text-lime-500'
             }`}
             onClick={() => handleTabClick(index)}
           >
-            <Icon icon={tab.icon} className="mr-2"/>{tab.label}
+            <Icon icon={tab.icon} className="mr-2" />
+            {tab.label}
           </button>
         ))}
       </div>
-      <div className="ml-1 mt-1 w-[100%]">
+      <div className="flex-1 p-1 landscape:ml-[22vw]">
         {tabs[activeTab].content}
       </div>
     </div>

@@ -3,7 +3,7 @@ import Titlebar from '../UI/Titlebar'
 
 const Profile = () => {
   return (
-    <div>
+    <div className='w-[100vw]'>
         <Titlebar title="Profile" Icons='ic:baseline-account-circle'/>
     </div>
   )

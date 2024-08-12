@@ -7,15 +7,13 @@ import { usePathname,useRouter } from 'next/navigation';
 import Link from 'next/link';
 import useNav from '../../../store/useNav';
 import CollapsibleComponent from './CollapsibleComponent';
+import useMenutoggle from '../../../store/useMenutoggle';
 
 const Header: React.FC = () => {
-  const { status, setOn, setOff } = useCollapse();
+  const { isMenuToggled,menutoggle } = useMenutoggle();
   const { setNav } = useNav();
   const router = useRouter();
-  const handle = (e: any) => {
-    const data: boolean = e.target.checked;
-    data === true ? setOn() : setOff();
-  }
+
 
   let menu = ((navigation: any) => {
     return navigation.map((item: any) => {
@@ -57,7 +55,7 @@ const Header: React.FC = () => {
     <nav className='flex flex-wrap flex-row h-[8vh] w-[100vw] lg:w-[100vw]'>
       <div className='grid grid-cols-9 w-[100%]'>
         <label htmlFor='sideCollapser' className='lg:col-span-2 col-span-2 logo'>
-          <input type="checkbox" defaultChecked={status} id='sideCollapser' onChange={(e: any) => handle(e)} className="hidden" />
+          <input type="checkbox" defaultChecked={isMenuToggled} id='sideCollapser' onChange={menutoggle} className="hidden" />
         </label>
         {menu(navigation)}
         <div className='lg:col-span-2 col-span-2'></div>
