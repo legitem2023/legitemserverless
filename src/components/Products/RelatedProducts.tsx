@@ -28,7 +28,6 @@ type Props = {
 };
 
 const RelatedProducts = ({Products}:any) => {
-    const [useProduct, setProducts] = useState(Products);
     const [loading, setLoading] = useState<boolean>(false);
     return (
         <div className="flex flex-wrap transform scale-98 h-[100vh] overflow-auto">
@@ -36,15 +35,16 @@ const RelatedProducts = ({Products}:any) => {
         <Loading />
       ) : (
         <div>
-            {useProduct.map((view: any, idx: number) => (
+            {Products.map((view: any, idx: number) => (
                 <div key={idx} className="grid grid-cols-4 gap-2 bg-[#f1f1f1] w-[100%] border-b-4 border-t-4 border-solid border-lime-800 mb-1 mt-1 scale-[0.99] p-1 bg-gradient-to-r from-lime-500 via-lime-700 to-lime-800">
                     <div className='flex flex-1 col-span-2'>
                     <Link href={`/ProductView/${view.id}`}>
 
                         <Image src={view.thumbnail===null?noImage:view.thumbnail} 
                                alt={view.name} 
-                               width='600' 
-                               height='469' 
+                               width='200' 
+                               height='156' 
+                               className='relatedImage'
                                quality={1}/>
                     </Link>    
                     </div>

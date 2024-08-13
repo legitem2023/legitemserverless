@@ -86,6 +86,21 @@ body {
   overflow: hidden;
   object-position: center center;
 }
+/* styles/globals.css or a separate CSS module */
+@keyframes scaleYUp {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(0.98);
+  }
+}
+.relatedImage{
+  width:100%;
+}
+.animatethis {
+  animation: scaleYUp 0.5s ease-out forwards; /* Adjust timing and easing as needed */
+}
 
 @media only screen and (max-width:600px){
   .headLabel{

@@ -1,11 +1,11 @@
 'use client';
 import React, { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
+
 import { Icon } from '@iconify/react/dist/iconify.js';
 import Share from '../Share/Share';
 import Link from 'next/link';
 import TabData from './TabData';
-import { useParams } from 'next/navigation';
+import { useParams,useSearchParams } from 'next/navigation';
 import Loading from '../UI/Loading';
 import Titlebar from '../UI/Titlebar';
 import Paragraph from '../Partial/Paragraph';
@@ -24,7 +24,7 @@ type Props = {
 
 const ProductView = () => {
     const [useProduct, setProducts] = useState([]);
-    const [loading, setLoading] = useState<boolean>(true);
+    const [loading, setLoading] = useState<boolean>(false);
     useEffect(() => {
         async function fetchInventory() {
           try {
@@ -44,6 +44,11 @@ const ProductView = () => {
       }, []);
 
     const searchParams = useParams();
+
+    const parameter:any = useSearchParams();
+    const parsedData = JSON.parse(parameter.get('data'));
+    const dataArray:any = Array.isArray(parsedData) ? parsedData : [parsedData];
+
     const filtered = useProduct.filter((item: any) => item.id === searchParams.id);
     return (
         <div className="flex flex-wrap transform scale-98 h-[100vh]">
@@ -51,7 +56,7 @@ const ProductView = () => {
         <Loading />
       ) : (
         <div>
-            {filtered.map((view: any, idx: number) => (
+            {dataArray.map((view: any, idx: number) => (
                 <div key={idx} className="grid lg:grid-cols-4 gap-0 bg-[#f1f1f1] w-[99vw]">
                     <div className="lg:col-span-3 grid lg:grid-cols-3">
                         <div className='lg:col-span-3 bg-gradient-to-l from-lime-500 via-lime-700 to-lime-800'>
@@ -65,7 +70,7 @@ const ProductView = () => {
                         </div>
 
                         <div className='lg:col-span-2'>
-                            <TabData data={filtered}/>
+                            <TabData data={dataArray}/>
                         </div>
                         <div className='lg:col-span-1 grid grid-cols-2'>
                             <div className='m-[5px] flex items-center'>Name:</div><div className='m-[5px] flex items-center'>{view.name}</div>

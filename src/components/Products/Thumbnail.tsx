@@ -139,7 +139,7 @@ const Thumbnail = () => {
             </div>
             {paginatedProducts.length > 0 ?paginatedProducts?.map((product: any, i: number) => (
               <div key={i} className="flex-shrink-0 relative overflow-hidden border-4 border-lime-600 rounded-lg max-w-xs cursor-pointer m-1 addShadow bg-gradient-to-t from-lime-500 via-lime-700 to-lime-800">
-                <Link href={`/ProductView/${product.id}`}>
+                <Link href={`/ProductView/${product.id}/?data=${encodeURIComponent(JSON.stringify(product))}`}>
                   <Image
                     src={product.thumbnail===null || product.thumbnail===""?noImage.src:product.thumbnail}
                     className="relative w-[100%] transition-transform transform hover:scale-110 duration-500"
