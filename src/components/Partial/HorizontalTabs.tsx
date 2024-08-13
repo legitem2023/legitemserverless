@@ -43,8 +43,7 @@ const HorizontalTabs: React.FC<TabsProps> = ({ tabs }) => {
             <span className='flex flex-row items-center justify-center col-span-1'>
                 <Icon icon={tab.icon}/>
             </span>
-            
-            {/* <span className='col-span-2 md:hidden sm:hidden'>{tab.label}</span> */}
+            <span className='col-span-2'>{tab.label}</span>
           </div>
         ))}
       </div>

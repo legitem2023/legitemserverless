@@ -38,7 +38,7 @@ const Tabs: React.FC<TabsProps> = ({ tabs }) => {
                     left-0 
                     z-10 
                     h-full 
-                    bg-lime-700 
+                    bg-stone-300
                     border-r 
                     border-lime-800 
                     landscape:w-[22vw] 
@@ -49,10 +49,10 @@ const Tabs: React.FC<TabsProps> = ({ tabs }) => {
         {tabs.map((tab, index) => (
           <button
             key={index}
-            className={`flex flex-row items-center py-2 px-4 focus:outline-none ease-in-out duration-300 text-left w-full ${
+            className={`flex flex-row items-center p-3 focus:outline-none ease-in-out duration-300 text-left w-full ${
               activeTab === index
-                ? 'border-b-4 border-t-4 border-r-4 border-lime-500 text-white bg-lime-600'
-                : 'border-b-4 border-t-4 border-solid border-lime-800 flex-row align-center text-black-600 hover:text-lime-500'
+                ? 'border-b-4  border-lime-500 text-black bg-stone-400'
+                : 'border-b-4  border-solid border-lime-800 flex-row align-center text-black-600 hover:text-lime-500'
             }`}
             onClick={() => handleTabClick(index)}
           >

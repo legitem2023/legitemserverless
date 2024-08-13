@@ -16,7 +16,7 @@ const MyOrder = () => {
 
   ];
   return (
-    <div className='w-[100vw]'>
+    <div className='w-[100%]'>
         <Titlebar title="My Orders" Icons='ic:baseline-shopping-cart'/>
         <HorizontalTabs tabs={tabs}></HorizontalTabs>
     </div>
