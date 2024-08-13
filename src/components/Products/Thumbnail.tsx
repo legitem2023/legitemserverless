@@ -144,8 +144,8 @@ const Thumbnail = () => {
                     src={product.thumbnail===null || product.thumbnail===""?noImage.src:product.thumbnail}
                     className="relative w-[100%] transition-transform transform hover:scale-110 duration-500"
                     alt={"alt" + i}
-                    width='600'
-                    height='469'
+                    width='200' 
+                    height='156' 
                     quality={1}
                   />
                 </Link>

@@ -24,7 +24,7 @@ type Props = {
 
 const ProductView = () => {
     const [useProduct, setProducts] = useState([]);
-    const [loading, setLoading] = useState<boolean>(false);
+    const [loading, setLoading] = useState<boolean>(true);
     useEffect(() => {
         async function fetchInventory() {
           try {
@@ -44,12 +44,14 @@ const ProductView = () => {
       }, []);
 
     const searchParams = useParams();
-
     const parameter:any = useSearchParams();
     const parsedData = JSON.parse(parameter.get('data'));
-    const dataArray:any = Array.isArray(parsedData) ? parsedData : [parsedData];
 
-    const filtered = useProduct.filter((item: any) => item.id === searchParams.id);
+    // const relatedProd = JSON.parse(parameter.get('relatedProd'));
+    // const relatedProdArray:any = Array.isArray(relatedProd) ? relatedProd : [relatedProd];
+
+    const dataArray:any = Array.isArray(parsedData) ? parsedData : [parsedData];
+    const filtered = useProduct;
     return (
         <div className="flex flex-wrap transform scale-98 h-[100vh]">
       {loading ? (
@@ -72,25 +74,39 @@ const ProductView = () => {
                         <div className='lg:col-span-2'>
                             <TabData data={dataArray}/>
                         </div>
-                        <div className='lg:col-span-1 grid grid-cols-2'>
-                            <div className='m-[5px] flex items-center'>Name:</div><div className='m-[5px] flex items-center'>{view.name}</div>
-                            <div className='m-[5px] flex items-center'>Price:</div><div className='m-[5px] flex items-center'>{view.price}</div>
-                            <div className='m-[5px] flex items-center'>Size:</div><div className='m-[5px] flex items-center'>{view.size}</div>
-                            <div className='m-[5px] flex items-center'>Color:</div><div className='m-[5px] flex items-center'>{view.color}</div>
-                            <div className='m-[5px] flex items-center'>Available Stock:</div><div className='m-[5px] flex items-center'>{view.stock}</div>
-                            <div className='col-span-2 grid grid-cols-7 w-[98%] h-[4vh] align-center justify-center'>
-                                <Icon icon="mdi:add-box" className='col-span-1 flex h-[4vh] w-[65px]' />
-                                <input type='number' defaultValue='1' className='col-span-5 flex w-[100%] text-center' />
-                                <Icon icon="mdi:minus-box" className='col-span-1 flex h-[4vh] w-[65px]' />
+                        <div className='lg:col-span-1 flex flex-col bg-[#f1f1f1]'>
+                            <div className='grid grid-cols-2 border-b-2 border-stone-300 m-2'>
+                                <div className='m-[5px] flex items-center'>Name:</div><div className='m-[5px] flex items-center '>{view.name}</div>
                             </div>
-                            <div className='flex w-[100%] align-center justify-center item-center w-[100%] m-[auto] col-span-2 m-b-5 m-t-5'>
+                            <div className='grid grid-cols-2 border-b-2 border-stone-300 m-2'>
+                                <div className='m-[5px] flex items-center'>Price:</div><div className='m-[5px] flex items-center'>{view.price}</div>
+                            </div>
+                            <div className='grid grid-cols-2 border-b-2 border-stone-300 m-2'>
+                                <div className='m-[5px] flex items-center'>Size:</div><div className='m-[5px] flex items-center'>{view.size}</div>
+                            </div>
+                            <div className='grid grid-cols-2 border-b-2 border-stone-300 m-2'>
+                                <div className='m-[5px] flex items-center'>Color:</div><div className='m-[5px] flex items-center'>{view.color}</div>                            
+                            </div>
+                            <div className='grid grid-cols-2 border-b-2 border-stone-300 m-2'>
+                                <div className='m-[5px] flex items-center'>Available Stock:</div><div className='m-[5px] flex items-center'>{view.stock}</div>                        
+                            </div>
+                            <div className='grid grid-cols-2 border-b-2 border-stone-300 m-2'>
+                                <div className='m-[5px] flex items-center'>Quantity</div><div className='m-[5px] flex items-center'></div>
+                                <div className='col-span-2 grid grid-cols-7 w-[98%] h-[auto] align-center items-center justify-center'>
+                                    <Icon icon="mdi:add-box" className='col-span-1 flex h-[4vh] w-[65px]' />
+                                    <input type='number' defaultValue='1' className='col-span-5 h-[3vh] flex w-[100%] text-center outline-none' />
+                                    <Icon icon="mdi:minus-box" className='col-span-1 flex h-[4vh] w-[65px]' />
+                                </div>
+                            </div>
+
+                            <div className='flex w-[100%] align-center justify-center item-center w-[100%] m-[auto] col-span-2'>
                                 <Icon icon="fa-solid:cart-plus" className='text-5xl m-2' />
                             </div>
-                            <div className='col-span-2 grid grid-row w-[100%] h-[5vh] align-center justify-center m-b-5 m-t-5'>
+                            <div className='col-span-2 grid grid-row w-[100%] h-[auto] align-center justify-center'>
                                 <Share></Share>
                             </div>
                         </div>
-                        <div className='flex lg:col-span-3 bg-[#f1f1f1] h-[5vh]'></div>
+                        {/* <div className='flex lg:col-span-3 bg-[#f1f1f1] h-[5vh]'></div> */}
                         <div className='flex lg:col-span-3'>
                             <Titlebar title='Store Details' Icons='fa-solid:store'/>
                         </div>

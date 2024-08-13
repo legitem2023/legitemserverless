@@ -44,7 +44,7 @@ export default function TabData({ data }: any) {
 
   return (
     <Box sx={{ width: '99%' }}>
-      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+      <Box sx={{ borderBottom: 1, borderColor: 'lime'}}>
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
           <Tab label="Image" {...a11yProps(0)} />
           <Tab label="3D Model" {...a11yProps(1)} />

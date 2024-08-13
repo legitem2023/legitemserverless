@@ -38,7 +38,7 @@ const RelatedProducts = ({Products}:any) => {
             {Products.map((view: any, idx: number) => (
                 <div key={idx} className="grid grid-cols-4 gap-2 bg-[#f1f1f1] w-[100%] border-b-4 border-t-4 border-solid border-lime-800 mb-1 mt-1 scale-[0.99] p-1 bg-gradient-to-r from-lime-500 via-lime-700 to-lime-800">
                     <div className='flex flex-1 col-span-2'>
-                    <Link href={`/ProductView/${view.id}`}>
+                    <Link href={`/ProductView/${view.id}/?data=${encodeURIComponent(JSON.stringify(view))}`}>
 
                         <Image src={view.thumbnail===null?noImage:view.thumbnail} 
                                alt={view.name} 

@@ -7,6 +7,7 @@ import Header from "@/components/Partial/Header";
 import Aside from "@/components/Partial/Aside";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Banner from "@/components/Partial/Banner";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -48,6 +49,7 @@ export default function RootLayout({
         </div>
         {children}
         <Aside/>
+        <Banner/>
       </div>
         </body>
     </html>
