@@ -64,7 +64,9 @@ body {
 .image-gallery-content{
   box-shadow: 0.5px 0.5px 3px #00290c;
   border:solid 4px #598f2e;
-  background:linear-gradient(to right, #a5e400, #7caf4c, #669e39);
+  background:linear-gradient(to right, #a5e400, #628a3c, #678530);
+  /* background: linear-gradient(to right, #84cc16, #4ade80, #1f9e4c); */
+
 }
 .Loading{
   background-image: url('../../public/Loading.gif');

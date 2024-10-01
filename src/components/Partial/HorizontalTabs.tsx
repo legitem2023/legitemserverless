@@ -15,27 +15,42 @@ interface TabsProps {
 
 const HorizontalTabs: React.FC<TabsProps> = ({ tabs }) => {
   const [activeTab, setActiveTab] = useState<number>(0);
+  const handleTabClick = (index: number) => {
+    setActiveTab(index);
+    localStorage.setItem('activeTab', String(index));
+  };
   useEffect(() => {
     const storedActiveTab = localStorage.getItem('activeTab');
     if (storedActiveTab !== null) {
-      setActiveTab(parseInt(storedActiveTab, 10)); // Make sure to parse the string to a number
+      setActiveTab(parseInt(storedActiveTab, 10));
     }
   }, []);
-
-  const handleTabClick = (index: number) => {
-    setActiveTab(index);
-    localStorage.setItem('activeTab', String(index)); // Save the index as a string
-  };
-
   return (
     <div className="flex w-[100%] relative">
-      <div className="flex flex-row border-r h-[100%] mt-1">
+      <div className="flex flex-row border-r h-[100%] mt-1 border border-b-lime-800">
         {tabs.map((tab, index) => (
           <div
             key={index}
-            className={`grid sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-3 items-center justify-center align-center p-2 focus:outline-none ease-in-out duration-300 w-[10vw] cursor-pointer ${
+            className={`grid 
+                        sm:grid-cols-1 
+                        md:grid-cols-1 
+                        lg:grid-cols-3 
+                        xl:grid-cols-3 
+                        2xl:grid-cols-3 
+                        items-center 
+                        justify-center 
+                        align-center 
+                        p-2
+                        text-xl
+                        text-lime-800 
+                        focus:outline-none 
+                        ease-in-out duration-300 
+                        w-[10vw] 
+                        cursor-pointer
+                        rounded-t-xl
+                        ${
               activeTab === index
-                ? 'border-b-4 border-lime-800 text-lime-800'
+                ? 'border-b-4 border-lime-800 text-lime-800 bg-lime-600'
                 : 'border-b-4 border-transparent flex-row align-center text-stone-600 hover:text-black-500'
             }`}
             onClick={() => handleTabClick(index)}

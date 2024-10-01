@@ -10,6 +10,9 @@ import Loading from '../UI/Loading';
 import Titlebar from '../UI/Titlebar';
 import Paragraph from '../Partial/Paragraph';
 import RelatedProducts from './RelatedProducts';
+import ModelViewer from '../Gallery/ModelViewer';
+import HorizontalTabs from '../Partial/HorizontalTabs';
+import Gallery from '../Gallery/Gallery';
 type Inventory = {
     id: string;
     name: string | null;
@@ -52,6 +55,17 @@ const ProductView = () => {
 
     const dataArray:any = Array.isArray(parsedData) ? parsedData : [parsedData];
     const filtered = useProduct;
+
+
+
+
+    const tabs = [
+        { icon: 'icomoon-free:address-book', label: 'Image', content: <Gallery data={dataArray}/> },
+        { icon: 'mdi:border-all', label: 'Model', content: <ModelViewer/> },
+      ];
+
+
+
     return (
         <div className="flex flex-wrap transform scale-98 h-[100vh]">
       {loading ? (

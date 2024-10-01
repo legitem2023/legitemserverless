@@ -10,7 +10,7 @@ const ModelViewer = () => {
             setHeight('93vw');
         } else {
             setWidth('100%');
-            setHeight('500px');
+            setHeight('650px');
         }
     };
     useEffect(() => {

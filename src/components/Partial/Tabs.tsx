@@ -62,7 +62,7 @@ const Tabs: React.FC<TabsProps> = ({ tabs }) => {
         ))}
       </div>
       <div className="flex-1 p-1 landscape:ml-[22vw]">
-        {tabs[activeTab].content}
+        {tabs[activeTab]?.content}
       </div>
     </div>
   );

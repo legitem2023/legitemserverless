@@ -8,6 +8,7 @@ import Link from 'next/link';
 import useNav from '../../../store/useNav';
 import CollapsibleComponent from './CollapsibleComponent';
 import useMenutoggle from '../../../store/useMenutoggle';
+import { SessionProvider } from 'next-auth/react';
 
 const Header: React.FC = () => {
   const { isMenuToggled,menutoggle } = useMenutoggle();
@@ -59,6 +60,7 @@ const Header: React.FC = () => {
         </label>
         {menu(navigation)}
         <div className='lg:col-span-2 col-span-2'></div>
+        <SessionProvider {...{ children: null }} />
       </div>
     </nav>
   )

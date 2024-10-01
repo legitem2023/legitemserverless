@@ -8,7 +8,6 @@ import WishList from './WishList';
 
 const Account:React.FC = () => {
   const tabs = [
-    { icon: 'mdi:badge-account-horizontal', label: 'Profile', content: <Profile/> },
     { icon: 'icomoon-free:address-book', label: 'Address Book', content: <AddressBook/> },
     { icon: 'mdi:border-all', label: 'My Orders', content: <MyOrder/> },
     { icon: 'mdi:star', label: 'Wish List', content: <WishList/> },
