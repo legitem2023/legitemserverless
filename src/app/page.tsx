@@ -1,8 +1,8 @@
 'use client';
 import SwipeTabs from "@/components/UI/SwipeTabs";
-
+import Products from "@/components/Products"
 function TabOneContent() {
-  return <p>This is Tab 1 content.</p>;
+  return <Products/>;
 }
 
 function TabTwoContent() {
