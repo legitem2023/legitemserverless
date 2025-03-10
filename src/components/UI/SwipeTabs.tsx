@@ -1,5 +1,6 @@
 "use client";
-import { useState } from "react";
+
+import { useState, useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
@@ -17,6 +18,14 @@ interface SwipeTabsProps {
 
 export default function SwipeTabs({ tabs }: SwipeTabsProps) {
   const [activeTab, setActiveTab] = useState(0);
+  const swiperRef = useRef<any>(null); // Store Swiper instance
+
+  const handleTabClick = (index: number) => {
+    setActiveTab(index);
+    if (swiperRef.current) {
+      swiperRef.current.slideTo(index); // Manually move Swiper to the selected tab
+    }
+  };
 
   return (
     <div className="w-full max-w-md mx-auto">
@@ -31,7 +40,7 @@ export default function SwipeTabs({ tabs }: SwipeTabsProps) {
                 ? "border-b-2 border-blue-500 text-blue-500"
                 : "text-gray-500"
             )}
-            onClick={() => setActiveTab(index)}
+            onClick={() => handleTabClick(index)}
           >
             {tab.label}
           </button>
@@ -40,6 +49,7 @@ export default function SwipeTabs({ tabs }: SwipeTabsProps) {
 
       {/* Swiper Content */}
       <Swiper
+        ref={swiperRef}
         modules={[Pagination]}
         spaceBetween={10}
         slidesPerView={1}
