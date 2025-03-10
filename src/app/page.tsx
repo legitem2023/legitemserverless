@@ -27,7 +27,7 @@ export default function Home() {
     },
     {
       "label": "Transaction",
-      "Icn":"material-symbols:transaction",
+      "Icn":"grommet-icons:transaction",
       "content":<TabOneContent/>     
     },
     {
