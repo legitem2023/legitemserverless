@@ -18,12 +18,12 @@ interface SwipeTabsProps {
 
 export default function SwipeTabs({ tabs }: SwipeTabsProps) {
   const [activeTab, setActiveTab] = useState(0);
-  const swiperRef = useRef<any>(null); // Store Swiper instance
+  const swiperRef = useRef<any>(null);
 
   const handleTabClick = (index: number) => {
     setActiveTab(index);
     if (swiperRef.current) {
-      swiperRef.current.slideTo(index); // Manually move Swiper to the selected tab
+      swiperRef.current.slideTo(index);
     }
   };
 
@@ -40,7 +40,7 @@ export default function SwipeTabs({ tabs }: SwipeTabsProps) {
                 ? "border-b-2 border-blue-500 text-blue-500"
                 : "text-gray-500"
             )}
-            onClick={() => setActiveTab(index)}
+            onClick={() => handleTabClick(index)} // Fixed: Use handleTabClick
           >
             {tab.label}
           </button>
@@ -49,7 +49,7 @@ export default function SwipeTabs({ tabs }: SwipeTabsProps) {
 
       {/* Swiper Content */}
       <Swiper
-        ref={swiperRef}
+        onSwiper={(swiper) => (swiperRef.current = swiper)} // Capture Swiper instance
         modules={[Pagination]}
         spaceBetween={10}
         slidesPerView={1}
