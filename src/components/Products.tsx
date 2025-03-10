@@ -24,12 +24,7 @@ const Products = () => {
 
   return (
     <div>
-      {data?.getChildInventory.map((item) => (
-        <div key={item.id}>
-          {/* I-add ang data dito kung gusto mo */}
-          <p>{item.productCode}</p>
-        </div>
-      ))}
+      
     </div>
   );
 };
