@@ -1,6 +1,9 @@
 'use client';
 import SwipeTabs from "@/components/UI/SwipeTabs";
-import Products from "@/components/Products";
+import dynamic from 'next/dynamic';
+
+const Products = dynamic(() => import('@/components/Products'), { ssr: false });
+
 function TabOneContent() {
   return <div><Products/></div>;
 }
