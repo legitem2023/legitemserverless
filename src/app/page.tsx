@@ -5,7 +5,7 @@ import dynamic from 'next/dynamic';
 const Products = dynamic(() => import('@/components/Products'), { ssr: false });
 
 function TabOneContent() {
-  return <div><Products/></div>;
+  return <p>This is Tab 2 content.</p>;
 }
 
 function TabTwoContent() {
@@ -26,7 +26,7 @@ export default function Home() {
     {
       "label": "Inventory",
       "Icn":"material-symbols:inventory",
-      "content":<TabOneContent/>
+      "content":<Products/>
     },
     {
       "label": "Transaction",
