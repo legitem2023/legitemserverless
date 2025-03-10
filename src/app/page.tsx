@@ -17,32 +17,32 @@ export default function Home() {
   const tabs = [
     {
       "label": "Dashboard",
-      "Icn":"mdi:tags",
+      "Icn":"material-symbols:dashboard",
       "content":<TabOneContent/>
     },
     {
       "label": "Inventory",
-      "Icn":"bxs:category",
+      "Icn":"material-symbols:inventory",
       "content":<TabOneContent/>
     },
     {
       "label": "Transaction",
-      "Icn":"bi:collection-fill",
+      "Icn":"material-symbols:transaction",
       "content":<TabOneContent/>     
     },
     {
       "label": "Sales",
-      "Icn":"bi:boxes",
+      "Icn":"material-symbols:sales",
       "content":<TabOneContent/>    
     },
     {
       "label": "Statistics",
-      "Icn":"mdi:new-box",
+      "Icn":"material-symbols:statistics",
       "content":<TabOneContent/>
     },
     {
       "label": "Settings",
-      "Icn":"entypo:new",
+      "Icn":"material-symbols:settings",
       "content":<TabOneContent/>
     }
   ]
