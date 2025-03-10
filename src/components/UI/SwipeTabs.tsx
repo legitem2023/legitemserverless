@@ -55,7 +55,7 @@ export default function SwipeTabs({ tabs }: SwipeTabsProps) {
       >
         {tabs.map((tab, index) => (
           <SwiperSlide key={index}>
-            <div className="p-5 bg-gray-100 rounded-md shadow-md">
+            <div className="p-3 shadow-md">
               {tab.content}
             </div>
           </SwiperSlide>
