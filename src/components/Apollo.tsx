@@ -11,6 +11,7 @@ let apolloClient: ApolloClient<any> | null = null;
 function createIsomorphicLink() {
   if (typeof window === 'undefined') {
     // Server-side HTTP link
+    console.log(process.env.NEXT_PUBLIC_SERVER_LINK);
     return new HttpLink({
       uri: process.env.NEXT_PUBLIC_SERVER_LINK,
       credentials: 'include'
