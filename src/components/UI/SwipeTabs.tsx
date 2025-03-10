@@ -9,7 +9,7 @@ import clsx from "clsx";
 import { Icon } from '@iconify/react'
 interface TabItem {
   label: string;
-  Icon:string
+  Icn:string
   content: React.ReactNode;
 }
 
@@ -43,7 +43,7 @@ export default function SwipeTabs({ tabs }: SwipeTabsProps) {
             )}
             onClick={() => handleTabClick(index)} // Fixed: Use handleTabClick
           >
-            {(<Icon icon={tab.Icon}></Icon>)}
+            {(<Icon icon={tab.Icn}></Icon>)}
             {tab.label}
           </button>
         ))}
