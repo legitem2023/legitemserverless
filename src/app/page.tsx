@@ -37,7 +37,7 @@ export default function Home() {
     },
     {
       "label": "Statistics",
-      "Icn":"akar-icons:statistics-up",
+      "Icn":"akar-icons:statistic-up",
       "content":<TabOneContent/>
     },
     {
