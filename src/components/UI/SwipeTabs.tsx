@@ -36,7 +36,7 @@ export default function SwipeTabs({ tabs }: SwipeTabsProps) {
           <button
             key={index}
             className={clsx(
-              "flex-1 py-2 text-center font-medium transition-all duration-300",
+              "flex-1 py-2 text-center alignCenter justifyCenter font-medium transition-all duration-300",
               activeTab === index
                 ? "border-b-2 border-blue-500 text-blue-500"
                 : "text-gray-500"
