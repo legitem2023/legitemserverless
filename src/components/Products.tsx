@@ -9,11 +9,11 @@ const Products = () => {
   if (productsError) return <p>Error: {productsError.message}</p>;
 
   return (
-    <>
+    <div>
       {ProductsData?.getChildInventory.map((item: any, idx: number) => (
         <div key={idx}>{/* I-add ang data dito kung gusto mo */}</div>
       ))}
-    </>
+    </div>
   );
 };
 
