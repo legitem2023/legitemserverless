@@ -35,7 +35,7 @@ export default function SwipeTabs({ tabs }: SwipeTabsProps) {
         {tabs.map((tab, index) => (
           <button
             key={index}
-            className={clsx("text-[30px] flex flex-col items-center justify-center flex-1 py-2  transition-all duration-300",activeTab === index?"border-b-2 border-blue-500 text-blue-500": "text-gray-500")}
+            className={clsx("text-[25px] flex flex-col items-center justify-center flex-1 py-2  transition-all duration-300",activeTab === index?"border-b-2 border-brown-500 text-brown-500": "text-white-500")}
             onClick={() => handleTabClick(index)} // Fixed: Use handleTabClick
           >
             {(<Icon icon={tab.Icn}></Icon>)}
