@@ -3,7 +3,8 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Head from "next/head";
 import Script from "next/script";
-import ReduxWrapper from '@/components/ReduxWrapper'
+import ReduxWrapper from '@/components/ReduxWrapper';
+import LoadEruda from './LoadEruda';
 //import Header from "@/components/Partial/Header";
 //import Aside from "@/components/Partial/Aside";
 //import { ToastContainer } from 'react-toastify';
@@ -31,6 +32,7 @@ export default function RootLayout({
               <title>Legitem</title>
             </Head>
             <body>
+              <LoadEruda/>
               {children}
             </body>
           </html>
