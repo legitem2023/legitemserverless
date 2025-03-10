@@ -32,12 +32,12 @@ export default function Home() {
     },
     {
       "label": "Sales",
-      "Icn":"material-symbols:sales",
+      "Icn":"tdesign:money",
       "content":<TabOneContent/>    
     },
     {
       "label": "Statistics",
-      "Icn":"material-symbols:statistics",
+      "Icn":"akar-icons:statistics-up",
       "content":<TabOneContent/>
     },
     {
