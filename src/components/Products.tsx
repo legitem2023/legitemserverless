@@ -17,11 +17,12 @@ interface GetChildInventoryData {
 }
 
 const Products = () => {
-/*  const { data, loading, error } = useQuery<GetChildInventoryData>(GET_CHILD_INVENTORY);
+  const { data, loading, error } = useQuery(GET_CHILD_INVENTORY);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
-*/
+
+console.log(data)
   return (
     <div>
       
