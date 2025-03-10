@@ -1,26 +1,26 @@
 [
     {
-      "Name": "All Products",
-      "Icc":"mdi:tags"
+      "Name": "Dashboard",
+      "Icn":"mdi:tags"
     },
     {
-      "Name": "Category",
-      "Icc":"bxs:category"
+      "Name": "Inventory",
+      "Icn":"bxs:category"
     },
     {
-      "Name": "Collection Items",
-      "Icc":"bi:collection-fill"
+      "Name": "Transaction",
+      "Icn":"bi:collection-fill"
     },
     {
-      "Name": "Product Types",
-      "Icc":"bi:boxes"
+      "Name": "Sales",
+      "Icn":"bi:boxes"
     },
     {
-      "Name": "New",
-      "Icc":"mdi:new-box"
+      "Name": "Statistics",
+      "Icn":"mdi:new-box"
     },
     {
-      "Name": "Discounted",
-      "Icc":"entypo:new"
+      "Name": "Settings",
+      "Icn":"entypo:new"
     }
   ]
