@@ -15,10 +15,37 @@ function TabThreeContent() {
 
 export default function Home() {
   const tabs = [
-    { label: "Tab 1", content: <TabOneContent /> },
-    { label: "Tab 2", content: <TabTwoContent /> },
-    { label: "Tab 3", content: <TabThreeContent /> },
-  ];
+    {
+      "label": "Dashboard",
+      "Icn":"mdi:tags",
+      "content":<TabOneContent/>
+    },
+    {
+      "label": "Inventory",
+      "Icn":"bxs:category",
+      "content":<TabOneContent/>
+    },
+    {
+      "label": "Transaction",
+      "Icn":"bi:collection-fill",
+      "content":<TabOneContent/>     
+    },
+    {
+      "label": "Sales",
+      "Icn":"bi:boxes",
+      "content":<TabOneContent/>    
+    },
+    {
+      "label": "Statistics",
+      "Icn":"mdi:new-box",
+      "content":<TabOneContent/>
+    },
+    {
+      "label": "Settings",
+      "Icn":"entypo:new",
+      "content":<TabOneContent/>
+    }
+  ]
 
   return <SwipeTabs tabs={tabs} />;
 }
