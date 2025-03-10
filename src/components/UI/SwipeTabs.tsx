@@ -44,7 +44,6 @@ export default function SwipeTabs({ tabs }: SwipeTabsProps) {
             onClick={() => handleTabClick(index)} // Fixed: Use handleTabClick
           >
             {(<Icon icon={tab.Icn}></Icon>)}
-            {tab.label}
           </button>
         ))}
       </div>
