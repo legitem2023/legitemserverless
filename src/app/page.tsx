@@ -1,3 +1,4 @@
+'use client';
 import SwipeTabs from "@/components/UI/SwipeTabs";
 
 function TabOneContent() {
