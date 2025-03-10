@@ -40,7 +40,7 @@ export default function SwipeTabs({ tabs }: SwipeTabsProps) {
                 ? "border-b-2 border-blue-500 text-blue-500"
                 : "text-gray-500"
             )}
-            onClick={() => handleTabClick(index)}
+            onClick={() => setActiveTab(index)}
           >
             {tab.label}
           </button>
