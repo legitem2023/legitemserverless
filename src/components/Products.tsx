@@ -7,7 +7,7 @@ if(productsLoading) return
   return (
     <>{
       ProductsData?.getChildInventory.map((item:any,idx:number)=>(
-        <div key={index}></div>
+        <div key={idx}></div>
       ))
     }
     </>
