@@ -2,16 +2,33 @@
 import { useQuery } from "@apollo/client";
 import { GET_CHILD_INVENTORY } from "./queries";
 
-const Products = () => {
-  const { data: ProductsData, loading: productsLoading, error: productsError } = useQuery(GET_CHILD_INVENTORY);
+// Define the expected structure of the inventory items
+interface ChildInventory {
+  id: string;
+  productCode: string;
+  category: string;
+  productType: string;
+  brandname: string;
+  // Add other necessary fields
+}
 
-  if (productsLoading) return <p>Loading...</p>;
-  if (productsError) return <p>Error: {productsError.message}</p>;
+interface GetChildInventoryData {
+  getChildInventory: ChildInventory[];
+}
+
+const Products = () => {
+  const { data, loading, error } = useQuery<GetChildInventoryData>(GET_CHILD_INVENTORY);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error.message}</p>;
 
   return (
     <div>
-      {ProductsData?.getChildInventory.map((item: any, idx: number) => (
-        <div key={idx}>{/* I-add ang data dito kung gusto mo */}</div>
+      {data?.getChildInventory.map((item) => (
+        <div key={item.id}>
+          {/* I-add ang data dito kung gusto mo */}
+          <p>{item.productCode}</p>
+        </div>
       ))}
     </div>
   );
