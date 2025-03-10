@@ -4,8 +4,7 @@ import { WebSocketLink } from '@apollo/client/link/ws';
 import { getMainDefinition } from '@apollo/client/utilities';
 import { useMemo } from 'react';
 import { onError } from '@apollo/client/link/error';
-import { createUploadLink } from 'apollo-upload-client';
-
+import createUploadLink from 'apollo-upload-client/createUploadLink.mjs';
 // Server-safe Apollo Client creation
 let apolloClient: ApolloClient<any> | null = null;
 
