@@ -8,14 +8,15 @@ const Products = () => {
 
   return (
     <div className="flex w-full">
-      <div className="flex flex-col w-full shadow-md bg-[#f1f1f1] text-[#000000] text-[15px] rounded-sm p-2">
+      <div className="grow flex flex-col w-full shadow-md bg-[#f1f1f1] text-[#000000] text-[15px] rounded-sm p-2">
         <div className="p-1 flex flex-row">ID :</div>
         <div className="p-1 flex flex-row">Name :</div>
         <div className="p-1 flex flex-row">Product Type:</div>
         <div className="p-1 flex flex-row">Brandname :</div>
         <div className="p-1 flex flex-row">Status :</div>
-        <div className="p-1 flex flex-row">
-          Action :
+      </div>
+      <div className="grow-0">
+        <div className="p-1 flex flex-col">
           <Icon icon="mage:edit" className="text-[25px] m-1 text-[#ffee8f]" />
           <Icon icon="mdi:delete" className="text-[25px] m-1 text-[#e81515]" />
         </div>
