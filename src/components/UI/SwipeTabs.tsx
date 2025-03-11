@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { usePathname,useParams,useRouter } from "next/navigation"; // Import usePathname
+import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
@@ -20,24 +20,34 @@ interface SwipeTabsProps {
 }
 
 export default function SwipeTabs({ tabs }: SwipeTabsProps) {
-  const [activeTab, setActiveTab] = useState(0);
+  const searchParams = useSearchParams(); // ✅ Get URL query params
+  const router = useRouter();
   const swiperRef = useRef<any>(null);
-  const pathname = useParams(); // Get current URL
+  
+  // ✅ Extract `id` from URL and parse it as a number
+  const initialTab = Number(searchParams.get("id")) || 0;
+  
+  const [activeTab, setActiveTab] = useState(initialTab);
 
- const router = useRouter();
+  useEffect(() => {
+    if (swiperRef.current) {
+      swiperRef.current.slideTo(activeTab);
+    }
+  }, [activeTab]);
 
   const handleTabClick = (index: number) => {
     setActiveTab(index);
     if (swiperRef.current) {
       swiperRef.current.slideTo(index);
-      router.push(`./?id=${index}`)
     }
+    router.push(`?id=${index}`); // ✅ Update URL with selected tab
   };
 
-  // Detect current page URL and active tab, then log them
   useEffect(() => {
-    console.log(`Current Page URL: ${pathname}, Active Tab: ${tabs[activeTab].label}`);
-  }, [activeTab, pathname, tabs]);
+    console.log(`Current Page URL: ${window.location.href}`);
+    console.log(`Current Tab ID: ${activeTab}`);
+    console.log(`Active Tab Label: ${tabs[activeTab]?.label}`);
+  }, [activeTab, tabs]);
 
   return (
     <div className="w-full max-w-md mx-auto">
@@ -66,7 +76,7 @@ export default function SwipeTabs({ tabs }: SwipeTabsProps) {
         spaceBetween={10}
         slidesPerView={1}
         onSlideChange={(swiper) => setActiveTab(swiper.activeIndex)}
-        initialSlide={activeTab}
+        initialSlide={initialTab} // ✅ Set initial slide from URL param
         className="w-full"
       >
         {tabs.map((tab, index) => (
