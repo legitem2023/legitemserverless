@@ -9,13 +9,14 @@ const Products = () => {
   return (
     <div className="flex w-full" >
       <div className="flex flex-col w-full shadow-md bg-[#f1f1f1] text-[#000000]">
-        <div className="p-2">ID :</div>
-        <div className="p-2">Name :</div>
-        <div className="p-2">Product Type:</div>
-        <div className="p-2">Brandname :</div>
-        <div className="p-2">Status :</div>
-        <div className="p-2">Action :
+        <div className="p-2 flex flex-row">ID :</div>
+        <div className="p-2 flex flex-row">Name :</div>
+        <div className="p-2 flex flex-row ">Product Type:</div>
+        <div className="p-2 flex flex-row ">Brandname :</div>
+        <div className="p-2 flex flex-row ">Status :</div>
+        <div className="p-2 flex flex-row ">Action :
   <Icon icon="mage:edit" width="24" height="24" />
+
 <Icon icon="mage:delete" width="24" height="24" /> 
 </div>
       </div>
