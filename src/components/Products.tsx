@@ -14,7 +14,10 @@ const Products = () => {
         <div className="p-2">Product Type:</div>
         <div className="p-2">Brandname :</div>
         <div className="p-2">Status :</div>
-        <div className="p-2">Action :</div>
+        <div className="p-2">Action :
+  <Icon icon="mage:edit" width="24" height="24" />
+<Icon icon="mage:delete" width="24" height="24" /> 
+</div>
       </div>
     </div>
   );
