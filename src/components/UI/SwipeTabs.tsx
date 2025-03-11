@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { usePathname } from "next/navigation"; // Import usePathname
+import { usePathname,useParams,useRouter } from "next/navigation"; // Import usePathname
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
@@ -22,12 +22,15 @@ interface SwipeTabsProps {
 export default function SwipeTabs({ tabs }: SwipeTabsProps) {
   const [activeTab, setActiveTab] = useState(0);
   const swiperRef = useRef<any>(null);
-  const pathname = usePathname(); // Get current URL
+  const pathname = useParams(); // Get current URL
+
+ const router = useRouter();
 
   const handleTabClick = (index: number) => {
     setActiveTab(index);
     if (swiperRef.current) {
       swiperRef.current.slideTo(index);
+      router.push(`./?id=${index}`)
     }
   };
 
