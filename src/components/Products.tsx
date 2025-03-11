@@ -19,6 +19,7 @@ const Products = () => {
         <div className="p-1 flex flex-col">
           <Icon icon="mage:edit" className="text-[25px] m-1 text-[#ffee8f]" />
           <Icon icon="mdi:delete" className="text-[25px] m-1 text-[#e81515]" />
+          <Icon icon="carbon:folder-details" className="text-[25px] m-1 text-[#000000]" />
         </div>
       </div>
     </div>
