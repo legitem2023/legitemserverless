@@ -7,8 +7,8 @@ const Products = () => {
   /* const { data, loading, error } = useQuery(GET_CHILD_INVENTORY); */
 
   return (
-    <div className="flex w-full bg-[#f1f1f1] ">
-      <div className="grow flex flex-col w-full shadow-md text-[#000000] text-[15px] rounded-sm p-2">
+    <div className="flex w-full bg-[#f1f1f1] shadow-md">
+      <div className="grow flex flex-col w-full text-[#000000] text-[15px] rounded-sm p-2">
         <div className="p-1 flex flex-row">ID :</div>
         <div className="p-1 flex flex-row">Name :</div>
         <div className="p-1 flex flex-row">Product Type:</div>
