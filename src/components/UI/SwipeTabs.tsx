@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
-import { usePathname, useSearchParams, useRouter } from "next/navigation";
+import { useState, useRef, useEffect, Suspense } from "react";
+import { useRouter } from "next/navigation"; 
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
@@ -19,35 +19,32 @@ interface SwipeTabsProps {
   tabs: TabItem[];
 }
 
-export default function SwipeTabs({ tabs }: SwipeTabsProps) {
-  const searchParams = useSearchParams(); // ✅ Get URL query params
-  const router = useRouter();
+function SwipeTabsComponent({ tabs }: SwipeTabsProps) {
+  const [activeTab, setActiveTab] = useState(0);
   const swiperRef = useRef<any>(null);
-  
-  // ✅ Extract `id` from URL and parse it as a number
-  const initialTab = Number(searchParams.get("id")) || 0;
-  
-  const [activeTab, setActiveTab] = useState(initialTab);
+  const router = useRouter();
 
+  // Get `id` from URL and set the active tab on initial render
   useEffect(() => {
-    if (swiperRef.current) {
-      swiperRef.current.slideTo(activeTab);
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      const tabId = parseInt(params.get("id") || "0", 10);
+      if (!isNaN(tabId) && tabId >= 0 && tabId < tabs.length) {
+        setActiveTab(tabId);
+        if (swiperRef.current) {
+          swiperRef.current.slideTo(tabId);
+        }
+      }
     }
-  }, [activeTab]);
+  }, [tabs]);
 
   const handleTabClick = (index: number) => {
     setActiveTab(index);
     if (swiperRef.current) {
       swiperRef.current.slideTo(index);
     }
-    router.push(`?id=${index}`); // ✅ Update URL with selected tab
+    router.push(`./?id=${index}`, { scroll: false });
   };
-
-  useEffect(() => {
-    console.log(`Current Page URL: ${window.location.href}`);
-    console.log(`Current Tab ID: ${activeTab}`);
-    console.log(`Active Tab Label: ${tabs[activeTab]?.label}`);
-  }, [activeTab, tabs]);
 
   return (
     <div className="w-full max-w-md mx-auto">
@@ -76,7 +73,7 @@ export default function SwipeTabs({ tabs }: SwipeTabsProps) {
         spaceBetween={10}
         slidesPerView={1}
         onSlideChange={(swiper) => setActiveTab(swiper.activeIndex)}
-        initialSlide={initialTab} // ✅ Set initial slide from URL param
+        initialSlide={activeTab}
         className="w-full"
       >
         {tabs.map((tab, index) => (
@@ -86,5 +83,14 @@ export default function SwipeTabs({ tabs }: SwipeTabsProps) {
         ))}
       </Swiper>
     </div>
+  );
+}
+
+// Wrap in Suspense for Next.js compatibility
+export default function SwipeTabs(props: SwipeTabsProps) {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <SwipeTabsComponent {...props} />
+    </Suspense>
   );
 }
