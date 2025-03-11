@@ -47,7 +47,7 @@ function SwipeTabsComponent({ tabs }: SwipeTabsProps) {
   };
 
   return (
-    <div className="w-full max-w-md mx-auto">
+    <div className="w-full">
       {/* Tabs Header */}
       <div className="flex space-x-2 border-b border-gray-300 bg-[#ebb4a0]">
         {tabs.map((tab, index) => (
