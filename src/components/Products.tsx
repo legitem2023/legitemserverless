@@ -11,7 +11,7 @@ console.log(data.getChildInventory);
   return (
     <>{
       data.getChildInventory?.map((item:any,idx:number)=>(
-      <div key={idx} className="flex flex-row w-full bg-[#f1f1f1] shadow-md m-2">
+      <div key={idx} className="flex flex-row w-full bg-[#f1f1f1] shadow-md mb-2">
       <div className="grow flex flex-col w-full text-[#000000] text-[15px] rounded-sm p-2">
         <div className="p-1 flex flex-row">ID : {item.id}</div>
         <div className="p-1 flex flex-row">Name : {item.name}</div>
