@@ -5,7 +5,7 @@ import { Icon } from "@iconify/react";
 import Loading from "./Loading";
 const Products = () => {
   const { data, loading, error } = useQuery(GET_CHILD_INVENTORY);
- if(loading) return <Loading/>
+ if(loading) return //<Loading/>
 console.log(data);
   return (
     <div className="flex w-full bg-[#f1f1f1] shadow-md">
