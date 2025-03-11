@@ -10,8 +10,15 @@ const Products = () => {
 
 console.log(data);*/
   return (
-    <div>
-      
+    <div className="flex flex-cols" >
+      <div className="flex flex-cols">
+        <div className="p-2">ID :</div>
+        <div className="p-2">Name :</div>
+        <div className="p-2">Product Type:</div>
+        <div className="p-2">Brandname :</div>
+        <div className="p-2">Status :</div>
+        <div className="p-2">Action :</div>
+      </div>
     </div>
   );
 };
