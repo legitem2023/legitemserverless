@@ -1,67 +1,45 @@
 "use client";
-import { ApolloClient, InMemoryCache, ApolloProvider, split, from } from "@apollo/client";
-import { WebSocketLink } from "@apollo/client/link/ws";
-import { getMainDefinition } from "@apollo/client/utilities";
-import { useMemo } from "react";
-import { onError } from "@apollo/client/link/error";
-import createUploadLink from "apollo-upload-client/createUploadLink.mjs";
+import { ApolloClient, InMemoryCache, ApolloProvider, split, from } from '@apollo/client';
+import { WebSocketLink } from '@apollo/client/link/ws';
+import { getMainDefinition } from '@apollo/client/utilities';
+import { useMemo } from 'react';
+import { onError } from '@apollo/client/link/error';
+import createUploadLink from 'apollo-upload-client/createUploadLink.mjs';
 
 export const Apollo = ({ children }: { children: React.ReactNode }) => {
   // Memoize all links to prevent recreation on re-renders
-  const httpLink = useMemo(
-    () =>
-      createUploadLink({
-        uri: process.env.NEXT_PUBLIC_SERVER_LINK,
-        credentials: "include",
-      }),
-    []
-  );
+  const httpLink = useMemo(() => createUploadLink({
+    uri: process.env.NEXT_PUBLIC_SERVER_LINK,
+    credentials: 'include',
+  }), []);
 
-  const wsUri = process.env.NEXT_PUBLIC_WS_SERVER_LINK
-    ? process.env.NEXT_PUBLIC_WS_SERVER_LINK.replace(/^http/, "ws")
-    : "ws://fallback-url"; // Replace with your default WebSocket URL if needed
+  const wsLink = useMemo(() => new WebSocketLink({
+  uri: process.env.NEXT_PUBLIC_WS_SERVER_LINK
+    ? process.env.NEXT_PUBLIC_WS_SERVER_LINK.replace(/^http/, 'ws')
+    : 'ws://fallback-url', // Replace with a default WebSocket URL or handle appropriately
+  options: { reconnect: true },
+}), []);
 
-  const wsLink = useMemo(
-    () =>
-      new WebSocketLink({
-        uri: wsUri,
-        options: { reconnect: true },
-      }),
-    []
-  );
+  const errorLink = useMemo(() => onError(({ graphQLErrors, networkError }) => {
+    // Error handling logic
+  }), []);
 
-  const errorLink = useMemo(
-    () =>
-      onError(({ graphQLErrors, networkError }) => {
-        // Error handling logic
-      }),
-    []
-  );
+  const link = useMemo(() => from([
+    errorLink,
+    split(
+      ({ query }) => {
+        const definition = getMainDefinition(query);
+        return definition.kind === 'OperationDefinition' && definition.operation === 'subscription';
+      },
+      wsLink,
+      httpLink
+    ),
+  ]), [errorLink, wsLink, httpLink]); // Dependencies are memoized, so stable
 
-  const link = useMemo(
-    () =>
-      from([
-        errorLink,
-        split(
-          ({ query }) => {
-            const definition = getMainDefinition(query);
-            return definition.kind === "OperationDefinition" && definition.operation === "subscription";
-          },
-          wsLink,
-          httpLink
-        ),
-      ]),
-    [errorLink, wsLink, httpLink] // Dependencies are memoized, so stable
-  );
-
-  const client = useMemo(
-    () =>
-      new ApolloClient({
-        cache: new InMemoryCache(),
-        link,
-      }),
-    [link]
-  );
+  const client = useMemo(() => new ApolloClient({
+    cache: new InMemoryCache(),
+    link,
+  }), [link]);
 
   return <ApolloProvider client={client}>{children}</ApolloProvider>;
 };
