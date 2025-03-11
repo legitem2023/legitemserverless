@@ -10,8 +10,8 @@ const Products = () => {
 
 console.log(data);*/
   return (
-    <div className="flex flex-cols" >
-      <div className="flex flex-cols">
+    <div className="flex flex-column" >
+      <div className="flex flex-column shadow-md">
         <div className="p-2">ID :</div>
         <div className="p-2">Name :</div>
         <div className="p-2">Product Type:</div>
