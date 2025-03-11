@@ -13,6 +13,7 @@ const Products = () => {
         <div className="p-1 flex flex-row">Name :</div>
         <div className="p-1 flex flex-row">Product Type:</div>
         <div className="p-1 flex flex-row">Brandname :</div>
+        <div className="p-1 flex flex-row">Department :</div>
         <div className="p-1 flex flex-row">Status :</div>
       </div>
       <div className="grow-0">
