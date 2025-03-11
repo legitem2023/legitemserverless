@@ -3,7 +3,7 @@ import { useQuery } from "@apollo/client";
 import { GET_CHILD_INVENTORY } from "./queries";
 
 const Products = () => {
-  const { data, loading, error } = useQuery(GET_CHILD_INVENTORY);
+ /* const { data, loading, error } = useQuery(GET_CHILD_INVENTORY);*/
 
 
   return (
