@@ -1,8 +1,8 @@
 'use client'
 import { Provider } from 'react-redux';
-import store from "./store";
+import store from '../Redux/store';
 import React from 'react'
-import { Apollo } from './Apollo/Apollo';
+import { Apollo } from './Apollo';
 
 export default function ReduxWrapper({
     children,
@@ -14,4 +14,4 @@ export default function ReduxWrapper({
         <Apollo>{children}</Apollo>
       </Provider>
     );
-}
+  }

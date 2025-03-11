@@ -1,11 +1,12 @@
 "use client";
 import { useQuery } from "@apollo/client";
-import { GET_CHILD_INVENTORY } from "./queries";
+import { GET_CHILD_INVENTORY } from "./graphql/queries/queries";
 import { Icon } from "@iconify/react";
 
 const Products = () => {
-  /* const { data, loading, error } = useQuery(GET_CHILD_INVENTORY); */
-
+  const { data, loading, error } = useQuery(GET_CHILD_INVENTORY);
+if(loading) return
+console.log(data)
   return (
     <div className="flex w-full bg-[#f1f1f1] shadow-md">
       <div className="grow flex flex-col w-full text-[#000000] text-[15px] rounded-sm p-2">

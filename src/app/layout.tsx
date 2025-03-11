@@ -3,7 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Head from "next/head";
 import Script from "next/script";
-import ReduxWrapper from '@/components/ReduxWrapper';
+import ReduxWrapper from '@/components/ApolloProvider/ReduxWrapper';
 import LoadEruda from './LoadEruda';
 const inter = Inter({ subsets: ["latin"] });
 import { SessionProvider } from "next-auth/react"
@@ -25,8 +25,10 @@ export default function RootLayout({
               <title>Legitem</title>
             </Head>
             <body>
+              <ReduxWrapper>
               <LoadEruda/>
               {children}
+              </ReduxWrapper>
             </body>
           </html>
     
