@@ -6,19 +6,18 @@ import Loading from "./Loading";
 const Products = () => {
   const { data, loading, error } = useQuery(GET_CHILD_INVENTORY);
  if(loading) return <Loading/>
-console.log(data.getChildInventory);
-  console.log(process.env.NEXT_PUBLIC_SERVER_LINK);
+
   return (
     <>{
       data.getChildInventory?.map((item:any,idx:number)=>(
       <div key={idx} className="flex flex-row w-full bg-[#f1f1f1] shadow-md mb-2">
       <div className="grow flex flex-col w-full text-[#000000] text-[15px] rounded-sm p-2">
-        <div className="p-1 flex flex-row">ID : {item.id}</div>
-        <div className="p-1 flex flex-row">Name : {item.name}</div>
-        <div className="p-1 flex flex-row">Product Type: {item.productType}</div>
-        <div className="p-1 flex flex-row">Brandname : {item.brandname}</div>
-        <div className="p-1 flex flex-row">Department :</div>
-        <div className="p-1 flex flex-row">Status :</div>
+        <div className="p-1 flex flex-row"><b>ID :</b> {item.id}</div>
+        <div className="p-1 flex flex-row"><b>Name :</b> {item.name}</div>
+        <div className="p-1 flex flex-row"><b>Product Type:</b> {item.productType}</div>
+        <div className="p-1 flex flex-row"><b>Brandname :</b> {item.brandname}</div>
+        <div className="p-1 flex flex-row"><b>Department :</b></div>
+        <div className="p-1 flex flex-row"><b>Status :</b></div>
       </div>
       <div className="grow-0">
         <div className="p-1 flex flex-col">
