@@ -8,7 +8,7 @@ const Products = () => {
 
   return (
     <div className="flex w-full">
-      <div className="flex flex-col w-full shadow-md bg-[#f1f1f1] text-[#000000] rounded-sm p-2">
+      <div className="flex flex-col w-full shadow-md bg-[#f1f1f1] text-[#000000] text-[15px] rounded-sm p-2">
         <div className="p-1 flex flex-row">ID :</div>
         <div className="p-1 flex flex-row">Name :</div>
         <div className="p-1 flex flex-row">Product Type:</div>
