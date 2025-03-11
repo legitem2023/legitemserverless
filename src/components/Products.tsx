@@ -15,9 +15,9 @@ const Products = () => {
         <div className="p-2 flex flex-row ">Brandname :</div>
         <div className="p-2 flex flex-row ">Status :</div>
         <div className="p-2 flex flex-row ">Action :
-<Icon icon="mage:edit" className="text-[25px] m-2 text-[yellow]"/>
+<Icon icon="mage:edit" className="text-[25px] m-2 text-[#ffee8f]"/>
 
-<Icon icon="mdi:delete" className="text-[25px] m-2" text-[red]/> 
+<Icon icon="mdi:delete" className="text-[25px] m-2" text-[#e81515]/> 
 </div>
       </div>
     </div>
