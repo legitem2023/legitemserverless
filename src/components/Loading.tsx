@@ -13,4 +13,4 @@ const Loading = () => {
   );
 };
 
-export default Products;
+export default Loading;
