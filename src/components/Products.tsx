@@ -8,7 +8,7 @@ const Products = () => {
  if(loading) return //<Loading/>
 console.log(data);
   return (
-    <div className="flex w-full bg-[#f1f1f1] shadow-md">
+    <div className="flex flex-col w-full bg-[#f1f1f1] shadow-md">
       <div className="grow flex flex-row w-full text-[#000000] text-[15px] rounded-sm p-2">
         <div className="p-1 flex flex-row">ID :</div>
         <div className="p-1 flex flex-row">Name :</div>
