@@ -7,6 +7,7 @@ const Products = () => {
   const { data, loading, error } = useQuery(GET_CHILD_INVENTORY);
  if(loading) return <Loading/>
 console.log(data);
+  console.log(process.env.NEXT_PUBLIC_SERVER_LINK);
   return (
     <div className="flex flex-row w-full bg-[#f1f1f1] shadow-md">
       <div className="grow flex flex-col w-full text-[#000000] text-[15px] rounded-sm p-2">
