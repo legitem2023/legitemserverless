@@ -28,23 +28,23 @@ const handleDetail = (item:any) => {
       <div key={idx} className="flex flex-row w-full bg-[#f1f1f1] shadow-md mb-2">
   
       <div className="grow flex flex-col w-full text-[#000000] text-[12px] rounded-sm p-2">
-        <div className="p-1 flex flex-row">
+        <div className="p-1 flex flex-row min-w-0 ">
           <div className="font-bold w-[100px]">Name</div>
           <div className="overflow-hidden whitespace-nowrap text-ellipsis min-w-0">{item.name}</div>
         </div>
-        <div className="p-1 flex flex-row">
+        <div className="p-1 flex flex-row min-w-0">
           <div className="font-bold w-[100px]" >Type</div>
           <div className="overflow-hidden whitespace-nowrap text-ellipsis min-w-0">{item.productType}</div>
         </div>
-        <div className="p-1 flex flex-row">
+        <div className="p-1 flex flex-row min-w-0">
          <div className="font-bold w-[100px]">Brand</div>
           <div className="overflow-hidden whitespace-nowrap text-ellipsis min-w-0">{item.brandname}</div>
         </div>
-        <div className="p-1 flex flex-row">
+        <div className="p-1 flex flex-row min-w-0">
          <div className="font-bold w-[100px]">Department</div>
          <div className="overflow-hidden whitespace-nowrap text-ellipsis min-w-0">For Men</div>
         </div>
-        <div className="p-1 flex flex-row">
+        <div className="p-1 flex flex-row min-w-0">
           <div className="font-bold w-[100px]">Status</div>
           <div className="overflow-hidden whitespace-nowrap text-ellipsis min-w-0">Active</div>
         </div>
