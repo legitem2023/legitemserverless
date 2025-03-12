@@ -64,7 +64,7 @@ const handleDetail = (item:any) => {
     </div>  
       ))
     }
-    <div style={{top:useSlide?"0px":"-100%"}} className="l-0 r-0 mx-auto fixed flex flex-col bg-[#f1f1f1] w-full transition ease-in-out duration-300">
+    <div style={{top:useSlide?"0px":"-100%"}} className="fixed left-1/2 transform -translate-x-1/2 flex flex-col bg-[#f1f1f1] w-full transition ease-in-out duration-300">
       <div className="flex flex-row w-full bg-[#f1f1f1] shadow-md mb-2">
         <div className="grow flex flex-col w-full text-[#000000] text-[12px] rounded-sm p-2">
           <div className="p-1 flex flex-row">
