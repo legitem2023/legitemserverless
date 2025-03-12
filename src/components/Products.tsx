@@ -1,6 +1,9 @@
 "use client";
 import { useQuery } from "@apollo/client";
 import { useDispatch, useSelector } from 'react-redux';
+
+import {setActiveIndex} from './Redux/activeIndexSlice';
+
 import {setStyleCode} from './Redux/styleCodeSlice';
 import { useState } from 'react'
 import { GET_CHILD_INVENTORY } from "./graphql/queries/queries";
@@ -18,6 +21,7 @@ const handleDelete = () => alert("Delete Clicked!");
 
 const handleDetail = (item:any) => {
   dispatch(setStyleCode(item));
+  dispatch(setActiveIndex(1));
 }
  
   return (
