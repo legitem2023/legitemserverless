@@ -32,8 +32,12 @@ const Products = () => {
           
           </div>
           <div className="relative p-2">
-            <input type="text" className="p-2 text-[12px]" placeholder="Search..."/>
-          </div>
+            <input type="text" name="search" list="searchList" className="p-2 text-[13px]" placeholder="Search..."/>
+             <datalist id="searchList">
+               <option value="A">  
+               <option value="B">
+             </datalist>          
+  </div>
         </div>
       {data.getChildInventory?.map((item:any,idx:number) => (
         // Added min-w-0 to product container
