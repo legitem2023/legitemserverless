@@ -29,10 +29,35 @@ const handleDelete = () => alert("Delete Clicked!");
              <img src={item.thumbnail} className="w-[75px] h-[75px]"/>
             </div>
             <div className="font-bold w-[100px]" >
-            yyyy
+              {item.name}
             </div>
-            <div className="font-bold w-[100px]" ></div>
-
+            <div className="font-bold w-[100px]" >
+              {item.color}
+            </div>
+            <div className="font-bold w-[100px]" >
+              {item.size}
+            </div>
+            <div className="font-bold w-[100px]" >
+              {item.price}
+            </div>
+            <div className="font-bold w-[100px]" >
+              {item.stock}
+            </div>
+            <div className="font-bold w-[100px]" >
+              {item.status}
+            </div>
+            <div className="font-bold w-[100px]" >
+              {item.editor}
+            </div>
+            <div className="font-bold w-[100px]" >
+              {item.status}
+            </div>
+            <div className="font-bold w-[100px]" >
+              {item.dateCreated}
+            </div>
+            <div className="font-bold w-[100px]" >
+              {item.dateUpdated}
+            </div>
           </div>
         </div>
         <div className="grow-0"></div>
