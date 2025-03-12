@@ -29,22 +29,22 @@ const handleDelete = () => alert("Delete Clicked!");
           {/* Details */}
           <div className="flex flex-col gap-2 text-[12px] text-[#000] flex-grow">
             <div className="flex flex-row">
-              <div className="font-bold w-[55px]">Name:</div> <div className="overflow-hidden whitespace-nowrap text-ellipsis w-full">{item.name}</div>
+              <div className="font-bold w-[55px]">Name:</div> <div className="overflow-hidden whitespace-nowrap text-ellipsis min-w-0 flex-grow">{item.name}</div>
             </div>
             <div className="flex flex-row">
-              <div className="font-bold w-[55px]">Color:</div> <div className="overflow-hidden whitespace-nowrap text-ellipsis w-full">{item.color}</div>
+              <div className="font-bold w-[55px]">Color:</div> <div className="overflow-hidden whitespace-nowrap text-ellipsis min-w-0 flex-grow">{item.color}</div>
             </div>
             <div className="flex flex-row">
-              <div className="font-bold w-[55px]">Size:</div> <div className="overflow-hidden whitespace-nowrap text-ellipsis w-full">{item.size}</div>
+              <div className="font-bold w-[55px]">Size:</div> <div className="overflow-hidden whitespace-nowrap text-ellipsis min-w-0 flex-grow">{item.size}</div>
             </div>
             <div className="flex flex-row">
-              <div className="font-bold w-[55px]">Price:</div> <div className="overflow-hidden whitespace-nowrap text-ellipsis w-full">{item.price}</div>
+              <div className="font-bold w-[55px]">Price:</div> <div className="overflow-hidden whitespace-nowrap text-ellipsis min-w-0 flex-grow">{item.price}</div>
             </div>
             <div className="flex flex-row">
-              <div className="font-bold w-[55px]">Stock:</div> <div className="overflow-hidden whitespace-nowrap text-ellipsis w-full">{item.stock}</div>
+              <div className="font-bold w-[55px]">Stock:</div> <div className="overflow-hidden whitespace-nowrap text-ellipsis min-w-0 flex-grow">{item.stock}</div>
             </div>
             <div className="flex flex-row">
-              <div className="font-bold w-[55px]">Status:</div> <div className="overflow-hidden whitespace-nowrap text-ellipsis w-full">{item.status}</div>
+              <div className="font-bold w-[55px]">Status:</div> <div className="overflow-hidden whitespace-nowrap text-ellipsis min-w-0 flex-grow">{item.status}</div>
             </div>
           </div>
           <div className="">
