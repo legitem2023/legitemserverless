@@ -3,6 +3,7 @@ import { useQuery } from "@apollo/client";
 import { useSelector } from "react-redux";
 import { GET_CHILD_INVENTORY_DETAIL } from "./graphql/queries/queries";
 import Loading from "./Loading";
+import DropdownButton from "./UI/DropdownButton";
 
 const Detailed = () => {
   const styleCode = useSelector((state: any) => state.styleCode.styleCode);
@@ -11,6 +12,8 @@ const Detailed = () => {
   });
 
   if (loading) return <Loading />;
+const handleEdit = () => alert("Edit Clicked!");
+const handleDelete = () => alert("Delete Clicked!");
 
   return (
     <div className="w-full space-y-2">
@@ -51,6 +54,16 @@ const Detailed = () => {
               <span className="font-bold">Date Updated:</span> {item.dateUpdated}
             </div>
           </div>
+          <div className="">
+        <div className="p-1 flex flex-col">
+          <DropdownButton
+           options={[
+             { id:item.id,label: "Edit", onClick: handleEdit },
+             { id:item.id,label: "Delete", onClick: handleDelete },
+          ]}
+          />
+        </div>
+      </div>
         </div>
       ))}
     </div>
