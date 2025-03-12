@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { Icon } from "@iconify/react";
 
 interface DropdownButtonProps {
-  options: { label: string; onClick: () => void }[];
+  options: { id:string, label: string; onClick: () => void }[];
 }
 
 const DropdownButton: React.FC<DropdownButtonProps> = ({ options }) => {
