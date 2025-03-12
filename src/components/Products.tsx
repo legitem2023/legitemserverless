@@ -30,23 +30,23 @@ const handleDetail = (item:any) => {
       <div className="grow flex flex-col w-full text-[#000000] text-[12px] rounded-sm p-2">
         <div className="p-1 flex flex-row">
           <div className="font-bold w-[100px]">Name</div>
-          <div>{item.name}</div>
+          <div className="overflow-hidden whitespace-nowrap text-ellipsis min-w-0">{item.name}</div>
         </div>
         <div className="p-1 flex flex-row">
           <div className="font-bold w-[100px]" >Type</div>
-          <div>{item.productType}</div>
+          <div className="overflow-hidden whitespace-nowrap text-ellipsis min-w-0">{item.productType}</div>
         </div>
         <div className="p-1 flex flex-row">
          <div className="font-bold w-[100px]">Brand</div>
-          <div>{item.brandname}</div>
+          <div className="overflow-hidden whitespace-nowrap text-ellipsis min-w-0">{item.brandname}</div>
         </div>
         <div className="p-1 flex flex-row">
          <div className="font-bold w-[100px]">Department</div>
-         <div>For Men</div>
+         <div className="overflow-hidden whitespace-nowrap text-ellipsis min-w-0">For Men</div>
         </div>
         <div className="p-1 flex flex-row">
           <div className="font-bold w-[100px]">Status</div>
-          <div>Active</div>
+          <div className="overflow-hidden whitespace-nowrap text-ellipsis min-w-0">Active</div>
         </div>
       </div>
       <div className="grow-0">
