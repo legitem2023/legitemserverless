@@ -1,5 +1,6 @@
 import { useState } from "react";
-
+import { useDispatch, useSelector } from 'react-redux';
+import {setActiveIndex} from '../Redux/activeIndexSlice';
 type Tab = {
   label: string;
   content: React.ReactNode;
@@ -10,8 +11,8 @@ type TabsProps = {
 };
 
 const Tabs: React.FC<TabsProps> = ({ tabs }) => {
-  const [activeIndex, setActiveIndex] = useState(0);
-
+  const Dispatch = useDispatch();
+  const activeIndex = useSelector((state:any)=>state.activeIndex.activeIndex);
   return (
     <div className="w-full">
       {/* Tab Buttons */}
@@ -19,7 +20,7 @@ const Tabs: React.FC<TabsProps> = ({ tabs }) => {
         {tabs.map((tab, index) => (
           <button
             key={index}
-            onClick={() => setActiveIndex(index)}
+            onClick={() => Dispatch(setActiveIndex(index))}
             className={`px-4 py-2 text-sm font-medium ${
               activeIndex === index
                 ? "border-b-2 border-blue-500 text-blue-500"
