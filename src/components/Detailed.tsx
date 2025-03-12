@@ -52,6 +52,7 @@ const Detailed = () => {
                 options={[
                   { id: item.id, label: "Edit", onClick: handleEdit },
                   { id: item.id, label: "Delete", onClick: handleDelete },
+                  { id: item.id, label: "View", onClick: handleDelete },
                 ]}
               />
             </div>
