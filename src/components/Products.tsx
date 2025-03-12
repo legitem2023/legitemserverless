@@ -32,13 +32,12 @@ const Products = () => {
         <div key={idx} className="flex flex-row w-full min-w-0 bg-[#f1f1f1] shadow-md mb-2">
           {/* Left Section - Product Info */}
          
-          <div className="flex flex-col gap-2 text-[12px] text-[#000] flex-grow min-w-0">
+          <div className="flex flex-col gap-2 text-[12px] text-[#000] flex-grow min-w-0 p-2">
             {[
               { label: "Name:", value: item.name },
-              { label: "Color:", value: item.color },
-              { label: "Size:", value: item.size },
-              { label: "Price:", value: item.price },
-              { label: "Stock:", value: item.stock },
+              { label: "Type:", value: item.productType },
+              { label: "Brand:", value: item.brandname },
+              { label: "Department:", value:"For Men" },
               { label: "Status:", value: item.status },
             ].map((field, index) => (
               <div key={index} className="flex min-w-0">
