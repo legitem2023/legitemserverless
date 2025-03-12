@@ -3,9 +3,12 @@ import { useQuery } from "@apollo/client";
 import { GET_CHILD_INVENTORY } from "./graphql/queries/queries";
 import { Icon } from "@iconify/react";
 import Loading from "./Loading";
+import DropdownButton from "./UI/DropdownButton"
 const Products = () => {
   const { data, loading, error } = useQuery(GET_CHILD_INVENTORY);
  if(loading) return <Loading/>
+const handleEdit = () => alert("Edit Clicked!");
+const handleDelete = () => alert("Delete Clicked!");
 
   return (
     <>{
@@ -40,8 +43,13 @@ const Products = () => {
       </div>
       <div className="grow-0">
         <div className="p-1 flex flex-col">
-          <Icon icon="mage:edit" className="text-[25px] m-1 text-[#ffee8f]" />
-          <Icon icon="mdi:delete" className="text-[25px] m-1 text-[#e81515]" />
+          <DropdownButton
+           options={[
+             { label: "Edit", onClick: handleEdit },
+             { label: "Delete", onClick: handleDelete },
+          ]}
+          />
+          
           <Icon icon="carbon:folder-details" className="text-[25px] m-1 text-[#000000]" />
         </div>
       </div>
