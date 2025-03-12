@@ -1,11 +1,15 @@
 "use client";
 import { useQuery } from "@apollo/client";
+import { useDispatch, useSelector } from 'react-redux';
+import {setStyleCode} from './Redux/styleCodeSlice';
 import { useState } from 'react'
 import { GET_CHILD_INVENTORY } from "./graphql/queries/queries";
 import { Icon } from "@iconify/react";
 import Loading from "./Loading";
+import Detailed from "./Detailed";
 import DropdownButton from "./UI/DropdownButton"
 const Products = () => {
+  const dispatch = useDispatch();
   const [useSlide,setSlide] = useState(false);
   const { data, loading, error } = useQuery(GET_CHILD_INVENTORY);
  if(loading) return <Loading/>
@@ -13,7 +17,7 @@ const handleEdit = () => alert("Edit Clicked!");
 const handleDelete = () => alert("Delete Clicked!");
 
 const handleDetail = (item:any) => {
-  
+  dispatch(setStyleCode(item));
   if(useSlide){
     setSlide(false);
   }else{
@@ -65,21 +69,7 @@ const handleDetail = (item:any) => {
       ))
     }
     <div style={{top:useSlide?"0px":"-100%"}} className="fixed left-1/2 transform -translate-x-1/2 box-border flex flex-col bg-[#f1f1f1] w-full transition ease-in-out duration-300">
-      <div className="flex flex-row w-full bg-[#f1f1f1] shadow-md mb-2">
-        <div className="grow flex flex-col w-full text-[#000000] text-[12px] rounded-sm p-2">
-          <div className="p-1 flex flex-row">
-            <div className="font-bold w-[100px]">
-             <img src="" className="w-[75px] h-[75px]"/>
-            </div>
-            <div className="font-bold w-[100px]" >
-            yyyy
-            </div>
-            <div className="font-bold w-[100px]" ></div>
-
-          </div>
-        </div>
-        <div className="grow-0"></div>
-      </div>
+      <Detailed/>
 
     </div>
     </>
