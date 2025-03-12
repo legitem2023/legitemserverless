@@ -22,7 +22,7 @@ const Detailed = () => {
 
   if (loading) return <Loading/>
   const handleEdit = () => alert("Edit Clicked!");
-  const handleDelete = () => {
+  const handleDelete = (id:any) => {
     const conf = confirm('Are you sure you want to delete this item?');
     if (!conf) return;
     DeleteChildInventory({
