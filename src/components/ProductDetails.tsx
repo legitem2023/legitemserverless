@@ -8,7 +8,7 @@ const ProductDetails = () => {
   ];
 
   return (
-    <div className="mx-auto mt-10">
+    <div className="w-full mt-2">
       <Tabs tabs={tabData} />
     </div>
   );
