@@ -54,9 +54,7 @@ const handleDelete = () => alert("Delete Clicked!");
              { id:item.id,label: "Edit", onClick: handleEdit },
              { id:item.id,label: "Delete", onClick: handleDelete },
           ]}
-          />
-          
-          <Icon icon="carbon:folder-details" className="text-[25px] m-1 text-[#000000]" onClick={()=>{handleDetail(item.style_Code)}}/>
+          />         
         </div>
       </div>
     </div>  
