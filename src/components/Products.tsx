@@ -32,7 +32,7 @@ const Products = () => {
           
           </div>
           <div className="relative p-2">
-            <input type="text" name="search" list="searchList" className="p-2 text-[13px]" placeholder="Search..."/>
+            <input type="text" name="search" list="searchList" className="p-2 text-[13px] text-[#000000]" placeholder="Search..."/>
              <datalist id="searchList">
                <option value="A">  
                <option value="B">
