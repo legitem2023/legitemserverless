@@ -18,14 +18,8 @@ const handleDelete = () => alert("Delete Clicked!");
 
 const handleDetail = (item:any) => {
   dispatch(setStyleCode(item));
-  if(useSlide){
-    setSlide(false);
-  }else{
-    setSlide(true);
-  }
 }
-
-  
+ 
   return (
     <>{
       data.getChildInventory?.map((item:any,idx:number)=>(
@@ -68,10 +62,6 @@ const handleDetail = (item:any) => {
     </div>  
       ))
     }
-    <div style={{width:useSlide?"0px":"100%"}} className="left-[0px] right-[0px] mx-auto box-border flex flex-col bg-[#f1f1f1] transition ease-in-out duration-300 top-[10px] sticky overflow-hidden">
-      <Detailed/>
-
-    </div>
     </>
   );
 };
