@@ -13,8 +13,12 @@ const handleEdit = () => alert("Edit Clicked!");
 const handleDelete = () => alert("Delete Clicked!");
 
 const handleDetail = (item:any) => {
-  console.log(item);
-  setSlide(true);
+  
+  if(useSlide){
+    setSlide(false);
+  }else{
+    setSlide(true);
+  }
 }
 
   
@@ -60,7 +64,7 @@ const handleDetail = (item:any) => {
     </div>  
       ))
     }
-    <div style={{bottom:useSlide?"0px":"-100%"}} className="absolute flex flex-col bg-[#f1f1f1] l-0 r-0 w-full">
+    <div style={{top:useSlide?"0px":"-100%"}} className="absolute flex flex-col bg-[#f1f1f1] w-full transition-ease">
       <div>Child</div>
     </div>
     </>
