@@ -46,7 +46,7 @@ const Detailed = () => {
           </div>
 
           {/* Dropdown */}
-          <div className="flex-shrink-0">
+          <div className="flex-grow-0">
             <div className="p-1 flex flex-col">
               <DropdownButton
                 options={[
