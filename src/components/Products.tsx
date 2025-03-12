@@ -28,24 +28,24 @@ const Products = () => {
   return (
     <>
         <div className="flex flex-wrap w-full min-w-0 bg-[#f1f1f1] shadow-md mb-2">
-          <div className="relative p-2">
+          <div className="flex relative p-2">
             <input type="text" name="search" list="searchList" className="p-2 text-[13px] text-[#000000] w-full" placeholder="Search..."/>
              <datalist id="searchList">
                <option value="A"></option> 
                <option value="B"></option>
              </datalist>          
           </div>
-          <div className="flex flex-wrap flex-grow-3 relative p-2">
-            <select className="p-2 text-[13px] text-[#000000] w-full">
+          <div className="flex flex-wrap relative p-2">
+            <select className="p-2 text-[13px] text-[#000000] w-full my-2">
               <option>Category</option>
             </select>
-            <select className="p-2 text-[13px] text-[#000000] w-full">
+            <select className="p-2 text-[13px] text-[#000000] w-full my-2">
               <option>Type</option>
             </select>
-            <select className="p-2 text-[13px] text-[#000000] w-full">
+            <select className="p-2 text-[13px] text-[#000000] w-full my-2">
               <option>Brand</option>
             </select>
-            <select className="p-2 text-[13px] text-[#000000] w-full">
+            <select className="p-2 text-[13px] text-[#000000] w-full my-2">
               <option>Department</option>
             </select>
           </div>
