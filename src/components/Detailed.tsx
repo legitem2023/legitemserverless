@@ -29,22 +29,22 @@ const handleDelete = () => alert("Delete Clicked!");
           {/* Details */}
           <div className="flex flex-col gap-2 text-[12px] text-[#000] flex-grow">
             <div className="flex flex-row">
-              <div className="font-bold w-[55px]">Name:</div> <div>{item.name}</div>
+              <div className="font-bold w-[55px]">Name:</div> <div className="overflow-hidden whitespace-nowrap text-ellipsis">{item.name}</div>
             </div>
             <div className="flex flex-row">
-              <div className="font-bold w-[55px]">Color:</div> <div>{item.color}</div>
+              <div className="font-bold w-[55px]">Color:</div> <div className="overflow-hidden whitespace-nowrap text-ellipsis"  >{item.color}</div>
             </div>
             <div className="flex flex-row">
-              <div className="font-bold w-[55px]">Size:</div> <div>{item.size}</div>
+              <div className="font-bold w-[55px]">Size:</div> <div className="overflow-hidden whitespace-nowrap text-ellipsis" >{item.size}</div>
             </div>
             <div className="flex flex-row">
-              <div className="font-bold w-[55px]">Price:</div> <div>{item.price}</div>
+              <div className="font-bold w-[55px]">Price:</div> <div className="overflow-hidden whitespace-nowrap text-ellipsis" >{item.price}</div>
             </div>
             <div className="flex flex-row">
-              <div className="font-bold w-[55px]">Stock:</div> <div>{item.stock}</div>
+              <div className="font-bold w-[55px]">Stock:</div> <div className="overflow-hidden whitespace-nowrap text-ellipsis"  >{item.stock}</div>
             </div>
             <div className="flex flex-row">
-              <div className="font-bold w-[55px]">Status:</div> <div>{item.status}</div>
+              <div className="font-bold w-[55px]">Status:</div> <div className="overflow-hidden whitespace-nowrap text-ellipsis" >{item.status}</div>
             </div>
           </div>
           <div className="">
