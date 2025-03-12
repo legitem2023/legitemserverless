@@ -22,12 +22,12 @@ const Detailed = () => {
       {data?.getChildInventory_details?.map((item: any, idx: number) => (
         <div key={idx} className="flex flex-row w-full min-w-0 bg-[#f1f1f1] shadow-md mb-2">
           {/* Image */}
-          <div className="flex-shrink-0">
+          <div className="flex-shrink-0 p-2">
             <img src={item.thumbnail} alt={item.name} className="w-[75px] h-[75px] object-cover rounded" />
           </div>
 
           {/* Details */}
-          <div className="flex flex-col gap-2 text-[12px] text-[#000] flex-grow min-w-0">
+          <div className="flex flex-col gap-2 text-[12px] text-[#000] flex-grow min-w-0 p-2">
             {[
               { label: "Name:", value: item.name },
               { label: "Color:", value: item.color },
