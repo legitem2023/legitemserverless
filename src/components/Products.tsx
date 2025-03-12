@@ -17,10 +17,6 @@ const handleDelete = () => alert("Delete Clicked!");
   
       <div className="grow flex flex-col w-full text-[#000000] text-[12px] rounded-sm p-2">
         <div className="p-1 flex flex-row">
-          <div className="font-bold w-[100px]">ID</div> <div>
-          </div>{item.id}
-        </div>
-        <div className="p-1 flex flex-row">
           <div className="font-bold w-[100px]">Name</div>
           <div>{item.name}</div>
         </div>
@@ -45,8 +41,8 @@ const handleDelete = () => alert("Delete Clicked!");
         <div className="p-1 flex flex-col">
           <DropdownButton
            options={[
-             { label: "Edit", onClick: handleEdit },
-             { label: "Delete", onClick: handleDelete },
+             { id:item.id,label: "Edit", onClick: handleEdit },
+             { id:item.id,label: "Delete", onClick: handleDelete },
           ]}
           />
           
