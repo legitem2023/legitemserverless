@@ -77,8 +77,8 @@ function SwipeTabsComponent({ tabs }: SwipeTabsProps) {
         className="w-full"
       >
         {tabs.map((tab, index) => (
-          <SwiperSlide key={index}>
-            <div className="p-3 shadow-md">{tab.content}</div>
+          <SwiperSlide key={index} className="relative">
+            <div className="p-2">{tab.content}</div>
           </SwiperSlide>
         ))}
       </Swiper>
