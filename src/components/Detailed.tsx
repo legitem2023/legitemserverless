@@ -28,6 +28,9 @@ const handleDelete = () => alert("Delete Clicked!");
             <div className="font-bold w-[100px]">
              <img src={item.thumbnail} className="w-[75px] h-[75px]"/>
             </div>
+          </div>
+        </div>
+        <div className="grow flex flex-col">
             <div className="font-bold w-[100px]" >
               {item.name}
             </div>
@@ -57,8 +60,7 @@ const handleDelete = () => alert("Delete Clicked!");
             </div>
             <div className="font-bold w-[100px]" >
               {item.dateUpdated}
-            </div>
-          </div>
+            </div> 
         </div>
         <div className="grow-0"></div>
       </div>  
