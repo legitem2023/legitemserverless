@@ -1,15 +1,22 @@
 "use client";
 import { useQuery } from "@apollo/client";
+import { useState } from 'react'
 import { GET_CHILD_INVENTORY } from "./graphql/queries/queries";
 import { Icon } from "@iconify/react";
 import Loading from "./Loading";
 import DropdownButton from "./UI/DropdownButton"
 const Products = () => {
+  const [useSlide,setSlide] = useState(false);
   const { data, loading, error } = useQuery(GET_CHILD_INVENTORY);
  if(loading) return <Loading/>
 const handleEdit = () => alert("Edit Clicked!");
 const handleDelete = () => alert("Delete Clicked!");
 
+const handleDetail = () => {
+  setSlide(true);
+}
+
+  
   return (
     <>{
       data.getChildInventory?.map((item:any,idx:number)=>(
@@ -46,13 +53,15 @@ const handleDelete = () => alert("Delete Clicked!");
           ]}
           />
           
-          <Icon icon="carbon:folder-details" className="text-[25px] m-1 text-[#000000]" />
+          <Icon icon="carbon:folder-details" className="text-[25px] m-1 text-[#000000]" onClick={()=>{handleDetail(item.style_Code)}}/>
         </div>
       </div>
     </div>  
       ))
     }
-    
+    <div style={{bottom:useSlide?"0px":"-100%"}} className="absolute flex flex-col bg-[#f1f1f1] l-0 r-0 w-full">
+      <div>Child</div>
+    </div>
     </>
   );
 };
