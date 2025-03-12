@@ -23,14 +23,14 @@ const handleDelete = () => alert("Delete Clicked!");
         
       data.getChildInventory_details?.map((item:any,idx:number)=>(
      <div key={idx} className="flex flex-row w-full bg-[#f1f1f1] shadow-md mb-2">
-        <div className="grow flex flex-col w-full text-[#000000] text-[12px] rounded-sm p-2">
+        <div className="flex flex-col w-full text-[#000000] text-[12px] rounded-sm p-2">
           <div className="p-1 flex flex-row">
             <div className="font-bold w-[100px]">
              <img src={item.thumbnail} className="w-[75px] h-[75px]"/>
             </div>
           </div>
         </div>
-        <div className="grow flex flex-col">
+        <div className="grow flex flex-col text-[12px] text-[#000000]">
             <div className="font-bold w-[100px]" >
               {item.name}
             </div>
