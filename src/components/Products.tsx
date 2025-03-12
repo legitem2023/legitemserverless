@@ -33,7 +33,7 @@ const Products = () => {
           <div className="grow flex flex-col w-full text-[#000000] text-[12px] rounded-sm p-2">
             {/* Name Row */}
             <div className="p-1 flex flex-row min-w-0">
-              <div className="font-bold w-[80px]">Name</div>
+              <div className="font-bold w-[75px] flex-shrink-0">Name</div>
               <div className="flex-1 overflow-hidden whitespace-nowrap text-ellipsis min-w-0">
                 {item.name}
               </div>
@@ -41,7 +41,7 @@ const Products = () => {
             
             {/* Type Row */}
             <div className="p-1 flex flex-row min-w-0">
-              <div className="font-bold w-[80px]">Type</div>
+              <div className="font-bold w-[75px] flex-shrink-0">Type</div>
               <div className="flex-1 overflow-hidden whitespace-nowrap text-ellipsis min-w-0">
                 {item.productType}
               </div>
@@ -49,7 +49,7 @@ const Products = () => {
             
             {/* Brand Row */}
             <div className="p-1 flex flex-row min-w-0">
-              <div className="font-bold w-[80px]">Brand</div>
+              <div className="font-bold w-[75px] flex-shrink-0">Brand</div>
               <div className="flex-1 overflow-hidden whitespace-nowrap text-ellipsis min-w-0">
                 {item.brandname}
               </div>
@@ -57,7 +57,7 @@ const Products = () => {
             
             {/* Department Row */}
             <div className="p-1 flex flex-row min-w-0">
-              <div className="font-bold w-[80px]">Department</div>
+              <div className="font-bold w-[75px] flex-shrink-0">Department</div>
               <div className="flex-1 overflow-hidden whitespace-nowrap text-ellipsis min-w-0">
                 For Men
               </div>
@@ -65,7 +65,7 @@ const Products = () => {
             
             {/* Status Row */}
             <div className="p-1 flex flex-row min-w-0">
-              <div className="font-bold w-[80px]">Status</div>
+              <div className="font-bold w-[75px] flex-shrink-0">Status</div>
               <div className="flex-1 overflow-hidden whitespace-nowrap text-ellipsis min-w-0">
                 Active
               </div>
