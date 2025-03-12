@@ -13,50 +13,49 @@ const Detailed = () => {
     variables: { styleCode },
   });
 
-if (loading) return <Loading/>
-const handleEdit = () => alert("Edit Clicked!");
-const handleDelete = () => alert("Delete Clicked!");
+  if (loading) return <Loading/>
+  const handleEdit = () => alert("Edit Clicked!");
+  const handleDelete = () => alert("Delete Clicked!");
 
   return (
     <div className="w-full mb-2">
       {data?.getChildInventory_details?.map((item: any, idx: number) => (
-        <div key={idx} className="bg-[#f1f1f1] shadow-md p-3 rounded-sm flex items-start space-x-3 mb-2">
+        <div key={idx} className="bg-[#f1f1f1] shadow-md p-3 rounded-sm flex items-start space-x-3 mb-2 min-w-0">
           {/* Image */}
           <div className="flex-shrink-0">
             <img src={item.thumbnail} alt={item.name} className="w-[75px] h-[75px] object-cover rounded" />
           </div>
 
           {/* Details */}
-          <div className="flex flex-col gap-2 text-[12px] text-[#000] flex-grow">
-            <div className="flex flex-row">
-              <div className="font-bold w-[55px]">Name:</div> <div className="overflow-hidden whitespace-nowrap text-ellipsis min-w-0">{item.name}</div>
-            </div>
-            <div className="flex flex-row">
-              <div className="font-bold w-[55px]">Color:</div> <div className="overflow-hidden whitespace-nowrap text-ellipsis min-w-0">{item.color}</div>
-            </div>
-            <div className="flex flex-row">
-              <div className="font-bold w-[55px]">Size:</div> <div className="overflow-hidden whitespace-nowrap text-ellipsis min-w-0">{item.size}</div>
-            </div>
-            <div className="flex flex-row">
-              <div className="font-bold w-[55px]">Price:</div> <div className="overflow-hidden whitespace-nowrap text-ellipsis min-w-0">{item.price}</div>
-            </div>
-            <div className="flex flex-row">
-              <div className="font-bold w-[55px]">Stock:</div> <div className="overflow-hidden whitespace-nowrap text-ellipsis min-w-0">{item.stock}</div>
-            </div>
-            <div className="flex flex-row">
-              <div className="font-bold w-[55px]">Status:</div> <div className="overflow-hidden whitespace-nowrap text-ellipsis min-w-0">{item.status}</div>
+          <div className="flex flex-col gap-2 text-[12px] text-[#000] flex-grow min-w-0">
+            {[
+              { label: "Name:", value: item.name },
+              { label: "Color:", value: item.color },
+              { label: "Size:", value: item.size },
+              { label: "Price:", value: item.price },
+              { label: "Stock:", value: item.stock },
+              { label: "Status:", value: item.status },
+            ].map((field, index) => (
+              <div key={index} className="flex min-w-0">
+                <div className="font-bold w-[55px] flex-shrink-0">{field.label}</div>
+                <div className="overflow-hidden whitespace-nowrap text-ellipsis min-w-0">
+                  {field.value}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Dropdown */}
+          <div className="flex-shrink-0">
+            <div className="p-1 flex flex-col">
+              <DropdownButton
+                options={[
+                  { id: item.id, label: "Edit", onClick: handleEdit },
+                  { id: item.id, label: "Delete", onClick: handleDelete },
+                ]}
+              />
             </div>
           </div>
-          <div className="">
-        <div className="p-1 flex flex-col">
-          <DropdownButton
-           options={[
-             { id:item.id,label: "Edit", onClick: handleEdit },
-             { id:item.id,label: "Delete", onClick: handleDelete },
-          ]}
-          />
-        </div>
-      </div>
         </div>
       ))}
     </div>
