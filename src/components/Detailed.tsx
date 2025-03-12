@@ -11,7 +11,7 @@ const Detailed = () => {
     variables: { styleCode },
   });
 
-  if (loading) return <Loading />;
+  if (loading) return;
 const handleEdit = () => alert("Edit Clicked!");
 const handleDelete = () => alert("Delete Clicked!");
 
