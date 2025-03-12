@@ -41,7 +41,7 @@ const Products = () => {
               { label: "Status:", value: item.status },
             ].map((field, index) => (
               <div key={index} className="flex min-w-0">
-                <div className="font-bold w-[55px] flex-shrink-0">{field.label}</div>
+                <div className="font-bold w-[75px] flex-shrink-0">{field.label}</div>
                 <div className="overflow-hidden whitespace-nowrap text-ellipsis min-w-0">
                   {field.value}
                 </div>
@@ -49,51 +49,6 @@ const Products = () => {
             ))}
           </div>
           
-          
-          
-          {/* <div className="grow flex flex-col w-full text-[#000000] text-[12px] rounded-sm p-2">
-          
-            <div className="p-1 flex flex-row min-w-0">
-              <div className="font-bold w-[75px] flex-shrink-0">Name</div>
-              
-              <div className="flex-1 truncate min-w-0">
-                {item.name}
-              </div>
-            </div>
-            
-            
-            <div className="p-1 flex flex-row min-w-0">
-              <div className="font-bold w-[75px] flex-shrink-0">Type</div>
-              <div className="flex-1 truncate min-w-0">
-                {item.productType}
-              </div>
-            </div>
-            
-            
-            <div className="p-1 flex flex-row min-w-0">
-              <div className="font-bold w-[75px] flex-shrink-0">Brand</div>
-              <div className="flex-1 truncate min-w-0">
-                {item.brandname}
-              </div>
-            </div>
-            
-            
-            <div className="p-1 flex flex-row min-w-0">
-              <div className="font-bold w-[75px] flex-shrink-0">Department</div>
-              <div className="flex-1 truncate min-w-0">
-                For Men
-              </div>
-            </div>
-            
-            
-            <div className="p-1 flex flex-row min-w-0">
-              <div className="font-bold w-[75px] flex-shrink-0">Status</div>
-              <div className="flex-1 truncate min-w-0">
-                Active
-              </div>
-            </div>
-          </div>*/}
-
           {/* Right Section - Actions */}
           <div className="grow-0">
             <div className="p-1 flex flex-col">
