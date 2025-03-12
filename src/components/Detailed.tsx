@@ -44,15 +44,6 @@ const handleDelete = () => alert("Delete Clicked!");
             <div>
               <span className="font-bold">Status:</span> {item.status}
             </div>
-            <div>
-              <span className="font-bold">Editor:</span> {item.editor}
-            </div>
-            <div>
-              <span className="font-bold">Date Created:</span> {item.dateCreated}
-            </div>
-            <div>
-              <span className="font-bold">Date Updated:</span> {item.dateUpdated}
-            </div>
           </div>
           <div className="">
         <div className="p-1 flex flex-col">
