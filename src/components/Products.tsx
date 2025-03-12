@@ -27,6 +27,12 @@ const Products = () => {
  
   return (
     <>
+        <div className="flex flex-row w-full min-w-0 bg-[#f1f1f1] shadow-md mb-2">
+          <div className=""></div>
+          <div className="flex-grow-3 relative">
+            <input type="text" className="" placeholder="Search..."/>
+          </div>
+        </div>
       {data.getChildInventory?.map((item:any,idx:number) => (
         // Added min-w-0 to product container
         <div key={idx} className="flex flex-row w-full min-w-0 bg-[#f1f1f1] shadow-md mb-2">
