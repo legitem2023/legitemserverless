@@ -74,13 +74,7 @@ const handleDetail = (item:any) => {
         </div>
         <div className="grow-0"></div>
       </div>
-    </div>
 
-
-
-
-
-      
     </div>
     </>
   );
