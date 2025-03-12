@@ -16,9 +16,9 @@ const handleEdit = () => alert("Edit Clicked!");
 const handleDelete = () => alert("Delete Clicked!");
 
   return (
-    <div className="w-full space-y-2">
+    <div className="w-full my-2">
       {data?.getChildInventory_details?.map((item: any, idx: number) => (
-        <div key={idx} className="bg-[#f1f1f1] shadow-md p-3 rounded-md flex items-start space-x-3">
+        <div key={idx} className="bg-[#f1f1f1] shadow-md p-3 rounded-sm flex items-start space-x-3">
           {/* Image */}
           <div className="flex-shrink-0">
             <img src={item.thumbnail} alt={item.name} className="w-[75px] h-[75px] object-cover rounded" />
