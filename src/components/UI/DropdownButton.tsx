@@ -30,7 +30,7 @@ const DropdownButton: React.FC<DropdownButtonProps> = ({ options }) => {
       </button>
 
       {open && (
-        <div className="absolute right-0 mt-2 w-40 bg-white border rounded-md shadow-md z-50">
+        <div className="absolute right-0 mt-1 w-40 bg-white border rounded-md shadow-md z-50">
           {options.map((option, index) => (
             <button
               key={index}
