@@ -1,11 +1,13 @@
 "use client";
 import { useQuery } from "@apollo/client";
-import { useSelector } from "react-redux";
+import { useSelector,useDispatch } from "react-redux";
+import {setActiveIndex} from './Redux/activeIndexSlice';
 import { GET_CHILD_INVENTORY_DETAIL } from "./graphql/queries/queries";
 import Loading from "./Loading";
 import DropdownButton from "./UI/DropdownButton";
 
 const Detailed = () => {
+  const Dispatch = useDispatch();
   const styleCode = useSelector((state: any) => state.styleCode.styleCode);
   const { data, loading } = useQuery(GET_CHILD_INVENTORY_DETAIL, {
     variables: { styleCode },
