@@ -1,72 +1,59 @@
 "use client";
 import { useQuery } from "@apollo/client";
-import { useDispatch, useSelector } from 'react-redux';
-import { useState } from 'react'
+import { useSelector } from "react-redux";
 import { GET_CHILD_INVENTORY_DETAIL } from "./graphql/queries/queries";
-import { Icon } from "@iconify/react";
 import Loading from "./Loading";
-import DropdownButton from "./UI/DropdownButton"
+
 const Detailed = () => {
   const styleCode = useSelector((state: any) => state.styleCode.styleCode);
-  console.log(styleCode);
-  const [useSlide,setSlide] = useState(false);
-  const { data, loading, error } = useQuery(GET_CHILD_INVENTORY_DETAIL,{
-    variables :{
-       styleCode:styleCode
-    }
+  const { data, loading } = useQuery(GET_CHILD_INVENTORY_DETAIL, {
+    variables: { styleCode },
   });
- if(loading) return <Loading/>
-const handleEdit = () => alert("Edit Clicked!");
-const handleDelete = () => alert("Delete Clicked!"); 
+
+  if (loading) return <Loading />;
+
   return (
-    <>{
-        
-      data.getChildInventory_details?.map((item:any,idx:number)=>(
-     <div key={idx} className="flex flex-row w-full bg-[#f1f1f1] shadow-md mb-2">
-        <div className="flex flex-col w-full text-[#000000] text-[12px] rounded-sm p-2">
-          <div className="p-1 flex flex-row">
-            <div className="font-bold w-[100px]">
-             <img src={item.thumbnail} className="w-[75px] h-[75px]"/>
+    <div className="w-full space-y-2">
+      {data?.getChildInventory_details?.map((item: any, idx: number) => (
+        <div key={idx} className="bg-[#f1f1f1] shadow-md p-3 rounded-md flex items-start space-x-3">
+          {/* Image */}
+          <div className="flex-shrink-0">
+            <img src={item.thumbnail} alt={item.name} className="w-[75px] h-[75px] object-cover rounded" />
+          </div>
+
+          {/* Details */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 text-[12px] text-[#000] flex-grow">
+            <div>
+              <span className="font-bold">Name:</span> {item.name}
+            </div>
+            <div>
+              <span className="font-bold">Color:</span> {item.color}
+            </div>
+            <div>
+              <span className="font-bold">Size:</span> {item.size}
+            </div>
+            <div>
+              <span className="font-bold">Price:</span> {item.price}
+            </div>
+            <div>
+              <span className="font-bold">Stock:</span> {item.stock}
+            </div>
+            <div>
+              <span className="font-bold">Status:</span> {item.status}
+            </div>
+            <div>
+              <span className="font-bold">Editor:</span> {item.editor}
+            </div>
+            <div>
+              <span className="font-bold">Date Created:</span> {item.dateCreated}
+            </div>
+            <div>
+              <span className="font-bold">Date Updated:</span> {item.dateUpdated}
             </div>
           </div>
         </div>
-        <div className="grow flex flex-col text-[12px] text-[#000000]">
-            <div className="font-bold w-[100px]" >
-              {item.name}
-            </div>
-            <div className="font-bold w-[100px]" >
-              {item.color}
-            </div>
-            <div className="font-bold w-[100px]" >
-              {item.size}
-            </div>
-            <div className="font-bold w-[100px]" >
-              {item.price}
-            </div>
-            <div className="font-bold w-[100px]" >
-              {item.stock}
-            </div>
-            <div className="font-bold w-[100px]" >
-              {item.status}
-            </div>
-            <div className="font-bold w-[100px]" >
-              {item.editor}
-            </div>
-            <div className="font-bold w-[100px]" >
-              {item.status}
-            </div>
-            <div className="font-bold w-[100px]" >
-              {item.dateCreated}
-            </div>
-            <div className="font-bold w-[100px]" >
-              {item.dateUpdated}
-            </div> 
-        </div>
-        <div className="grow-0"></div>
-      </div>  
-      ))
-    }
-    </>
+      ))}
+    </div>
   );
 };
 
