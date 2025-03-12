@@ -47,6 +47,7 @@ const Products = () => {
           <div className="flex flex-col gap-2 text-[12px] text-[#000] flex-grow min-w-0 p-2">
             {[
               { label: "Name:", value: item.name },
+              { label: "Category:", value: item.category },
               { label: "Type:", value: item.productType },
               { label: "Brand:", value: item.brandname },
               { label: "Department:", value:"For Men" },
