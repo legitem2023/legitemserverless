@@ -12,7 +12,8 @@ const Products = () => {
 const handleEdit = () => alert("Edit Clicked!");
 const handleDelete = () => alert("Delete Clicked!");
 
-const handleDetail = () => {
+const handleDetail = (item:any) => {
+  console.log(item);
   setSlide(true);
 }
 
