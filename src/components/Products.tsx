@@ -14,27 +14,27 @@ const Products = () => {
   
       <div className="grow flex flex-col w-full text-[#000000] text-[12px] rounded-sm p-2">
         <div className="p-1 flex flex-row">
-          <div>ID</div> <div>
+          <div className="font-bold w-[75px]">ID</div> <div>
           </div>{item.id}
         </div>
         <div className="p-1 flex flex-row">
-          <div>Name</div>
+          <div className="font-bold w-[75px]">Name</div>
           <div>{item.name}</div>
         </div>
         <div className="p-1 flex flex-row">
-          <div>Type</div>
+          <div className="font-bold w-[75px]" >Type</div>
           <div>{item.productType}</div>
         </div>
         <div className="p-1 flex flex-row">
-         <div>Brand</div>
+         <div className="font-bold w-[75px]">Brand</div>
           <div>{item.brandname}</div>
         </div>
         <div className="p-1 flex flex-row">
-         <div>Department</div>
+         <div className="font-bold w-[75px]">Department</div>
          <div>For Men</div>
         </div>
         <div className="p-1 flex flex-row">
-          <div>Status</div>
+          <div className="font-bold w-[75px]">Status</div>
           <div>Active</div>
         </div>
       </div>
