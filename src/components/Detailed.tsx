@@ -20,7 +20,7 @@ const Detailed = () => {
   return (
     <div className="w-full mb-2">
       {data?.getChildInventory_details?.map((item: any, idx: number) => (
-        <div key={idx} className="bg-[#f1f1f1] shadow-md p-3 rounded-sm flex items-start space-x-3 mb-2 min-w-0">
+        <div key={idx} className="bg-[#f1f1f1] shadow-md rounded-sm flex items-start p-2 mb-2 min-w-0">
           {/* Image */}
           <div className="flex-shrink-0">
             <img src={item.thumbnail} alt={item.name} className="w-[75px] h-[75px] object-cover rounded" />
