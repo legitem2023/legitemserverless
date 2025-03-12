@@ -38,8 +38,8 @@ body {
 }
 
 .shimmer {
-  background: linear-gradient(
-    90deg,
+  background: radial-gradient(
+    circle,
     rgba(230, 230, 230, 0.2) 25%,
     rgba(200, 200, 200, 0.4) 50%,
     rgba(230, 230, 230, 0.2) 75%
