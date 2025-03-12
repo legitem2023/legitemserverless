@@ -43,3 +43,35 @@ query GetChildInventory {
     }
   }
 }`
+
+export const GET_CHILD_INVENTORY_DETAIL = gql`
+query GetChildInventory_details($styleCode: String) {
+  getChildInventory_details(styleCode: $styleCode) {
+    id
+    name
+    agentEmail
+    category
+    color
+    creator
+    dateCreated
+    dateUpdated
+    editor
+    price
+    imageReferences
+    productCode
+    productType
+    size
+    status
+    stock
+    style_Code
+    thumbnail
+    productDescription
+    subImageFieldOut {
+      ImagePath
+      id
+      subImageRelationChild
+      subImageRelationParent
+    }
+  }
+}
+`
