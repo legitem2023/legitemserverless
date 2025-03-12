@@ -11,24 +11,32 @@ const Products = () => {
     <>{
       data.getChildInventory?.map((item:any,idx:number)=>(
       <div key={idx} className="flex flex-row w-full bg-[#f1f1f1] shadow-md mb-2">
-      <div className="flex flex-col w-full text-[#000000] text-[12px] rounded-sm p-2">
-        <div className="p-1 flex flex-row">ID</div>
-        <div className="p-1 flex flex-row">Name</div>
-        <div className="p-1 flex flex-row">Type</div>
-        <div className="p-1 flex flex-row">Brand</div>
-        <div className="p-1 flex flex-row">Department</div>
-        <div className="p-1 flex flex-row">Status</div>
-      </div>
-
-
-        
+  
       <div className="grow flex flex-col w-full text-[#000000] text-[12px] rounded-sm p-2">
-        <div className="p-1 flex flex-row">{item.id}</div>
-        <div className="p-1 flex flex-row"><b>{item.name}</b></div>
-        <div className="p-1 flex flex-row">{item.productType}</div>
-        <div className="p-1 flex flex-row">{item.brandname}</div>
-        <div className="p-1 flex flex-row">For Men</div>
-        <div className="p-1 flex flex-row">Status</div>
+        <div className="p-1 flex flex-row">
+          <div>ID</div> <div>
+          </div>{item.id}
+        </div>
+        <div className="p-1 flex flex-row">
+          <div>Name</div>
+          <div>{item.name}</div>
+        </div>
+        <div className="p-1 flex flex-row">
+          <div>Type</div>
+          <div>{item.productType}</div>
+        </div>
+        <div className="p-1 flex flex-row">
+         <div>Brand</div>
+          <div>{item.brandname}</div>
+        </div>
+        <div className="p-1 flex flex-row">
+         <div>Department</div>
+         <div>For Men</div>
+        </div>
+        <div className="p-1 flex flex-row">
+          <div>Status</div>
+          <div>Active</div>
+        </div>
       </div>
       <div className="grow-0">
         <div className="p-1 flex flex-col">
