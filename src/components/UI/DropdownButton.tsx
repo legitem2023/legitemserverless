@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { Icon } from "@iconify/react";
 
 interface DropdownButtonProps {
-  options: { id:string, label: string; onClick: () => void }[];
+  options: { id: string; label: string; onClick: (id: any) => void }[];
 }
 
 const DropdownButton: React.FC<DropdownButtonProps> = ({ options }) => {
@@ -35,7 +35,7 @@ const DropdownButton: React.FC<DropdownButtonProps> = ({ options }) => {
             <button
               key={index}
               onClick={() => {
-                option.onClick();
+                option.onClick(option.id);
                 setOpen(false);
               }}
               className="block w-full px-4 py-2 text-left text-gray-700 hover:bg-gray-100"
