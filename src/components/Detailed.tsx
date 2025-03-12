@@ -1,12 +1,19 @@
 "use client";
-import { useQuery } from "@apollo/client";
+import { useQuery,useMutation } from "@apollo/client";
 import { useSelector,useDispatch } from "react-redux";
 import {setActiveIndex} from './Redux/activeIndexSlice';
 import { GET_CHILD_INVENTORY_DETAIL } from "./graphql/queries/queries";
+import { DELETE_CHILD_INVENTORY } from "./graphql/queries/mutation";
 import Loading from "./Loading";
 import DropdownButton from "./UI/DropdownButton";
 
 const Detailed = () => {
+    const [DeleteChildInventory] = useMutation(DELETE_CHILD_INVENTORY, {
+    onCompleted: data => {
+      console.log(data.deleteChildInventory.statusText);
+      return;
+    },
+  });
   const Dispatch = useDispatch();
   const styleCode = useSelector((state: any) => state.styleCode.styleCode);
   const { data, loading } = useQuery(GET_CHILD_INVENTORY_DETAIL, {
@@ -15,8 +22,14 @@ const Detailed = () => {
 
   if (loading) return <Loading/>
   const handleEdit = () => alert("Edit Clicked!");
-  const handleDelete = () => alert("Delete Clicked!");
-
+  const handleDelete = () => {
+    const conf = confirm('Are you sure you want to delete this item?');
+    if (!conf) return;
+    DeleteChildInventory({
+      variables: { deleteChildInventoryId: id },
+    });
+    return;
+  }
   return (
     <div className="w-full mb-2">
       {data?.getChildInventory_details?.map((item: any, idx: number) => (
@@ -51,7 +64,7 @@ const Detailed = () => {
               <DropdownButton
                 options={[
                   { id: item.id, label: "Edit", onClick: handleEdit },
-                  { id: item.id, label: "Delete", onClick: handleDelete },
+                  { id: item.id, label: "Delete", onClick: handleDelete(item.id) },
                   { id: item.id, label: "View", onClick: handleDelete },
                 ]}
               />
