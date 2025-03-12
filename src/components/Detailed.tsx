@@ -29,22 +29,22 @@ const handleDelete = () => alert("Delete Clicked!");
           {/* Details */}
           <div className="flex flex-col gap-2 text-[12px] text-[#000] flex-grow">
             <div className="flex flex-row">
-              <div className="font-bold">Name:</div> <div>{item.name}</div>
+              <div className="font-bold w-[75px]">Name:</div> <div>{item.name}</div>
             </div>
             <div className="flex flex-row">
-              <div className="font-bold">Color:</div> <div>{item.color}</div>
+              <div className="font-bold w-[75px]">Color:</div> <div>{item.color}</div>
             </div>
             <div className="flex flex-row">
-              <div className="font-bold">Size:</div> <div>{item.size}</div>
+              <div className="font-bold w-[75px]">Size:</div> <div>{item.size}</div>
             </div>
             <div className="flex flex-row">
-              <div className="font-bold">Price:</div> <div>{item.price}</div>
+              <div className="font-bold w-[75px]">Price:</div> <div>{item.price}</div>
             </div>
             <div className="flex flex-row">
-              <div className="font-bold">Stock:</div> <div>{item.stock}</div>
+              <div className="font-bold w-[75px]">Stock:</div> <div>{item.stock}</div>
             </div>
             <div className="flex flex-row">
-              <div className="font-bold">Status:</div> <div>{item.status}</div>
+              <div className="font-bold w-[75px]">Status:</div> <div>{item.status}</div>
             </div>
           </div>
           <div className="">
