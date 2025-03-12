@@ -31,17 +31,38 @@ const Products = () => {
         // Added min-w-0 to product container
         <div key={idx} className="flex flex-row w-full min-w-0 bg-[#f1f1f1] shadow-md mb-2">
           {/* Left Section - Product Info */}
-          <div className="grow flex flex-col w-full text-[#000000] text-[12px] rounded-sm p-2">
-            {/* Name Row */}
+         
+          <div className="flex flex-col gap-2 text-[12px] text-[#000] flex-grow min-w-0">
+            {[
+              { label: "Name:", value: item.name },
+              { label: "Color:", value: item.color },
+              { label: "Size:", value: item.size },
+              { label: "Price:", value: item.price },
+              { label: "Stock:", value: item.stock },
+              { label: "Status:", value: item.status },
+            ].map((field, index) => (
+              <div key={index} className="flex min-w-0">
+                <div className="font-bold w-[55px] flex-shrink-0">{field.label}</div>
+                <div className="overflow-hidden whitespace-nowrap text-ellipsis min-w-0">
+                  {field.value}
+                </div>
+              </div>
+            ))}
+          </div>
+          
+          
+          
+          {/* <div className="grow flex flex-col w-full text-[#000000] text-[12px] rounded-sm p-2">
+          
             <div className="p-1 flex flex-row min-w-0">
               <div className="font-bold w-[75px] flex-shrink-0">Name</div>
-              {/* Replaced with truncate utility */}
+              
               <div className="flex-1 truncate min-w-0">
                 {item.name}
               </div>
             </div>
             
-            {/* Type Row */}
+            
             <div className="p-1 flex flex-row min-w-0">
               <div className="font-bold w-[75px] flex-shrink-0">Type</div>
               <div className="flex-1 truncate min-w-0">
@@ -49,7 +70,7 @@ const Products = () => {
               </div>
             </div>
             
-            {/* Brand Row */}
+            
             <div className="p-1 flex flex-row min-w-0">
               <div className="font-bold w-[75px] flex-shrink-0">Brand</div>
               <div className="flex-1 truncate min-w-0">
@@ -57,7 +78,7 @@ const Products = () => {
               </div>
             </div>
             
-            {/* Department Row */}
+            
             <div className="p-1 flex flex-row min-w-0">
               <div className="font-bold w-[75px] flex-shrink-0">Department</div>
               <div className="flex-1 truncate min-w-0">
@@ -65,14 +86,14 @@ const Products = () => {
               </div>
             </div>
             
-            {/* Status Row */}
+            
             <div className="p-1 flex flex-row min-w-0">
               <div className="font-bold w-[75px] flex-shrink-0">Status</div>
               <div className="flex-1 truncate min-w-0">
                 Active
               </div>
             </div>
-          </div>
+          </div>*/}
 
           {/* Right Section - Actions */}
           <div className="grow-0">
