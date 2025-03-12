@@ -2,7 +2,7 @@
 import SwipeTabs from "@/components/UI/SwipeTabs";
 import dynamic from 'next/dynamic';
 
-const Products = dynamic(() => import('@/components/Products'), { ssr: false });
+const ProductDetails = dynamic(() => import('@/components/ProductDetails'), { ssr: false });
 
 function TabOneContent() {
   return <p>This is Tab 2 content.</p>;
@@ -26,7 +26,7 @@ export default function Home() {
     {
       "label": "Inventory",
       "Icn":"material-symbols:inventory",
-      "content":<Products/>
+      "content":<ProductDetails/>
     },
     {
       "label": "Transaction",
