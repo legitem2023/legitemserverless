@@ -28,14 +28,14 @@ const Products = () => {
   return (
     <>
         <div className="flex flex-wrap w-full min-w-0 bg-[#f1f1f1] shadow-md mb-2">
-          <div className="flex relative p-2">
+          <div className="flex-1 flex relative p-2">
             <input type="text" name="search" list="searchList" className="p-2 text-[13px] text-[#000000] w-full" placeholder="Search..."/>
              <datalist id="searchList">
                <option value="A"></option> 
                <option value="B"></option>
              </datalist>          
           </div>
-          <div className="flex flex-wrap relative p-2">
+          <div className="flex-1 flex flex-wrap relative p-2">
             <select className="p-2 text-[13px] text-[#000000] w-full my-2">
               <option>Category</option>
             </select>
