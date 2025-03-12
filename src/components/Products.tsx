@@ -15,7 +15,7 @@ const Products = () => {
         <div className="p-1 flex flex-row">{item.id}</div>
         <div className="p-1 flex flex-row"><b>{item.name}</b></div>
         <div className="p-1 flex flex-row">{item.productType}</div>
-        <div className="p-1 flex flex-row"><b>{item.brandname}</div>
+        <div className="p-1 flex flex-row">{item.brandname}</div>
         <div className="p-1 flex flex-row">For Men</div>
         <div className="p-1 flex flex-row">Status</div>
       </div>
