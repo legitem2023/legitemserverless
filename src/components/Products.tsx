@@ -28,13 +28,15 @@ const Products = () => {
   return (
     <>
       {data.getChildInventory?.map((item:any,idx:number) => (
-        <div key={idx} className="flex flex-row w-full bg-[#f1f1f1] shadow-md mb-2">
+        // Added min-w-0 to product container
+        <div key={idx} className="flex flex-row w-full min-w-0 bg-[#f1f1f1] shadow-md mb-2">
           {/* Left Section - Product Info */}
           <div className="grow flex flex-col w-full text-[#000000] text-[12px] rounded-sm p-2">
             {/* Name Row */}
             <div className="p-1 flex flex-row min-w-0">
               <div className="font-bold w-[75px] flex-shrink-0">Name</div>
-              <div className="flex-1 overflow-hidden whitespace-nowrap text-ellipsis min-w-0">
+              {/* Replaced with truncate utility */}
+              <div className="flex-1 truncate min-w-0">
                 {item.name}
               </div>
             </div>
@@ -42,7 +44,7 @@ const Products = () => {
             {/* Type Row */}
             <div className="p-1 flex flex-row min-w-0">
               <div className="font-bold w-[75px] flex-shrink-0">Type</div>
-              <div className="flex-1 overflow-hidden whitespace-nowrap text-ellipsis min-w-0">
+              <div className="flex-1 truncate min-w-0">
                 {item.productType}
               </div>
             </div>
@@ -50,7 +52,7 @@ const Products = () => {
             {/* Brand Row */}
             <div className="p-1 flex flex-row min-w-0">
               <div className="font-bold w-[75px] flex-shrink-0">Brand</div>
-              <div className="flex-1 overflow-hidden whitespace-nowrap text-ellipsis min-w-0">
+              <div className="flex-1 truncate min-w-0">
                 {item.brandname}
               </div>
             </div>
@@ -58,7 +60,7 @@ const Products = () => {
             {/* Department Row */}
             <div className="p-1 flex flex-row min-w-0">
               <div className="font-bold w-[75px] flex-shrink-0">Department</div>
-              <div className="flex-1 overflow-hidden whitespace-nowrap text-ellipsis min-w-0">
+              <div className="flex-1 truncate min-w-0">
                 For Men
               </div>
             </div>
@@ -66,7 +68,7 @@ const Products = () => {
             {/* Status Row */}
             <div className="p-1 flex flex-row min-w-0">
               <div className="font-bold w-[75px] flex-shrink-0">Status</div>
-              <div className="flex-1 overflow-hidden whitespace-nowrap text-ellipsis min-w-0">
+              <div className="flex-1 truncate min-w-0">
                 Active
               </div>
             </div>
