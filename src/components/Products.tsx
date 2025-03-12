@@ -68,8 +68,14 @@ const handleDetail = (item:any) => {
       <div className="flex flex-row w-full bg-[#f1f1f1] shadow-md mb-2">
         <div className="grow flex flex-col w-full text-[#000000] text-[12px] rounded-sm p-2">
           <div className="p-1 flex flex-row">
-            <div className="font-bold w-[100px]">Name</div>
-            <div>IMAGE</div>
+            <div className="font-bold w-[100px]">
+             <img src="" className="w-[75px] h-[75px]"/>
+            </div>
+            <div className="font-bold w-[100px]" >
+            yyyy
+            </div>
+            <div className="font-bold w-[100px]" ></div>
+
           </div>
         </div>
         <div className="grow-0"></div>
