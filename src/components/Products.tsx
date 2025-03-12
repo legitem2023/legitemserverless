@@ -64,7 +64,7 @@ const handleDetail = (item:any) => {
     </div>  
       ))
     }
-    <div style={{top:useSlide?"0px":"-100%"}} className="l-0 r-0 m-[auto] absolute flex flex-col bg-[#f1f1f1] w-full transition ease-in-out duration-300">
+    <div style={{top:useSlide?"0px":"-100%"}} className="l-0 r-0 m-[auto] fixed flex flex-col bg-[#f1f1f1] w-full transition ease-in-out duration-300">
       <div>Child</div>
     </div>
     </>
