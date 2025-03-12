@@ -23,12 +23,13 @@ const Detailed = () => {
   if (loading) return <Loading/>
   const handleEdit = () => alert("Edit Clicked!");
   const handleDelete = (id:any) => {
+      console.log(id);
     const conf = confirm('Are you sure you want to delete this item?');
-    if (!conf) return;
+    /*if (!conf) return;
     DeleteChildInventory({
       variables: { deleteChildInventoryId: id },
     });
-    return;
+    return;*/
   }
   return (
     <div className="w-full mb-2">
