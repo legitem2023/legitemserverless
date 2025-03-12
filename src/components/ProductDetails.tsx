@@ -1,4 +1,4 @@
-import Tabs from "./Tabs";
+import Tabs from "./UI/Tabs";
 import Products from "./Products";
 import Detailed from "./Detailed";
 const ProductDetails = () => {
