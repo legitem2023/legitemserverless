@@ -22,7 +22,7 @@ const Detailed = () => {
           </div>
 
           {/* Details */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 text-[12px] text-[#000] flex-grow">
+          <div className="flex flex-col gap-2 text-[12px] text-[#000] flex-grow">
             <div>
               <span className="font-bold">Name:</span> {item.name}
             </div>
