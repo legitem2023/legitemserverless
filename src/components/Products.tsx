@@ -32,7 +32,7 @@ const Products = () => {
           
           </div>
           <div className="relative p-2">
-            <input type="text" className="p-1 text-[12px]" placeholder="Search..."/>
+            <input type="text" className="p-2 text-[12px]" placeholder="Search..."/>
           </div>
         </div>
       {data.getChildInventory?.map((item:any,idx:number) => (
