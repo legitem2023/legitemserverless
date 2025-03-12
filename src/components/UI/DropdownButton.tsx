@@ -24,9 +24,9 @@ const DropdownButton: React.FC<DropdownButtonProps> = ({ options }) => {
     <div className="relative" ref={dropdownRef}>
       <button
         onClick={() => setOpen(!open)}
-        className="p-2 rounded-full hover:bg-gray-200 focus:outline-none"
+        className="p-2 rounded-full bg-gray-200 hover:bg-gray-300 focus:outline-none"
       >
-        <Icon icon="mdi:dots-vertical" className="text-2xl" />
+        <Icon icon="mdi:dots-horizontal" className="text-2xl text-[#000000]" />
       </button>
 
       {open && (
