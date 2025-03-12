@@ -29,22 +29,22 @@ const handleDelete = () => alert("Delete Clicked!");
           {/* Details */}
           <div className="flex flex-col gap-2 text-[12px] text-[#000] flex-grow">
             <div>
-              <span className="font-bold">Name:</span> {item.name}
+              <div className="font-bold">Name:</div> <div>{item.name}</div>
             </div>
             <div>
-              <span className="font-bold">Color:</span> {item.color}
+              <div className="font-bold">Color:</div> <div>{item.color}</div>
             </div>
             <div>
-              <span className="font-bold">Size:</span> {item.size}
+              <div className="font-bold">Size:</div> <div>{item.size}</div>
             </div>
             <div>
-              <span className="font-bold">Price:</span> {item.price}
+              <div className="font-bold">Price:</div> <div>{item.price}</div>
             </div>
             <div>
-              <span className="font-bold">Stock:</span> {item.stock}
+              <div className="font-bold">Stock:</div> <div>{item.stock}</div>
             </div>
             <div>
-              <span className="font-bold">Status:</span> {item.status}
+              <div className="font-bold">Status:</div> <div>{item.status}</div>
             </div>
           </div>
           <div className="">
