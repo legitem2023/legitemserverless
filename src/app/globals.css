@@ -27,6 +27,28 @@ body {
     text-wrap: balance;
   }
 }
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(230, 230, 230, 0.2) 25%,
+    rgba(200, 200, 200, 0.4) 50%,
+    rgba(230, 230, 230, 0.2) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite linear;
+}
+
+
 .image-gallery-svg{
   height:30px!important;
   width:30px!important;
