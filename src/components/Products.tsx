@@ -68,7 +68,7 @@ const handleDetail = (item:any) => {
     </div>  
       ))
     }
-    <div style={{top:useSlide?"0px":"-100%"}} className="fixed left-1/2 transform -translate-x-1/2 box-border flex flex-col bg-[#f1f1f1] w-full transition ease-in-out duration-300">
+    <div style={{left:useSlide?"0px":"-100%"}} className="fixed  transform -translate-x-1/2 box-border flex flex-col bg-[#f1f1f1] w-full transition ease-in-out duration-300 top-[10px]">
       <Detailed/>
 
     </div>
