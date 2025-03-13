@@ -3,12 +3,16 @@ import { useDispatch } from 'react-redux';
 import { Icon } from "@iconify/react";
 
 const BackButton = () => {
-  const dispatch = useDispatch(); // ✅ Call useDispatch at the top level
+  const dispatch = useDispatch();
 
   return (
     <div>
-      <button className="flex justify-center item-center p-1 rounded-md bg-brown-800 text-[#00000]" onClick={() => dispatch(Index2(0))}>
-        <Icon icon="mingcute:back-fill" />Back
+      <button 
+        className="flex justify-center items-center p-1 rounded-md bg-brown-800 text-[#ffffff]" 
+        onClick={() => dispatch(Index2(0))}
+      >
+        <Icon icon="mingcute:back-fill" className="mr-1" />
+        Back
       </button> 
     </div>
   );
