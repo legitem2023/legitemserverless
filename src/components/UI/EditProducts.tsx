@@ -2,8 +2,18 @@ import React, { useState, useEffect } from "react";
 import BackButton from "./BackButton";
 import { useSelector } from "react-redux";
 import Sortings from "./Sortings";
+import {UPDATE_PARENT_INVENTORY} from "../Redux/queries/mutation"
 
 const EditProducts = () => {
+  const [UpdateParentInventory] = useMutation(UPDATE_PARENT_INVENTORY, {
+    onCompleted: data => {
+        console.log(data.updateParentInventory.statusText);
+        if(data.updateParentInventory.statusText==='Success!'){
+            console.log(data.updateParentInventory.statusText);
+            return;
+        }
+    }
+})
   const name = useSelector((state: any) => state.category.name);
   
   const id = useSelector((state:any)=>state.category.id)
