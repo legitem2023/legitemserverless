@@ -1,7 +1,7 @@
 import SwipeContainer from "./UI/SwipeContainer";
 import { useSelector } from "react-redux";
 import Products from "./Products";
-import InsertProducts "./UI/InsertProducts';
+import InsertProducts "./UI/InsertProducts";
 export default function ProductSwipePage() {
   const activeIndex = useSelector((state:any) => state.swipe.activeIndex);
 
