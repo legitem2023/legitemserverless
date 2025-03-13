@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import BackButton from "./BackButton";
-import {useSelect} from "react-redux";
+import { useSelector } from "react-redux";
 import Sortings from "./Sortings";
 const EditProducts = () => {
-  const name = useSelect((state:any)=>state.category.name);
+  const name = useSelector((state:any)=>state.category.name);
   const [formData, setFormData] = useState<{
     name: string;
     category: string;
