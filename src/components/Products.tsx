@@ -3,7 +3,7 @@ import { useQuery } from "@apollo/client";
 import { useDispatch, useSelector } from 'react-redux';
 import {setActiveIndex} from './Redux/activeIndexSlice';
 import { setActiveIndex as Index2 } from "./Redux/swipeSlice";
-import { setTypes, setBrands, setDepartments,setCategories,setStatus } from "./Redux/categorySlice";
+import { setTypes, setBrands, setDepartments,setCategories,setStatus,setName } from "./Redux/categorySlice";
 
 import {setStyleCode} from './Redux/styleCodeSlice';
 import { useState } from 'react'
@@ -34,12 +34,14 @@ if (filter?.length) {
     dispatch(setDepartments([filter[0].department || "Select Department"]));
     dispatch(setCategories([filter[0].category || "Select Category"]));
     dispatch(setStatus([filter[0].status || "Select Status"]));
+    dispatch(setName(filter[0].name || [""]));
 } else {
     dispatch(setTypes(["Select Types"]));
     dispatch(setBrands(["Select Brand"]));
     dispatch(setDepartments(["Select Department"]));
     dispatch(setCategories(["Select Category"]));
     dispatch(setStatus(["Select Status"]));
+    dispatch(setName([""]));
 }
   };
   const handleDelete = () => alert("Delete Clicked!");
