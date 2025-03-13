@@ -64,6 +64,8 @@ const EditProducts = () => {
     <>
     <BackButton/>
     <form onSubmit={handleSubmit}>
+      <div className="flex-1 flex flex-wrap relative p-2">Edit</div>
+      <hr></hr>
       <div className="flex-1 flex flex-wrap relative p-2">
         <input
           type="text"
