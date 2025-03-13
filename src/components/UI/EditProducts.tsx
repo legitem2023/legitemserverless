@@ -61,6 +61,7 @@ const EditProducts = () => {
   };
 
   const handleSubmit = (e: React.FormEvent) => {
+    console.log(formData);
     e.preventDefault();
     if (validateForm()) {
       console.log("Form Data:", formData);
