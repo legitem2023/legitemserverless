@@ -1,16 +1,24 @@
-import React from 'react'
+import React from 'react';
 
-const Select = ({Selected,InitialText,Name,Data,function_event}) => {
-
-  return (
-    <select name={Name} value={Selected} onChange={function_event}>
-        <option value={InitialText}>{InitialText}</option>
-
-        {Data?.map((item: any, idx: any) => (
-          <option key={idx} value={item.Value}>{item.Text}</option>
-        ))}
-    </select>
-  )
+interface SelectProps {
+  Selected: string;
+  InitialText: string;
+  Name: string;
+  Data: { Value: string; Text: string }[];
+  function_event: (event: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
-export default Select
+const Select: React.FC<SelectProps> = ({ Selected, InitialText, Name, Data, function_event }) => {
+  return (
+    <select name={Name} value={Selected} onChange={function_event}>
+      <option value="">{InitialText}</option>
+      {Data?.map((item, idx) => (
+        <option key={idx} value={item.Value}>
+          {item.Text}
+        </option>
+      ))}
+    </select>
+  );
+};
+
+export default Select;
