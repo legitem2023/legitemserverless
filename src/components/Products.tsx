@@ -80,7 +80,6 @@ if (filter?.length) {
               { label: "Type:", value: item.productType },
               { label: "Brand:", value: item.brandname },
               { label: "Department:", value:"For Men" },
-              { label: "Status:", value: item.status },
             ].map((field, index) => (
               <div key={index} className="flex min-w-0">
                 <div className="font-bold w-[75px] flex-shrink-0">{field.label}</div>
