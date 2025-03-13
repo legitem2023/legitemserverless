@@ -7,7 +7,6 @@ export default function ProductSwipePage() {
 
   return (
     <div>
-      <h1>Active Slide: {activeIndex}</h1>
       <SwipeContainer
         items={[
           <Products/>,
