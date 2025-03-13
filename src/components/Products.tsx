@@ -3,6 +3,7 @@ import { useQuery } from "@apollo/client";
 import { useDispatch, useSelector } from 'react-redux';
 import {setActiveIndex} from './Redux/activeIndexSlice';
 import { setActiveIndex as Index2 } from "./Redux/swipeSlice";
+import { setTypes, setBrands, setDepartments,setCategories,setStatus } from "./Redux/categorySlice";
 
 import {setStyleCode} from './Redux/styleCodeSlice';
 import { useState } from 'react'
@@ -14,6 +15,8 @@ import DropdownButton from "./UI/DropdownButton"
 import Sortings from './UI/Sortings';
 const Products = () => {
   const dispatch = useDispatch();
+    
+  
   const [useSlide,setSlide] = useState(false);
   const { data, loading, error } = useQuery(GET_CHILD_INVENTORY);
   
@@ -21,6 +24,11 @@ const Products = () => {
 
   const handleEdit = () => {
     dispatch(Index2(2));
+    dispatch(setTypes(["Select Types"]));
+    dispatch(setBrands(["Select Brand"]));
+    dispatch(setDepartments(["Select Department"]));
+    dispatch(setCategories(["Select Category"]));
+    dispatch(setStatus(["Select Status"]));
   };
   const handleDelete = () => alert("Delete Clicked!");
 
