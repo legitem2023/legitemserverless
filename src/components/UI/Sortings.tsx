@@ -12,7 +12,7 @@ const Sortings = () => {
   const selectedDepartment = useSelector((state:any)=>state.category.department);
 
 
-console.log(selectedCategory,selectedType,selectedBrand);
+console.log(selectedCategory);
   
   const { data:Category, loading:Category_loading } = useQuery(GET_CATEGORY);
   const { data:Product_Type,loading:Product_loading } = useQuery(GET_PRODUCT_TYPES);
