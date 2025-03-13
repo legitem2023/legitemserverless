@@ -11,9 +11,7 @@ export default function ProductSwipePage() {
       <SwipeContainer
         items={[
           <Products/>,
-          <div className="p-10 bg-blue-500 text-white text-center">
-          <InsertProducts/>
-          </div>,
+          <InsertProducts/>,
           <div className="p-10 bg-green-500 text-white text-center">Slide 3</div>,
         ]}
       />
