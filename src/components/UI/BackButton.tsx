@@ -1,5 +1,5 @@
 import { setActiveIndex as Index2 } from "../Redux/swipeSlice";
-import { setTypes, setBrands, setDepartments,setCategories } from "../Redux/categorySlice";
+import { setTypes, setBrands, setDepartments,setCategories,setStatus } from "../Redux/categorySlice";
 
 import { useDispatch } from 'react-redux';
 import { Icon } from "@iconify/react";
@@ -11,6 +11,7 @@ const BackButton = () => {
     dispatch(setBrands(["Select Brand"]));
     dispatch(setDepartments(["Select Department"]));
     dispatch(setCategories(["Select Category"]));
+    dispatch(setStatus(["Select Status"]));
     dispatch(Index2(0))
   }
   return (
