@@ -61,7 +61,17 @@ const EditProducts = () => {
   const handleSubmit = (e: React.FormEvent) => {
     console.log(formData);
     e.preventDefault();
-    if (validateForm()) {
+        UpdateParentInventory({
+        variables:{
+            "productId": formData.id,
+            "category": formData.category,
+            "productType": formData.type,
+            "brandname": formData.brand,
+            "productName": formData.name,
+            "status": formData.status
+          }
+    })
+    /*if (validateForm()) {
       console.log("Form Data:", formData);
       alert("Form submitted successfully!");
       setFormData({
@@ -75,7 +85,7 @@ const EditProducts = () => {
       });
       setErrors({});
     }
-  };
+  };*/
 
   return (
     <>
