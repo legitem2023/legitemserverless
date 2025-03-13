@@ -6,7 +6,7 @@ import { useQuery } from '@apollo/client';
 import Select from './Select';
 const Sortings = () => {
   const dispatch = useDispatch();
-  const selectedCategory = useSelector((state:any)=>state.category.categories);
+  const selectedCategory = useSelector((state:any)=>state.category);
   const selectedType = useSelector((state:any)=>state.category.types);
   const selectedBrand = useSelector((state:any)=>state.category.brands);
   const selectedDepartment = useSelector((state:any)=>state.category.department);
