@@ -5,6 +5,7 @@ interface CategoryState {
   types: string[];
   brands: string[];
   departments: string[];
+  status:string[];
 }
 
 const initialState: CategoryState = {
@@ -12,6 +13,7 @@ const initialState: CategoryState = {
   types: [],
   brands: [],
   departments: [],
+  status:[]
 };
 
 const categorySlice = createSlice({
@@ -30,8 +32,11 @@ const categorySlice = createSlice({
     setDepartments: (state, action: PayloadAction<string[]>) => {
       state.departments = action.payload;
     },
+    setStatus:(state, action: PayloadAction<string[]>) => {
+      state.status = action.payload;
+    },
   },
 });
 
-export const { setCategories, setTypes, setBrands, setDepartments } = categorySlice.actions;
+export const { setCategories, setTypes, setBrands, setDepartments,setStatus } = categorySlice.actions;
 export default categorySlice.reducer;
