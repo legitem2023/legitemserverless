@@ -23,15 +23,24 @@ const Products = () => {
   if(loading) return <Loading/>
 
   const handleEdit = (id:any) => {
-    
-   const filter = data.getChildInventory?.filter((item:any)=>item.id===id);
-    console.log(filter);
-    dispatch(Index2(2));
+
+const filter = data.getChildInventory?.filter((item: any) => item.id === id);
+// Unang dispatch para sa Index2
+dispatch(Index2(2));
+// Gamitin ang na-filter na data kung available ito
+if (filter?.length) {
+    dispatch(setTypes([filter[0].productType || "Select Types"]));
+    dispatch(setBrands([filter[0].brandname || "Select Brand"]));
+    dispatch(setDepartments([filter[0].department || "Select Department"]));
+    dispatch(setCategories([filter[0].category || "Select Category"]));
+    dispatch(setStatus([filter[0].status || "Select Status"]));
+} else {
     dispatch(setTypes(["Select Types"]));
     dispatch(setBrands(["Select Brand"]));
     dispatch(setDepartments(["Select Department"]));
     dispatch(setCategories(["Select Category"]));
     dispatch(setStatus(["Select Status"]));
+}
   };
   const handleDelete = () => alert("Delete Clicked!");
 
