@@ -17,8 +17,8 @@
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background:#fad7c0;
+  color:#000000;
+  background:#000000;
   height: 100%;
 }
 
