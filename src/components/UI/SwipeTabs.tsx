@@ -68,7 +68,7 @@ function SwipeTabsComponent({ tabs }: SwipeTabsProps) {
 
       {/* Swiper Content */}
       <Swiper
-      
+        onSwiper={(swiper) => (swiperRef.current = swiper)}
         modules={[Pagination]}
         spaceBetween={10}
         slidesPerView={1}
