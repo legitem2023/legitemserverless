@@ -63,12 +63,13 @@ const InsertProducts = () => {
   return (
     <>
     <BackButton/>
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={handleSubmit}>
       <div className="flex-1 flex flex-wrap relative p-2">
         <input
           type="text"
           name="name"
           value={formData.name}
+          placeholder="Name"
           onChange={handleChange}
           className="border p-2 w-full text-[13px]"
         />
