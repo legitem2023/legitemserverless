@@ -6,6 +6,7 @@ import Sortings from "./Sortings";
 const EditProducts = () => {
   const name = useSelector((state: any) => state.category.name);
   console.log(name);
+  const id = useSelector((state:any)=>state.category.id)
   const selectedCategory = useSelector((state:any)=>state.category.categories);
   const selectedType = useSelector((state:any)=>state.category.types);
   const selectedBrand = useSelector((state:any)=>state.category.brands);
