@@ -23,7 +23,9 @@ const Products = () => {
   if(loading) return <Loading/>
 
   const handleEdit = (id:any) => {
-    console.log(id);
+    
+   const filter = data.getChildInventory?.filter((item:any)=>item.id===id);
+    console.log(filter);
     dispatch(Index2(2));
     dispatch(setTypes(["Select Types"]));
     dispatch(setBrands(["Select Brand"]));
