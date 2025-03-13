@@ -7,7 +7,7 @@ const BackButton = () => {
 
   return (
     <div>
-      <button className="flex justify-center item-center p-1 rounded-md" onClick={() => dispatch(Index2(0))}>
+      <button className="flex justify-center item-center p-1 rounded-md bg-brown-800 text-[#00000]" onClick={() => dispatch(Index2(0))}>
         <Icon icon="mingcute:back-fill" />Back
       </button> 
     </div>
