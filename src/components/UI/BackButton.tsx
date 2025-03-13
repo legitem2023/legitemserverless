@@ -8,7 +8,7 @@ const BackButton = () => {
   return (
     <div>
       <button 
-        className="flex justify-center items-center p-1 rounded-md bg-brown-800 text-[#ffffff]" 
+        className="flex justify-center items-center p-1 rounded-md bg-[#451b05] text-[#ffffff] shadow-lg m-2" 
         onClick={() => dispatch(Index2(0))}
       >
         <Icon icon="mingcute:back-fill" className="mr-1" />
