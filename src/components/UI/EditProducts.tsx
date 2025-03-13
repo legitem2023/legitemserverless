@@ -27,10 +27,10 @@ const EditProducts = () => {
       ...prevData,
       id: id || "",
       name: name || "", // Para maiwasan ang undefined error
-      category:selectedCategory ||"",
-      type: selectedType || "",
-      brand: selectedBrand || "",
-      department: selectedDepartment || "",
+      category:selectedCategory[0] ||"",
+      type: selectedType[0] || "",
+      brand: selectedBrand[0] || "",
+      department: selectedDepartment[0] || "",
       status: "Active"
       
     }));
