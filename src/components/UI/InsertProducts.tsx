@@ -1,7 +1,14 @@
 import React, { useState } from "react";
 
 const InsertProducts = () => {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<{
+    name: string;
+    category: string;
+    type: string;
+    brand: string;
+    department: string;
+    status: string;
+  }>({
     name: "",
     category: "",
     type: "",
@@ -10,7 +17,7 @@ const InsertProducts = () => {
     status: "",
   });
 
-  const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const [errors, setErrors] = useState<Partial<typeof formData>>({});
 
   const categoryOptions = ["Electronics", "Clothing", "Food"];
   const typeOptions = ["Retail", "Wholesale"];
@@ -19,7 +26,7 @@ const InsertProducts = () => {
   const statusOptions = ["Active", "Inactive"];
 
   const validateForm = () => {
-    let newErrors: { [key: string]: string } = {};
+    let newErrors: Partial<typeof formData> = {};
 
     if (!formData.name.trim()) newErrors.name = "Name is required";
     if (!formData.category) newErrors.category = "Category is required";
@@ -33,7 +40,11 @@ const InsertProducts = () => {
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -41,7 +52,14 @@ const InsertProducts = () => {
     if (validateForm()) {
       console.log("Form Data:", formData);
       alert("Form submitted successfully!");
-      setFormData({ name: "", category: "", type: "", brand: "", department: "", status: "" });
+      setFormData({
+        name: "",
+        category: "",
+        type: "",
+        brand: "",
+        department: "",
+        status: "",
+      });
       setErrors({});
     }
   };
@@ -69,7 +87,12 @@ const InsertProducts = () => {
       ].map(({ label, name, options }) => (
         <div key={name}>
           <label>{label}:</label>
-          <select name={name} value={formData[name]} onChange={handleChange} className="border p-2 w-full">
+          <select
+            name={name}
+            value={formData[name as keyof typeof formData]} // Ensure valid indexing
+            onChange={handleChange}
+            className="border p-2 w-full"
+          >
             <option value="">Select {label}</option>
             {options.map((option) => (
               <option key={option} value={option}>
@@ -77,7 +100,9 @@ const InsertProducts = () => {
               </option>
             ))}
           </select>
-          {errors[name] && <div className="text-red-500 text-sm">{errors[name]}</div>}
+          {errors[name as keyof typeof formData] && (
+            <div className="text-red-500 text-sm">{errors[name as keyof typeof formData]}</div>
+          )}
         </div>
       ))}
 
