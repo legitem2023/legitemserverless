@@ -6,6 +6,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import { useDispatch, useSelector } from "react-redux";
 import { setActiveIndex } from "../Redux/swipeSlice";
+import { useEffect, useRef } from "react";
 
 interface SwipeContainerProps {
   items: React.ReactNode[];
@@ -13,14 +14,24 @@ interface SwipeContainerProps {
 
 const SwipeContainer: React.FC<SwipeContainerProps> = ({ items }) => {
   const dispatch = useDispatch();
-  const activeIndex = useSelector((state:any) => state.swipe.activeIndex);
+  const activeIndex = useSelector((state: any) => state.swipe.activeIndex);
+  const swiperRef = useRef<any>(null); // Swiper reference
+
+  // Update Swiper when Redux state changes
+  useEffect(() => {
+    if (swiperRef.current && swiperRef.current.swiper) {
+      swiperRef.current.swiper.slideTo(activeIndex);
+    }
+  }, [activeIndex]);
 
   return (
     <Swiper
+      ref={swiperRef}
       modules={[Pagination]}
       spaceBetween={20}
       slidesPerView={1}
       pagination={{ clickable: true }}
+      initialSlide={activeIndex} // Set initial slide from Redux state
       onSlideChange={(swiper) => dispatch(setActiveIndex(swiper.activeIndex))}
     >
       {items.map((item, index) => (
