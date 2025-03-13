@@ -1,9 +1,9 @@
 import React from 'react'
-import {GET_CATEGORY, GET_PRODUCT_TYPES, GET_BRANDS } from '../graphql/queries/queries';
+import {GET_CATEGORY } from '../graphql/queries/queries';
 import { useSelector,useDispatch } from 'react-redux';
 import { setCategories } from "../Redux/categorySlice";
 import { useQuery } from '@apollo/client';
-import Select from './Select';
+
 const CategorySelect = () => {
   const dispatch = useDispatch();
   const selectedCategory = useSelector((state:any)=>state.category.categories);
