@@ -79,7 +79,7 @@ const InsertProducts = () => {
        <Sortings/>
       </div>
       <div className="flex-1 flex flex-wrap relative p-2">
-      <button type="submit" className="bg-brown-500 text-white px-4 py-2">
+      <button type="submit" className="bg-[#451b05] text-white px-4 py-2 rounded-md">
         Submit
       </button>
       </div>
