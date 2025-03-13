@@ -10,6 +10,9 @@ const Sortings = () => {
   const selectedType = useSelector((state:any)=>state.category.types);
   const selectedBrand = useSelector((state:any)=>state.category.brands);
   const selectedDepartment = useSelector((state:any)=>state.category.department);
+
+
+console.log(selectedCategory,selectedType,selectedBrand);
   
   const { data:Category, loading:Category_loading } = useQuery(GET_CATEGORY);
   const { data:Product_Type,loading:Product_loading } = useQuery(GET_PRODUCT_TYPES);
