@@ -2,7 +2,7 @@ import React from 'react'
 import {GET_CATEGORY, GET_PRODUCT_TYPES, GET_BRANDS } from 'graphql/queries';
 
 import { useQuery } from '@apollo/client';
-import Select from '../Management_ui/Select';
+import Select from './Select';
 const Sortings = () => {
 
   const { data:Category, loading:Category_loading } = useQuery(GET_CATEGORY);
