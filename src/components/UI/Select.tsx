@@ -10,7 +10,7 @@ interface SelectProps {
 
 const Select: React.FC<SelectProps> = ({ Selected, InitialText, Name, Data, function_event }) => {
   return (
-    <select name={Name} value={Selected} onChange={function_event}>
+    <select name={Name} value={Selected} onChange={function_event} className="p-2 text-[13px] text-[#000000] w-full my-2">
       <option value="">{InitialText}</option>
       {Data?.map((item, idx) => (
         <option key={idx} value={item.Value}>
