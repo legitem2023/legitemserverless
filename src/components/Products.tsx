@@ -36,20 +36,6 @@ const Products = () => {
              </datalist>          
           </div>
           <Sortings/>
-          <div className="flex-1 flex flex-wrap relative p-2">
-            <select className="p-2 text-[13px] text-[#000000] w-full my-2">
-              <option>Category</option>
-            </select>
-            <select className="p-2 text-[13px] text-[#000000] w-full my-2">
-              <option>Type</option>
-            </select>
-            <select className="p-2 text-[13px] text-[#000000] w-full my-2">
-              <option>Brand</option>
-            </select>
-            <select className="p-2 text-[13px] text-[#000000] w-full my-2">
-              <option>Department</option>
-            </select>
-          </div>
         </div>
       {data.getChildInventory?.map((item:any,idx:number) => (
         // Added min-w-0 to product container
