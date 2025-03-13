@@ -6,7 +6,6 @@ import "swiper/css";
 import "swiper/css/pagination";
 import { useDispatch, useSelector } from "react-redux";
 import { setActiveIndex } from "../Redux/swipeSlice";
-import { RootState } from "../Redux/store";
 
 interface SwipeContainerProps {
   items: React.ReactNode[];
@@ -14,7 +13,7 @@ interface SwipeContainerProps {
 
 const SwipeContainer: React.FC<SwipeContainerProps> = ({ items }) => {
   const dispatch = useDispatch();
-  const activeIndex = useSelector((state: RootState) => state.swipe.activeIndex);
+  const activeIndex = useSelector((state:any) => state.swipe.activeIndex);
 
   return (
     <Swiper
