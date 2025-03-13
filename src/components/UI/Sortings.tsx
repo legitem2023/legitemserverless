@@ -11,8 +11,6 @@ const Sortings = () => {
   const selectedBrand = useSelector((state:any)=>state.category.brands);
   const selectedDepartment = useSelector((state:any)=>state.category.department);
   const selectedStatus = useSelector((state:any)=>state.category.status);
-
-console.log(selectedCategory);
   
   const { data:Category, loading:Category_loading } = useQuery(GET_CATEGORY);
   const { data:Product_Type,loading:Product_loading } = useQuery(GET_PRODUCT_TYPES);
