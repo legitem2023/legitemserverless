@@ -23,19 +23,17 @@ const EditProducts = () => {
   });
 
   useEffect(() => {
-    setFormData((prevData) => ({
-      ...prevData,
-      id: id || "",
-      name: name || "", // Para maiwasan ang undefined error
-      category:selectedCategory ||"",
-      type: selectedType || "",
-      brand: selectedBrand || "",
-      department: selectedDepartment || "",
-      status: "Active"
-      
-    }));
-  }, [name]); // Trigger lang kapag nagbago ang `name`
-
+  setFormData((prevData) => ({
+    ...prevData,
+    id: id || "",
+    name: name || "", // Avoid undefined error
+    category: Array.isArray(selectedCategory) ? selectedCategory[0] || "" : "",
+    type: Array.isArray(selectedType) ? selectedType[0] || "" : "",
+    brand: Array.isArray(selectedBrand) ? selectedBrand[0] || "" : "",
+    department: Array.isArray(selectedDepartment) ? selectedDepartment[0] || "" : "",
+    status: "Active"
+  }));
+}, [name]); // Trigger
   const [errors, setErrors] = useState<Partial<typeof formData>>({});
 
   const validateForm = () => {
