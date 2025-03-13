@@ -2,7 +2,7 @@
 import { useQuery } from "@apollo/client";
 import { useDispatch, useSelector } from 'react-redux';
 import {setActiveIndex} from './Redux/activeIndexSlice';
-import { setActiveIndex as Index2 } from "../Redux/swipeSlice";
+import { setActiveIndex as Index2 } from "./Redux/swipeSlice";
 
 import {setStyleCode} from './Redux/styleCodeSlice';
 import { useState } from 'react'
