@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import CategorySelect from "./CategorySelect";
 import Sortings from "./Sortings";
 const InsertProducts = () => {
   const [formData, setFormData] = useState<{
