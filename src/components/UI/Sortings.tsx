@@ -1,12 +1,11 @@
 import React from 'react'
 import {GET_CATEGORY, GET_PRODUCT_TYPES, GET_BRANDS } from '../graphql/queries/queries';
-import { useSelector } from 'react-redux';
-import { useDispatch } from "react-redux";
+import { useSelector,useDispatch } from 'react-redux';
 import { setTypes, setBrands, setDepartments,setCategories } from "../Redux/categorySlice";
 import { useQuery } from '@apollo/client';
 import Select from './Select';
 const Sortings = () => {
-  
+  const dispatch = useDispatch();
   const selectedCategory = useSelector((state:any)=>state.category.categories);
   const selectedType = useSelector((state:any)=>state.category.types);
   const selectedBrand = useSelector((state:any)=>state.category.brands);
