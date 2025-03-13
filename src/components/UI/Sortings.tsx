@@ -59,13 +59,13 @@ const Sortings = () => {
     <div className='Search_container'>
       <div className='Search_container_grid'>
         <div className="flex-1 flex flex-wrap relative p-2">
-          <Select Selected={selectedCategory} InitialText="Select Category" Name="Category" Data={CollapsibleCategory()} function_event={(e:any)=>{dispatch(setCategories(e.value)}}/>
+          <Select Selected={selectedCategory} InitialText="Select Category" Name="Category" Data={CollapsibleCategory()} function_event={(e:any)=>{dispatch(setCategories(e.value))}}/>
         </div>
         <div className="flex-1 flex flex-wrap relative p-2">
-          <Select Selected={selectedType} InitialText="Select Type" Name="ProductType" Data={CollapsibleProductType()} function_event={(e:any)=>{dispatch(setTypes(e.value)}}/>
+          <Select Selected={selectedType} InitialText="Select Type" Name="ProductType" Data={CollapsibleProductType()} function_event={(e:any)=>{dispatch(setTypes(e.value))}}/>
         </div>
         <div className="flex-1 flex flex-wrap relative p-2">
-          <Select Selected={selectedBrand} InitialText="Select Brand" Name="Brandname" Data={CollapsibleBrandName()} function_event={(e:any)=>{dispatch(setBrands(e.value)}}/>
+          <Select Selected={selectedBrand} InitialText="Select Brand" Name="Brandname" Data={CollapsibleBrandName()} function_event={(e:any)=>{dispatch(setBrands(e.value))}}/>
         </div>
       </div>
     </div>
