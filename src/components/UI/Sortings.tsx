@@ -80,9 +80,6 @@ const Sortings = () => {
         <div className="flex-1 flex flex-wrap relative p-2">
           <Select Selected={selectedDepartment} InitialText="Select Department" Name="Department" Data={CollapsibleDepartment()} function_event={(e:any)=>{dispatch(setDepartments(e.target.value))}}/>
         </div>
-        <div className="flex-1 flex flex-wrap relative p-2">
-          <Select Selected={selectedStatus} InitialText="Select Status" Name="Status" Data={CollapsibleStatus()} function_event={(e:any)=>{dispatch(setStatus(e.target.value))}}/>
-        </div>
       </div>
   )
 }
