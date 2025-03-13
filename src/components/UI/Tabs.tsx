@@ -23,8 +23,8 @@ const Tabs: React.FC<TabsProps> = ({ tabs }) => {
             onClick={() => Dispatch(setActiveIndex(index))}
             className={`px-4 py-2 text-sm font-medium ${
               activeIndex === index
-                ? "border-b-2 border-blue-500 text-blue-500"
-                : "text-gray-500 hover:text-blue-500"
+                ? "border-b-2 border-[#451b05] text-[#451b05]"
+                : "text-gray-500 hover:text-[#451b05]"
             }`}
           >
             {tab.label}
