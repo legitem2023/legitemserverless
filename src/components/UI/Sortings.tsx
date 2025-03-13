@@ -53,16 +53,13 @@ const Sortings = () => {
   return (
     <div className='Search_container'>
       <div className='Search_container_grid'>
-        <div className='SortColumn'>
-          <input type='text' placeholder='Search By Name' onChange={(e:any)=>{}}></input>
-        </div>
-        <div className='SortColumn'>
+        <div className="flex-1 flex flex-wrap relative p-2">
           <Select Selected={""} InitialText="Select Category" Name="Category" Data={CollapsibleCategory()} function_event={(e:any)=>{}}/>
         </div>
-        <div className='SortColumn'>
+        <div className="flex-1 flex flex-wrap relative p-2">
           <Select Selected={""} InitialText="Select Product Type" Name="ProductType" Data={CollapsibleProductType()} function_event={(e:any)=>{}}/>
         </div>
-        <div className='SortColumn'>
+        <div className="flex-1 flex flex-wrap relative p-2">
           <Select Selected={""} InitialText="Select Product Brand" Name="Brandname" Data={CollapsibleBrandName()} function_event={(e:any)=>{}}/>
         </div>
       </div>
