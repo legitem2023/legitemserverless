@@ -81,6 +81,7 @@ const EditProducts = () => {
             "status": formData.status
           }
     })
+  }
     /*if (validateForm()) {
       console.log("Form Data:", formData);
       alert("Form submitted successfully!");
