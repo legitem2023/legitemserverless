@@ -1,6 +1,15 @@
 
 import { gql } from "@apollo/client"
 //*************** QUERIES ***************/
+export const GET_BRANDS = gql`
+query GetBrand {
+  getBrand {
+    Name
+    ProductType
+    id
+  }
+}`
+
 export const GET_CATEGORY = gql`
 query GetCategory {
   getCategory {
