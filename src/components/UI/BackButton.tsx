@@ -7,10 +7,10 @@ import { Icon } from "@iconify/react";
 const BackButton = () => {
   const dispatch = useDispatch();
   const reset = () =>{
-    dispatch(setTypes(""));
-    dispatch(setBrands(""));
-    dispatch(setDepartments(""));
-    dispatch(setCategories(""));
+    dispatch(setTypes("Select Types"));
+    dispatch(setBrands("Select Brand"));
+    dispatch(setDepartments("Select Department"));
+    dispatch(setCategories("Select Category"));
     dispatch(Index2(0))
   }
   return (
