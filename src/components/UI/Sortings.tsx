@@ -57,7 +57,6 @@ const Sortings = () => {
 }
 
   return (
-    <div className='Search_container'>
       <div className='Search_container_grid'>
         <div className="flex-1 flex flex-wrap relative p-2">
           <Select Selected={selectedCategory} InitialText="Select Category" Name="Category" Data={CollapsibleCategory()} function_event={(e:any)=>{dispatch(setCategories(e.value))}}/>
@@ -72,7 +71,6 @@ const Sortings = () => {
           <Select Selected={selectedDepartment} InitialText="Select Department" Name="Department" Data={CollapsibleDepartment()} function_event={(e:any)=>{dispatch(setDepartments(e.value))}}/>
         </div>
       </div>
-    </div>
   )
 }
 
