@@ -26,7 +26,7 @@ const Products = () => {
 
   const handleDetail = (item:any) => {
     dispatch(setStyleCode(item));
-    dispatch(setActiveIndex(1));
+    dispatch(setActiveIndex(2));
   }
  
   return (
@@ -40,6 +40,9 @@ const Products = () => {
              </datalist>          
           </div>
           <Sortings/>
+          <div className="flex-1 flex relative p-2">
+            <button onClick={()=> dispatch(setActiveIndex(1))}  className="flex justify-center items-center p-2 rounded-md bg-[#451b05] text-[#ffffff] shadow-lg m-2">Add Product</button>
+          </div>
         </div>
       {data.getChildInventory?.map((item:any,idx:number) => (
         // Added min-w-0 to product container
