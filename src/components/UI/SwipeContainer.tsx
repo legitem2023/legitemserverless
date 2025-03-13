@@ -5,8 +5,8 @@ import { Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import { useDispatch, useSelector } from "react-redux";
-import { setActiveIndex } from "../redux/swipeSlice";
-import { RootState } from "../redux/store";
+import { setActiveIndex } from "../Redux/swipeSlice";
+import { RootState } from "../Redux/store";
 
 interface SwipeContainerProps {
   items: React.ReactNode[];
