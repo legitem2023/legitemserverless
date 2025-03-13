@@ -10,8 +10,8 @@ export default function DetailedSwipePage() {
       <SwipeContainer
         items={[
           <Detailed/>,
-          <></>,
-          <></>,
+          <Detailed/>,
+          <Detailed/>,
         ]}
       />
     </div>
