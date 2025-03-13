@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import CategorySelect from "./CategorySelect";
 const InsertProducts = () => {
   const [formData, setFormData] = useState<{
     name: string;
@@ -19,11 +19,6 @@ const InsertProducts = () => {
 
   const [errors, setErrors] = useState<Partial<typeof formData>>({});
 
-  const categoryOptions = ["Electronics", "Clothing", "Food"];
-  const typeOptions = ["Retail", "Wholesale"];
-  const brandOptions = ["Nike", "Apple", "Samsung"];
-  const departmentOptions = ["HR", "Sales", "IT"];
-  const statusOptions = ["Active", "Inactive"];
 
   const validateForm = () => {
     let newErrors: Partial<typeof formData> = {};
@@ -77,34 +72,10 @@ const InsertProducts = () => {
         />
         {errors.name && <div className="text-red-500 text-sm">{errors.name}</div>}
       </div>
-
-      {[
-        { label: "Category", name: "category", options: categoryOptions },
-        { label: "Type", name: "type", options: typeOptions },
-        { label: "Brand", name: "brand", options: brandOptions },
-        { label: "Department", name: "department", options: departmentOptions },
-        { label: "Status", name: "status", options: statusOptions },
-      ].map(({ label, name, options }) => (
-        <div key={name}>
-          <label>{label}:</label>
-          <select
-            name={name}
-            value={formData[name as keyof typeof formData]} // Ensure valid indexing
-            onChange={handleChange}
-            className="border p-2 w-full"
-          >
-            <option value="">Select {label}</option>
-            {options.map((option) => (
-              <option key={option} value={option}>
-                {option}
-              </option>
-            ))}
-          </select>
-          {errors[name as keyof typeof formData] && (
-            <div className="text-red-500 text-sm">{errors[name as keyof typeof formData]}</div>
-          )}
-        </div>
-      ))}
+      <div>
+       <CategorySelect/>
+      </div>
+      
 
       <button type="submit" className="bg-blue-500 text-white px-4 py-2">
         Submit
