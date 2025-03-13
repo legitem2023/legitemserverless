@@ -1,5 +1,5 @@
 import React from 'react'
-import {GET_CATEGORY, GET_PRODUCT_TYPES, GET_BRANDS } from 'graphql/queries';
+import {GET_CATEGORY, GET_PRODUCT_TYPES, GET_BRANDS } from 'graphql/queries/queries';
 
 import { useQuery } from '@apollo/client';
 import Select from './Select';
@@ -9,9 +9,9 @@ const Sortings = () => {
   const { data:Product_Type,loading:Product_loading } = useQuery(GET_PRODUCT_TYPES);
   const { data:Brands,loading:Brand_loading } = useQuery(GET_BRANDS);
 
-  if(Category_loading) return <Loading/>;
-  if(Product_loading) return <Loading/>;
-  if(Brand_loading) return <Loading/>;
+  if(Category_loading) return ;
+  if(Product_loading) return ;
+  if(Brand_loading) return ;
 
  const CollapsibleCategory = () =>{
     return Category?.getCategory?.map((item: any) => {
