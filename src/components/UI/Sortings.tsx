@@ -9,7 +9,8 @@ const Sortings = () => {
   const selectedCategory = useSelector((state:any)=>state.category.categories);
   const selectedType = useSelector((state:any)=>state.category.types);
   const selectedBrand = useSelector((state:any)=>state.category.brands);
-
+  const selectedDepartment = useSelector((state:any)=>state.category.department);
+  
   const { data:Category, loading:Category_loading } = useQuery(GET_CATEGORY);
   const { data:Product_Type,loading:Product_loading } = useQuery(GET_PRODUCT_TYPES);
   const { data:Brands,loading:Brand_loading } = useQuery(GET_BRANDS);
@@ -45,8 +46,8 @@ const Sortings = () => {
     })
  }
 
- const CollapsiblePages = () =>{
-  const data = [{"Name":"20"},{"Name":"50"},{"Name":"100"}];
+ const CollapsibleDepartment = () =>{
+  const data = [{"Name":"For Men"},{"Name":"For Women"},{"Name":"For Kids"},{"Name":"Unisex"},{"Name":"Others"}];
   return data.map((item:any)=>{
       return {
           "Value":item.Name,
@@ -66,6 +67,9 @@ const Sortings = () => {
         </div>
         <div className="flex-1 flex flex-wrap relative p-2">
           <Select Selected={selectedBrand} InitialText="Select Brand" Name="Brandname" Data={CollapsibleBrandName()} function_event={(e:any)=>{dispatch(setBrands(e.value))}}/>
+        </div>
+        <div className="flex-1 flex flex-wrap relative p-2">
+          <Select Selected={selectedDepartment} InitialText="Select Department" Name="Department" Data={CollapsibleDepartment()} function_event={(e:any)=>{dispatch(setDepartments(e.value))}}/>
         </div>
       </div>
     </div>
