@@ -1,15 +1,23 @@
 import { setActiveIndex as Index2 } from "../Redux/swipeSlice";
+import { setTypes, setBrands, setDepartments,setCategories } from "../Redux/categorySlice";
+
 import { useDispatch } from 'react-redux';
 import { Icon } from "@iconify/react";
 
 const BackButton = () => {
   const dispatch = useDispatch();
-
+  const reset = () =>{
+    dispatch(setTypes(""));
+    dispatch(setBrands(""));
+    dispatch(setDepartments(""));
+    dispatch(setCategories(""));
+    dispatch(Index2(0))
+  }
   return (
     <div>
       <button 
         className="flex justify-center items-center p-2 rounded-md bg-[#451b05] text-[#ffffff] shadow-lg m-2" 
-        onClick={() => dispatch(Index2(0))}
+        onClick={() => reset()}
       >
         <Icon icon="mingcute:back-fill" className="mr-1" />
         Back
