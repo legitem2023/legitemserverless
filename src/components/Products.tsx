@@ -20,7 +20,7 @@ const Products = () => {
   if(loading) return <Loading/>
 
   const handleEdit = () => {
-    dispatch(Index2(1));
+    dispatch(Index2(2));
   };
   const handleDelete = () => alert("Delete Clicked!");
 
