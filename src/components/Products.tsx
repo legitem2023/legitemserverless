@@ -22,7 +22,8 @@ const Products = () => {
   
   if(loading) return <Loading/>
 
-  const handleEdit = () => {
+  const handleEdit = (id:any) => {
+    console.log(id);
     dispatch(Index2(2));
     dispatch(setTypes(["Select Types"]));
     dispatch(setBrands(["Select Brand"]));
