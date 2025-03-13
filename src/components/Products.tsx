@@ -26,7 +26,7 @@ const Products = () => {
 
   const handleDetail = (item:any) => {
     dispatch(setStyleCode(item));
-    dispatch(setActiveIndex(2));
+    dispatch(setActiveIndex(1));
   }
  
   return (
