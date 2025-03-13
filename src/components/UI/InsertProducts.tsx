@@ -64,8 +64,7 @@ const InsertProducts = () => {
     <>
     <BackButton/>
     <form onSubmit={handleSubmit} className="space-y-4">
-      <div>
-        <label>Name:</label>
+      <div className="flex-1 flex flex-wrap relative p-2">
         <input
           type="text"
           name="name"
