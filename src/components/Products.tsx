@@ -2,6 +2,8 @@
 import { useQuery } from "@apollo/client";
 import { useDispatch, useSelector } from 'react-redux';
 import {setActiveIndex} from './Redux/activeIndexSlice';
+import { setActiveIndex as Index2 } from "../Redux/swipeSlice";
+
 import {setStyleCode} from './Redux/styleCodeSlice';
 import { useState } from 'react'
 import { GET_CHILD_INVENTORY } from "./graphql/queries/queries";
@@ -17,7 +19,9 @@ const Products = () => {
   
   if(loading) return <Loading/>
 
-  const handleEdit = () => alert("Edit Clicked!");
+  const handleEdit = () => {
+    dispatch(Index2(1));
+  };
   const handleDelete = () => alert("Delete Clicked!");
 
   const handleDetail = (item:any) => {
