@@ -62,16 +62,16 @@ console.log(selectedCategory);
   return (
       <div className='Search_container_grid'>
         <div className="flex-1 flex flex-wrap relative p-2">
-          <Select Selected={selectedCategory} InitialText="Select Category" Name="Category" Data={CollapsibleCategory()} function_event={(e:any)=>{dispatch(setCategories(e.value))}}/>
+          <Select Selected={selectedCategory} InitialText="Select Category" Name="Category" Data={CollapsibleCategory()} function_event={(e:any)=>{dispatch(setCategories(e.target.value))}}/>
         </div>
         <div className="flex-1 flex flex-wrap relative p-2">
-          <Select Selected={selectedType} InitialText="Select Type" Name="ProductType" Data={CollapsibleProductType()} function_event={(e:any)=>{dispatch(setTypes(e.value))}}/>
+          <Select Selected={selectedType} InitialText="Select Type" Name="ProductType" Data={CollapsibleProductType()} function_event={(e:any)=>{dispatch(setTypes(e.targer.value))}}/>
         </div>
         <div className="flex-1 flex flex-wrap relative p-2">
-          <Select Selected={selectedBrand} InitialText="Select Brand" Name="Brandname" Data={CollapsibleBrandName()} function_event={(e:any)=>{dispatch(setBrands(e.value))}}/>
+          <Select Selected={selectedBrand} InitialText="Select Brand" Name="Brandname" Data={CollapsibleBrandName()} function_event={(e:any)=>{dispatch(setBrands(e.target.value))}}/>
         </div>
         <div className="flex-1 flex flex-wrap relative p-2">
-          <Select Selected={selectedDepartment} InitialText="Select Department" Name="Department" Data={CollapsibleDepartment()} function_event={(e:any)=>{dispatch(setDepartments(e.value))}}/>
+          <Select Selected={selectedDepartment} InitialText="Select Department" Name="Department" Data={CollapsibleDepartment()} function_event={(e:any)=>{dispatch(setDepartments(e.target.value))}}/>
         </div>
       </div>
   )
