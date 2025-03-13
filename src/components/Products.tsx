@@ -9,7 +9,7 @@ import { Icon } from "@iconify/react";
 import Loading from "./Loading";
 import Detailed from "./Detailed";
 import DropdownButton from "./UI/DropdownButton"
-
+import Sortings from './UI/Sortings';
 const Products = () => {
   const dispatch = useDispatch();
   const [useSlide,setSlide] = useState(false);
@@ -35,6 +35,7 @@ const Products = () => {
                <option value="B"></option>
              </datalist>          
           </div>
+          <Sortings/>
           <div className="flex-1 flex flex-wrap relative p-2">
             <select className="p-2 text-[13px] text-[#000000] w-full my-2">
               <option>Category</option>
