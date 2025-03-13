@@ -17,7 +17,7 @@ const BackButton = () => {
     <div>
       <button 
         className="flex justify-center items-center p-2 rounded-md bg-[#451b05] text-[#ffffff] shadow-lg m-2" 
-        onClick={reset()}
+        onClick={reset}
       >
         <Icon icon="mingcute:back-fill" className="mr-1" />
         Back
