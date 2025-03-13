@@ -1,7 +1,7 @@
 import React from 'react'
 import {GET_CATEGORY, GET_PRODUCT_TYPES, GET_BRANDS } from '../graphql/queries/queries';
 import { useSelector,useDispatch } from 'react-redux';
-import { setTypes, setBrands, setDepartments,setCategories } from "../Redux/categorySlice";
+import { setTypes, setBrands, setDepartments,setCategories,setStatus } from "../Redux/categorySlice";
 import { useQuery } from '@apollo/client';
 import Select from './Select';
 const Sortings = () => {
@@ -10,7 +10,7 @@ const Sortings = () => {
   const selectedType = useSelector((state:any)=>state.category.types);
   const selectedBrand = useSelector((state:any)=>state.category.brands);
   const selectedDepartment = useSelector((state:any)=>state.category.department);
-
+  const selectedStatus = useSelector((state:any)=>state.category.status);
 
 console.log(selectedCategory);
   
@@ -59,6 +59,15 @@ console.log(selectedCategory);
   })
 }
 
+  const CollapsibleStatus = () =>{
+  const data = [{"Name":"Active"},{"Name":"Inactive"}];
+  return data.map((item:any)=>{
+      return {
+          "Value":item.Name,
+          "Text":item.Name
+      }
+  })
+  }
   return (
       <div className='Search_container_grid'>
         <div className="flex-1 flex flex-wrap relative p-2">
@@ -72,6 +81,9 @@ console.log(selectedCategory);
         </div>
         <div className="flex-1 flex flex-wrap relative p-2">
           <Select Selected={selectedDepartment} InitialText="Select Department" Name="Department" Data={CollapsibleDepartment()} function_event={(e:any)=>{dispatch(setDepartments(e.target.value))}}/>
+        </div>
+        <div className="flex-1 flex flex-wrap relative p-2">
+          <Select Selected={selectedStatus} InitialText="Select Status" Name="Status" Data={CollapsibleStatus()} function_event={(e:any)=>{dispatch(setStatus(e.target.value))}}/>
         </div>
       </div>
   )
