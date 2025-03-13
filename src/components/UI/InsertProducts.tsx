@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import BackButton from "./BackButton"
 import Sortings from "./Sortings";
 const InsertProducts = () => {
   const [formData, setFormData] = useState<{
@@ -60,6 +61,8 @@ const InsertProducts = () => {
   };
 
   return (
+    <>
+    <BackButton/>
     <form onSubmit={handleSubmit} className="space-y-4">
       <div>
         <label>Name:</label>
@@ -79,6 +82,7 @@ const InsertProducts = () => {
         Submit
       </button>
     </form>
+    </>
   );
 };
 
