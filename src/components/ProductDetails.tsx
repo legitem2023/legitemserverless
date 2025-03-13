@@ -1,10 +1,10 @@
 import Tabs from "./UI/Tabs";
 import ProductSwipePage from "./ProductSwipePage";
-import Detailed from "./Detailed";
+import DetailedSwipePage from "./DetailedSwipePage";
 const ProductDetails = () => {
   const tabData = [
     { label: "Products", content: <ProductSwipePage/> },
-    { label: "Details", content: <Detailed/> },
+    { label: "Details", content: <DetailedSwipePage/> },
   ];
 
   return (
