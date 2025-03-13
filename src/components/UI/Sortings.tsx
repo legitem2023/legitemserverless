@@ -1,5 +1,5 @@
 import React from 'react'
-import {GET_CATEGORY, GET_PRODUCT_TYPES, GET_BRANDS } from 'graphql/queries/queries';
+import {GET_CATEGORY, GET_PRODUCT_TYPES, GET_BRANDS } from '../graphql/queries/queries';
 
 import { useQuery } from '@apollo/client';
 import Select from './Select';
