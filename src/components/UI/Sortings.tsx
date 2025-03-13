@@ -1,9 +1,13 @@
 import React from 'react'
 import {GET_CATEGORY, GET_PRODUCT_TYPES, GET_BRANDS } from '../graphql/queries/queries';
-
+import { useSelector } from 'react-redux';
 import { useQuery } from '@apollo/client';
 import Select from './Select';
 const Sortings = () => {
+  
+  const selectedCategory = useSelector((state:any)=>state.category.categories);
+  const selectedType = useSelector((state:any)=>state.category.types);
+  const selectedBrand = useSelector((state:any)=>state.category.brands);
 
   const { data:Category, loading:Category_loading } = useQuery(GET_CATEGORY);
   const { data:Product_Type,loading:Product_loading } = useQuery(GET_PRODUCT_TYPES);
@@ -54,13 +58,13 @@ const Sortings = () => {
     <div className='Search_container'>
       <div className='Search_container_grid'>
         <div className="flex-1 flex flex-wrap relative p-2">
-          <Select Selected={""} InitialText="Select Category" Name="Category" Data={CollapsibleCategory()} function_event={(e:any)=>{}}/>
+          <Select Selected={selectedCategory} InitialText="Select Category" Name="Category" Data={CollapsibleCategory()} function_event={(e:any)=>{}}/>
         </div>
         <div className="flex-1 flex flex-wrap relative p-2">
-          <Select Selected={""} InitialText="Select Product Type" Name="ProductType" Data={CollapsibleProductType()} function_event={(e:any)=>{}}/>
+          <Select Selected={selectedType} InitialText="Select Type" Name="ProductType" Data={CollapsibleProductType()} function_event={(e:any)=>{}}/>
         </div>
         <div className="flex-1 flex flex-wrap relative p-2">
-          <Select Selected={""} InitialText="Select Product Brand" Name="Brandname" Data={CollapsibleBrandName()} function_event={(e:any)=>{}}/>
+          <Select Selected={selectedBrand} InitialText="Select Brand" Name="Brandname" Data={CollapsibleBrandName()} function_event={(e:any)=>{}}/>
         </div>
       </div>
     </div>
