@@ -6,8 +6,13 @@ import Sortings from "./Sortings";
 const EditProducts = () => {
   const name = useSelector((state: any) => state.category.name);
   console.log(name);
-
+  const selectedCategory = useSelector((state:any)=>state.category.categories);
+  const selectedType = useSelector((state:any)=>state.category.types);
+  const selectedBrand = useSelector((state:any)=>state.category.brands);
+  const selectedDepartment = useSelector((state:any)=>state.category.department);
+  
   const [formData, setFormData] = useState({
+    id:"",
     name: "",
     category: "",
     type: "",
@@ -19,7 +24,14 @@ const EditProducts = () => {
   useEffect(() => {
     setFormData((prevData) => ({
       ...prevData,
+      id: id || "",
       name: name || "", // Para maiwasan ang undefined error
+      category:selectedCategory ||"",
+      type: selectedType || "",
+      brand: selectedBrand || "",
+      department: selectedDepartment || "",
+      status: "Active"
+      
     }));
   }, [name]); // Trigger lang kapag nagbago ang `name`
 
@@ -53,6 +65,7 @@ const EditProducts = () => {
       console.log("Form Data:", formData);
       alert("Form submitted successfully!");
       setFormData({
+        id:"",
         name: "",
         category: "",
         type: "",
