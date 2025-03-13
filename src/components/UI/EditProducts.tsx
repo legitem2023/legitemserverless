@@ -3,6 +3,7 @@ import BackButton from "./BackButton";
 import { useSelector } from "react-redux";
 import Sortings from "./Sortings";
 import {UPDATE_PARENT_INVENTORY} from "../graphql/queries/mutation"
+import { useQuery,useMutation } from "@apollo/client";
 
 const EditProducts = () => {
   const [UpdateParentInventory] = useMutation(UPDATE_PARENT_INVENTORY, {
