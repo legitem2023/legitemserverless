@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import Sortings from "./Sortings";
 const EditProducts = () => {
   const name = useSelector((state:any)=>state.category.name);
+  console.log(name);
   const [formData, setFormData] = useState<{
     name: string;
     category: string;
