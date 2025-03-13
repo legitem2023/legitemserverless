@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import CategorySelect from "./CategorySelect";
+import Sortings from "./Sortings";
 const InsertProducts = () => {
   const [formData, setFormData] = useState<{
     name: string;
@@ -68,15 +69,13 @@ const InsertProducts = () => {
           name="name"
           value={formData.name}
           onChange={handleChange}
-          className="border p-2 w-full"
+          className="border p-2 w-full text-[13px]"
         />
         {errors.name && <div className="text-red-500 text-sm">{errors.name}</div>}
       </div>
       <div>
-       <CategorySelect/>
+       <Sortings/>
       </div>
-      
-
       <button type="submit" className="bg-blue-500 text-white px-4 py-2">
         Submit
       </button>
