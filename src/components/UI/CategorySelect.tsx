@@ -57,7 +57,14 @@ const CategorySelect = () => {
 
   return (
         <div className="flex-1 flex flex-wrap relative p-2">
-           <Select Selected={selectedCategory} InitialText="Select Category" Name="Category" Data={CollapsibleCategory()} function_event={(e:any)=>{dispatch(setCategories(e.value))}}/>
+          <select name={Name} value={Selected} onChange={function_event} className="p-2 text-[13px] text-[#000000] w-full">
+            <option value="">{InitialText}</option>
+             {CollapsibleCategory()?.map((item, idx) => (
+            <option key={idx} value={item.Value}>
+          {item.Text}
+           </option>
+      ))}
+    </select>
         </div>
   )
 }
