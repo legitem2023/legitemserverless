@@ -22,7 +22,7 @@ console.log(id);
 /*
   const name = useSelector((state: any) => state.category.name);
 
-  const id = useSelector((state:any)=>state.category.id)
+ const id = useSelector((state:any)=>state.productDetails.id)
   const selectedCategory = useSelector((state:any)=>state.category.categories);
   const selectedType = useSelector((state:any)=>state.category.types);
   const selectedBrand = useSelector((state:any)=>state.category.brands);
