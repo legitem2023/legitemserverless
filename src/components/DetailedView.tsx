@@ -20,11 +20,10 @@ const DetailedView = () => {
       {data?.getChildInventory_details?.map((item: any, idx: number) => (
         <div
           key={idx}
-          className="flex flex-col md:flex-row w-full bg-[#f1f1f1] shadow-md rounded-md p-3"
+          className="flex flex-col md:flex-row items-start w-full bg-[#f1f1f1] shadow-md rounded-md p-[2px] gap-x-2 gap-y-2"
         >
-          
           {/* Details Section */}
-          <div className="flex flex-col flex-grow text-sm text-[#000] min-w-0 px-4 py-2">
+          <div className="flex flex-col flex-grow text-[12px] text-[#000] min-w-0">
             {[
               { label: "Name:", value: item.name },
               { label: "Color:", value: item.color },
@@ -33,15 +32,17 @@ const DetailedView = () => {
               { label: "Stock:", value: item.stock },
               { label: "Status:", value: item.status },
             ].map((field, index) => (
-              <div key={index} className="flex">
-                <div className="font-bold w-[60px] flex-shrink-0">{field.label}</div>
-                <div className="truncate">{field.value}</div>
+              <div key={index} className="flex p-[2px]">
+                <div className="font-bold w-[70px] flex-shrink-0">{field.label}</div>
+                <div className="truncate overflow-hidden text-ellipsis whitespace-nowrap">
+                  {field.value}
+                </div>
               </div>
             ))}
           </div>
 
           {/* Swiper Gallery */}
-          <div className="w-full md:w-[200px] mt-3 md:mt-0">
+          <div className="w-full md:max-w-[200px] p-[2px]">
             <SwiperGallery
               images={item?.subImageFieldOut?.map((img: any) => img.ImagePath)}
             />
