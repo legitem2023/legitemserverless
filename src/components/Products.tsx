@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {setActiveIndex} from './Redux/activeIndexSlice';
 import { setActiveIndex as Index2 } from "./Redux/swipeSlice";
 import { setTypes, setBrands, setDepartments,setCategories,setStatus,setName,setID} from "./Redux/categorySlice";
-
+import {autoScrollTop} from "./utils"
 import {setStyleCode} from './Redux/styleCodeSlice';
 import { useState } from 'react'
 import { GET_CHILD_INVENTORY } from "./graphql/queries/queries";
@@ -23,15 +23,9 @@ const Products = () => {
   if(loading) return <Loading/>
 
 
-function scrollDivToTop() {
-  const div = document.getElementById("ParentTab");
-  if (div) {
-    div.scrollTop = 0; // Scroll to the top
-  }
-}
 
   const handleEdit = (id:any) => {
-
+autoScrollTop();
 const filter = data.getChildInventory?.filter((item: any) => item.id === id);
 // Unang dispatch para sa Index2
 dispatch(Index2(2));
@@ -53,7 +47,7 @@ if (filter?.length) {
     dispatch(setName([""]));
     dispatch(setID([""]));
 }
-scrollDivToTop();
+
   };
   const handleDelete = () => alert("Delete Clicked!");
 
