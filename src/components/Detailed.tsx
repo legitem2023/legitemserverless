@@ -25,7 +25,12 @@ const Detailed = () => {
 
   if (loading) return <Loading/>
   const handleEdit = (id:any) => {
-console.log(id);
+
+
+
+const filter = data.getChildInventory_details?.filter((item: any) => item.id === id);
+console.log(filter);
+
 /*dispatch(setID());
 dispatch(setColor());
 dispatch(setSize());
