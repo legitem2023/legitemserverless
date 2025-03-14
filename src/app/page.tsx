@@ -5,14 +5,14 @@ import dynamic from 'next/dynamic';
 const ProductDetails = dynamic(() => import('@/components/ProductDetails'), { ssr: false });
 
 function TabOneContent() {
-  return <p>This is Tab 2 content.</p>;
+  return <div className="h-[90vh] overflow-y-auto"></div>
 }
 
 function TabContentProduct() {
 return <div className="h-[90vh] overflow-y-auto"><ProductDetails/></div>
 }
 function TabTwoContent() {
-  return <p>This is Tab 2 content.</p>;
+  return <div className="h-[90vh] overflow-y-auto"></div>
 }
 
 function TabThreeContent() {
