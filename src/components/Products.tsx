@@ -26,7 +26,7 @@ const Products = () => {
 
   const handleEdit = (id:any) => {
 autoScrollTop();
-const filter = data.getChildInventory?.filter((item: any) => item.id === id);
+const filter = data.getParentInventory?.filter((item: any) => item.id === id);
 // Unang dispatch para sa Index2
 dispatch(Index2(2));
 // Gamitin ang na-filter na data kung available ito
@@ -73,7 +73,7 @@ if (filter?.length) {
             <button onClick={()=> dispatch(Index2(1))}  className="flex justify-center items-center p-2 rounded-md bg-[#451b05] text-[#ffffff] shadow-lg m-2">New Product</button>
           </div>
         </div>
-      {data.getChildInventory?.map((item:any,idx:number) => (
+      {data.getParentInventory?.map((item:any,idx:number) => (
         // Added min-w-0 to product container
         <div key={idx} className="flex flex-row w-full min-w-0 bg-[#f1f1f1] shadow-md mb-2">
           {/* Left Section - Product Info */}
