@@ -32,6 +32,21 @@ const selectedStatus = useSelector((state:any)=>state.productDetails.status);
 
 console.log(id,selectedColor,selectedPrice,selectedSize,selectedDescription,selectedStatus);
 
+
+  useEffect(() => {
+  setFormData((prevData) => ({
+    ...prevData,
+    id: Array.isArray(id) || "",
+    color: selectedColor || "", // Avoid undefined error
+    size: Array.isArray(selectedSize) ? selectedCategory[0] || "" : "",
+    price: Array.isArray(selectedPrice) ? selectedType[0] || "" : "",
+    description: Array.isArray(selectedDescription) ? selectedBrand[0] || "" : "",
+    status: Array.isArray(selectedStatus) ? selectedDepartment[0] || "" : "",
+    
+  }));
+}, [id]); // Trigger
+
+
   // Error State
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
