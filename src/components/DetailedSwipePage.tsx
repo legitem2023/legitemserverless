@@ -11,7 +11,7 @@ export default function DetailedSwipePage() {
         items={[
           <Detailed/>,
           <InsertDetails/>,
-          <Detailed/>,
+          <InsertDetails/>,
         ]}
       />
     </div>
