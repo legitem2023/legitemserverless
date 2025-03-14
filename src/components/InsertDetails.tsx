@@ -58,7 +58,8 @@ export default function InsertDetails() {
 
   return (
     <form onSubmit={handleSubmit} className="max-w-md mx-auto bg-white shadow-md bg-[#f1f1f1]">
-
+          <div className="flex-1 flex flex-wrap relative p-2 font-bold">Insert Product Detail</div>
+          <hr></hr>
       <div>  
         <input
           type="text"
