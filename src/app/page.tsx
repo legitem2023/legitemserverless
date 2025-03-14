@@ -4,12 +4,29 @@ import dynamic from 'next/dynamic';
 
 const ProductDetails = dynamic(() => import('@/components/ProductDetails'), { ssr: false });
 
-function TabOneContent() {
+function DashboardTab() {
   return <div className="h-[90vh] overflow-y-auto"></div>
 }
 
-function TabContentProduct() {
-return <div id="ParentTab" className="h-[90vh] overflow-y-auto"><ProductDetails/></div>
+
+function InventoryTab() {
+return <div id="InventoryTab" className="h-[90vh] overflow-y-auto"><ProductDetails/></div>
+}
+
+function TransactionTab() {
+  return <div id="TransactionTab" className="h-[90vh] overflow-y-auto"></div>
+}
+
+function SalesTab() {
+  return <div id="SalesTab"   className="h-[90vh] overflow-y-auto"></div>
+}
+
+function StatisticsTab() {
+  return <div id="StatisticsTab" className="h-[90vh] overflow-y-auto"></div>
+}
+
+function SettingsTab() {
+  return <div id="SettingsTab" className="h-[90vh] overflow-y-auto"></div>
 }
 
 export default function Home() {
@@ -17,32 +34,32 @@ export default function Home() {
     {
       "label": "Dashboard",
       "Icn":"material-symbols:dashboard",
-      "content":<TabOneContent/>
+      "content":<DashboardTab/>
     },
     {
       "label": "Inventory",
       "Icn":"material-symbols:inventory",
-      "content":<TabContentProduct/>
+      "content":<InventoryTab/>
     },
     {
       "label": "Transaction",
       "Icn":"grommet-icons:transaction",
-      "content":<TabOneContent/>     
+      "content":<TransactionTab/>     
     },
     {
       "label": "Sales",
       "Icn":"tdesign:money",
-      "content":<TabOneContent/>    
+      "content":<SalesTab/>    
     },
     {
       "label": "Statistics",
       "Icn":"akar-icons:statistic-up",
-      "content":<TabOneContent/>
+      "content":<StatisticsTab/>
     },
     {
       "label": "Settings",
       "Icn":"material-symbols:settings",
-      "content":<TabOneContent/>
+      "content":<SettingsTab/>
     }
   ]
 
