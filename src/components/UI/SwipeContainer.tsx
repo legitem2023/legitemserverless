@@ -26,7 +26,7 @@ const SwipeContainer: React.FC<SwipeContainerProps> = ({ items }) => {
 
   return (
     <Swiper
-      
+      allowTouchMove={false}
       ref={swiperRef}
       modules={[Pagination]}
       spaceBetween={20}
