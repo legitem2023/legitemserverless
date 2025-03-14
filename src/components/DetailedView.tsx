@@ -22,15 +22,7 @@ const DetailedView = () => {
           key={idx}
           className="flex flex-col md:flex-row w-full bg-[#f1f1f1] shadow-md rounded-md p-3"
         >
-          {/* Image Section */}
-          <div className="flex-shrink-0">
-            <img
-              src={item.thumbnail}
-              alt={item.name}
-              className="w-[150px] h-[150px] object-cover rounded"
-            />
-          </div>
-
+          
           {/* Details Section */}
           <div className="flex flex-col flex-grow text-sm text-[#000] min-w-0 px-4 py-2">
             {[
