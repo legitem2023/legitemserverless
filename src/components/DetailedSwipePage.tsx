@@ -1,7 +1,7 @@
 import SwipeContainer from "./UI/SwipeContainer";
 import { useSelector } from "react-redux";
 import Detailed from "./Detailed";
-
+import InsertDetails from "./InsertDetails";
 export default function DetailedSwipePage() {
   const activeIndex = useSelector((state:any) => state.swipe.activeIndex);
 
@@ -10,7 +10,7 @@ export default function DetailedSwipePage() {
       <SwipeContainer
         items={[
           <Detailed/>,
-          <Detailed/>,
+          <InsertDetails/>,
           <Detailed/>,
         ]}
       />
