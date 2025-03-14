@@ -8,6 +8,9 @@ function TabOneContent() {
   return <p>This is Tab 2 content.</p>;
 }
 
+function TabContentProduct {
+return <div className="h-[90vh] overflow"><ProductDetails/></div>
+}
 function TabTwoContent() {
   return <p>This is Tab 2 content.</p>;
 }
@@ -26,7 +29,7 @@ export default function Home() {
     {
       "label": "Inventory",
       "Icn":"material-symbols:inventory",
-      "content":<ProductDetails/>
+      "content":<TabContentProduct/>
     },
     {
       "label": "Transaction",
