@@ -20,6 +20,7 @@
     "@types/react-image-gallery": "^1.2.4",
     "apollo-server-micro": "^3.13.0",
     "apollo-upload-client": "^18.0.1",
+    "@tinymce/tinymce-react": "^5.1.1",
     "micro-cors": "^0.1.1",
     "next": "14.2.5",
     "next-auth": "^4.24.7",
