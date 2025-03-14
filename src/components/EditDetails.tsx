@@ -62,7 +62,7 @@ export default function EditDetails() {
 <>
    <BackButton/>
     <form onSubmit={handleSubmit} className="max-w-md mx-auto shadow-md bg-[#f1f1f1]">
-          <div className="flex-1 flex flex-wrap relative p-2 font-bold">Insert Product Detail</div>
+          <div className="flex-1 flex flex-wrap relative p-2 font-bold">Edit Product Detail</div>
           <hr></hr>
       <div className="flex-1 flex relative p-2">  
         <input
