@@ -19,7 +19,7 @@ const DetailedView = () => {
   });
 
   if (loading) return <Loading/>
-  const handleEdit = (id:any) => {
+  
 
 
 
