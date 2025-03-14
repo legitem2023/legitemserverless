@@ -60,7 +60,7 @@ export default function InsertDetails() {
     <form onSubmit={handleSubmit} className="max-w-md mx-auto bg-white shadow-md bg-[#f1f1f1]">
           <div className="flex-1 flex flex-wrap relative p-2 font-bold">Insert Product Detail</div>
           <hr></hr>
-      <div>  
+      <div className="flex-1 flex relative p-2">  
         <input
           type="text"
           name="color"
@@ -72,7 +72,7 @@ export default function InsertDetails() {
         {errors.color && <p className="text-red-500">{errors.color}</p>}
       </div>
 
-      <div>
+     <div className="flex-1 flex relative p-2">  
         
         <input
           type="text"
@@ -85,7 +85,7 @@ export default function InsertDetails() {
         {errors.size && <p className="text-red-500">{errors.size}</p>}
       </div>
 
-      <div>
+      <div className="flex-1 flex relative p-2">   
         
         <input
           type="number"
@@ -98,7 +98,7 @@ export default function InsertDetails() {
         {errors.price && <p className="text-red-500">{errors.price}</p>}
       </div>
 
-      <div>
+      <div className="flex-1 flex relative p-2">  
         
         <input
           type="number"
@@ -111,8 +111,7 @@ export default function InsertDetails() {
         {errors.stock && <p className="text-red-500">{errors.stock}</p>}
       </div>
 
-      <div>
-        
+       <div className="flex-1 flex relative p-2">  
         <select
           name="status"
           value={formData.status}
@@ -127,8 +126,7 @@ export default function InsertDetails() {
         {errors.status && <p className="text-red-500">{errors.status}</p>}
       </div>
 
-      <div>
-        <label className="block font-medium">Description</label>
+       <div className="flex-1 flex relative p-2">  
         <Editor
           apiKey="your-tinymce-api-key"
           onInit={(evt, editor) => (editorRef.current = editor)}
