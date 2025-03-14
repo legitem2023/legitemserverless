@@ -32,7 +32,7 @@ const SwipeContainer: React.FC<SwipeContainerProps> = ({ items }) => {
       slidesPerView={1}
       pagination={{ clickable: true }}
       initialSlide={activeIndex} // Set initial slide from Redux state
-      onSlideChange={(swiper) => dispatch(setActiveIndex(swiper.activeIndex))}
+      
     >
       {items.map((item, index) => (
         <SwiperSlide key={index}>{item}</SwiperSlide>
