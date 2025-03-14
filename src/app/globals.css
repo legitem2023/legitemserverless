@@ -38,13 +38,28 @@ body {
 }
 
 .shimmer {
+  position: relative;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12px; /* Optional: smooth glass-like effect */
+  backdrop-filter: blur(10px); /* Glassmorphism effect */
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.shimmer::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -150%;
+  width: 200%;
+  height: 100%;
   background: linear-gradient(
-    45deg,
-    rgba(230, 230, 230, 0.2) 25%,
-    rgba(200, 200, 200, 0.4) 50%,
-    rgba(230, 230, 230, 0.2) 75%
+    100deg,
+    rgba(255, 255, 255, 0) 40%,
+    rgba(255, 255, 255, 0.4) 50%,
+    rgba(255, 255, 255, 0) 60%
   );
-  background-size: 200% 100%;
   animation: shimmer 1.5s infinite linear;
 }
 
