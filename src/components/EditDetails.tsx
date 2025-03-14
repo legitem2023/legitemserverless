@@ -17,6 +17,16 @@ export default function EditDetails() {
     status: "",
     description: "",
   });
+/*
+  const name = useSelector((state: any) => state.category.name);
+
+  const id = useSelector((state:any)=>state.category.id)
+  const selectedCategory = useSelector((state:any)=>state.category.categories);
+  const selectedType = useSelector((state:any)=>state.category.types);
+  const selectedBrand = useSelector((state:any)=>state.category.brands);
+  const selectedDepartment = useSelector((state:any)=>state.category.department);
+*/
+
 
   // Error State
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
