@@ -2,7 +2,7 @@
 
 import { useState, useRef } from "react";
 import { Editor } from "@tinymce/tinymce-react";
-
+import BackButton from "./UI/BackButton";
 export default function InsertDetails() {
   const editorRef = useRef<any>(null);
 
@@ -57,6 +57,8 @@ export default function InsertDetails() {
   };
 
   return (
+<>
+    <BackButton/>
     <form onSubmit={handleSubmit} className="max-w-md mx-auto shadow-md bg-[#f1f1f1]">
           <div className="flex-1 flex flex-wrap relative p-2 font-bold">Insert Product Detail</div>
           <hr></hr>
@@ -139,6 +141,6 @@ export default function InsertDetails() {
       </div>
 
            <div className="flex-1 flex relative p-2"><button type="submit" className="flex justify-center items-center p-2 rounded-md bg-[#451b05] text-[#ffffff] shadow-lg m-2">Submit</button></div>
-    </form>
+    </form></>
   );
   }
