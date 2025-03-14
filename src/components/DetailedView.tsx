@@ -58,7 +58,7 @@ const DetailedView = () => {
               </div>
             ))}
           </div>
-{itwm.subImageFieldOut.map(itm:any,index:number)=>(
+{item.subImageFieldOut.map(itm:any,index:number)=>(
 <div key={index}>
 <div>{itm.ImagePath}</div>
 </div>
