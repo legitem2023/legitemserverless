@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import Detailed from "./Detailed";
 import InsertDetails from "./InsertDetails";
 import EditDetails from "./EditDetails";
+import DetailedView from "./DetailedView";
 export default function DetailedSwipePage() {
   const activeIndex = useSelector((state:any) => state.swipe.activeIndex);
 
@@ -13,6 +14,7 @@ export default function DetailedSwipePage() {
           <Detailed/>,
           <InsertDetails/>,
           <EditDetails/>,
+          <DetailedView/>
         ]}
       />
     </div>
