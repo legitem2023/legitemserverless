@@ -19,11 +19,11 @@ const DetailedView = () => {
   return (
     <>
       <BackButton />
-      <div className="w-full space-y-2 p-[4px]"> {/* Added margin here */}
+      <div className="w-full space-y-2 "> {/* Added margin here */}
         {data?.getChildInventory_details?.map((item: any, idx: number) => (
           <div
             key={idx}
-            className="flex flex-col items-center w-full bg-[#f1f1f1] shadow-md rounded-md p-[2px] gap-y-2 m-[2px]" // Added margin here
+            className="flex flex-col items-center w-full bg-[#f1f1f1] shadow-md rounded-md p-[4px] gap-y-2 m-[2px]" // Added margin here
           >
             {/* Swiper Gallery */}
             <div className="w-full md:max-w-[200px] p-[2px]">
