@@ -1,6 +1,37 @@
 
 import { gql } from "@apollo/client"
 //*************** QUERIES ***************/
+export const MANAGEMENT_INVENTORY = gql`
+query GetParentInventory($emailAddress: String) {
+  getParentInventory(EmailAddress: $emailAddress) {
+    id
+    styleCode
+    name
+    productType
+    status
+    agentEmail
+    brandname
+    category
+    collectionItem
+    dateCreated
+    dateUpdated
+    childInventory {
+      agentEmail
+      category
+      productType
+      brandname
+      color
+      creator
+      dateCreated
+      dateUpdated
+      editor
+      id
+      name
+      productDescription
+    }
+  }
+}`
+
 export const GET_BRANDS = gql`
 query GetBrand {
   getBrand {
