@@ -51,6 +51,11 @@ dispatch(Index2(2));
     });
     return;
   }
+
+const handleView = (id:any) =>{
+dispatch(Index2(3));
+}
+
   return (
     <div className="w-full mb-2">
         <div className="flex flex-row w-full min-w-0 bg-[#f1f1f1] shadow-md mb-2">
@@ -89,7 +94,7 @@ dispatch(Index2(2));
                 options={[
                   { id: item.id, label: "Edit", onClick: handleEdit },
                   { id: item.id, label: "Delete", onClick: handleDelete },
-                  { id: item.id, label: "View", onClick: handleDelete },
+                  { id: item.id, label: "View", onClick: handleView },
                 ]}
               />
             </div>
