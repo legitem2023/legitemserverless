@@ -38,6 +38,9 @@ const Detailed = () => {
   }
   return (
     <div className="w-full mb-2">
+        <div className="flex flex-row w-full min-w-0 bg-[#f1f1f1] shadow-md mb-2">
+
+</div>
  {data?.getChildInventory_details?.map((item: any, idx: number) => (
         <div key={idx} className="flex flex-row w-full min-w-0 bg-[#f1f1f1] shadow-md mb-2">
           {/* Image */}
