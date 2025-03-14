@@ -9,7 +9,7 @@ function TabOneContent() {
 }
 
 function TabContentProduct() {
-return <div className="h-[90vh] overflow-y-auto"><ProductDetails/></div>
+return <div id="ParentTab" className="h-[90vh] overflow-y-auto"><ProductDetails/></div>
 }
 function TabTwoContent() {
   return <div className="h-[90vh] overflow-y-auto"></div>
