@@ -25,11 +25,7 @@ const DetailedView = () => {
 
   const handleDelete = (id:any) => {
       console.log(id);
-    const conf = confirm('Are you sure you want to delete this item?');
-    if (!conf) return;
-    DeleteChildInventory({
-      variables: { deleteChildInventoryId: id },
-    });
+    
     return;
   }
   return (
