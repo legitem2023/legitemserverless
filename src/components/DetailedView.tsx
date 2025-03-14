@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { setActiveIndex } from "./Redux/activeIndexSlice";
 import { setActiveIndex as Index2 } from "./Redux/swipeSlice";
 import { GET_CHILD_INVENTORY_DETAIL } from "./graphql/queries/queries";
-
+import SwiperGallery from "./SwiperGallery"
 import Loading from "./Loading";
 
 const DetailedView = () => {
@@ -61,11 +61,7 @@ const DetailedView = () => {
 
           {/* Sub Images */}
           <div className="flex flex-col gap-2 p-2">
-            {item?.subImageFieldOut?.map((itm: any, index: number) => (
-              <div key={index} className="bg-white p-2 shadow-sm rounded">
-                <div>{itm.ImagePath}</div>
-              </div>
-            ))}
+       <SwiperGallery images={item?.subImageFieldOut.map((items) => items.ImagePath)} />
           </div>
         </div>
       ))}
