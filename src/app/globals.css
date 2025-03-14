@@ -30,10 +30,10 @@ body {
 
 @keyframes shimmer {
   0% {
-    background-position: -200% 0;
+    transform: translateX(-100%);
   }
   100% {
-    background-position: 200% 0;
+    transform: translateX(100%);
   }
 }
 
@@ -51,18 +51,17 @@ body {
   content: "";
   position: absolute;
   top: 0;
-  left: -150%;
-  width: 200%;
+  left: 0;
+  width: 150%;
   height: 100%;
   background: linear-gradient(
-    100deg,
-    rgba(255, 255, 255, 0) 40%,
-    rgba(255, 255, 255, 0.4) 50%,
-    rgba(255, 255, 255, 0) 60%
+    120deg,
+    rgba(255, 255, 255, 0) 30%,
+    rgba(255, 255, 255, 0.6) 50%,
+    rgba(255, 255, 255, 0) 70%
   );
-  animation: shimmer 0.5s infinite linear;
+  animation: shimmer 2s infinite linear;
 }
-
 
 .image-gallery-svg{
   height:30px!important;
