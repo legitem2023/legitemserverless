@@ -60,7 +60,7 @@ body {
     rgba(255, 255, 255, 0.4) 50%,
     rgba(255, 255, 255, 0) 60%
   );
-  animation: shimmer 1.5s infinite linear;
+  animation: shimmer 0.5s infinite linear;
 }
 
 
