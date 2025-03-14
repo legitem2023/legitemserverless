@@ -1,0 +1,103 @@
+"use client";
+import { useQuery,useMutation } from "@apollo/client";
+import { useSelector,useDispatch } from "react-redux";
+import {setActiveIndex} from './Redux/activeIndexSlice';
+import { setActiveIndex as Index2 } from "./Redux/swipeSlice";
+import { GET_CHILD_INVENTORY_DETAIL } from "./graphql/queries/queries";
+import { DELETE_CHILD_INVENTORY } from "./graphql/queries/mutation";
+import Loading from "./Loading";
+import DropdownButton from "./UI/DropdownButton";
+
+import { setID,setColor,setSize,setPrice,setStock,setDescription,setStatus} from "./Redux/productDetailsSlice";
+
+const DetailedView = () => {
+    const [DeleteChildInventory] = useMutation(DELETE_CHILD_INVENTORY, {
+    onCompleted: data => {
+      console.log(data);
+      return;
+    },
+  });
+  const dispatch = useDispatch();
+  const styleCode = useSelector((state: any) => state.styleCode.styleCode);
+  const { data, loading } = useQuery(GET_CHILD_INVENTORY_DETAIL, {
+    variables: { styleCode },
+  });
+
+  if (loading) return <Loading/>
+  const handleEdit = (id:any) => {
+
+
+
+const filter = data.getChildInventory_details?.filter((item: any) => item.id === id);
+console.log(filter);
+
+dispatch(setID([filter[0].id]));
+dispatch(setColor([filter[0].color]));
+dispatch(setSize([filter[0].size]));
+dispatch(setPrice([filter[0].price]));
+dispatch(setStock([filter[0].stock]));
+dispatch(setDescription([filter[0].productDescription]));
+dispatch(setStatus([filter[0].status]));
+dispatch(Index2(2));
+}
+
+
+  const handleDelete = (id:any) => {
+      console.log(id);
+    const conf = confirm('Are you sure you want to delete this item?');
+    if (!conf) return;
+    DeleteChildInventory({
+      variables: { deleteChildInventoryId: id },
+    });
+    return;
+  }
+  return (
+    <div className="w-full mb-2">
+        <div className="flex flex-row w-full min-w-0 bg-[#f1f1f1] shadow-md mb-2">
+
+</div>
+ {data?.getChildInventory_details?.map((item: any, idx: number) => (
+        <div key={idx} className="flex flex-row w-full min-w-0 bg-[#f1f1f1] shadow-md mb-2">
+          {/* Image */}
+          <div className="flex-shrink-0 p-2">
+            <img src={item.thumbnail} alt={item.name} className="w-[150px] h-[150px] object-cover rounded" />
+          </div>
+
+          {/* Details */}
+          <div className="flex flex-col gap-2 text-[12px] text-[#000] flex-grow min-w-0 p-2">
+            {[
+              { label: "Name:", value: item.name },
+              { label: "Color:", value: item.color },
+              { label: "Size:", value: item.size },
+              { label: "Price:", value: item.price },
+              { label: "Stock:", value: item.stock },
+              { label: "Status:", value: item.status },
+            ].map((field, index) => (
+              <div key={index} className="flex min-w-0">
+                <div className="font-bold w-[55px] flex-shrink-0">{field.label}</div>
+                <div className="overflow-hidden whitespace-nowrap text-ellipsis min-w-0">
+                  {field.value}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Dropdown */}
+          <div className="flex-grow-0">
+            <div className="p-1 flex flex-col">
+              <DropdownButton
+                options={[
+                  { id: item.id, label: "Edit", onClick: handleEdit },
+                  { id: item.id, label: "Delete", onClick: handleDelete },
+                  { id: item.id, label: "View", onClick: handleDelete },
+                ]}
+              />
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+export default DetailedView;
