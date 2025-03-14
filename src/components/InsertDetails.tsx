@@ -68,9 +68,7 @@ export default function InsertDetails() {
           value={formData.color}
           onChange={handleChange}
           className="p-2 w-full text-[13px]"
-        />
-        {errors.color && <p className="text-red-500">{errors.color}</p>}
-      </div>
+        /></div>
 
      <div className="flex-1 flex relative p-2">  
         
@@ -82,7 +80,7 @@ export default function InsertDetails() {
           onChange={handleChange}
           className="p-2 w-full text-[13px]"
         />
-        {errors.size && <p className="text-red-500">{errors.size}</p>}
+        
       </div>
 
       <div className="flex-1 flex relative p-2">   
@@ -95,7 +93,7 @@ export default function InsertDetails() {
           onChange={handleChange}
           className="p-2 w-full text-[13px]"
         />
-        {errors.price && <p className="text-red-500">{errors.price}</p>}
+        
       </div>
 
       <div className="flex-1 flex relative p-2">  
@@ -108,7 +106,7 @@ export default function InsertDetails() {
           onChange={handleChange}
           className="p-2 w-full text-[13px]"
         />
-        {errors.stock && <p className="text-red-500">{errors.stock}</p>}
+        
       </div>
 
        <div className="flex-1 flex relative p-2">  
@@ -119,11 +117,11 @@ export default function InsertDetails() {
           className="p-2 w-full text-[13px]"
         >
           <option value="">Select status</option>
-          <option value="Available">Available</option>
-          <option value="Out of Stock">Out of Stock</option>
-          <option value="Discontinued">Discontinued</option>
+          <option value="Active">Active</option>
+          <option value="In-active">In-active</option>
+          
         </select>
-        {errors.status && <p className="text-red-500">{errors.status}</p>}
+       
       </div>
 
        <div className="flex-1 flex relative p-2">  
@@ -138,7 +136,7 @@ export default function InsertDetails() {
             toolbar: "undo redo | bold italic | alignleft aligncenter alignright | bullist numlist outdent indent",
           }}
         />
-        {errors.description && <p className="text-red-500">{errors.description}</p>}
+       
       </div>
 
            <div className="flex-1 flex relative p-2"><button type="submit" className="flex justify-center items-center p-2 rounded-md bg-[#451b05] text-[#ffffff] shadow-lg m-2">Submit</button></div>
