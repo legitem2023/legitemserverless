@@ -72,7 +72,6 @@ function SwipeTabsComponent({ tabs }: SwipeTabsProps) {
         modules={[Pagination]}
         spaceBetween={10}
         slidesPerView={1}
-        onSlideChange={(swiper) => setActiveTab(swiper.activeIndex)}
         initialSlide={activeTab}
         className="w-full"
       >
