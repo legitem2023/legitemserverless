@@ -4,19 +4,14 @@ import { useSelector,useDispatch } from "react-redux";
 import {setActiveIndex} from './Redux/activeIndexSlice';
 import { setActiveIndex as Index2 } from "./Redux/swipeSlice";
 import { GET_CHILD_INVENTORY_DETAIL } from "./graphql/queries/queries";
-import { DELETE_CHILD_INVENTORY } from "./graphql/queries/mutation";
-import Loading from "./Loading";
-import DropdownButton from "./UI/DropdownButton";
 
-import { setID,setColor,setSize,setPrice,setStock,setDescription,setStatus} from "./Redux/productDetailsSlice";
+import Loading from "./Loading";
+
+
+
 
 const DetailedView = () => {
-    const [DeleteChildInventory] = useMutation(DELETE_CHILD_INVENTORY, {
-    onCompleted: data => {
-      console.log(data);
-      return;
-    },
-  });
+   
   const dispatch = useDispatch();
   const styleCode = useSelector((state: any) => state.styleCode.styleCode);
   const { data, loading } = useQuery(GET_CHILD_INVENTORY_DETAIL, {
@@ -26,20 +21,6 @@ const DetailedView = () => {
   if (loading) return <Loading/>
   const handleEdit = (id:any) => {
 
-
-
-const filter = data.getChildInventory_details?.filter((item: any) => item.id === id);
-console.log(filter);
-
-dispatch(setID([filter[0].id]));
-dispatch(setColor([filter[0].color]));
-dispatch(setSize([filter[0].size]));
-dispatch(setPrice([filter[0].price]));
-dispatch(setStock([filter[0].stock]));
-dispatch(setDescription([filter[0].productDescription]));
-dispatch(setStatus([filter[0].status]));
-dispatch(Index2(2));
-}
 
 
   const handleDelete = (id:any) => {
@@ -82,18 +63,6 @@ dispatch(Index2(2));
             ))}
           </div>
 
-          {/* Dropdown */}
-          <div className="flex-grow-0">
-            <div className="p-1 flex flex-col">
-              <DropdownButton
-                options={[
-                  { id: item.id, label: "Edit", onClick: handleEdit },
-                  { id: item.id, label: "Delete", onClick: handleDelete },
-                  { id: item.id, label: "View", onClick: handleDelete },
-                ]}
-              />
-            </div>
-          </div>
         </div>
       ))}
     </div>
