@@ -22,6 +22,14 @@ const Products = () => {
   
   if(loading) return <Loading/>
 
+
+function scrollToChild() {
+  const childElement = document.getElementById("ParentTab");
+  if (childElement) {
+    childElement.scrollIntoView({ behavior: "smooth" });
+  }
+}
+
   const handleEdit = (id:any) => {
 
 const filter = data.getChildInventory?.filter((item: any) => item.id === id);
@@ -45,6 +53,7 @@ if (filter?.length) {
     dispatch(setName([""]));
     dispatch(setID([""]));
 }
+scrollToChild();
   };
   const handleDelete = () => alert("Delete Clicked!");
 
