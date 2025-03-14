@@ -107,7 +107,7 @@ if (filter?.length) {
               <Icon 
                 icon="carbon:folder-details" 
                 className="text-[25px] m-1 text-[#000000]" 
-                onClick={() => handleDetail(item.style_Code)}
+                onClick={() => handleDetail(item.styleCode)}
               />
             </div>
           </div>
