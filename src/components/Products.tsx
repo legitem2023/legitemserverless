@@ -76,7 +76,7 @@ scrollDivToTop();
           </div>
           <Sortings/>
           <div className="flex-1 flex relative p-2">
-            <button onClick={()=> dispatch(Index2(1))}  className="flex justify-center items-center p-2 rounded-md bg-[#451b05] text-[#ffffff] shadow-lg m-2">Add Product</button>
+            <button onClick={()=> dispatch(Index2(1))}  className="flex justify-center items-center p-2 rounded-md bg-[#451b05] text-[#ffffff] shadow-lg m-2">New Product</button>
           </div>
         </div>
       {data.getChildInventory?.map((item:any,idx:number) => (
