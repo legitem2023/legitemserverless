@@ -40,6 +40,10 @@ const DetailedView = () => {
               { label: "Price:", value: item.price },
               { label: "Stock:", value: item.stock },
               { label: "Status:", value: item.status },
+              { label: "Creator:", value: item.creator },
+              { label: "Editor:", value: item.editor },
+              { label: "Created Date:", value: item.dateCreated },
+              { label: "Updated Date:", value: item.dateUpdated }
             ].map((field, index) => (
               <div key={index} className="flex p-[2px]">
                 <div className="font-bold w-[70px] flex-shrink-0">{field.label}</div>
