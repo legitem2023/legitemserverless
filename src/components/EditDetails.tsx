@@ -27,6 +27,8 @@ export default function EditDetails() {
   const selectedSize = useSelector((state:any)=>state.productDetails.size);
   const selectedDescription = useSelector((state:any)=>state.productDetails.description);
 
+const selectedStock = useSelector((state:any)=>state.productDetails.stock);
+
 const selectedStatus = useSelector((state:any)=>state.productDetails.status);
 
 
@@ -38,10 +40,11 @@ console.log(id,selectedColor,selectedPrice,selectedSize,selectedDescription,sele
     ...prevData,
     id: Array.isArray(id) || "",
     color: Array.isArray(selectedColor) || "", // Avoid undefined error
-    size: Array.isArray(selectedSize) ? selectedCategory[0] || "" : "",
-    price: Array.isArray(selectedPrice) ? selectedType[0] || "" : "",
-    description: Array.isArray(selectedDescription) ? selectedBrand[0] || "" : "",
-    status: Array.isArray(selectedStatus) ? selectedDepartment[0] || "" : "",
+    size: Array.isArray(selectedSize) ? selectedSize[0] || "" : "",
+    price: Array.isArray(selectedPrice) ? selectedPrice[0] || "" : "",
+    stock: Array.isArray(selectedStock) ? selectedStock[0] || "" : "",
+    description: Array.isArray(selectedDescription) ? selectedDescription[0] || "" : "",
+    status: Array.isArray(selectedStatus) ? selectedStatus[0] || "" : "",
     
   }));
 }, [id]); // Trigger
