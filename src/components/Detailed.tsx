@@ -2,6 +2,7 @@
 import { useQuery,useMutation } from "@apollo/client";
 import { useSelector,useDispatch } from "react-redux";
 import {setActiveIndex} from './Redux/activeIndexSlice';
+import { setActiveIndex as Index2 } from "./Redux/swipeSlice";
 import { GET_CHILD_INVENTORY_DETAIL } from "./graphql/queries/queries";
 import { DELETE_CHILD_INVENTORY } from "./graphql/queries/mutation";
 import Loading from "./Loading";
@@ -21,7 +22,11 @@ const Detailed = () => {
   });
 
   if (loading) return <Loading/>
-  const handleEdit = () => alert("Edit Clicked!");
+  const handleEdit = () => {
+ dispatch(Index2(2));
+}
+
+
   const handleDelete = (id:any) => {
       console.log(id);
     const conf = confirm('Are you sure you want to delete this item?');
