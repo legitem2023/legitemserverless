@@ -17,15 +17,23 @@ const Detailed = () => {
       return;
     },
   });
-  const Dispatch = useDispatch();
+  const dispatch = useDispatch();
   const styleCode = useSelector((state: any) => state.styleCode.styleCode);
   const { data, loading } = useQuery(GET_CHILD_INVENTORY_DETAIL, {
     variables: { styleCode },
   });
 
   if (loading) return <Loading/>
-  const handleEdit = () => {
- Dispatch(Index2(2));
+  const handleEdit = (id:any) => {
+console.log(id);
+/*dispatch(setID());
+dispatch(setColor());
+dispatch(setSize());
+dispatch(setPrice());
+dispatch(setStock());
+dispatch(setDescription());
+dispatch(setStatus());
+dispatch(Index2(2));*/
 }
 
 
