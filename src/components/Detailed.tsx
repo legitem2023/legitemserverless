@@ -23,7 +23,7 @@ const Detailed = () => {
 
   if (loading) return <Loading/>
   const handleEdit = () => {
- Dispatch(Index2(2));
+ Dispatch(Index2(1));
 }
 
 
