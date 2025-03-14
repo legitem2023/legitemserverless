@@ -23,10 +23,10 @@ const Products = () => {
   if(loading) return <Loading/>
 
 
-function scrollToChild() {
-  const childElement = document.getElementById("ParentTab");
-  if (childElement) {
-    childElement.scrollIntoView({ behavior: "smooth" });
+function scrollDivToTop() {
+  const div = document.getElementById("ParentTab");
+  if (div) {
+    div.scrollTop = 0; // Scroll to the top
   }
 }
 
@@ -53,7 +53,7 @@ if (filter?.length) {
     dispatch(setName([""]));
     dispatch(setID([""]));
 }
-scrollToChild();
+scrollDivToTop();
   };
   const handleDelete = () => alert("Delete Clicked!");
 
