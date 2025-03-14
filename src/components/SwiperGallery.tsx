@@ -1,11 +1,12 @@
-// components/SwiperGallery.tsx
 "use client";
 
+import { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination, Autoplay } from "swiper/modules";
+import { Navigation, Pagination, Thumbs, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+import "swiper/css/thumbs";
 
 interface SwiperGalleryProps {
   images: string[]; // Array of image URLs
@@ -16,34 +17,55 @@ interface SwiperGalleryProps {
 
 const SwiperGallery: React.FC<SwiperGalleryProps> = ({
   images,
-  slidesPerView = { desktop: 4, tablet: 2, mobile: 1 },
+  slidesPerView = { desktop: 1, tablet: 1, mobile: 1 },
   loop = true,
   autoplay = true,
 }) => {
+  const [thumbsSwiper, setThumbsSwiper] = useState<any>(null);
+
   return (
-    <Swiper
-      modules={[Navigation, Pagination, Autoplay]}
-      navigation
-      pagination={{ clickable: true }}
-      loop={loop}
-      autoplay={autoplay ? { delay: 3000, disableOnInteraction: false } : false}
-      breakpoints={{
-        1024: { slidesPerView: slidesPerView.desktop },
-        768: { slidesPerView: slidesPerView.tablet },
-        320: { slidesPerView: slidesPerView.mobile },
-      }}
-      className="w-full"
-    >
-      {images.map((src, index) => (
-        <SwiperSlide key={index} className="flex items-center justify-center">
-          <img
-            src={src}
-            alt={`Slide ${index}`}
-            className="w-full h-auto object-cover rounded-lg"
-          />
-        </SwiperSlide>
-      ))}
-    </Swiper>
+    <div className="w-full">
+      {/* Main Swiper */}
+      <Swiper
+        modules={[Navigation, Pagination, Thumbs, Autoplay]}
+        navigation
+        pagination={{ clickable: true }}
+        loop={loop}
+        autoplay={autoplay ? { delay: 3000, disableOnInteraction: false } : false}
+        thumbs={{ swiper: thumbsSwiper }}
+        className="w-full"
+      >
+        {images.map((src, index) => (
+          <SwiperSlide key={index} className="flex items-center justify-center">
+            <img
+              src={src}
+              alt={`Slide ${index}`}
+              className="w-full h-auto object-cover rounded-lg"
+            />
+          </SwiperSlide>
+        ))}
+      </Swiper>
+
+      {/* Thumbnail Swiper */}
+      <Swiper
+        onSwiper={setThumbsSwiper}
+        modules={[Navigation, Thumbs]}
+        slidesPerView={4}
+        spaceBetween={10}
+        watchSlidesProgress
+        className="mt-4 w-full"
+      >
+        {images.map((src, index) => (
+          <SwiperSlide key={index} className="cursor-pointer">
+            <img
+              src={src}
+              alt={`Thumbnail ${index}`}
+              className="w-full h-16 object-cover rounded-md border border-gray-300"
+            />
+          </SwiperSlide>
+        ))}
+      </Swiper>
+    </div>
   );
 };
 
