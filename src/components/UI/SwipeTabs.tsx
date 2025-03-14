@@ -68,6 +68,7 @@ function SwipeTabsComponent({ tabs }: SwipeTabsProps) {
 
       {/* Swiper Content */}
       <Swiper
+        autoHeight={true}
         onSwiper={(swiper) => (swiperRef.current = swiper)}
         modules={[Pagination]}
         spaceBetween={10}
