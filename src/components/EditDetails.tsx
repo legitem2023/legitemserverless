@@ -17,18 +17,20 @@ export default function EditDetails() {
     status: "",
     description: "",
   });
-const id = useSelector((state: any) => state.productDetails);
-console.log(id);
-/*
-  const name = useSelector((state: any) => state.category.name);
 
+
+
+  
  const id = useSelector((state:any)=>state.productDetails.id)
-  const selectedCategory = useSelector((state:any)=>state.category.categories);
-  const selectedType = useSelector((state:any)=>state.category.types);
-  const selectedBrand = useSelector((state:any)=>state.category.brands);
-  const selectedDepartment = useSelector((state:any)=>state.category.department);
-*/
+  const selectedColor = useSelector((state:any)=>state.productDetails.color);
+  const selectedPrice = useSelector((state:any)=>state.productDetails.price);
+  const selectedSize = useSelector((state:any)=>state.productDetails.size);
+  const selectedDescription = useSelector((state:any)=>state.productDetails.description);
 
+const selectedStatus = useSelector((state:any)=>state.productDetails.status);
+
+
+console.log(id,selectedColor,selectedPrice,selectedSize,selectedDescription,selectedStatus);
 
   // Error State
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
