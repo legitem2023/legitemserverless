@@ -25,9 +25,8 @@ const DetailedView = () => {
 
   const handleDelete = (id:any) => {
       console.log(id);
-    
-    return;
   }
+
   return (
     <div className="w-full mb-2">
         <div className="flex flex-row w-full min-w-0 bg-[#f1f1f1] shadow-md mb-2">
