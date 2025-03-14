@@ -61,7 +61,7 @@ const DetailedView = () => {
 
           {/* Sub Images */}
           <div className="flex flex-col gap-2 p-2">
-       <SwiperGallery images={item?.subImageFieldOut.map((items) => items.ImagePath)} />
+       <SwiperGallery images={item?.subImageFieldOut.map((items:any) => items.ImagePath)} />
           </div>
         </div>
       ))}
