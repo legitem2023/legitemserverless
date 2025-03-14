@@ -21,33 +21,28 @@ export default function EditDetails() {
 
 
   
- const id = useSelector((state:any)=>state.productDetails.id)
-  const selectedColor = useSelector((state:any)=>state.productDetails.color);
-  const selectedPrice = useSelector((state:any)=>state.productDetails.price);
-  const selectedSize = useSelector((state:any)=>state.productDetails.size);
-  const selectedDescription = useSelector((state:any)=>state.productDetails.description);
+ const id = useSelector((state: any) => state.productDetails?.id || "");
+const selectedColor = useSelector((state: any) => state.productDetails?.color || "");
+const selectedPrice = useSelector((state: any) => state.productDetails?.price || "");
+const selectedSize = useSelector((state: any) => state.productDetails?.size || "");
+const selectedDescription = useSelector((state: any) => state.productDetails?.description || "");
+const selectedStock = useSelector((state: any) => state.productDetails?.stock || "");
+const selectedStatus = useSelector((state: any) => state.productDetails?.status || "");
 
-const selectedStock = useSelector((state:any)=>state.productDetails.stock);
+console.log(id, selectedColor, selectedPrice, selectedSize, selectedDescription, selectedStatus);
 
-const selectedStatus = useSelector((state:any)=>state.productDetails.status);
-
-
-console.log(id,selectedColor,selectedPrice,selectedSize,selectedDescription,selectedStatus);
-
-
-  useEffect(() => {
+useEffect(() => {
   setFormData((prevData) => ({
     ...prevData,
-    id: Array.isArray(id) || "",
-    color: Array.isArray(selectedColor) || "", // Avoid undefined error
-    size: Array.isArray(selectedSize) ? selectedSize[0] || "" : "",
-    price: Array.isArray(selectedPrice) ? selectedPrice[0] || "" : "",
-    stock: Array.isArray(selectedStock) ? selectedStock[0] || "" : "",
-    description: Array.isArray(selectedDescription) ? selectedDescription[0] || "" : "",
-    status: Array.isArray(selectedStatus) ? selectedStatus[0] || "" : "",
-    
+    id: Array.isArray(id) ? id[0] || "" : id,
+    color: Array.isArray(selectedColor) ? selectedColor[0] || "" : selectedColor,
+    size: Array.isArray(selectedSize) ? selectedSize[0] || "" : selectedSize,
+    price: Array.isArray(selectedPrice) ? selectedPrice[0] || "" : selectedPrice,
+    stock: Array.isArray(selectedStock) ? selectedStock[0] || "" : selectedStock,
+    description: Array.isArray(selectedDescription) ? selectedDescription[0] || "" : selectedDescription,
+    status: Array.isArray(selectedStatus) ? selectedStatus[0] || "" : selectedStatus,
   }));
-}, [id]); // Trigger
+}, [id, selectedColor, selectedSize, selectedPrice, selectedStock, selectedDescription, selectedStatus]);
 
 
   // Error State
