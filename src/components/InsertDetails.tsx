@@ -57,62 +57,66 @@ export default function InsertDetails() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-md mx-auto p-4 space-y-4 bg-white shadow-md rounded-lg">
-      <div>
-        <label className="block font-medium">Color</label>
+    <form onSubmit={handleSubmit} className="max-w-md mx-auto bg-white shadow-md bg-[#f1f1f1]">
+
+      <div>  
         <input
           type="text"
           name="color"
+          placeholder="Color"
           value={formData.color}
           onChange={handleChange}
-          className="border p-2 w-full"
+          className="border p-2 w-full text-[13px]"
         />
         {errors.color && <p className="text-red-500">{errors.color}</p>}
       </div>
 
       <div>
-        <label className="block font-medium">Size</label>
+        
         <input
           type="text"
           name="size"
+          placeholder="Size"
           value={formData.size}
           onChange={handleChange}
-          className="border p-2 w-full"
+          className="border p-2 w-full text-[13px]"
         />
         {errors.size && <p className="text-red-500">{errors.size}</p>}
       </div>
 
       <div>
-        <label className="block font-medium">Price</label>
+        
         <input
           type="number"
           name="price"
+          placeholder="Price"
           value={formData.price}
           onChange={handleChange}
-          className="border p-2 w-full"
+          className="border p-2 w-full text-[13px]"
         />
         {errors.price && <p className="text-red-500">{errors.price}</p>}
       </div>
 
       <div>
-        <label className="block font-medium">Stock</label>
+        
         <input
           type="number"
           name="stock"
+          placeholder="Stock"
           value={formData.stock}
           onChange={handleChange}
-          className="border p-2 w-full"
+          className="border p-2 w-full text-[13px]"
         />
         {errors.stock && <p className="text-red-500">{errors.stock}</p>}
       </div>
 
       <div>
-        <label className="block font-medium">Status</label>
+        
         <select
           name="status"
           value={formData.status}
           onChange={handleChange}
-          className="border p-2 w-full"
+          className="border p-2 w-full text-[13px]"
         >
           <option value="">Select status</option>
           <option value="Available">Available</option>
