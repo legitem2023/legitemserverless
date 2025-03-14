@@ -8,7 +8,7 @@ import { DELETE_CHILD_INVENTORY } from "./graphql/queries/mutation";
 import Loading from "./Loading";
 import DropdownButton from "./UI/DropdownButton";
 
-import { setID,setColor,setSize,setPrice,setStock,setDescription,setStatus} from './Redux/productDetailsSlice";
+import { setID,setColor,setSize,setPrice,setStock,setDescription,setStatus} from "./Redux/productDetailsSlice";
 
 const Detailed = () => {
     const [DeleteChildInventory] = useMutation(DELETE_CHILD_INVENTORY, {
