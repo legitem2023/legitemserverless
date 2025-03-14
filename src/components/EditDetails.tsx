@@ -17,6 +17,8 @@ export default function EditDetails() {
     status: "",
     description: "",
   });
+const id = useSelector((state: any) => state.productDetails);
+console.log(id);
 /*
   const name = useSelector((state: any) => state.category.name);
 
