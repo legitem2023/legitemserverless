@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef,useEffect } from "react";
 import { Editor } from "@tinymce/tinymce-react";
 import { useDispatch, useSelector } from 'react-redux';
 import { setActiveIndex as Index2 } from "./Redux/swipeSlice";
