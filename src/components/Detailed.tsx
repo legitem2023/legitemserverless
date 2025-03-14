@@ -31,14 +31,14 @@ const Detailed = () => {
 const filter = data.getChildInventory_details?.filter((item: any) => item.id === id);
 console.log(filter);
 
-/*dispatch(setID());
-dispatch(setColor());
-dispatch(setSize());
-dispatch(setPrice());
-dispatch(setStock());
-dispatch(setDescription());
-dispatch(setStatus());
-dispatch(Index2(2));*/
+dispatch(setID([filter[0].id]));
+dispatch(setColor([filter[0].color]));
+dispatch(setSize([filter[0].size]));
+dispatch(setPrice([filter[0].price]));
+dispatch(setStock([filter[0].stock]));
+dispatch(setDescription([filter[0].productDescription]));
+dispatch(setStatus([filter[0].status]));
+dispatch(Index2(2));
 }
 
 
