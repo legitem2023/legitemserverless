@@ -125,8 +125,7 @@ export default function InsertDetails() {
       </div>
 
        <div className="flex-1 flex relative p-2">  
-        <Editor
-          apiKey="your-tinymce-api-key"
+        <Editor  apiKey='cwn0oh6tsk3swlt9qm1xpofcybpgg65bban9nsl3tdavcr12'
           onInit={(evt, editor) => (editorRef.current = editor)}
           onEditorChange={handleEditorChange}
           init={{
