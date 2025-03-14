@@ -30,7 +30,6 @@ const SwipeContainer: React.FC<SwipeContainerProps> = ({ items }) => {
       modules={[Pagination]}
       spaceBetween={20}
       slidesPerView={1}
-      pagination={{ clickable: true }}
       initialSlide={activeIndex} // Set initial slide from Redux state
       
     >
