@@ -19,7 +19,7 @@ const DetailedView = () => {
   return (
     <>
       <BackButton />
-      <div className="w-full space-y-2 m-[2px]"> {/* Added margin here */}
+      <div className="w-full space-y-2 p-[4px]"> {/* Added margin here */}
         {data?.getChildInventory_details?.map((item: any, idx: number) => (
           <div
             key={idx}
