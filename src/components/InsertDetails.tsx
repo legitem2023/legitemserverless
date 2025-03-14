@@ -141,7 +141,7 @@ export default function InsertDetails() {
         {errors.description && <p className="text-red-500">{errors.description}</p>}
       </div>
 
-      <button type="submit" className="bg-blue-500 text-white p-2 rounded">Submit</button>
+           <div className="flex-1 flex relative p-2"><button type="submit" className="flex justify-center items-center p-2 rounded-md bg-[#451b05] text-[#ffffff] shadow-lg m-2">Submit</button></div>
     </form>
   );
   }
