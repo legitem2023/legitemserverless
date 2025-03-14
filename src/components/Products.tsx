@@ -7,7 +7,7 @@ import { setTypes, setBrands, setDepartments,setCategories,setStatus,setName,set
 import {autoScrollTop} from "./utils"
 import {setStyleCode} from './Redux/styleCodeSlice';
 import { useState } from 'react'
-import { GET_CHILD_INVENTORY } from "./graphql/queries/queries";
+import { MANAGEMENT_INVENTORY } from "./graphql/queries/queries";
 import { Icon } from "@iconify/react";
 import Loading from "./Loading";
 import Detailed from "./Detailed";
@@ -18,7 +18,7 @@ const Products = () => {
     
   
   const [useSlide,setSlide] = useState(false);
-  const { data, loading, error } = useQuery(GET_CHILD_INVENTORY);
+  const { data, loading, error } = useQuery(MANAGEMENT_INVENTORY);
   
   if(loading) return <Loading/>
 
