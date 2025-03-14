@@ -57,7 +57,7 @@ export default function InsertDetails() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-md mx-auto bg-white shadow-md bg-[#f1f1f1]">
+    <form onSubmit={handleSubmit} className="max-w-md mx-auto shadow-md bg-[#f1f1f1]">
           <div className="flex-1 flex flex-wrap relative p-2 font-bold">Insert Product Detail</div>
           <hr></hr>
       <div className="flex-1 flex relative p-2">  
@@ -67,7 +67,7 @@ export default function InsertDetails() {
           placeholder="Color"
           value={formData.color}
           onChange={handleChange}
-          className="border p-2 w-full text-[13px]"
+          className="p-2 w-full text-[13px]"
         />
         {errors.color && <p className="text-red-500">{errors.color}</p>}
       </div>
@@ -80,7 +80,7 @@ export default function InsertDetails() {
           placeholder="Size"
           value={formData.size}
           onChange={handleChange}
-          className="border p-2 w-full text-[13px]"
+          className="p-2 w-full text-[13px]"
         />
         {errors.size && <p className="text-red-500">{errors.size}</p>}
       </div>
@@ -93,7 +93,7 @@ export default function InsertDetails() {
           placeholder="Price"
           value={formData.price}
           onChange={handleChange}
-          className="border p-2 w-full text-[13px]"
+          className="p-2 w-full text-[13px]"
         />
         {errors.price && <p className="text-red-500">{errors.price}</p>}
       </div>
@@ -106,7 +106,7 @@ export default function InsertDetails() {
           placeholder="Stock"
           value={formData.stock}
           onChange={handleChange}
-          className="border p-2 w-full text-[13px]"
+          className="p-2 w-full text-[13px]"
         />
         {errors.stock && <p className="text-red-500">{errors.stock}</p>}
       </div>
@@ -116,7 +116,7 @@ export default function InsertDetails() {
           name="status"
           value={formData.status}
           onChange={handleChange}
-          className="border p-2 w-full text-[13px]"
+          className="p-2 w-full text-[13px]"
         >
           <option value="">Select status</option>
           <option value="Available">Available</option>
