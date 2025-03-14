@@ -20,10 +20,17 @@ const DetailedView = () => {
       {data?.getChildInventory_details?.map((item: any, idx: number) => (
         <div
           key={idx}
-          className="flex flex-col md:flex-row items-start w-full bg-[#f1f1f1] shadow-md rounded-md p-[2px] gap-x-2 gap-y-2"
+          className="flex flex-col items-center w-full bg-[#f1f1f1] shadow-md rounded-md p-[2px] gap-y-2"
         >
+          {/* Swiper Gallery */}
+          <div className="w-full md:max-w-[200px] p-[2px]">
+            <SwiperGallery
+              images={item?.subImageFieldOut?.map((img: any) => img.ImagePath)}
+            />
+          </div>
+
           {/* Details Section */}
-          <div className="flex flex-col flex-grow text-[12px] text-[#000] min-w-0">
+          <div className="flex flex-col w-full text-[12px] text-[#000] min-w-0 p-[2px]">
             {[
               { label: "Name:", value: item.name },
               { label: "Color:", value: item.color },
@@ -39,13 +46,6 @@ const DetailedView = () => {
                 </div>
               </div>
             ))}
-          </div>
-
-          {/* Swiper Gallery */}
-          <div className="w-full md:max-w-[200px] p-[2px]">
-            <SwiperGallery
-              images={item?.subImageFieldOut?.map((img: any) => img.ImagePath)}
-            />
           </div>
         </div>
       ))}
