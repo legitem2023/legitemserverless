@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import { GET_CHILD_INVENTORY_DETAIL } from "./graphql/queries/queries";
 import SwiperGallery from "./SwiperGallery";
 import Loading from "./Loading";
-
+import BackButton from "./UI/BackButton";
 const DetailedView = () => {
   const styleCode = useSelector((state: any) => state.styleCode.styleCode);
 
@@ -16,6 +16,8 @@ const DetailedView = () => {
   if (loading) return <Loading />;
 
   return (
+<>
+  <BackButton/>
     <div className="w-full space-y-2">
       {data?.getChildInventory_details?.map((item: any, idx: number) => (
         <div
@@ -50,6 +52,7 @@ const DetailedView = () => {
         </div>
       ))}
     </div>
+</>
   );
 };
 
