@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import ArrowTabs from "@/components/ArrowTabs";
 
-const Transaction = () => {
+const Transactions = () => {
   const stages = ["Step 1", "Step 2", "Step 3", "Step 4"];
   const [activeStage, setActiveStage] = useState(0);
 
@@ -21,4 +21,4 @@ const Transaction = () => {
   );
 };
 
-export default Transaction;
+export default Transactions;
