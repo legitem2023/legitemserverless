@@ -1,9 +1,9 @@
 import React from "react";
 
 interface ArrowTabsProps {
-  stages: string[]; // Array of stage names
-  activeStage: number; // Active stage index
-  onStageChange?: (index: number) => void; // Click handler
+  stages: string[];
+  activeStage: number;
+  onStageChange?: (index: number) => void;
 }
 
 const ArrowTabs: React.FC<ArrowTabsProps> = ({ stages, activeStage, onStageChange }) => {
@@ -12,18 +12,16 @@ const ArrowTabs: React.FC<ArrowTabsProps> = ({ stages, activeStage, onStageChang
       {stages.map((stage, index) => (
         <div
           key={index}
-          className={`relative flex items-center px-2 py-2 text-[12px] text-white font-semibold cursor-pointer transition-all duration-300
+          className={`relative flex items-center justify-center px-4 py-2 text-[12px] text-white font-semibold cursor-pointer transition-all duration-300 
             ${index === activeStage ? "bg-blue-500" : "bg-gray-400"}
           `}
           onClick={() => onStageChange && onStageChange(index)}
+          style={{
+            clipPath: "polygon(0% 50%, 10% 0%, 90% 0%, 100% 50%, 90% 100%, 10% 100%)",
+            marginRight: index < stages.length - 1 ? "2px" : "0", // Small spacing between arrows
+          }}
         >
-          {/* Tab Label */}
-          <span>{stage}</span>
-
-          {/* Arrow Shape with 1px spacing */}
-          <div className={`absolute top-0 right-[-1px] w-0 h-0 border-t-[15px] border-t-transparent border-b-[15px] border-b-transparent 
-            ${index === activeStage ? "border-l-[15px] border-l-blue-500" : "border-l-[15px] border-l-gray-400"}`}
-          />
+          {stage}
         </div>
       ))}
     </div>
