@@ -31,16 +31,24 @@ const SalesChart: React.FC<SalesChartProps> = ({ data, labels }) => {
   responsive: true,
   maintainAspectRatio: false,
   plugins: {
-    legend: { display: false },
-    tooltip: { 
-      mode: "index", // ✅ Gumamit ng tamang type
-      intersect: false 
-    }
+    legend: {
+      display: true,
+    },
+    tooltip: {
+      mode: "index", // Ensure it's one of: "index", "dataset", "point", "nearest", "x", or "y"
+      intersect: false,
+    },
   },
   scales: {
-    x: { grid: { display: false } },
-    y: { beginAtZero: true }
-  }
+    x: {
+      grid: {
+        display: false,
+      },
+    },
+    y: {
+      beginAtZero: true,
+    },
+  },
 };
   return (
     <div className="w-full h-64 p-4 bg-white shadow rounded">
