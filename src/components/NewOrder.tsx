@@ -24,13 +24,13 @@ console.log(orders.readGroupedOrderHistory);
  {item.OrderStatus}</div>
 <div>{item.OrderHistory.map((hisItem:any,index:number) => (
 <div key={index}>
-<div className="font-bold w-[70px] flex-shrink-0">{hisitem.Color}</div>
+<div className="font-bold w-[70px] flex-shrink-0">{hisItem.Color}</div>
 
-<div className="font-bold w-[70px] flex-shrink-0">{hisitem.Size}</div>
+<div className="font-bold w-[70px] flex-shrink-0">{hisItem.Size}</div>
 
-<div className="font-bold w-[70px] flex-shrink-0">{hisitem.Price}</div>
+<div className="font-bold w-[70px] flex-shrink-0">{hisItem.Price}</div>
 
-<div className="font-bold w-[70px] flex-shrink-0">{hisitem.Quantity}</div>
+<div className="font-bold w-[70px] flex-shrink-0">{hisItem.Quantity}</div>
 
 
 ))}</div>
