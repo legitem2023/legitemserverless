@@ -40,17 +40,17 @@ const SalesChart: React.FC = () => {
   };
 
   const options = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: { display: false },
-      tooltip: { mode: "index", intersect: false },
-    },
-    scales: {
-      x: { grid: { display: false } },
-      y: { beginAtZero: true },
-    },
-  };
+  responsive: true,
+  maintainAspectRatio: false,
+  plugins: {
+    legend: { display: false },
+    tooltip: { interaction: { mode: "index", intersect: false } }, // FIXED
+  },
+  scales: {
+    x: { grid: { display: false } },
+    y: { beginAtZero: true },
+  },
+};
 
   return (
     <div className="w-full max-w-2xl mx-auto bg-white p-4 shadow-lg rounded-lg">
