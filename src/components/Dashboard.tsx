@@ -13,13 +13,6 @@ const {data:ChartData,loading:ChartLoading} = useQuery(READ_CHART_SALES,{variabl
 
 if(ChartLoading) return
 
-const SaleData = {
-    "labels":ChartData.readSales.map((data: any) => data.Interval),
-    "values":ChartData.readSales.map((data: any) => data.totalSales)
-  }
-
-console.log(SaleData);
-
   return (
     <div className="min-h-screen p-2 bg-gray-100">
                 <div className="flex-1 flex flex-wrap relative p-2 font-bold">Dashboard</div>
@@ -37,8 +30,8 @@ console.log(SaleData);
         <div className="lg:col-span-2">
           <div className="bg-white p-2 shadow-md rounded-lg">
             <SalesChart
-              data={[120, 200, 150, 300]}
-              labels={["2024-03-01", "2024-03-02", "2024-03-03", "2024-03-04"]}
+              data={ChartData.readSales.map((data: any) => data.totalSales}
+              labels={ChartData.readSales.map((data: any) => data.Interval)}
             />
           </div>
         </div>
