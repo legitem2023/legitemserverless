@@ -1,15 +1,15 @@
-import Tabs from "./UI/Tabs";
+import ArrowTabs from "./UI/ArrowTabs";
 import ProductSwipePage from "./ProductSwipePage";
 import DetailedSwipePage from "./DetailedSwipePage";
 const ProductDetails = () => {
   const tabData = [
-    { label: "Products", content: <ProductSwipePage/> },
-    { label: "Details", content: <DetailedSwipePage/> },
+    { icon: "Products", content: <ProductSwipePage/> },
+    { icon: "Details", content: <DetailedSwipePage/> },
   ];
 
   return (
     <div className="w-full">
-      <Tabs tabs={tabData} />
+      <ArrowTabs tabs={tabData} />
     </div>
   );
 };
