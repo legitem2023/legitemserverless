@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 interface AccordionProps {
   title: string;
-  content: React.node;
+  content: React.reactNode;
 }
 
 const ReusableAccordion: React.FC<AccordionProps> = ({ title, content }) => {
