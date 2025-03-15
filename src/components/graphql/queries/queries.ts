@@ -1,6 +1,28 @@
 
 import { gql } from "@apollo/client"
 //*************** QUERIES ***************/
+export const GET_NUM_OF_VIEWS = gql`
+query GetNumberOfViews {
+  getNumberOfViews {
+    Country
+    IpAddress
+    count
+    emailAddress
+    id
+    productCode
+    dateVisited
+  }
+}`
+export const GET_WEBSITE_VISITS = gql`
+query GetWebsitVisits {
+  getWebsitVisits {
+    id
+    Country
+    IpAddress
+    dateVisited
+  }
+}`
+
 export const READ_CHART_SALES = gql`
 query ReadSales($period: String) {
   readSales(period: $period) {
