@@ -30,7 +30,7 @@ if(ChartLoading) return
         <div className="lg:col-span-2">
           <div className="bg-white p-2 shadow-md rounded-lg">
             <SalesChart
-              data={ChartData.readSales.map((data: any) => data.totalSales}
+              data={ChartData.readSales.map((data: any) => data.totalSales)}
               labels={ChartData.readSales.map((data: any) => data.Interval)}
             />
           </div>
