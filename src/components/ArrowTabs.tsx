@@ -17,12 +17,7 @@ const ArrowTabs: React.FC<ArrowTabsProps> = ({ stages, activeStage, onStageChang
           `}
           onClick={() => onStageChange && onStageChange(index)}
           style={{
-            clipPath:
-              index === 0
-                ? "polygon(0% 50%, 10% 0%, 100% 0%, 100% 100%, 10% 100%)" // Leftmost pentagon (flipped)
-                : index === stages.length - 1
-                ? "polygon(0% 0%, 90% 0%, 100% 50%, 90% 100%, 0% 100%)" // Rightmost pentagon (normal)
-                : "polygon(0% 50%, 10% 0%, 90% 0%, 100% 50%, 90% 100%, 10% 100%)", // Middle pentagons
+            clipPath: "polygon(0% 0%, 85% 0%, 100% 50%, 85% 100%, 0% 100%, 15% 50%)", // Right-facing pentagon shape
             marginRight: index < stages.length - 1 ? "2px" : "0", // Small spacing between arrows
           }}
         >
