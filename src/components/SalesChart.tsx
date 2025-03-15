@@ -35,7 +35,7 @@ const SalesChart: React.FC<SalesChartProps> = ({ data, labels }) => {
   const [selectedInterval, setSelectedInterval] = useState<IntervalType>("daily");
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const [currentPage, setCurrentPage] = useState(0);
-  const itemsPerPage = 7; // Bilang ng araw per page sa daily view
+  const itemsPerPage = 7;
 
   useEffect(() => {
     const handleResize = () => {
@@ -155,24 +155,19 @@ const SalesChart: React.FC<SalesChartProps> = ({ data, labels }) => {
     <div className="w-full p-4 bg-white shadow rounded h-64 sm:h-72 md:h-80">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-lg font-semibold">Sales Overview</h2>
-        <div className="flex gap-2 overflow-x-auto whitespace-nowrap">
-          {(["daily", "weekly", "monthly", "yearly"] as IntervalType[]).map((interval) => (
-            <button
-              key={interval}
-              onClick={() => {
-                setSelectedInterval(interval);
-                setCurrentPage(0); // Reset sa unang page
-              }}
-              className={`px-3 py-1 rounded text-sm ${
-                selectedInterval === interval
-                  ? "bg-blue-500 text-white"
-                  : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-              }`}
-            >
-              {interval.charAt(0).toUpperCase() + interval.slice(1)}
-            </button>
-          ))}
-        </div>
+        <select
+          value={selectedInterval}
+          onChange={(e) => {
+            setSelectedInterval(e.target.value as IntervalType);
+            setCurrentPage(0); // Reset page sa daily kapag nagpalit ng sorting
+          }}
+          className="p-2 border border-gray-300 rounded bg-white text-sm"
+        >
+          <option value="daily">Daily</option>
+          <option value="weekly">Weekly</option>
+          <option value="monthly">Monthly</option>
+          <option value="yearly">Yearly</option>
+        </select>
       </div>
       <div className="h-48">
         <Line data={chartData} options={options} />
