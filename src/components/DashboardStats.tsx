@@ -19,7 +19,7 @@ const DashboardStats = () => {
   }, []);
 
   return (
-    <div className="flex flex-wrap justify-center md:justify-start gap-4 p-4">
+    <div className="flex flex-wrap justify-center md:justify-start gap-2 p-2">
       <StatsCard title="Today's Visit" value={todaysVisit} icon="mdi:account-multiple" color="bg-blue-500" />
       <StatsCard title="Total Visits" value={totalVisit} icon="mdi:chart-bar" color="bg-green-500" />
       <StatsCard title="Today's Views" value={todaysViews} icon="mdi:eye-outline" color="bg-yellow-500" />
