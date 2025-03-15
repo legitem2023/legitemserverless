@@ -19,7 +19,7 @@ const Transactions = () => {
 
 
 const tabs = [{
-icon: "fluent:document-add-24-filled, content: <p>🏠</p> },{ 
+icon: "fluent:document-add-24-filled", content: <p>🏠</p> },{ 
 icon: "mdi:inbox-arrow-down", 
 content: <p>🛒</p> },{ 
 icon: "solar:settings-bold", 
