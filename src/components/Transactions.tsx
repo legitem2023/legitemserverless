@@ -41,7 +41,7 @@ content: <p>✅</p>},
         tabs={tabs}
       />
       
-      <div className="mt-4 p-4 border rounded-md">
+      <div className="mt-2 p-2 border rounded-sm">
         <h2 className="text-xl font-bold">Current Stage: {stages[activeStage]}</h2>
       </div>
     </div>
