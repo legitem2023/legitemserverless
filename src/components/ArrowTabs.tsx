@@ -1,5 +1,5 @@
 import React from "react";
-
+import { Icon } from '@iconify/react';
 interface ArrowTabsProps {
   stages: string[];
   activeStage: number;
@@ -21,7 +21,7 @@ const ArrowTabs: React.FC<ArrowTabsProps> = ({ stages, activeStage, onStageChang
             boxShadow: index > 0 ? "-0.3px 0 0 rgba(0, 0, 0, 0.2)" : "none", // Fake 0.3px spacing using shadow
           }}
         >
-          {stage}
+          <Icon icon={stage}/>
         </div>
       ))}
     </div>
