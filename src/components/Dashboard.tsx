@@ -5,7 +5,8 @@ import SalesChart from "@/components/SalesChart";
 const Dashboard = () => {
   return (
     <div className="min-h-screen p-2 bg-gray-100">
-      <h1 className="text-2xl font-bold mb-6">Dashboard</h1>
+                <div className="flex-1 flex flex-wrap relative p-2 font-bold">Dashboard</div>
+          <hr></hr>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-2">
         {/* Stats Panel - Full width on mobile, 1/3 width on desktop */}
