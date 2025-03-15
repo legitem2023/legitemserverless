@@ -8,7 +8,8 @@ export default function NewOrder() {
  const { data: orders, loading: ordersLoading, error: orderError,refetch } = useQuery(READ_ORDERS, {
     variables: { emailAddress: "Legitem2013@gmail.com" },
   });  
-  
+  if(ordersLoading) return;
+console.log(orders);
 
   return (
 <>
