@@ -1,43 +1,58 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setActiveIndex } from "../Redux/activeIndexSlice";
 import { Icon } from "@iconify/react";
 
-interface ArrowTabsProps {
-  stages: string[];
-  activeStage: number;
-  onStageChange?: (index: number) => void;
-}
+type Tab = {
+  icon: string; // Iconify icon name
+  content: React.ReactNode;
+};
 
-const ArrowTabs: React.FC<ArrowTabsProps> = ({ stages, activeStage, onStageChange }) => {
+type TabsProps = {
+  tabs: Tab[];
+};
+
+const ArrowTabs: React.FC<TabsProps> = ({ tabs }) => {
+  const dispatch = useDispatch();
+  const activeIndex = useSelector((state: any) => state.activeIndex.activeIndex);
+
   return (
-    <div className="bg-[#ff9999] flex w-full gap-1">
-      {stages.map((stage, index) => {
-        let clipPath = "polygon(0% 0%, 88% 0%, 100% 50%, 88% 100%, 0% 100%, 12% 50%)"; // Middle tabs (arrow on both sides)
+    <div className="w-full">
+      {/* Tab Buttons (Arrow Style) */}
+      <div className="flex bg-[#ff9999] gap-1">
+        {tabs.map((tab, index) => {
+          let clipPath =
+            "polygon(0% 0%, 88% 0%, 100% 50%, 88% 100%, 0% 100%, 12% 50%)"; // Middle tabs (arrow on both sides)
 
-        if (index === 0) {
-          // First tab (flat left, arrow right)
-          clipPath = "polygon(0% 0%, 88% 0%, 100% 50%, 88% 100%, 0% 100%)";
-        } else if (index === stages.length - 1) {
-          // Last tab (arrow left, flat right)
-          clipPath = "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%, 12% 50%)";
-        }
+          if (index === 0) {
+            clipPath = "polygon(0% 0%, 88% 0%, 100% 50%, 88% 100%, 0% 100%)"; // First tab (flat left, arrow right)
+          } else if (index === tabs.length - 1) {
+            clipPath = "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%, 12% 50%)"; // Last tab (arrow left, flat right)
+          }
 
-        return (
-          <div
-            key={index}
-            className={`relative flex-1 flex items-center justify-center text-white font-semibold cursor-pointer transition-all duration-300 
-              ${index === activeStage ? "bg-[#451b05]" : "bg-[#9a3610]"}
-            `}
-            onClick={() => onStageChange && onStageChange(index)}
-            style={{
-              clipPath,
-              marginLeft: index > 0 ? "-4px" : "0px",
-              padding: "8px 16px",
-            }}
-          >
-            <Icon icon={stage} className="text-[18px]" />
-          </div>
-        );
-      })}
+          return (
+            <div
+              key={index}
+              onClick={() => dispatch(setActiveIndex(index))}
+              className={`relative flex-1 flex items-center justify-center text-white font-semibold cursor-pointer transition-all duration-300 
+                ${activeIndex === index ? "bg-[#451b05]" : "bg-[#9a3610]"}
+              `}
+              style={{
+                clipPath,
+                marginLeft: index > 0 ? "-4px" : "0px",
+                padding: "8px 16px",
+              }}
+            >
+              <Icon icon={tab.icon} className="text-[18px]" />
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Tab Content */}
+      <div className="p-4 bg-gray-100 text-gray-800 rounded-md">
+        {tabs[activeIndex]?.content}
+      </div>
     </div>
   );
 };
