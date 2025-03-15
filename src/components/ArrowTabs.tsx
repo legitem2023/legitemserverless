@@ -14,7 +14,7 @@ const ArrowTabs: React.FC<ArrowTabsProps> = ({ stages, activeStage, onStageChang
         <div
           key={index}
           className={`flex-1 flex-grow relative flex items-center justify-center px-3 py-2 text-[20px] text-white font-semibold cursor-pointer transition-all duration-300 
-            ${index === activeStage ? "bg-blue-500" : "bg-gray-400"}
+            ${index === activeStage ? "bg-[#451b05]" : "bg-gray-400"}
           `}
           onClick={() => onStageChange && onStageChange(index)}
           style={{
@@ -23,7 +23,7 @@ const ArrowTabs: React.FC<ArrowTabsProps> = ({ stages, activeStage, onStageChang
             padding: "6px 12px", // Compact padding
           }}
         >
-          <Icon icon={stage} className="text-[18px]" />
+          <Icon icon={stage} className="text-[25px]" />
         </div>
       ))}
     </div>
