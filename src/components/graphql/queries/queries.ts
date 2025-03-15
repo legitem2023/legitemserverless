@@ -1,6 +1,15 @@
 
 import { gql } from "@apollo/client"
 //*************** QUERIES ***************/
+export const READ_CHART_SALES = gql`
+query ReadSales($period: String) {
+  readSales(period: $period) {
+    Interval
+    totalSales
+  }
+}
+`
+
 export const MANAGEMENT_INVENTORY = gql`
 query GetParentInventory($emailAddress: String) {
   getParentInventory(EmailAddress: $emailAddress) {
