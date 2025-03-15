@@ -1,4 +1,4 @@
-import ArrowTabs from "./UI/ArrowTabs";
+import ArrowTabs from "./ArrowTabs";
 import ProductSwipePage from "./ProductSwipePage";
 import DetailedSwipePage from "./DetailedSwipePage";
 const ProductDetails = () => {
