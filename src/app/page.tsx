@@ -1,6 +1,8 @@
 'use client';
 import SwipeTabs from "@/components/UI/SwipeTabs";
 import SalesChart from "@/components/SalesChart";
+
+import DashboardStats from "@/components/DashboardStats"
 import dynamic from 'next/dynamic';
 
 const ProductDetails = dynamic(() => import('@/components/ProductDetails'), { ssr: false });
@@ -13,7 +15,9 @@ type DataProps = {
 const DashboardTab: React.FC<DataProps> = ({ data, labels }) => {
   return (
     <div className="h-[90vh] overflow-y-auto">
+<DashboardStats/>
       <SalesChart data={data} labels={labels} />
+
     </div>
   );
 };
