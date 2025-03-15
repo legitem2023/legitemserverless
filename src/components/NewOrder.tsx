@@ -2,7 +2,7 @@
 
 import { useState, useRef,useEffect } from "react";
 
-import { READ_ORDER } from "./graphql/queries/queries";
+import { READ_ORDERS } from "./graphql/queries/queries";
 export default function EditDetails() {
  
 
