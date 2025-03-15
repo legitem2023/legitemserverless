@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import StatsCard from "./StatsCard";
-
+import { GET_NUM_OF_VIEWS, GET_WEBSITE_VISITS } from "./graphql/queries/queries";
 const DashboardStats = () => {
   const [todaysVisit, setTodaysVisit] = useState(0);
   const [totalVisit, setTotalVisit] = useState(0);
