@@ -18,14 +18,27 @@ const Transactions = () => {
 ];
 
 
+const tabs = [{
+icon: "fluent:document-add-24-filled, content: <p>🏠</p> },{ 
+icon: "mdi:inbox-arrow-down", 
+content: <p>🛒</p> },{ 
+icon: "solar:settings-bold", 
+content: <p>✅</p> },{ 
+icon: "mdi:truck-cargo-container", 
+content: <p>✅</p>},{
+icon: "material-symbols:local-shipping", content: <p>✅</p>},{
+icon: "mdi:check-decagram", 
+content: <p>✅</p>},
+];
+
+
+
   const [activeStage, setActiveStage] = useState(0);
 
   return (
     <div className="p-6">
       <ArrowTabs
-        stages={stages}
-        activeStage={activeStage}
-        onStageChange={setActiveStage}
+        tabs={tabs}
       />
       
       <div className="mt-4 p-4 border rounded-md">
