@@ -1,11 +1,14 @@
 'use client';
 import SwipeTabs from "@/components/UI/SwipeTabs";
+import SalesChart from "@/components/SalesChart";
 import dynamic from 'next/dynamic';
 
 const ProductDetails = dynamic(() => import('@/components/ProductDetails'), { ssr: false });
 
 function DashboardTab() {
-  return <div className="h-[90vh] overflow-y-auto"></div>
+  return <div className="h-[90vh] overflow-y-auto">
+<SalesChart/>
+</div>
 }
 
 
