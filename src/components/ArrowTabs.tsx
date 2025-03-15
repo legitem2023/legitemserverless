@@ -35,7 +35,7 @@ const ArrowTabs: React.FC<TabsProps> = ({ tabs }) => {
               key={index}
               onClick={() => dispatch(setActiveIndex(index))}
               className={`relative flex-1 flex items-center justify-center text-white font-semibold cursor-pointer transition-all duration-300 
-                ${activeIndex === index ? "bg-[#451b05]" : "bg-[#9a3610]"}
+                ${activeIndex === index ? "bg-[#c0c0c0]" : "bg-[#e1e1e1]"}
               `}
               style={{
                 clipPath,
