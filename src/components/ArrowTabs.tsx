@@ -9,11 +9,11 @@ interface ArrowTabsProps {
 
 const ArrowTabs: React.FC<ArrowTabsProps> = ({ stages, activeStage, onStageChange }) => {
   return (
-    <div className="flex w-full">
+    <div className="bg-[#ff9999] flex w-full">
       {stages.map((stage, index) => (
         <div
           key={index}
-          className={`border flex-1 flex-grow relative flex items-center justify-center px-3 py-2 text-[20px] text-white font-semibold cursor-pointer transition-all duration-300 
+          className={`flex-1 flex-grow relative flex items-center justify-center px-3 py-2 text-[20px] text-white font-semibold cursor-pointer transition-all duration-300 
             ${index === activeStage ? "bg-[#451b05]" : "bg-[#ebb4a0]"}
           `}
           onClick={() => onStageChange && onStageChange(index)}
