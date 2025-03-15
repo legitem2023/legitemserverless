@@ -1,9 +1,9 @@
 import React from "react";
 
 interface ArrowTabsProps {
-  stages: string[];  // Array of stage names
-  activeStage: number;  // Index of active stage
-  onStageChange?: (index: number) => void;  // Click handler
+  stages: string[]; // Array of stage names
+  activeStage: number; // Active stage index
+  onStageChange?: (index: number) => void; // Click handler
 }
 
 const ArrowTabs: React.FC<ArrowTabsProps> = ({ stages, activeStage, onStageChange }) => {
@@ -12,22 +12,18 @@ const ArrowTabs: React.FC<ArrowTabsProps> = ({ stages, activeStage, onStageChang
       {stages.map((stage, index) => (
         <div
           key={index}
-          className={`relative flex items-center px-4 py-2 border ${
-            index === activeStage ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-600"
-          } cursor-pointer transition-all duration-300`}
+          className={`relative flex items-center px-6 py-3 text-white font-semibold cursor-pointer transition-all duration-300
+            ${index === activeStage ? "bg-blue-500" : "bg-gray-400"}
+          `}
           onClick={() => onStageChange && onStageChange(index)}
         >
-          <span className="font-semibold">{stage}</span>
+          {/* Tab Label */}
+          <span>{stage}</span>
 
-          {/* Right Arrow */}
-          {index < stages.length - 1 && (
-            <div className="w-0 h-0 border-l-[15px] border-l-transparent border-t-[20px] border-t-gray-200 border-b-[20px] border-b-gray-200 absolute right-[-14px] top-1/2 transform -translate-y-1/2" />
-          )}
-
-          {/* Active Right Arrow */}
-          {index < stages.length - 1 && index === activeStage && (
-            <div className="w-0 h-0 border-l-[15px] border-l-transparent border-t-[20px] border-t-blue-500 border-b-[20px] border-b-blue-500 absolute right-[-14px] top-1/2 transform -translate-y-1/2" />
-          )}
+          {/* Arrow Shape */}
+          <div className={`absolute top-0 right-[-15px] w-0 h-0 border-t-[22px] border-t-transparent border-b-[22px] border-b-transparent 
+            ${index === activeStage ? "border-l-[15px] border-l-blue-500" : "border-l-[15px] border-l-gray-400"}`}
+          />
         </div>
       ))}
     </div>
