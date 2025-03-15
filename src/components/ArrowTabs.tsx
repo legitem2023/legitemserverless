@@ -14,7 +14,7 @@ const ArrowTabs: React.FC<ArrowTabsProps> = ({ stages, activeStage, onStageChang
         let clipPath = "polygon(0% 0%, 88% 0%, 100% 50%, 88% 100%, 0% 100%, 12% 50%)"; // Gitna (arrow sa both sides)
 
         if (index === 0) {
-          clipPath = "polygon(0% 0%, 100% 0%, 88% 50%, 100% 100%, 0% 100%)"; // Unang tab (flat left, arrow right)
+          clipPath = "polygon(0% 0%, 100% 0%, 88% 50%, 100% 100%, 12% 50%)"; // Unang tab (flat left, arrow right)
         } else if (index === stages.length - 1) {
           clipPath = "polygon(0% 0%, 88% 0%, 100% 50%, 88% 100%, 0% 100%, 0% 0%)"; // Huling tab (pabaliktad ang kaliwang arrow, flat right)
         }
