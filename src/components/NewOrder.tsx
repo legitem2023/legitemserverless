@@ -3,6 +3,9 @@ import { useMutation, useQuery } from "@apollo/client";
 import { useState, useRef,useEffect } from "react";
 import BackButton from "./UI/BackButton";
 import { READ_ORDERS } from "./graphql/queries/queries";
+
+import ReusableAccordion from "./UI/ReusableAccordion";
+
 export default function NewOrder() {
  const { data: orders, loading: ordersLoading, error: orderError,refetch } = useQuery(READ_ORDERS, {
     variables: { emailAddress: "Legitem2023@gmail.com" },
