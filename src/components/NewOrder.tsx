@@ -19,7 +19,7 @@ console.log(orders.readGroupedOrderHistory);
           {  orders.readGroupedOrderHistory.map((item:any,idx:number) => (
 <div key={idx}>
   <ReusableAccordion title={item.OrderNo} content={[{ label: "OrderStatus:", value: item.OrderStatus},
-                { label: "Address:", value: item.Addresd},
+                { label: "Address:", value: item.Address},
                 { label: "Contact:", value: item.Contact}].map((field, index) => (
                 <div key={index} className="flex p-[2px]">
                   <div className="font-bold w-[70px] flex-shrink-0">
