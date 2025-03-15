@@ -34,6 +34,8 @@ const getWeekNumber = (date: Date): [number, number] => {
 const SalesChart: React.FC<SalesChartProps> = ({ data, labels }) => {
   const [selectedInterval, setSelectedInterval] = useState<IntervalType>("daily");
   const [isMobile, setIsMobile] = useState<boolean>(false);
+  const [currentPage, setCurrentPage] = useState(0);
+  const itemsPerPage = 4; // Bilang ng linggo per page
 
   useEffect(() => {
     const handleResize = () => {
@@ -45,7 +47,7 @@ const SalesChart: React.FC<SalesChartProps> = ({ data, labels }) => {
   }, []);
 
   const processData = () => {
-    if (selectedInterval === "daily") return { processedLabels: labels, processedData: data };
+    if (selectedInterval === "daily") return { processedLabels: labels, processedData: data, totalPages: 1 };
 
     const combined = labels
       .map((label, index) => ({
@@ -88,13 +90,28 @@ const SalesChart: React.FC<SalesChartProps> = ({ data, labels }) => {
       groups[key].total += value;
     });
 
+    const allLabels = Object.values(groups).map((g) => g.label);
+    const allData = Object.values(groups).map((g) => g.total);
+    const totalPages = Math.ceil(allLabels.length / itemsPerPage);
+
+    if (selectedInterval === "weekly") {
+      const start = currentPage * itemsPerPage;
+      const end = start + itemsPerPage;
+      return {
+        processedLabels: allLabels.slice(start, end),
+        processedData: allData.slice(start, end),
+        totalPages,
+      };
+    }
+
     return {
-      processedLabels: Object.values(groups).map((g) => g.label),
-      processedData: Object.values(groups).map((g) => g.total),
+      processedLabels: allLabels,
+      processedData: allData,
+      totalPages: 1,
     };
   };
 
-  const { processedLabels, processedData } = processData();
+  const { processedLabels, processedData, totalPages } = processData();
 
   const chartData = {
     labels: processedLabels,
@@ -105,7 +122,7 @@ const SalesChart: React.FC<SalesChartProps> = ({ data, labels }) => {
         borderColor: "rgb(75, 192, 192)",
         backgroundColor: "rgba(75, 192, 192, 0.2)",
         borderWidth: 2,
-        pointRadius: isMobile ? 2 : 4, // Mas maliit na points sa mobile
+        pointRadius: isMobile ? 2 : 4,
         tension: 0.4,
       },
     ],
@@ -116,7 +133,7 @@ const SalesChart: React.FC<SalesChartProps> = ({ data, labels }) => {
     maintainAspectRatio: false,
     plugins: {
       legend: {
-        display: !isMobile, // I-hide ang legend sa mobile
+        display: !isMobile,
         position: "top",
       },
       tooltip: {
@@ -149,7 +166,10 @@ const SalesChart: React.FC<SalesChartProps> = ({ data, labels }) => {
           {(["daily", "weekly", "monthly", "yearly"] as IntervalType[]).map((interval) => (
             <button
               key={interval}
-              onClick={() => setSelectedInterval(interval)}
+              onClick={() => {
+                setSelectedInterval(interval);
+                setCurrentPage(0); // Reset to first page
+              }}
               className={`px-3 py-1 rounded text-sm ${
                 selectedInterval === interval
                   ? "bg-blue-500 text-white"
@@ -164,6 +184,29 @@ const SalesChart: React.FC<SalesChartProps> = ({ data, labels }) => {
       <div className="h-48">
         <Line data={chartData} options={options} />
       </div>
+
+      {/* Pagination Controls (for Weekly View) */}
+      {selectedInterval === "weekly" && totalPages > 1 && (
+        <div className="flex justify-center gap-2 mt-2">
+          <button 
+            disabled={currentPage === 0} 
+            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 0))}
+            className="px-3 py-1 bg-gray-200 rounded disabled:opacity-50"
+          >
+            Prev
+          </button>
+          <span className="px-3 py-1 bg-gray-100 rounded text-sm">
+            Page {currentPage + 1} of {totalPages}
+          </span>
+          <button 
+            disabled={currentPage >= (totalPages - 1)}
+            onClick={() => setCurrentPage((prev) => prev + 1)}
+            className="px-3 py-1 bg-gray-200 rounded disabled:opacity-50"
+          >
+            Next
+          </button>
+        </div>
+      )}
     </div>
   );
 };
