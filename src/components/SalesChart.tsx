@@ -46,3 +46,5 @@ const SalesChart: React.FC<SalesChartProps> = ({ data, labels }) => {
     </div>
   );
 };
+
+export default SalesChart;
