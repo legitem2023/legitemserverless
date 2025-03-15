@@ -8,7 +8,7 @@ export default function NewOrder() {
     variables: { emailAddress: "Legitem2023@gmail.com" },
   });
 if(ordersLoading) return;
-console.log(orders);
+console.log(orders.readGroupedOrderHistory);
 
   return (
   <>
