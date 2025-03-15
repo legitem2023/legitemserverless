@@ -27,22 +27,21 @@ const SalesChart: React.FC<SalesChartProps> = ({ data, labels }) => {
     ],
   };
 
-  const options: ChartOptions<"line"> = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: { display: false },
-      tooltip: {
-        mode: "index" as "index",
-        intersect: false,
-      },
-    },
-    scales: {
-      x: { grid: { display: false } },
-      y: { beginAtZero: true },
-    },
-  };
-
+  const options = {
+  responsive: true,
+  maintainAspectRatio: false,
+  plugins: {
+    legend: { display: false },
+    tooltip: { 
+      mode: "index", // ✅ Gumamit ng tamang type
+      intersect: false 
+    }
+  },
+  scales: {
+    x: { grid: { display: false } },
+    y: { beginAtZero: true }
+  }
+};
   return (
     <div className="w-full h-64 p-4 bg-white shadow rounded">
       <h2 className="text-lg font-semibold mb-2">Sales Overview</h2>
