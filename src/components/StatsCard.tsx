@@ -11,7 +11,7 @@ interface StatsCardProps {
 
 const StatsCard: FC<StatsCardProps> = ({ title, value, icon, color }) => {
   return (
-    <div className="bg-white shadow-md rounded-lg p-2 flex items-center gap-2 border border-gray-200 transition-transform hover:scale-105">
+    <div className="flex-grow flex-1 bg-white shadow-md rounded-lg p-2 flex items-center gap-2 border border-gray-200 transition-transform hover:scale-105">
       <div className={`p-3 rounded-full text-white ${color}`}>
         <Icon icon={icon} width={24} height={24} />
       </div>
