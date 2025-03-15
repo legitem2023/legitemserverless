@@ -13,11 +13,13 @@ const StatsCard: FC<StatsCardProps> = ({ title, value, icon, color }) => {
 
   useEffect(() => {
     let start = 0;
-    const duration = 10; // 1 second
-    const stepTime = Math.abs(Math.floor(duration / value));
+    const duration = 3000; // 3 seconds
+    const stepTime = Math.max(10, duration / value); // Ensures stepTime is not too small
+    const increment = Math.ceil(value / (duration / stepTime));
+
     const timer = setInterval(() => {
-      start += 1;
-      setCount((prev) => (start > value ? value : start));
+      start += increment;
+      setCount((prev) => (start >= value ? value : start));
       if (start >= value) clearInterval(timer);
     }, stepTime);
 
