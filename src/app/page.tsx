@@ -2,6 +2,8 @@
 import SwipeTabs from "@/components/UI/SwipeTabs";
 import SalesChart from "@/components/SalesChart";
 
+import Transaction from "@/components/Transaction";
+
 import Dashboard from "@/components/Dashboard"
 import dynamic from 'next/dynamic';
 
@@ -25,7 +27,9 @@ function InventoryTab() {
 }
 
 function TransactionTab() {
-  return <div id="TransactionTab" className="h-[90vh] overflow-y-auto"></div>;
+  return <div id="TransactionTab" className="h-[90vh] overflow-y-auto">
+<Transaction/>
+</div>;
 }
 
 function SalesTab() {
