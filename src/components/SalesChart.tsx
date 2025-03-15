@@ -1,8 +1,18 @@
 "use client";
 
 import { Line } from "react-chartjs-2";
-import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, ChartOptions } from "chart.js";
-import { useState } from "react";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+  ChartOptions,
+} from "chart.js";
+import { useEffect, useState } from "react";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
@@ -23,6 +33,16 @@ const getWeekNumber = (date: Date): [number, number] => {
 
 const SalesChart: React.FC<SalesChartProps> = ({ data, labels }) => {
   const [selectedInterval, setSelectedInterval] = useState<IntervalType>("daily");
+  const [isMobile, setIsMobile] = useState<boolean>(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 640);
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const processData = () => {
     if (selectedInterval === "daily") return { processedLabels: labels, processedData: data };
@@ -69,8 +89,8 @@ const SalesChart: React.FC<SalesChartProps> = ({ data, labels }) => {
     });
 
     return {
-      processedLabels: Object.values(groups).map(g => g.label),
-      processedData: Object.values(groups).map(g => g.total),
+      processedLabels: Object.values(groups).map((g) => g.label),
+      processedData: Object.values(groups).map((g) => g.total),
     };
   };
 
@@ -85,7 +105,7 @@ const SalesChart: React.FC<SalesChartProps> = ({ data, labels }) => {
         borderColor: "rgb(75, 192, 192)",
         backgroundColor: "rgba(75, 192, 192, 0.2)",
         borderWidth: 2,
-        pointRadius: 4,
+        pointRadius: isMobile ? 2 : 4, // Mas maliit na points sa mobile
         tension: 0.4,
       },
     ],
@@ -96,7 +116,7 @@ const SalesChart: React.FC<SalesChartProps> = ({ data, labels }) => {
     maintainAspectRatio: false,
     plugins: {
       legend: {
-        display: true,
+        display: !isMobile, // I-hide ang legend sa mobile
         position: "top",
       },
       tooltip: {
@@ -122,10 +142,10 @@ const SalesChart: React.FC<SalesChartProps> = ({ data, labels }) => {
   };
 
   return (
-    <div className="w-full h-64 p-4 bg-white shadow rounded">
+    <div className="w-full p-4 bg-white shadow rounded h-64 sm:h-72 md:h-80">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-lg font-semibold">Sales Overview</h2>
-        <div className="flex gap-2">
+        <div className="flex gap-2 overflow-x-auto whitespace-nowrap">
           {(["daily", "weekly", "monthly", "yearly"] as IntervalType[]).map((interval) => (
             <button
               key={interval}
