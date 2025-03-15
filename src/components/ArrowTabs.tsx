@@ -9,22 +9,21 @@ interface ArrowTabsProps {
 
 const ArrowTabs: React.FC<ArrowTabsProps> = ({ stages, activeStage, onStageChange }) => {
   return (
-    <div className="bg-[#ff9999] flex w-full gap-2"> {/* Increased gap for clarity */}
+    <div className="bg-[#ff9999] flex w-full gap-1">
       {stages.map((stage, index) => (
         <div
           key={index}
-          className={`relative flex flex-1 items-center justify-center text-white font-semibold cursor-pointer transition-all duration-300 
+          className={`relative flex-1 flex items-center justify-center text-white font-semibold cursor-pointer transition-all duration-300 
             ${index === activeStage ? "bg-[#451b05]" : "bg-[#9a3610]"}
           `}
           onClick={() => onStageChange && onStageChange(index)}
           style={{
             clipPath: "polygon(0% 0%, 88% 0%, 100% 50%, 88% 100%, 0% 100%, 12% 50%)",
-            marginLeft: index > 0 ? "-6px" : "0px", // Small overlap for smooth transitions
-            padding: "10px 20px", // Comfortable spacing
-            fontSize: "18px",
+            marginLeft: index > 0 ? "-4px" : "0px", // Konting overlap lang
+            padding: "8px 16px",
           }}
         >
-          <Icon icon={stage} className="text-[20px]" />
+          <Icon icon={stage} className="text-[18px]" />
         </div>
       ))}
     </div>
