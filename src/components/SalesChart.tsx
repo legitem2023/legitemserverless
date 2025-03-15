@@ -23,6 +23,14 @@ interface SalesChartProps {
   labels: string[];
 }
 
+const getWeekNumber = (date: Date): [number, number] => {
+  const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+  d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
+  const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+  const weekNo = Math.ceil((((d.getTime() - yearStart.getTime()) / 86400000) + 1) / 7);
+  return [d.getUTCFullYear(), weekNo];
+};
+
 const SalesChart: React.FC<SalesChartProps> = ({ data, labels }) => {
   const [selectedInterval, setSelectedInterval] = useState<IntervalType>("daily");
   const [isMobile, setIsMobile] = useState<boolean>(false);
@@ -39,19 +47,61 @@ const SalesChart: React.FC<SalesChartProps> = ({ data, labels }) => {
   }, []);
 
   const processData = () => {
-    let processedLabels = labels;
-    let processedData = data;
-    let totalPages = 1;
+    const combined = labels.map((label, index) => ({
+      date: new Date(label),
+      value: data[index],
+    })).sort((a, b) => a.date.getTime() - b.date.getTime());
 
     if (selectedInterval === "daily") {
-      totalPages = Math.ceil(labels.length / itemsPerPage);
+      const totalPages = Math.ceil(combined.length / itemsPerPage);
       const start = currentPage * itemsPerPage;
       const end = start + itemsPerPage;
-      processedLabels = labels.slice(start, end);
-      processedData = data.slice(start, end);
+      return {
+        processedLabels: combined.slice(start, end).map((d) => d.date.toISOString().split("T")[0]),
+        processedData: combined.slice(start, end).map((d) => d.value),
+        totalPages,
+      };
     }
 
-    return { processedLabels, processedData, totalPages };
+    const groups: Record<string, { total: number; label: string }> = {};
+
+    combined.forEach(({ date, value }) => {
+      let key = "";
+      let label = "";
+
+      switch (selectedInterval) {
+        case "weekly": {
+          const [year, week] = getWeekNumber(date);
+          key = `${year}-${week}`;
+          label = `Week ${week}, ${year}`;
+          break;
+        }
+        case "monthly": {
+          const year = date.getFullYear();
+          const month = date.getMonth();
+          key = `${year}-${month}`;
+          label = new Intl.DateTimeFormat("en-US", { month: "short", year: "numeric" }).format(date);
+          break;
+        }
+        case "yearly": {
+          const year = date.getFullYear();
+          key = `${year}`;
+          label = `${year}`;
+          break;
+        }
+      }
+
+      if (!groups[key]) {
+        groups[key] = { total: 0, label };
+      }
+      groups[key].total += value;
+    });
+
+    return {
+      processedLabels: Object.values(groups).map((g) => g.label),
+      processedData: Object.values(groups).map((g) => g.total),
+      totalPages: 1,
+    };
   };
 
   const { processedLabels, processedData, totalPages } = processData();
