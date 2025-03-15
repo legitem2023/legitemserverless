@@ -18,7 +18,7 @@ const ArrowTabs: React.FC<ArrowTabsProps> = ({ stages, activeStage, onStageChang
           clipPath = "polygon(0% 0%, 88% 0%, 100% 50%, 88% 100%, 0% 100%)";
         } else if (index === stages.length - 1) {
           // Last tab (arrow left, flat right)
-          clipPath = "polygon(12% 0%, 100% 0%, 100% 50%, 100% 100%, 12% 100%, 0% 50%)";
+          clip-path = "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%, 12% 50%)";
         }
 
         return (
