@@ -18,7 +18,19 @@ console.log(orders.readGroupedOrderHistory);
     <div className="max-w-md mx-auto shadow-md bg-[#f1f1f1]">
           {  orders.readGroupedOrderHistory.map((item:any,idx:number) => (
 <div key={idx}>
-  <ReusableAccordion title={item.OrderNo} content=""/>
+  <ReusableAccordion title={item.OrderNo} content={[{ label: "OrderStatus:", value: item.OrderStatus},
+                { label: "Address:", value: item.Addresd},
+                { label: "Contact:", value: item.Contact}].map((field, index) => (
+                <div key={index} className="flex p-[2px]">
+                  <div className="font-bold w-[70px] flex-shrink-0">
+                    {field.label}
+                  </div>
+                  <div className="truncate overflow-hidden text-ellipsis whitespace-nowrap">
+                    {field.value}
+                  </div>
+                </div>
+              ))}/>
+   
 </div>
 ))  }
     </div>
