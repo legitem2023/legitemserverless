@@ -19,7 +19,7 @@ const ArrowTabs: React.FC<TabsProps> = ({ tabs }) => {
   return (
     <div className="w-full">
       {/* Tab Buttons (Arrow Style) */}
-      <div className="flex p-1 gap-1 shadow-md shadow-inner">
+      <div className="flex p-1 gap-1 shadow-lg shadow-inner">
         {tabs.map((tab, index) => {
           let clipPath =
             "polygon(0% 0%, 88% 0%, 100% 50%, 88% 100%, 0% 100%, 12% 50%)"; // Middle tabs (arrow on both sides)
