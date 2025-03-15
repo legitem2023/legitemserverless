@@ -9,7 +9,7 @@ const tabs = [{
 icon: "fluent:document-add-24-filled",
 content: <NewOrder/> },{ 
 icon: "mdi:inbox-arrow-down", 
-content: <p>🛒</p> },{ 
+content: <NewOrder/> },{ 
 icon: "solar:settings-bold", 
 content: <p>✅</p> },{ 
 icon: "mdi:truck-cargo-container", 
