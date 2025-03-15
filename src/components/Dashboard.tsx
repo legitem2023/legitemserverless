@@ -1,7 +1,9 @@
 // app/dashboard/page.tsx
+import { useState } from 'react';
 import DashboardStats from "@/components/DashboardStats";
 import SalesChart from "@/components/SalesChart";
 import {READ_CHART_SALES} from "@/components/graphql/queries/queries";
+import { useQuery } from '@apollo/client'
 const Dashboard = () => {
 
 const [usePeriod,setPeriod] = useState("Daily");
