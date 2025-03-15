@@ -50,7 +50,7 @@ const ArrowTabs: React.FC<TabsProps> = ({ tabs }) => {
       </div>
 
       {/* Tab Content */}
-      <div className="p-4 bg-gray-100 text-gray-800 rounded-md">
+      <div className="bg-gray-100 text-gray-800 rounded-md">
         {tabs[activeIndex]?.content}
       </div>
     </div>
