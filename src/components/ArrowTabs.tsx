@@ -18,9 +18,9 @@ const ArrowTabs: React.FC<ArrowTabsProps> = ({ stages, activeStage, onStageChang
           `}
           onClick={() => onStageChange && onStageChange(index)}
           style={{
-            clipPath: "polygon(0% 0%, 90% 0%, 100% 50%, 90% 100%, 0% 100%, 10% 50%)", // Tighter pentagon shape
-            marginLeft: index > 0 ? "-5px" : "0px", // Overlapping effect without merging
-            padding: "6px 12px", // Compact padding
+            clipPath: "polygon(0% 0%, 85% 0%, 100% 50%, 85% 100%, 0% 100%, 10% 50%)", // Sharper arrow shape
+            marginLeft: index > 0 ? "-8px" : "0px", // More overlap for better arrow effect
+            padding: "8px 14px", // Balanced padding
           }}
         >
           <Icon icon={stage} className="text-[25px]" />
