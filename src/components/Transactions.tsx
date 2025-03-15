@@ -3,7 +3,13 @@ import React, { useState } from "react";
 import ArrowTabs from "@/components/ArrowTabs";
 
 const Transactions = () => {
-  const stages = ["Step 1", "Step 2", "Step 3", "Step 4"];
+
+
+
+
+
+  const stages = ["solar:add-circle-bold",
+"solar:inbox-in-bold", "solar:loading-circle-bold", "solar:truck-bold","solar:box-send-bold","solar:check-circle-bold"];
   const [activeStage, setActiveStage] = useState(0);
 
   return (
