@@ -23,19 +23,11 @@ interface SalesChartProps {
   labels: string[];
 }
 
-const getWeekNumber = (date: Date): [number, number] => {
-  const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
-  d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
-  const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
-  const weekNo = Math.ceil((((d.getTime() - yearStart.getTime()) / 86400000) + 1) / 7);
-  return [d.getUTCFullYear(), weekNo];
-};
-
 const SalesChart: React.FC<SalesChartProps> = ({ data, labels }) => {
   const [selectedInterval, setSelectedInterval] = useState<IntervalType>("daily");
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const [currentPage, setCurrentPage] = useState(0);
-  const itemsPerPage = 4; // Bilang ng linggo per page
+  const itemsPerPage = 7; // Bilang ng araw per page sa daily view
 
   useEffect(() => {
     const handleResize = () => {
@@ -47,68 +39,19 @@ const SalesChart: React.FC<SalesChartProps> = ({ data, labels }) => {
   }, []);
 
   const processData = () => {
-    if (selectedInterval === "daily") return { processedLabels: labels, processedData: data, totalPages: 1 };
+    let processedLabels = labels;
+    let processedData = data;
+    let totalPages = 1;
 
-    const combined = labels
-      .map((label, index) => ({
-        date: new Date(label),
-        value: data[index],
-      }))
-      .sort((a, b) => a.date.getTime() - b.date.getTime());
-
-    const groups: Record<string, { total: number; label: string }> = {};
-
-    combined.forEach(({ date, value }) => {
-      let key = "";
-      let label = "";
-
-      switch (selectedInterval) {
-        case "weekly": {
-          const [year, week] = getWeekNumber(date);
-          key = `${year}-${week}`;
-          label = `Week ${week}, ${year}`;
-          break;
-        }
-        case "monthly": {
-          const year = date.getFullYear();
-          const month = date.getMonth();
-          key = `${year}-${month}`;
-          label = new Intl.DateTimeFormat("en-US", { month: "short", year: "numeric" }).format(date);
-          break;
-        }
-        case "yearly": {
-          const year = date.getFullYear();
-          key = `${year}`;
-          label = `${year}`;
-          break;
-        }
-      }
-
-      if (!groups[key]) {
-        groups[key] = { total: 0, label };
-      }
-      groups[key].total += value;
-    });
-
-    const allLabels = Object.values(groups).map((g) => g.label);
-    const allData = Object.values(groups).map((g) => g.total);
-    const totalPages = Math.ceil(allLabels.length / itemsPerPage);
-
-    if (selectedInterval === "weekly") {
+    if (selectedInterval === "daily") {
+      totalPages = Math.ceil(labels.length / itemsPerPage);
       const start = currentPage * itemsPerPage;
       const end = start + itemsPerPage;
-      return {
-        processedLabels: allLabels.slice(start, end),
-        processedData: allData.slice(start, end),
-        totalPages,
-      };
+      processedLabels = labels.slice(start, end);
+      processedData = data.slice(start, end);
     }
 
-    return {
-      processedLabels: allLabels,
-      processedData: allData,
-      totalPages: 1,
-    };
+    return { processedLabels, processedData, totalPages };
   };
 
   const { processedLabels, processedData, totalPages } = processData();
@@ -168,7 +111,7 @@ const SalesChart: React.FC<SalesChartProps> = ({ data, labels }) => {
               key={interval}
               onClick={() => {
                 setSelectedInterval(interval);
-                setCurrentPage(0); // Reset to first page
+                setCurrentPage(0); // Reset sa unang page
               }}
               className={`px-3 py-1 rounded text-sm ${
                 selectedInterval === interval
@@ -185,8 +128,8 @@ const SalesChart: React.FC<SalesChartProps> = ({ data, labels }) => {
         <Line data={chartData} options={options} />
       </div>
 
-      {/* Pagination Controls (for Weekly View) */}
-      {selectedInterval === "weekly" && totalPages > 1 && (
+      {/* Pagination Controls (for Daily View) */}
+      {selectedInterval === "daily" && totalPages > 1 && (
         <div className="flex justify-center gap-2 mt-2">
           <button 
             disabled={currentPage === 0} 
