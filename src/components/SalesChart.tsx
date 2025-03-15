@@ -27,29 +27,37 @@ const SalesChart: React.FC<SalesChartProps> = ({ data, labels }) => {
     ],
   };
 
-  const options = {
-  responsive: true,
-  maintainAspectRatio: false,
-  plugins: {
-    legend: {
-      display: true,
-    },
-    tooltip: {
-      mode: "index", // Ensure it's one of: "index", "dataset", "point", "nearest", "x", or "y"
-      intersect: false,
-    },
-  },
-  scales: {
-    x: {
-      grid: {
-        display: false,
+  // Explicitly type options for Line chart
+  const options: ChartOptions<"line"> = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        display: true,
+        position: "top" as const,
+      },
+      tooltip: {
+        mode: "index",
+        intersect: false,
       },
     },
-    y: {
-      beginAtZero: true,
+    scales: {
+      x: {
+        type: "category",
+        grid: {
+          display: false,
+        },
+      },
+      y: {
+        type: "linear",
+        beginAtZero: true,
+        grid: {
+          color: "rgba(0, 0, 0, 0.1)",
+        },
+      },
     },
-  },
-};
+  };
+
   return (
     <div className="w-full h-64 p-4 bg-white shadow rounded">
       <h2 className="text-lg font-semibold mb-2">Sales Overview</h2>
