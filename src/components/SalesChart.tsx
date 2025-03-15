@@ -13,23 +13,124 @@ interface SalesChartProps {
   labels: string[];
 }
 
-// ... (keep the existing getWeekNumber and processData functions)
+const getWeekNumber = (date: Date): [number, number] => {
+  const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+  d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
+  const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+  const weekNo = Math.ceil((((d.getTime() - yearStart.getTime()) / 86400000) + 1) / 7);
+  return [d.getUTCFullYear(), weekNo];
+};
 
 const SalesChart: React.FC<SalesChartProps> = ({ data, labels }) => {
   const [selectedInterval, setSelectedInterval] = useState<IntervalType>("daily");
-  
-  // ... (keep existing processData logic)
+
+  const processData = () => {
+    if (selectedInterval === "daily") return { processedLabels: labels, processedData: data };
+
+    const combined = labels
+      .map((label, index) => ({
+        date: new Date(label),
+        value: data[index],
+      }))
+      .sort((a, b) => a.date.getTime() - b.date.getTime());
+
+    const groups: Record<string, { total: number; label: string }> = {};
+
+    combined.forEach(({ date, value }) => {
+      let key = "";
+      let label = "";
+
+      switch (selectedInterval) {
+        case "weekly": {
+          const [year, week] = getWeekNumber(date);
+          key = `${year}-${week}`;
+          label = `Week ${week}, ${year}`;
+          break;
+        }
+        case "monthly": {
+          const year = date.getFullYear();
+          const month = date.getMonth();
+          key = `${year}-${month}`;
+          label = new Intl.DateTimeFormat("en-US", { month: "short", year: "numeric" }).format(date);
+          break;
+        }
+        case "yearly": {
+          const year = date.getFullYear();
+          key = `${year}`;
+          label = `${year}`;
+          break;
+        }
+      }
+
+      if (!groups[key]) {
+        groups[key] = { total: 0, label };
+      }
+      groups[key].total += value;
+    });
+
+    return {
+      processedLabels: Object.values(groups).map(g => g.label),
+      processedData: Object.values(groups).map(g => g.total),
+    };
+  };
+
+  const { processedLabels, processedData } = processData();
+
+  const chartData = {
+    labels: processedLabels,
+    datasets: [
+      {
+        label: "Sales",
+        data: processedData,
+        borderColor: "rgb(75, 192, 192)",
+        backgroundColor: "rgba(75, 192, 192, 0.2)",
+        borderWidth: 2,
+        pointRadius: 4,
+        tension: 0.4,
+      },
+    ],
+  };
+
+  const options: ChartOptions<"line"> = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        display: true,
+        position: "top",
+      },
+      tooltip: {
+        mode: "index",
+        intersect: false,
+      },
+    },
+    scales: {
+      x: {
+        type: "category",
+        grid: {
+          display: false,
+        },
+      },
+      y: {
+        type: "linear",
+        beginAtZero: true,
+        grid: {
+          color: "rgba(0, 0, 0, 0.1)",
+        },
+      },
+    },
+  };
 
   return (
-    <div className="w-full h-[300px] p-2 bg-white shadow rounded">
-      <div className="flex flex-col mb-2 space-y-2">
-        <h2 className="text-base font-semibold">Sales Overview</h2>
-        <div className="flex overflow-x-auto pb-2 space-x-2">
+    <div className="w-full h-64 p-4 bg-white shadow rounded">
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-lg font-semibold">Sales Overview</h2>
+        <div className="flex gap-2">
           {(["daily", "weekly", "monthly", "yearly"] as IntervalType[]).map((interval) => (
             <button
               key={interval}
               onClick={() => setSelectedInterval(interval)}
-              className={`px-2 py-1 rounded text-xs min-w-[60px] ${
+              className={`px-3 py-1 rounded text-sm ${
                 selectedInterval === interval
                   ? "bg-blue-500 text-white"
                   : "bg-gray-100 text-gray-600 hover:bg-gray-200"
@@ -40,7 +141,7 @@ const SalesChart: React.FC<SalesChartProps> = ({ data, labels }) => {
           ))}
         </div>
       </div>
-      <div className="h-[200px]">
+      <div className="h-48">
         <Line data={chartData} options={options} />
       </div>
     </div>
