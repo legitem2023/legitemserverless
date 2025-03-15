@@ -3,7 +3,7 @@
 import { useState, useRef,useEffect } from "react";
 
 import { READ_ORDERS } from "./graphql/queries/queries";
-export default function EditDetails() {
+export default function NewOrder() {
  
 
   return (
