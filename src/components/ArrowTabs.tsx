@@ -19,7 +19,7 @@ const ArrowTabs: React.FC<ArrowTabsProps> = ({ stages, activeStage, onStageChang
           onClick={() => onStageChange && onStageChange(index)}
           style={{
             clipPath: "polygon(0% 0%, 88% 0%, 100% 50%, 88% 100%, 0% 100%, 12% 50%)", // Sharper arrowhead
-            marginLeft: index > 0 ? "-2px" : "0px", // Small overlap for distinction
+            marginLeft: index > 0 ? "-4px" : "0px", // Small overlap for distinction
             padding: "8px 16px", // Comfortable spacing
           }}
         >
