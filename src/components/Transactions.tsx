@@ -1,13 +1,13 @@
 "use client";
 import React, { useState } from "react";
 import ArrowTabs from "@/components/ArrowTabs";
-
+import NewOrder from "./NewOrder";
 const Transactions = () => {
 
 
 const tabs = [{
 icon: "fluent:document-add-24-filled",
-content: <p>🏠</p> },{ 
+content: <NewOrder/> },{ 
 icon: "mdi:inbox-arrow-down", 
 content: <p>🛒</p> },{ 
 icon: "solar:settings-bold", 
