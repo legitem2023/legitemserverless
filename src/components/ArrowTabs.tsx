@@ -10,22 +10,32 @@ interface ArrowTabsProps {
 const ArrowTabs: React.FC<ArrowTabsProps> = ({ stages, activeStage, onStageChange }) => {
   return (
     <div className="bg-[#ff9999] flex w-full gap-1">
-      {stages.map((stage, index) => (
-        <div
-          key={index}
-          className={`relative flex-1 flex items-center justify-center text-white font-semibold cursor-pointer transition-all duration-300 
-            ${index === activeStage ? "bg-[#451b05]" : "bg-[#9a3610]"}
-          `}
-          onClick={() => onStageChange && onStageChange(index)}
-          style={{
-            clipPath: "polygon(0% 0%, 88% 0%, 100% 50%, 88% 100%, 0% 100%, 12% 50%)",
-            marginLeft: index > 0 ? "-4px" : "0px", // Konting overlap lang
-            padding: "8px 16px",
-          }}
-        >
-          <Icon icon={stage} className="text-[18px]" />
-        </div>
-      ))}
+      {stages.map((stage, index) => {
+        let clipPath = "polygon(0% 0%, 88% 0%, 100% 50%, 88% 100%, 0% 100%, 12% 50%)"; // Default arrow shape
+        
+        if (index === 0) {
+          clipPath = "polygon(0% 0%, 100% 0%, 100% 50%, 88% 100%, 0% 100%)"; // First tab (flat left)
+        } else if (index === stages.length - 1) {
+          clipPath = "polygon(0% 0%, 88% 0%, 100% 100%, 0% 100%)"; // Last tab (flat right)
+        }
+
+        return (
+          <div
+            key={index}
+            className={`relative flex-1 flex items-center justify-center text-white font-semibold cursor-pointer transition-all duration-300 
+              ${index === activeStage ? "bg-[#451b05]" : "bg-[#9a3610]"}
+            `}
+            onClick={() => onStageChange && onStageChange(index)}
+            style={{
+              clipPath,
+              marginLeft: index > 0 ? "-4px" : "0px",
+              padding: "8px 16px",
+            }}
+          >
+            <Icon icon={stage} className="text-[18px]" />
+          </div>
+        );
+      })}
     </div>
   );
 };
