@@ -22,6 +22,19 @@ console.log(orders.readGroupedOrderHistory);
 <div className="font-bold w-[70px] flex-shrink-0">Status</div>
 <div className="truncate overflow-hidden text-ellipsis whitespace-nowrap">
  {item.OrderStatus}</div>
+<div>{item.OrderHistory.map((hisItem:any,index:number) => (
+<div key={index}>
+<div className="font-bold w-[70px] flex-shrink-0">{hisitem.Color}</div>
+
+<div className="font-bold w-[70px] flex-shrink-0">{hisitem.Size}</div>
+
+<div className="font-bold w-[70px] flex-shrink-0">{hisitem.Price}</div>
+
+<div className="font-bold w-[70px] flex-shrink-0">{hisitem.Quantity}</div>
+
+
+))}</div>
+
                 </div>)}/>
 </div>
 ))  }
