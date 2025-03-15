@@ -1,6 +1,35 @@
 
 import { gql } from "@apollo/client"
 //*************** QUERIES ***************/
+export const READ_ORDERS = gql`
+query ReadGroupedOrderHistory($emailAddress: String) {
+  readGroupedOrderHistory(emailAddress: $emailAddress) {
+    OrderNo
+    Address
+    Contact
+    StatusText
+    OrderStatus
+    OrderHistory {
+      id
+      Image
+      Size
+      Color
+      productCode
+      emailAddress
+      TrackingNo
+      OrderNo
+      Quantity
+      Price
+      Address
+      Contact
+      StoreEmail
+      dateCreated
+      agentEmail
+      StatusText
+    }
+  }
+}`
+
 export const GET_NUM_OF_VIEWS = gql`
 query GetNumberOfViews {
   getNumberOfViews {
@@ -13,6 +42,7 @@ query GetNumberOfViews {
     dateVisited
   }
 }`
+
 export const GET_WEBSITE_VISITS = gql`
 query GetWebsitVisits {
   getWebsitVisits {
