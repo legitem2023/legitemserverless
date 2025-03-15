@@ -17,7 +17,11 @@ console.log(orders.readGroupedOrderHistory);
   <>
    <BackButton/>
     <div className="max-w-md mx-auto shadow-md bg-[#f1f1f1]">
-          
+          {  orders.readGroupedOrderHistory.map((item:any,idx:number) => (
+<div key={idx}>
+  <ReusableAccordion title={item.OrderNo} content=""/>
+</div>
+))  }
     </div>
   </>
   );
