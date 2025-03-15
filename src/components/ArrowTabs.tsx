@@ -8,7 +8,7 @@ interface ArrowTabsProps {
 
 const ArrowTabs: React.FC<ArrowTabsProps> = ({ stages, activeStage, onStageChange }) => {
   return (
-    <div className="flex items-center w-full">
+    <div className="flex w-full">
       {stages.map((stage, index) => (
         <div
           key={index}
@@ -17,8 +17,8 @@ const ArrowTabs: React.FC<ArrowTabsProps> = ({ stages, activeStage, onStageChang
           `}
           onClick={() => onStageChange && onStageChange(index)}
           style={{
-            clipPath: "polygon(0% 0%, 85% 0%, 100% 50%, 85% 100%, 0% 100%, 15% 50%)", // Right-facing pentagon shape
-            marginRight: index < stages.length - 1 ? "2px" : "0", // Small spacing between arrows
+            clipPath: "polygon(0% 0%, 85% 0%, 100% 50%, 85% 100%, 0% 100%, 15% 50%)", // Pentagon shape
+            marginLeft: index > 0 ? "-10px" : "0", // Overlapping effect
           }}
         >
           {stage}
