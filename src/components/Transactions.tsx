@@ -8,8 +8,16 @@ const Transactions = () => {
 
 
 
-  const stages = ["solar:add-circle-bold",
-"solar:inbox-in-bold", "solar:loading-circle-bold", "solar:truck-bold","solar:box-send-bold","solar:check-circle-bold"];
+ const stages = [
+  "mdi:file-plus",        // New  
+  "mdi:inbox-arrow-down", // Receive  
+  "mdi:cog-sync",         // Processing  
+  "mdi:truck-fast",       // Logistic  
+  "mdi:package-variant",  // Delivery  
+  "mdi:check-circle",     // Finished  
+];
+
+
   const [activeStage, setActiveStage] = useState(0);
 
   return (
