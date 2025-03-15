@@ -24,7 +24,9 @@ content: <p>✅</p>},
   const [activeStage, setActiveStage] = useState(0);
 
   return (
-    <div className="p-2">
+    <div className="p-2 bg-[#f1f1f1]">
+          <div className="flex-1 flex flex-wrap relative p-2 font-bold">Transactions</div>
+          <hr></hr>
       <ArrowTabs
         tabs={tabs}
       />
