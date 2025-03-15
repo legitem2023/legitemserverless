@@ -9,12 +9,12 @@ const Transactions = () => {
 
 
  const stages = [
-  "mdi:file-plus",        // New  
-  "mdi:inbox-arrow-down", // Receive  
-  "mdi:cog-sync",         // Processing  
-  "mdi:truck-fast",       // Logistic  
-  "mdi:package-variant",  // Delivery  
-  "mdi:check-circle",     // Finished  
+  "fluent:document-add-24-filled",  // New (Adding a new entry/document)
+  "mdi:inbox-arrow-down",           // Receive (Receiving an order/item)
+  "solar:settings-bold",             // Processing (Gears turning for processing)
+  "mdi:truck-cargo-container",       // Logistic (Cargo truck for logistics)
+  "material-symbols:local-shipping", // Delivery (Truck with motion effect)
+  "mdi:check-decagram",              // Finished (Check badge for completion)
 ];
 
 
