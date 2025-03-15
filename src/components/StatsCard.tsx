@@ -13,7 +13,7 @@ const StatsCard: FC<StatsCardProps> = ({ title, value, icon, color }) => {
 
   useEffect(() => {
     let start = 0;
-    const duration = 1000; // 1 second
+    const duration = 10; // 1 second
     const stepTime = Math.abs(Math.floor(duration / value));
     const timer = setInterval(() => {
       start += 1;
