@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setActiveIndex } from "../Redux/activeIndexSlice";
+import { setActiveIndex } from "./Redux/activeIndexSlice";
 import { Icon } from "@iconify/react";
 
 type Tab = {
