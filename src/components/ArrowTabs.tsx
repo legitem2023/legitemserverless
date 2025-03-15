@@ -12,7 +12,7 @@ const ArrowTabs: React.FC<ArrowTabsProps> = ({ stages, activeStage, onStageChang
       {stages.map((stage, index) => (
         <div
           key={index}
-          className={`relative flex items-center px-6 py-3 text-white font-semibold cursor-pointer transition-all duration-300
+          className={`relative flex items-center px-2 py-2 text-[12px] text-white font-semibold cursor-pointer transition-all duration-300
             ${index === activeStage ? "bg-blue-500" : "bg-gray-400"}
           `}
           onClick={() => onStageChange && onStageChange(index)}
@@ -20,8 +20,8 @@ const ArrowTabs: React.FC<ArrowTabsProps> = ({ stages, activeStage, onStageChang
           {/* Tab Label */}
           <span>{stage}</span>
 
-          {/* Arrow Shape */}
-          <div className={`absolute top-0 right-[-15px] w-0 h-0 border-t-[22px] border-t-transparent border-b-[22px] border-b-transparent 
+          {/* Arrow Shape with 1px spacing */}
+          <div className={`absolute top-0 right-[-1px] w-0 h-0 border-t-[15px] border-t-transparent border-b-[15px] border-b-transparent 
             ${index === activeStage ? "border-l-[15px] border-l-blue-500" : "border-l-[15px] border-l-gray-400"}`}
           />
         </div>
