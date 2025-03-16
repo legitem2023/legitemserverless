@@ -3,8 +3,8 @@ import ProductSwipePage from "./ProductSwipePage";
 import DetailedSwipePage from "./DetailedSwipePage";
 const ProductDetails = () => {
   const tabData = [
-    { icon: "Products", content: <ProductSwipePage/> },
-    { icon: "Details", content: <DetailedSwipePage/> },
+    { icon: "mdi:tag", content: <ProductSwipePage/> },
+    { icon: "mdi:details", content: <DetailedSwipePage/> },
   ];
 
   return (
