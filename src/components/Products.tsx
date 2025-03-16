@@ -59,8 +59,7 @@ if (filter?.length) {
   return (
     <>
         <div className="flex flex-col w-full min-w-0 bg-[#f1f1f1] shadow-md mb-2">
-          <div className="flex-1 flex flex-wrap relative p-2 font-bold">Filter Products</div>
-          <hr></hr>
+          
           <div className="flex-1 flex relative p-2">
             <input type="text" name="search" list="searchList" className="p-2 text-[13px] text-[#000000] w-full" placeholder="Search..."/>
              <datalist id="searchList">
