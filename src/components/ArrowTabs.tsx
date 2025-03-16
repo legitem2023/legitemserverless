@@ -40,7 +40,7 @@ const ArrowTabs: React.FC<TabsProps> = ({ tabs }) => {
               style={{
                 clipPath,
                 marginLeft: index > 0 ? "-5px" : "0px",
-                padding: "8px 16px",
+                padding: "8px 17px",
               }}
             >
               <Icon icon={tab.icon} className="text-[18px]" />
