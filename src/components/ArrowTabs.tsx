@@ -39,6 +39,7 @@ const ArrowTabs: React.FC<TabsProps> = ({ tabs }) => {
               `}
               style={{
                 clipPath,
+                borderRadius:"3px",
                 marginLeft: index > 0 ? "-5px" : "0px",
                 padding: "8px 17px",
               }}
