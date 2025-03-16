@@ -18,7 +18,7 @@ const ArrowTabs: React.FC<TabsProps> = ({ tabs }) => {
   const activeIndex = useSelector((state: any) => state.activeIndex.activeIndex);
 
   return (
-    <div className="w-full">
+    <div className="w-full bg-[#f1f1f1] shadow-lg shadow-inner">
       {/* Tab Buttons (Arrow Style) */}
       <div className="flex p-1 gap-1 shadow-lg shadow-inner">
         {tabs.map((tab, index) => {
