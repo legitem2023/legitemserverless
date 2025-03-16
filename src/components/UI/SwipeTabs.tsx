@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect, Suspense } from "react";
-import { useRouter } from "next/navigation"; 
+import { useRouter } from "next/navigation";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
@@ -24,7 +24,6 @@ function SwipeTabsComponent({ tabs }: SwipeTabsProps) {
   const swiperRef = useRef<any>(null);
   const router = useRouter();
 
-  // Get `id` from URL and set the active tab on initial render
   useEffect(() => {
     if (typeof window !== "undefined") {
       const params = new URLSearchParams(window.location.search);
@@ -47,9 +46,13 @@ function SwipeTabsComponent({ tabs }: SwipeTabsProps) {
   };
 
   return (
-    <div className="w-full">
+    <div className="relative w-full">
+      {/* Gradient Overlays */}
+      <div className="absolute top-0 left-0 h-full w-6 bg-gradient-to-r from-[#ebb4a0] to-transparent pointer-events-none" />
+      <div className="absolute top-0 right-0 h-full w-6 bg-gradient-to-l from-[#ebb4a0] to-transparent pointer-events-none" />
+
       {/* Tabs Header */}
-      <div className="flex space-x-2 border-b border-gray-300 bg-[#ebb4a0]">
+      <div className="flex space-x-2 border-b border-gray-300 bg-[#ebb4a0] relative overflow-hidden">
         {tabs.map((tab, index) => (
           <button
             key={index}
