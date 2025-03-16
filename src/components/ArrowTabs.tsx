@@ -47,8 +47,8 @@ const ArrowTabs: React.FC<TabsProps> = ({ tabs }) => {
                   ? "linear-gradient(to right, #505050, #606060, #505050)"
                   : "linear-gradient(to right, #d1d1d1, #e1e1e1, #d1d1d1)",
                 boxShadow: activeIndex === index
-                  ? "inset 1px 1px 3px rgba(255, 255, 255, 0.3), inset -1px -1px 3px rgba(0, 0, 0, 0.2)"
-                  : "inset 1px 1px 3px rgba(255, 255, 255, 0.3), inset -1px -1px 3px rgba(0, 0, 0, 0.1)"
+                  ? "inset 1px 1px 3px rgba(255, 255, 255, 0.3), inset -1px -1px 3px rgba(0, 0, 0, 0.2), 3px 3px 5px rgba(0, 0, 0, 0.3)" // Outer shadow added
+                  : "inset 1px 1px 3px rgba(255, 255, 255, 0.3), inset -1px -1px 3px rgba(0, 0, 0, 0.1), 2px 2px 4px rgba(0, 0, 0, 0.2)" // Softer shadow for inactive tabs
               }}
             >
               <Icon icon={tab.icon} className="text-[18px]" />
