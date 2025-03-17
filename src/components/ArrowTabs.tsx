@@ -31,24 +31,26 @@ const ArrowTabs: React.FC<TabsProps> = ({ tabs }) => {
             clipPath = "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%, 12% 50%)"; // Last tab (arrow left, flat right)
           }
 
+          const isActive = index <= activeIndex; // Apply active styles to current and previous tabs
+
           return (
             <div
               key={index}
               onClick={() => dispatch(setActiveIndex(index))}
               className={`relative flex items-center justify-center text-white font-semibold cursor-pointer transition-all duration-300 ${
-                activeIndex === index ? "bg-[#606060]" : "bg-[#e1e1e1]"
+                isActive ? "bg-[#606060]" : "bg-[#e1e1e1]"
               }`}
               style={{
                 clipPath,
                 borderRadius: "3px",
                 marginLeft: index > 0 ? "-5px" : "0px",
                 padding: "8px 17px",
-                backgroundImage: activeIndex === index
+                backgroundImage: isActive
                   ? "linear-gradient(to right, #505050, #606060, #505050)"
                   : "linear-gradient(to right, #d1d1d1, #e1e1e1, #d1d1d1)",
-                boxShadow: activeIndex === index
-                  ? "inset 1px 1px 3px rgba(255, 255, 255, 0.3), inset -1px -1px 3px rgba(0, 0, 0, 0.2), 3px 3px 5px rgba(0, 0, 0, 0.3)" // Outer shadow added
-                  : "inset 1px 1px 3px rgba(255, 255, 255, 0.3), inset -1px -1px 3px rgba(0, 0, 0, 0.1), 2px 2px 4px rgba(0, 0, 0, 0.2)" // Softer shadow for inactive tabs
+                boxShadow: isActive
+                  ? "inset 1px 1px 3px rgba(255, 255, 255, 0.3), inset -1px -1px 3px rgba(0, 0, 0, 0.2), 3px 3px 5px rgba(0, 0, 0, 0.3)"
+                  : "inset 1px 1px 3px rgba(255, 255, 255, 0.3), inset -1px -1px 3px rgba(0, 0, 0, 0.1), 2px 2px 4px rgba(0, 0, 0, 0.2)",
               }}
             >
               <Icon icon={tab.icon} className="text-[18px]" />
