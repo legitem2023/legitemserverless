@@ -9,7 +9,7 @@ const ReusableAccordion: React.FC<AccordionProps> = ({ title, content }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="border rounded-md">
+    <div className="border my-1">
       <button
         className="w-full text-left py-1 text-[15px] font-medium bg-gray-200"
         onClick={() => setIsOpen(!isOpen)}
