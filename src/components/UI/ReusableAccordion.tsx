@@ -11,13 +11,13 @@ const ReusableAccordion: React.FC<AccordionProps> = ({ title, content }) => {
   return (
     <div className="border rounded-md">
       <button
-        className="w-full text-left px-2 py-1 text-[12px] font-medium bg-gray-200"
+        className="w-full text-left py-1 text-[15px] font-medium bg-gray-200"
         onClick={() => setIsOpen(!isOpen)}
       >
         {title}
       </button>
       {isOpen && (
-        <div className="px-2 py-1 text-[12px]">
+        <div className="px-2 py-1 text-[13px]">
           {content}
         </div>
       )}
