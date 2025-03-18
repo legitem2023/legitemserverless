@@ -8,7 +8,9 @@ import "swiper/css/pagination";
 import { Pagination } from "swiper/modules";
 import clsx from "clsx";
 import { Icon } from "@iconify/react";
+import { setActiveIndex as Index2 } from "../Redux/swipeSlice";
 
+import {useDispatch} from "react-redux";
 interface TabItem {
   label: string;
   Icn: string;
@@ -23,7 +25,7 @@ export default function SwipeTabs({ tabs }: SwipeTabsProps) {
   const [activeTab, setActiveTab] = useState(0);
   const swiperRef = useRef<any>(null);
   const router = useRouter();
-
+  const dispatch = useDispatch();
   // Get id from URL and set the active tab on initial render
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -39,7 +41,8 @@ export default function SwipeTabs({ tabs }: SwipeTabsProps) {
   }, [tabs]);
 
   const handleTabClick = (index: number) => {
-    setActiveTab(index);
+   dispatch(Index2(0));
+   setActiveTab(index);
     if (swiperRef.current && swiperRef.current.slideTo) {
       swiperRef.current.slideTo(index);
     }
