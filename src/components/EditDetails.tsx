@@ -148,8 +148,8 @@ export default function EditDetails() {
         <div className="flex-1 flex relative p-2">
           <Editor
   apiKey="8uu57oloy4rinixs0tqfkwphgzagcs38v872pfyxnyt2awak"
+disabled={false}
   init={{
-    readonly: false, // Gawing editable
     plugins: [
       "anchor",
       "autolink",
