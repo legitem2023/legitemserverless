@@ -65,11 +65,8 @@ export default function Home() {
   const activeTab = tabs.find(tab => tab.id === id);
 
   return (
-<Suspense fallback = {<div>Loading....</div>}>
-{
-activeTab ? activeTab.content : <SwipeTabs tabs={tabs} />;
+    <Suspense fallback={<div>Loading....</div>}>
+      {activeTab ? activeTab.content : <SwipeTabs tabs={tabs} />}
+    </Suspense>
+  );
 }
-
-</Suspense>
-)
-
