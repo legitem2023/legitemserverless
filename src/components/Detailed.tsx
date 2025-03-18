@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import { useQuery,useMutation } from "@apollo/client";
 import { useSelector,useDispatch } from "react-redux";
 import {setActiveIndex} from './Redux/activeIndexSlice';
@@ -65,7 +66,7 @@ dispatch(Index2(3));
         <div key={idx} className="flex flex-row w-full min-w-0 bg-[#f1f1f1] shadow-md mb-2">
           {/* Image */}
           <div className="flex-shrink-0 p-2">
-            <img src={item.thumbnail} alt={item.name} className="w-[150px] h-[150px] object-cover rounded" />
+            <Image height="150" width="150" src={item.thumbnail} alt={item.name} className="w-[150px] h-[150px] object-cover rounded" />
           </div>
 
           {/* Details */}
