@@ -127,7 +127,7 @@ export default function InsertDetails() {
       </div>
 
        <div className="flex-1 flex relative p-2">  
-        <Editor  apiKey='cwn0oh6tsk3swlt9qm1xpofcybpgg65bban9nsl3tdavcr12'
+        <Editor  apiKey='8uu57oloy4rinixs0tqfkwphgzagcs38v872pfyxnyt2awak'
           onInit={(evt, editor) => (editorRef.current = editor)}
           onEditorChange={handleEditorChange}
           init={{
