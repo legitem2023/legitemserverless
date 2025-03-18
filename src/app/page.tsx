@@ -1,6 +1,6 @@
 'use client';
 import { useSearchParams } from 'next/navigation';
-import { Suspense } from "react
+import { Suspense } from "react";
 import SwipeTabs from "@/components/UI/SwipeTabs";
 import SalesChart from "@/components/SalesChart";
 import Transactions from "@/components/Transactions";
