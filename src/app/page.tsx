@@ -14,7 +14,7 @@ type DataProps = {
   labels: any;
 };
 
-const DashboardTab: React.FC<DataProps> = ({ data, labels }) => {
+const DashboardTab = () => {
   return (
     <div className="h-[90vh] overflow-y-auto">
       <Dashboard />
