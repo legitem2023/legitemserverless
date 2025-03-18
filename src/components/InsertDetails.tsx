@@ -127,7 +127,7 @@ export default function InsertDetails() {
         {errors.status && <p className="text-red-500 text-sm px-2">{errors.status}</p>}
 
         <div className="flex-1 flex relative p-2">
-          <Editor
+                    <Editor
             apiKey="8uu57oloy4rinixs0tqfkwphgzagcs38v872pfyxnyt2awak"
             init={{
               plugins: [
@@ -177,13 +177,7 @@ export default function InsertDetails() {
                 "link image media table mergetags | addcomment showcomments | spellcheckdialog " +
                 "a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | " +
                 "emoticons charmap | removeformat",
-              tinycomments_mode: "embedded",
-              tinycomments_author: "Author name",
-              mergetags_list: [
-                { value: "First.Name", title: "First Name" },
-                { value: "Email", title: "Email" },
-              ],
-              ai_request: (request, respondWith) =>
+              ai_request: (_request: any, respondWith: any) =>
                 respondWith.string(() => Promise.reject("See docs to implement AI Assistant")),
             }}
             initialValue="Welcome to TinyMCE!"
