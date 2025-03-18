@@ -37,6 +37,9 @@ export default function NewOrder() {
                       <div className="font-bold">Quantity: {hisItem.Quantity}</div>
                     
 <div className="font-bold">SubTotal: {hisItem.Quantity * hisItem.Price}</div>
+<button className="bg-green-500 text-white p-1 rounded-md text-sm">
+        Receive
+      </button>
                     </div>
                   ))}
                 </div>
