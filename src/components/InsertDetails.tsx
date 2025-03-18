@@ -155,7 +155,7 @@ export default function InsertDetails() {
       }}
       initialValue="Welcome to TinyMCE!"
     />
-  );
+  
        
       </div>
 
