@@ -1,13 +1,15 @@
 "use client";
 
-import { useState, useRef,useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Editor } from "@tinymce/tinymce-react";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from "react-redux";
 import { setActiveIndex as Index2 } from "./Redux/swipeSlice";
 import BackButton from "./UI/BackButton";
+
 export default function EditDetails() {
   const editorRef = useRef<any>(null);
   const dispatch = useDispatch();
+
   // Form State
   const [formData, setFormData] = useState({
     color: "",
@@ -18,32 +20,26 @@ export default function EditDetails() {
     description: "",
   });
 
+  const id = useSelector((state: any) => state.productDetails?.id || "");
+  const selectedColor = useSelector((state: any) => state.productDetails?.color || "");
+  const selectedPrice = useSelector((state: any) => state.productDetails?.price || "");
+  const selectedSize = useSelector((state: any) => state.productDetails?.size || "");
+  const selectedDescription = useSelector((state: any) => state.productDetails?.description || "");
+  const selectedStock = useSelector((state: any) => state.productDetails?.stock || "");
+  const selectedStatus = useSelector((state: any) => state.productDetails?.status || "");
 
-
-  
- const id = useSelector((state: any) => state.productDetails?.id || "");
-const selectedColor = useSelector((state: any) => state.productDetails?.color || "");
-const selectedPrice = useSelector((state: any) => state.productDetails?.price || "");
-const selectedSize = useSelector((state: any) => state.productDetails?.size || "");
-const selectedDescription = useSelector((state: any) => state.productDetails?.description || "");
-const selectedStock = useSelector((state: any) => state.productDetails?.stock || "");
-const selectedStatus = useSelector((state: any) => state.productDetails?.status || "");
-
-console.log(id, selectedColor, selectedPrice, selectedSize, selectedDescription, selectedStatus);
-
-useEffect(() => {
-  setFormData((prevData) => ({
-    ...prevData,
-    id: Array.isArray(id) ? id[0] || "" : id,
-    color: Array.isArray(selectedColor) ? selectedColor[0] || "" : selectedColor,
-    size: Array.isArray(selectedSize) ? selectedSize[0] || "" : selectedSize,
-    price: Array.isArray(selectedPrice) ? selectedPrice[0] || "" : selectedPrice,
-    stock: Array.isArray(selectedStock) ? selectedStock[0] || "" : selectedStock,
-    description: Array.isArray(selectedDescription) ? selectedDescription[0] || "" : selectedDescription,
-    status: Array.isArray(selectedStatus) ? selectedStatus[0] || "" : selectedStatus,
-  }));
-}, [id, selectedColor, selectedSize, selectedPrice, selectedStock, selectedDescription, selectedStatus]);
-
+  useEffect(() => {
+    setFormData((prevData) => ({
+      ...prevData,
+      id: Array.isArray(id) ? id[0] || "" : id,
+      color: Array.isArray(selectedColor) ? selectedColor[0] || "" : selectedColor,
+      size: Array.isArray(selectedSize) ? selectedSize[0] || "" : selectedSize,
+      price: Array.isArray(selectedPrice) ? selectedPrice[0] || "" : selectedPrice,
+      stock: Array.isArray(selectedStock) ? selectedStock[0] || "" : selectedStock,
+      description: Array.isArray(selectedDescription) ? selectedDescription[0] || "" : selectedDescription,
+      status: Array.isArray(selectedStatus) ? selectedStatus[0] || "" : selectedStatus,
+    }));
+  }, [id, selectedColor, selectedSize, selectedPrice, selectedStock, selectedDescription, selectedStatus]);
 
   // Error State
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
@@ -86,109 +82,134 @@ useEffect(() => {
   };
 
   return (
-<>
-   <BackButton/>
-    <form onSubmit={handleSubmit} className="max-w-md mx-auto shadow-md bg-[#f1f1f1]">
-          <div className="flex-1 flex flex-wrap relative p-2 font-bold">Edit Product Detail</div>
-          <hr></hr>
-      <div className="flex-1 flex relative p-2">  
-        <input
-          type="text"
-          name="color"
-          placeholder="Color"
-          value={formData.color}
-          onChange={handleChange}
-          className="p-2 w-full text-[13px]"
-        /></div>
+    <>
+      <BackButton />
+      <form onSubmit={handleSubmit} className="max-w-md mx-auto shadow-md bg-[#f1f1f1]">
+        <div className="flex-1 flex flex-wrap relative p-2 font-bold">Edit Product Detail</div>
+        <hr />
 
-     <div className="flex-1 flex relative p-2">  
+        <div className="flex-1 flex relative p-2">
+          <input
+            type="text"
+            name="color"
+            placeholder="Color"
+            value={formData.color}
+            onChange={handleChange}
+            className="p-2 w-full text-[13px]"
+          />
+        </div>
 
-        <input
-          type="text"
-          name="size"
-          placeholder="Size"
-          value={formData.size}
-          onChange={handleChange}
-          className="p-2 w-full text-[13px]"
-        />
+        <div className="flex-1 flex relative p-2">
+          <input
+            type="text"
+            name="size"
+            placeholder="Size"
+            value={formData.size}
+            onChange={handleChange}
+            className="p-2 w-full text-[13px]"
+          />
+        </div>
 
-      </div>
+        <div className="flex-1 flex relative p-2">
+          <input
+            type="number"
+            name="price"
+            placeholder="Price"
+            value={formData.price}
+            onChange={handleChange}
+            className="p-2 w-full text-[13px]"
+          />
+        </div>
 
-      <div className="flex-1 flex relative p-2">   
+        <div className="flex-1 flex relative p-2">
+          <input
+            type="number"
+            name="stock"
+            placeholder="Stock"
+            value={formData.stock}
+            onChange={handleChange}
+            className="p-2 w-full text-[13px]"
+          />
+        </div>
 
-        <input
-          type="number"
-          name="price"
-          placeholder="Price"
-          value={formData.price}
-          onChange={handleChange}
-          className="p-2 w-full text-[13px]"
-        />
+        <div className="flex-1 flex relative p-2">
+          <select
+            name="status"
+            value={formData.status}
+            onChange={handleChange}
+            className="p-2 w-full text-[13px]"
+          >
+            <option value="">Select status</option>
+            <option value="Active">Active</option>
+            <option value="In-active">In-active</option>
+          </select>
+        </div>
 
-      </div>
+        <div className="flex-1 flex relative p-2">
+          <Editor
+            apiKey="8uu57oloy4rinixs0tqfkwphgzagcs38v872pfyxnyt2awak"
+            init={{
+              plugins: [
+                "anchor",
+                "autolink",
+                "charmap",
+                "codesample",
+                "emoticons",
+                "image",
+                "link",
+                "lists",
+                "media",
+                "searchreplace",
+                "table",
+                "visualblocks",
+                "wordcount",
+                "checklist",
+                "mediaembed",
+                "casechange",
+                "export",
+                "formatpainter",
+                "pageembed",
+                "a11ychecker",
+                "tinymcespellchecker",
+                "permanentpen",
+                "powerpaste",
+                "advtable",
+                "advcode",
+                "editimage",
+                "advtemplate",
+                "ai",
+                "mentions",
+                "tinycomments",
+                "tableofcontents",
+                "footnotes",
+                "mergetags",
+                "autocorrect",
+                "typography",
+                "inlinecss",
+                "markdown",
+                "importword",
+                "exportword",
+                "exportpdf",
+              ],
+              toolbar:
+                "undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | " +
+                "link image media table mergetags | addcomment showcomments | spellcheckdialog " +
+                "a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | " +
+                "emoticons charmap | removeformat",
+              ai_request: (_request: any, respondWith: any) =>
+                respondWith.string(() => Promise.reject("See docs to implement AI Assistant")),
+            }}
+            initialValue="Welcome to TinyMCE!"
+            onEditorChange={handleEditorChange}
+          />
+        </div>
 
-      <div className="flex-1 flex relative p-2">  
-
-        <input
-          type="number"
-          name="stock"
-          placeholder="Stock"
-          value={formData.stock}
-          onChange={handleChange}
-          className="p-2 w-full text-[13px]"
-        />
-
-      </div>
-
-       <div className="flex-1 flex relative p-2">  
-        <select
-          name="status"
-          value={formData.status}
-          onChange={handleChange}
-          className="p-2 w-full text-[13px]"
-        >
-          <option value="">Select status</option>
-          <option value="Active">Active</option>
-          <option value="In-active">In-active</option>
-
-        </select>
-
-      </div>
-
-       <div className="flex-1 flex relative p-2">  
-         <Editor
-      apiKey="8uu57oloy4rinixs0tqfkwphgzagcs38v872pfyxnyt2awak"
-      init={{
-        plugins: [
-          'anchor', 'autolink', 'charmap', 'codesample', 'emoticons', 'image', 'link', 'lists', 
-          'media', 'searchreplace', 'table', 'visualblocks', 'wordcount',
-          'checklist', 'mediaembed', 'casechange', 'export', 'formatpainter', 'pageembed', 
-          'a11ychecker', 'tinymcespellchecker', 'permanentpen', 'powerpaste', 'advtable', 
-          'advcode', 'editimage', 'advtemplate', 'ai', 'mentions', 'tinycomments', 
-          'tableofcontents', 'footnotes', 'mergetags', 'autocorrect', 'typography', 
-          'inlinecss', 'markdown', 'importword', 'exportword', 'exportpdf'
-        ],
-        toolbar: 
-          'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | ' + 
-          'link image media table mergetags | addcomment showcomments | spellcheckdialog ' + 
-          'a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | ' + 
-          'emoticons charmap | removeformat',
-        tinycomments_mode: 'embedded',
-        tinycomments_author: 'Author name',
-        mergetags_list: [
-          { value: 'First.Name', title: 'First Name' },
-          { value: 'Email', title: 'Email' },
-        ],
-        ai_request: (request, respondWith) => 
-          respondWith.string(() => Promise.reject('See docs to implement AI Assistant')),
-      }}
-      initialValue="Welcome to TinyMCE!"
-    />
-  
-      </div>
-
-           <div className="flex-1 flex relative p-2"><button type="submit" className="flex justify-center items-center p-2 rounded-md bg-[#451b05] text-[#ffffff] shadow-lg m-2">Submit</button></div>
-    </form>
-</>
+        <div className="flex-1 flex relative p-2">
+          <button type="submit" className="p-2 rounded-md bg-[#451b05] text-white shadow-lg m-2">
+            Submit
+          </button>
+        </div>
+      </form>
+    </>
   );
-  }
+}
