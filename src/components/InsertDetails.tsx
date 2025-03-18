@@ -174,6 +174,8 @@ disabled={false}
       "exportword",
       "exportpdf",
     ],
+tinycomments_mode: 'embedded',
+            tinycomments_author: 'Author name',
     toolbar:
       "undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | " +
       "link image media table mergetags | addcomment showcomments | spellcheckdialog " +
