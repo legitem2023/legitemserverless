@@ -128,62 +128,62 @@ export default function InsertDetails() {
 
         <div className="flex-1 flex relative p-2">
                     <Editor
-            apiKey="8uu57oloy4rinixs0tqfkwphgzagcs38v872pfyxnyt2awak"
-            init={{
-              plugins: [
-                "anchor",
-                "autolink",
-                "charmap",
-                "codesample",
-                "emoticons",
-                "image",
-                "link",
-                "lists",
-                "media",
-                "searchreplace",
-                "table",
-                "visualblocks",
-                "wordcount",
-                "checklist",
-                "mediaembed",
-                "casechange",
-                "export",
-                "formatpainter",
-                "pageembed",
-                "a11ychecker",
-                "tinymcespellchecker",
-                "permanentpen",
-                "powerpaste",
-                "advtable",
-                "advcode",
-                "editimage",
-                "advtemplate",
-                "ai",
-                "mentions",
-                "tinycomments",
-                "tableofcontents",
-                "footnotes",
-                "mergetags",
-                "autocorrect",
-                "typography",
-                "inlinecss",
-                "markdown",
-                "importword",
-                "exportword",
-                "exportpdf",
-              ],
-              toolbar:
-                "undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | " +
-                "link image media table mergetags | addcomment showcomments | spellcheckdialog " +
-                "a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | " +
-                "emoticons charmap | removeformat",
-disabled:false,
-              ai_request: (_request: any, respondWith: any) =>
-                respondWith.string(() => Promise.reject("See docs to implement AI Assistant")),
-            }}
-            initialValue="Welcome to TinyMCE!"
-            onEditorChange={handleEditorChange}
-          />
+  apiKey="8uu57oloy4rinixs0tqfkwphgzagcs38v872pfyxnyt2awak"
+  init={{
+    readonly: false, // Gawing editable
+    plugins: [
+      "anchor",
+      "autolink",
+      "charmap",
+      "codesample",
+      "emoticons",
+      "image",
+      "link",
+      "lists",
+      "media",
+      "searchreplace",
+      "table",
+      "visualblocks",
+      "wordcount",
+      "checklist",
+      "mediaembed",
+      "casechange",
+      "export",
+      "formatpainter",
+      "pageembed",
+      "a11ychecker",
+      "tinymcespellchecker",
+      "permanentpen",
+      "powerpaste",
+      "advtable",
+      "advcode",
+      "editimage",
+      "advtemplate",
+      "ai",
+      "mentions",
+      "tinycomments",
+      "tableofcontents",
+      "footnotes",
+      "mergetags",
+      "autocorrect",
+      "typography",
+      "inlinecss",
+      "markdown",
+      "importword",
+      "exportword",
+      "exportpdf",
+    ],
+    toolbar:
+      "undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | " +
+      "link image media table mergetags | addcomment showcomments | spellcheckdialog " +
+      "a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | " +
+      "emoticons charmap | removeformat",
+    ai_request: (_request: any, respondWith: any) =>
+      respondWith.string(() => Promise.reject("See docs to implement AI Assistant")),
+  }}
+  initialValue="Welcome to TinyMCE!"
+  onEditorChange={handleEditorChange}
+/>
         </div>
         {errors.description && <p className="text-red-500 text-sm px-2">{errors.description}</p>}
 
