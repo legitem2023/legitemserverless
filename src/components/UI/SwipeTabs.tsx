@@ -8,8 +8,7 @@ import "swiper/css/pagination";
 import { Pagination } from "swiper/modules";
 import clsx from "clsx";
 import { Icon } from "@iconify/react";
-import { setActiveIndex as Index2 } from "../Redux/swipeSlice";
-
+import { setActiveIndex } from "../Redux/activeIndexSlice";
 import {useDispatch} from "react-redux";
 interface TabItem {
   label: string;
@@ -41,7 +40,7 @@ export default function SwipeTabs({ tabs }: SwipeTabsProps) {
   }, [tabs]);
 
   const handleTabClick = (index: number) => {
-   dispatch(Index2(0));
+   dispatch(setActiveIndex(0));
    setActiveTab(index);
     if (swiperRef.current && swiperRef.current.slideTo) {
       swiperRef.current.slideTo(index);
