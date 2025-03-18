@@ -196,6 +196,7 @@ export default function EditDetails() {
                 "link image media table mergetags | addcomment showcomments | spellcheckdialog " +
                 "a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | " +
                 "emoticons charmap | removeformat",
+disabled:false,
               ai_request: (_request: any, respondWith: any) =>
                 respondWith.string(() => Promise.reject("See docs to implement AI Assistant")),
             }}
