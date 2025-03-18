@@ -1,5 +1,6 @@
 'use client';
 import { useSearchParams } from 'next/navigation';
+import { Suspense } from "react
 import SwipeTabs from "@/components/UI/SwipeTabs";
 import SalesChart from "@/components/SalesChart";
 import Transactions from "@/components/Transactions";
@@ -63,5 +64,12 @@ export default function Home() {
   // Find the tab content based on the id
   const activeTab = tabs.find(tab => tab.id === id);
 
-  return activeTab ? activeTab.content : <SwipeTabs tabs={tabs} />;
+  return (
+<Suspense fallback = {<div>Loading....</div>}>
+{
+activeTab ? activeTab.content : <SwipeTabs tabs={tabs} />;
 }
+}
+</Suspense>
+)
+
