@@ -46,13 +46,10 @@ export default function Home() {
   const searchParams = useSearchParams();
   const id = searchParams.get('id'); // Get `id` from the URL
 
-  const dailySalesData = {
-    labels: ["2024-03-01", "2024-03-02", "2024-03-03"],
-    data: [1200, 1800, 1500]
-  };
+  
 
   const tabs = [
-    { id: "dashboard", label: "Dashboard", Icn: "material-symbols:dashboard", content: <DashboardTab data={dailySalesData.data} labels={dailySalesData.labels} /> },
+    { id: "dashboard", label: "Dashboard", Icn: "material-symbols:dashboard", content: <DashboardTab/> },
     { id: "inventory", label: "Inventory", Icn: "material-symbols:inventory", content: <InventoryTab /> },
     { id: "transaction", label: "Transaction", Icn: "grommet-icons:transaction", content: <TransactionTab /> },
     { id: "sales", label: "Sales", Icn: "tdesign:money", content: <SalesTab /> },
