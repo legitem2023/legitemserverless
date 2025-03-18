@@ -30,7 +30,7 @@ const Detailed = () => {
 
 
 const filter = data.getChildInventory_details?.filter((item: any) => item.id === id);
-console.log(filter);
+
 
 dispatch(setID([filter[0].id]));
 dispatch(setColor([filter[0].color]));
