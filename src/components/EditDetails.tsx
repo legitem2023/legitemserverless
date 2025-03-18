@@ -157,7 +157,7 @@ useEffect(() => {
 
        <div className="flex-1 flex relative p-2">  
         <Editor
-          apiKey="your-tinymce-api-key"
+          apiKey="8uu57oloy4rinixs0tqfkwphgzagcs38v872pfyxnyt2awak
           onInit={(evt, editor) => (editorRef.current = editor)}
           onEditorChange={handleEditorChange}
           init={{
