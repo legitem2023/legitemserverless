@@ -69,7 +69,7 @@ export default function Home() {
 {
 activeTab ? activeTab.content : <SwipeTabs tabs={tabs} />;
 }
-}
+
 </Suspense>
 )
 
