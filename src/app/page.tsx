@@ -71,6 +71,7 @@ const dailySalesData = {
     { label: "Transaction", Icn: "grommet-icons:transaction", content: <TransactionTab /> },
     { label: "Sales", Icn: "tdesign:money", content: <SalesTab /> },
     { label: "Statistics", Icn: "akar-icons:statistic-up", content: <StatisticsTab /> },
+{ label: "Bills", Icn: "healthicons:bill", content: <SettingsTab /> },
     { label: "Settings", Icn: "material-symbols:settings", content: <SettingsTab /> }
   ];
 
