@@ -165,7 +165,7 @@ useEffect(() => {
             menubar: false,
             plugins: "lists link image",
             toolbar: "undo redo | bold italic | alignleft aligncenter alignright | bullist numlist outdent indent",
-            readonly=false
+            readonly:false
           }}
         />
 
