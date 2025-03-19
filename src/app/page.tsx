@@ -1,54 +1,47 @@
-'use client';
-import { useSearchParams } from 'next/navigation';
-import { Suspense, useState, useMemo } from "react";
-import SwipeTabs from "@/components/UI/SwipeTabs";
+'use client'; 
+import { useSearchParams } from 'next/navigation'; import { Suspense,useState } from "react"; import SwipeTabs from "@/components/UI/SwipeTabs";
 
 import Dashboard from "@/components/Dashboard";
+
 import Transactions from "@/components/Transactions";
+
 import Settings from "@/components/Settings";
 
 import dynamic from 'next/dynamic';
 
 const ProductDetails = dynamic(() => import('@/components/ProductDetails'), { ssr: false });
 
-const tabs = [
-  { id: "Dashboard", label: "Dashboard", Icn: "material-symbols:dashboard" },
-  { id: "Inventory", label: "Inventory", Icn: "material-symbols:inventory" },
-  { id: "Transaction", label: "Transaction", Icn: "grommet-icons:transaction" },
-  { id: "Sales", label: "Sales", Icn: "tdesign:money" },
-  { id: "Statistics", label: "Statistics", Icn: "akar-icons:statistic-up" },
-  { id: "Bills", label: "Bills", Icn: "mdi:receipt-text" },
-  { id: "Settings", label: "Settings", Icn: "material-symbols:settings" }
-];
+const DashboardTab = () => (
 
-function ActiveTabContent({ activeTab }:any) {
-  const content = useMemo(() => {
-    switch (activeTab) {
-      case "Dashboard":
-        return <Dashboard />;
-      case "Inventory":
-        return <ProductDetails />;
-      case "Transaction":
-        return <Transactions />;
-      case "Bills":
-      case "Settings":
-        return <Settings />;
-      default:
-        return null;
-    }
-  }, [activeTab]);
+  <div className="h-[90vh] overflow-y-auto">
+    <Dashboard />
+  </div>
+);const InventoryTab = () => (
 
-  return <div className="h-[90vh] overflow-y-auto">{content}</div>;
-}
+  <div id="InventoryTab" className="h-[90vh] overflow-y-auto">
+    <ProductDetails />
+  </div>
+);const TransactionTab = () => (
+
+  <div id="TransactionTab" className="h-[90vh] overflow-y-auto">
+    <Transactions />
+  </div>
+);const SalesTab = () => <div id="SalesTab" className="h-[90vh] overflow-y-auto"></div>;
+
+const StatisticsTab = () => (
+
+<div id="StatisticsTab" className="h-[90vh] overflow-y-auto"></div>);const SettingsTab = () => (
+
+
+<div id="SettingsTab" className="h-[90vh] overflow-y-auto">
+  <Settings/>
+</div>
+);const tabs = [ { id: "Dashboard", label: "Dashboard", Icn: "material-symbols:dashboard", content:useActive===0?<DashboardTab />:'' }, { id: "Inventory", label: "Inventory", Icn: "material-symbols:inventory", content:useActive===1? <InventoryTab />:'' }, { id: "Transaction", label: "Transaction", Icn: "grommet-icons:transaction", content: useActive===2?<TransactionTab />:'' }, { id: "Sales", label: "Sales", Icn: "tdesign:money", content: useActive===3?<SalesTab />:'' }, { id: "Statistics", label: "Statistics", Icn: "akar-icons:statistic-up", content: useActive===4? <StatisticsTab />:'' }, { id: "Bills", label: "Bills", Icn: "mdi:receipt-text", content:useActive===5? <SettingsTab />:'' }, { id: "Settings", label: "Settings", Icn: "material-symbols:settings", content: useActive===6?<SettingsTab />:'' } ];
+
+function ActiveTabContent() { const searchParams = useSearchParams(); const id = searchParams.get('id'); setActive(id); return <SwipeTabs tabs={tabs} />; }
 
 export default function Home() {
-  const searchParams = useSearchParams();
-  const activeTab = searchParams.get('id');
+const [useActive,setActive] = useState("");
 
-  return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <SwipeTabs tabs={tabs} />
-      <ActiveTabContent activeTab={activeTab} />
-    </Suspense>
-  );
-}
+ return ( <Suspense fallback={<div>Loading....</div>}> <ActiveTabContent /> </Suspense> ); }
+
