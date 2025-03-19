@@ -19,7 +19,7 @@ content: ""},
 
 return (
        <div className="p-2 bg-[#f1f1f1]">
-          <div className="flex-1 flex flex-wrap relative p-2 font-bold">Transactions</div>
+          <div className="flex-1 flex flex-wrap relative p-2 font-bold">Settings</div>
           <hr></hr>
       <ArrowTabs
         tabs={tabs}
