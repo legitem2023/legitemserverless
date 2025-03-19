@@ -4,9 +4,9 @@ import ArrowTabs from "@/components/ArrowTabs";
 const Settings = () => {
 
 const tabs = [{
-icon: "fluent:document-add-24-filled",
+icon: "mdi:about",
 content: "" },{ 
-icon: "mdi:inbox-arrow-down", 
+icon: "wpf:faq", 
 content: "" },{ 
 icon: "solar:settings-bold", 
 content: "" },{ 
