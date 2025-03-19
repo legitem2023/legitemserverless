@@ -27,3 +27,5 @@ result (
     </div>
 )
 }
+
+export default Settings;
