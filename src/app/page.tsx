@@ -1,6 +1,5 @@
 'use client'; 
-import { useSearchParams } from 'next/navigation'; 
-import { Suspense, useState, useEffect } from "react"; 
+import { Suspense } from "react"; 
 import SwipeTabs from "@/components/UI/SwipeTabs";
 import Dashboard from "@/components/Dashboard";
 import Transactions from "@/components/Transactions";
@@ -32,40 +31,20 @@ const SettingsTab = () => (
   </div>
 );
 
-function ActiveTabContent({ useActive }: { useActive: number }) {
-  const searchParams = useSearchParams();
-  const id = searchParams.get('id');
-
-  const tabs = [
-    { id: "Dashboard", label: "Dashboard", Icn: "material-symbols:dashboard", content: useActive === 0 ? <DashboardTab /> : '' },
-    { id: "Inventory", label: "Inventory", Icn: "material-symbols:inventory", content: useActive === 1 ? <InventoryTab /> : '' },
-    { id: "Transaction", label: "Transaction", Icn: "grommet-icons:transaction", content: useActive === 2 ? <TransactionTab /> : '' },
-    { id: "Sales", label: "Sales", Icn: "tdesign:money", content: useActive === 3 ? <SalesTab /> : '' },
-    { id: "Statistics", label: "Statistics", Icn: "akar-icons:statistic-up", content: useActive === 4 ? <StatisticsTab /> : '' },
-    { id: "Bills", label: "Bills", Icn: "mdi:receipt-text", content: useActive === 5 ? <SettingsTab /> : '' },
-    { id: "Settings", label: "Settings", Icn: "material-symbols:settings", content: useActive === 6 ? <SettingsTab /> : '' }
-  ];
-
-  return <SwipeTabs tabs={tabs} />;
-}
+const tabs = [
+  { id: "Dashboard", label: "Dashboard", Icn: "material-symbols:dashboard", content: <DashboardTab /> },
+  { id: "Inventory", label: "Inventory", Icn: "material-symbols:inventory", content: <InventoryTab /> },
+  { id: "Transaction", label: "Transaction", Icn: "grommet-icons:transaction", content: <TransactionTab /> },
+  { id: "Sales", label: "Sales", Icn: "tdesign:money", content: <SalesTab /> },
+  { id: "Statistics", label: "Statistics", Icn: "akar-icons:statistic-up", content: <StatisticsTab /> },
+  { id: "Bills", label: "Bills", Icn: "mdi:receipt-text", content: <SettingsTab /> },
+  { id: "Settings", label: "Settings", Icn: "material-symbols:settings", content: <SettingsTab /> }
+];
 
 export default function Home() {
-  const [useActive, setActive] = useState(0); // Default to first tab
-
-  useEffect(() => {
-    const searchParams = new URLSearchParams(window.location.search);
-    const id = searchParams.get('id');
-    if (id) {
-      const tabIndex = ["Dashboard", "Inventory", "Transaction", "Sales", "Statistics", "Bills", "Settings"].indexOf(id);
-      if (tabIndex !== -1) {
-        setActive(tabIndex);
-      }
-    }
-  });
-
   return (
     <Suspense fallback={<div>Loading....</div>}>
-      <ActiveTabContent useActive={useActive} />
+      <SwipeTabs tabs={tabs}/> {/* Default to first tab */}
     </Suspense>
   );
 }
