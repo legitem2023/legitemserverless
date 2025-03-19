@@ -1,6 +1,6 @@
 'use client';
 import { useSearchParams } from 'next/navigation';
-import { Suspense } from "react";
+import { Suspense,useState } from "react";
 import SwipeTabs from "@/components/UI/SwipeTabs";
 
 import Dashboard from "@/components/Dashboard";
@@ -39,26 +39,28 @@ const StatisticsTab = () => (
 </div>);
 
 const SettingsTab = () => (
+
+const [useActive,setActive] = useState("");
 <div id="SettingsTab" className="h-[90vh] overflow-y-auto">
   <Settings/>
 </div>
 );
 
 const tabs = [
-  { id: "Dashboard", label: "Dashboard", Icn: "material-symbols:dashboard", content: <DashboardTab /> },
-  { id: "Inventory", label: "Inventory", Icn: "material-symbols:inventory", content: <InventoryTab /> },
-  { id: "Transaction", label: "Transaction", Icn: "grommet-icons:transaction", content: <TransactionTab /> },
-  { id: "Sales", label: "Sales", Icn: "tdesign:money", content: <SalesTab /> },
-  { id: "Statistics", label: "Statistics", Icn: "akar-icons:statistic-up", content: <StatisticsTab /> },
-  { id: "Bills", label: "Bills", Icn: "mdi:receipt-text", content: <SettingsTab /> },
-  { id: "Settings", label: "Settings", Icn: "material-symbols:settings", content: <SettingsTab /> }
+  { id: "Dashboard", label: "Dashboard", Icn: "material-symbols:dashboard", content:useActive===0?<DashboardTab />:'' },
+  { id: "Inventory", label: "Inventory", Icn: "material-symbols:inventory", content:useActive===1? <InventoryTab />:'' },
+  { id: "Transaction", label: "Transaction", Icn: "grommet-icons:transaction", content: useActive===2?<TransactionTab />:'' },
+  { id: "Sales", label: "Sales", Icn: "tdesign:money", content: useActive===3?<SalesTab />:'' },
+  { id: "Statistics", label: "Statistics", Icn: "akar-icons:statistic-up", content: useActive===4? <StatisticsTab />:'' },
+  { id: "Bills", label: "Bills", Icn: "mdi:receipt-text", content:useActive===5? <SettingsTab />:'' },
+  { id: "Settings", label: "Settings", Icn: "material-symbols:settings", content: useActive===6?<SettingsTab />:'' }
 ];
 
 function ActiveTabContent() {
   const searchParams = useSearchParams();
   const id = searchParams.get('id');
-  const activeTab = tabs.find(tab => tab.id === id);
-  return activeTab ? activeTab.content : <SwipeTabs tabs={tabs} />;
+  setActive(id);
+  return <SwipeTabs tabs={tabs} />;
 }
 
 export default function Home() {
