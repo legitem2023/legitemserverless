@@ -45,13 +45,13 @@ const SettingsTab = () => (
 );
 
 const tabs = [
-  { id: "0", label: "Dashboard", Icn: "material-symbols:dashboard", content: <DashboardTab /> },
-  { id: "1", label: "Inventory", Icn: "material-symbols:inventory", content: <InventoryTab /> },
-  { id: "2", label: "Transaction", Icn: "grommet-icons:transaction", content: <TransactionTab /> },
-  { id: "3", label: "Sales", Icn: "tdesign:money", content: <SalesTab /> },
-  { id: "4", label: "Statistics", Icn: "akar-icons:statistic-up", content: <StatisticsTab /> },
-  { id: "5", label: "Bills", Icn: "mdi:receipt-text", content: <SettingsTab /> },
-  { id: "6", label: "Settings", Icn: "material-symbols:settings", content: <SettingsTab /> }
+  { id: "Dashboard", label: "Dashboard", Icn: "material-symbols:dashboard", content: <DashboardTab /> },
+  { id: "Inventory", label: "Inventory", Icn: "material-symbols:inventory", content: <InventoryTab /> },
+  { id: "Transaction", label: "Transaction", Icn: "grommet-icons:transaction", content: <TransactionTab /> },
+  { id: "Sales", label: "Sales", Icn: "tdesign:money", content: <SalesTab /> },
+  { id: "Statistics", label: "Statistics", Icn: "akar-icons:statistic-up", content: <StatisticsTab /> },
+  { id: "Bills", label: "Bills", Icn: "mdi:receipt-text", content: <SettingsTab /> },
+  { id: "Settings", label: "Settings", Icn: "material-symbols:settings", content: <SettingsTab /> }
 ];
 
 function ActiveTabContent() {
