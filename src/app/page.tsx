@@ -2,8 +2,13 @@
 import { useSearchParams } from 'next/navigation';
 import { Suspense } from "react";
 import SwipeTabs from "@/components/UI/SwipeTabs";
+
 import Dashboard from "@/components/Dashboard";
+
 import Transactions from "@/components/Transactions";
+
+import Settings from "@/components/Settings";
+
 import dynamic from 'next/dynamic';
 
 const ProductDetails = dynamic(() => import('@/components/ProductDetails'), { ssr: false });
@@ -27,8 +32,17 @@ const TransactionTab = () => (
 );
 
 const SalesTab = () => <div id="SalesTab" className="h-[90vh] overflow-y-auto"></div>;
-const StatisticsTab = () => <div id="StatisticsTab" className="h-[90vh] overflow-y-auto"></div>;
-const SettingsTab = () => <div id="SettingsTab" className="h-[90vh] overflow-y-auto"></div>;
+
+const StatisticsTab = () => (
+<div id="StatisticsTab" className="h-[90vh] overflow-y-auto">
+
+</div>);
+
+const SettingsTab = () => (
+<div id="SettingsTab" className="h-[90vh] overflow-y-auto">
+  <Settings/>
+</div>
+);
 
 const tabs = [
   { id: "dashboard", label: "Dashboard", Icn: "material-symbols:dashboard", content: <DashboardTab /> },
