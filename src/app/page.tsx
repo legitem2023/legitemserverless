@@ -61,7 +61,7 @@ export default function Home() {
         setActive(tabIndex);
       }
     }
-  }, []);
+  });
 
   return (
     <Suspense fallback={<div>Loading....</div>}>
