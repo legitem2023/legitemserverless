@@ -8,11 +8,11 @@ icon: "mdi:about",
 content: "" },{ 
 icon: "wpf:faq", 
 content: "" },{ 
-icon: "solar:settings-bold", 
+icon: "material-symbols:gpp-maybe", 
 content: "" },{ 
-icon: "mdi:truck-cargo-container", 
+icon: "ic:outline-privacy-tip", 
 content: ""},{
-icon: "material-symbols:local-shipping", content: ""},{
+icon: "ic:baseline-phone", content: ""},{
 icon: "mdi:check-decagram", 
 content: ""},
 ];
