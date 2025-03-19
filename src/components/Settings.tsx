@@ -1,3 +1,7 @@
+import ArrowTabs from "@/components/ArrowTabs";
+
+
+const Settings = () => {
 const tabs = [{
 icon: "fluent:document-add-24-filled",
 content: "" },{ 
@@ -11,3 +15,8 @@ icon: "material-symbols:local-shipping", content: ""},{
 icon: "mdi:check-decagram", 
 content: ""},
 ];
+
+result (
+   <Arrow tabs={tabs}/>
+)
+}
