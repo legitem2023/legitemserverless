@@ -21,7 +21,7 @@ const tabs = [
   { id: "Settings", label: "Settings", Icn: "material-symbols:settings" }
 ];
 
-function ActiveTabContent({ activeTab }) {
+function ActiveTabContent({ activeTab }:any) {
   const content = useMemo(() => {
     switch (activeTab) {
       case "Dashboard":
