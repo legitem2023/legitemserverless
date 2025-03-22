@@ -1,33 +1,46 @@
-'use client'; 
-import { Suspense } from "react"; 
+'use client';
+import { Suspense, lazy } from "react"; 
 import SwipeTabs from "@/components/UI/SwipeTabs";
-import Dashboard from "@/components/Dashboard";
-import Transactions from "@/components/Transactions";
-import Settings from "@/components/Settings";
 import dynamic from 'next/dynamic';
 
+// Lazy Load Components
+const Dashboard = lazy(() => import("@/components/Dashboard"));
+const Transactions = lazy(() => import("@/components/Transactions"));
+const Settings = lazy(() => import("@/components/Settings"));
 const ProductDetails = dynamic(() => import('@/components/ProductDetails'), { ssr: false });
 
 const DashboardTab = () => (
   <div className="h-[90vh] overflow-y-auto">
-    <Dashboard />
+    <Suspense fallback={<div>Loading Dashboard...</div>}>
+      <Dashboard />
+    </Suspense>
   </div>
 );
+
 const InventoryTab = () => (
   <div id="InventoryTab" className="h-[90vh] overflow-y-auto">
-    <ProductDetails />
+    <Suspense fallback={<div>Loading Inventory...</div>}>
+      <ProductDetails />
+    </Suspense>
   </div>
 );
+
 const TransactionTab = () => (
   <div id="TransactionTab" className="h-[90vh] overflow-y-auto">
-    <Transactions />
+    <Suspense fallback={<div>Loading Transactions...</div>}>
+      <Transactions />
+    </Suspense>
   </div>
 );
+
 const SalesTab = () => <div id="SalesTab" className="h-[90vh] overflow-y-auto"></div>;
 const StatisticsTab = () => <div id="StatisticsTab" className="h-[90vh] overflow-y-auto"></div>;
+
 const SettingsTab = () => (
   <div id="SettingsTab" className="h-[90vh] overflow-y-auto">
-    <Settings />
+    <Suspense fallback={<div>Loading Settings...</div>}>
+      <Settings />
+    </Suspense>
   </div>
 );
 
