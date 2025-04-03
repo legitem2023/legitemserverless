@@ -56,7 +56,7 @@ dispatch(Index2(2));
 
 const handleView = (id:any) =>{
 dispatch(Index2(3));
-dispatch(setDetailID(filter[0].id));
+dispatch(setDetailID(id));
 }
 
   return (
@@ -103,7 +103,7 @@ dispatch(setDetailID(filter[0].id));
                 options={[
                   { id: item.id, label: "Edit", onClick: handleEdit },
                   { id: item.id, label: "Delete", onClick: handleDelete },
-                  { id: item.id, label: "View", onClick: handleView },
+                  { id: item.id, label: "View", onClick: handleView(item.id) },
                 ]}
               />
             </div>
