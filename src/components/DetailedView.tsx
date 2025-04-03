@@ -12,7 +12,7 @@ const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => { if (
 
 const handleSubmit = () => { console.log("Submitting images:", selectedImages); };
 
-return ( <> <BackButton /> <div className="w-full space-y-2"> {/* Image Upload UI */} <div className="flex flex-col items-center p-4 border rounded-md shadow-md bg-white"> <input
+return ( <> <BackButton /> <div className="w-full space-y-2 m-2"> {/* Image Upload UI */} <div className="flex flex-col items-center p-4 border rounded-md shadow-md bg-white"> <input
 type="file"
 accept="image/*"
 multiple
