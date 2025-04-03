@@ -63,12 +63,15 @@ const DetailedView = () => {
     console.log("Submitting images:", selectedImages);  
 
     selectedImages.forEach((base64Image) => {  
-      saveCropBlob({  
-        variables: {  
-          saveCropImageId: styleCode,  
-          file: base64Image,  
-        },  
-      });  
+      
+      const JSON = {
+      'saveCropImageId': styleCode,
+      'file': base64Image,
+    };
+    saveCropBlob({
+      variables: JSON,
+    });
+      
     });  
   };  
 
