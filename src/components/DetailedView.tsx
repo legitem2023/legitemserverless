@@ -10,7 +10,8 @@ import BackButton from "./UI/BackButton";
 import { SAVE_CROP_IMAGE } from "./graphql/queries/mutation";
 
 const DetailedView = () => {  
-  const styleCode = useSelector((state: any) => state.styleCode.styleCode);  
+  const styleCode = useSelector((state: any) => state.styleCode.styleCode); 
+  const detailID = useSelector((state: any) => state.detailID.detailID);
   const { data, loading } = useQuery(GET_CHILD_INVENTORY_DETAIL, {  
     variables: { styleCode },  
   });
@@ -65,7 +66,7 @@ const DetailedView = () => {
     selectedImages.forEach((base64Image) => {  
       
       const JSON = {
-      'saveCropImageId': styleCode,
+      'saveCropImageId': detailID,
       'file': base64Image,
     };
     saveCropBlob({
