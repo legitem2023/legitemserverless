@@ -10,13 +10,18 @@ if (loading) return <Loading />;
 
 const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => { if (event.target.files) { const files = Array.from(event.target.files); const imageUrls = files.map((file) => URL.createObjectURL(file)); setSelectedImages(imageUrls); } };
 
+const handleSubmit = () => { console.log("Submitting images:", selectedImages); };
+
 return ( <> <BackButton /> <div className="w-full space-y-2"> {/* Image Upload UI */} <div className="flex flex-col items-center p-4 border rounded-md shadow-md bg-white"> <input
 type="file"
 accept="image/*"
 multiple
 onChange={handleImageChange}
 className="mb-2 border p-1 rounded"
-/> <div className="flex flex-wrap gap-2"> {selectedImages.map((src, index) => ( <img key={index} src={src} alt="Preview" className="w-20 h-20 object-cover rounded" /> ))} </div> </div>
+/> <div className="flex flex-wrap gap-2"> {selectedImages.map((src, index) => ( <img key={index} src={src} alt="Preview" className="w-20 h-20 object-cover rounded" /> ))} </div> <button 
+onClick={handleSubmit} 
+className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+> Submit </button> </div>
 
 {data?.getChildInventory_details?.map((item: any, idx: number) => (
       <div
@@ -56,4 +61,3 @@ className="mb-2 border p-1 rounded"
 ); };
 
 export default DetailedView;
-
