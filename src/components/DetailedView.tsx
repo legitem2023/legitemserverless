@@ -1,74 +1,142 @@
 "use client";
 
-import { useQuery,useMutation } from "@apollo/client"; 
+import { useQuery, useMutation } from "@apollo/client"; 
 import { useSelector } from "react-redux"; 
 import { useState } from "react"; 
 import { GET_CHILD_INVENTORY_DETAIL } from "./graphql/queries/queries"; 
-import SwiperGallery from "./SwiperGallery"; import Loading from "./Loading"; 
+import SwiperGallery from "./SwiperGallery"; 
+import Loading from "./Loading"; 
 import BackButton from "./UI/BackButton";
 import { SAVE_CROP_IMAGE } from "./graphql/queries/mutation";
-const DetailedView = () => { const styleCode = useSelector((state: any) => state.styleCode.styleCode); const { data, loading } = useQuery(GET_CHILD_INVENTORY_DETAIL, { variables: { styleCode }, });
 
-const [selectedImages, setSelectedImages] = useState<string[]>([]);
+const DetailedView = () => {  
+  const styleCode = useSelector((state: any) => state.styleCode.styleCode);  
+  const { data, loading } = useQuery(GET_CHILD_INVENTORY_DETAIL, {  
+    variables: { styleCode },  
+  });
 
-if (loading) return <Loading />;
-
-const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => { if (event.target.files) { const files = Array.from(event.target.files); const imageUrls = files.map((file) => URL.createObjectURL(file)); setSelectedImages(imageUrls); } };
-var [saveCropBlob] = useMutation(SAVE_CROP_IMAGE, {
-    onCompleted: data => {
-      if(data.saveCropImage.statusText ==="Image saved successfully"){
+  const [selectedImages, setSelectedImages] = useState<string[]>([]);
+  const [saveCropBlob] = useMutation(SAVE_CROP_IMAGE, {
+    onCompleted: (data) => {
+      if (data.saveCropImage.statusText === "Image saved successfully") {
         Manager.Success(data.saveCropImage.statusText);
       }
-    }
+    },
   });
-const handleSubmit = () => { console.log("Submitting images:", selectedImages); };
 
-return ( <> <BackButton /> <div className="w-full space-y-2 m-2"> {/* Image Upload UI */} <div className="flex flex-col items-center p-4 border rounded-md shadow-md bg-white"> <input
-type="file"
-accept="image/*"
-multiple
-onChange={handleImageChange}
-className="mb-2 border p-1 rounded"
-/> <div className="flex flex-wrap gap-2"> {selectedImages.map((src, index) => ( <img key={index} src={src} alt="Preview" className="w-20 h-20 object-cover rounded" /> ))} </div> <button 
-onClick={handleSubmit} 
-className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
-> Submit </button> </div>
+  if (loading) return <Loading />;
 
-{data?.getChildInventory_details?.map((item: any, idx: number) => (
-      <div
-        key={idx}
-        className="flex flex-col items-center w-full bg-[#f1f1f1] shadow-md rounded-sm p-[2px] gap-y-2 m-[2px]"
-      >
-        <div className="w-full md:max-w-[200px] p-[2px]">
-          <SwiperGallery images={item?.subImageFieldOut?.map((img: any) => img.ImagePath)} />
-        </div>
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {  
+    if (event.target.files) {  
+      const files = Array.from(event.target.files);  
+      files.forEach((file) => {  
+        const reader = new FileReader();  
+        reader.readAsDataURL(file);  
+        reader.onload = () => {  
+          const img = new Image();  
+          img.src = reader.result as string;  
+          img.onload = () => {  
+            const canvas = document.createElement("canvas");  
+            const ctx = canvas.getContext("2d");  
+            if (!ctx) return;  
 
-        <div className="flex flex-col w-full text-[12px] text-[#000] min-w-0 p-[2px]">
-          {[
-            { label: "Name:", value: item.name },
-            { label: "Color:", value: item.color },
-            { label: "Size:", value: item.size },
-            { label: "Price:", value: item.price },
-            { label: "Stock:", value: item.stock },
-            { label: "Status:", value: item.status },
-            { label: "Creator:", value: item.creator },
-            { label: "Editor:", value: item.editor },
-            { label: "Created Date:", value: item.dateCreated },
-            { label: "Updated Date:", value: item.dateUpdated },
-          ].map((field, index) => (
-            <div key={index} className="flex p-[2px]">
-              <div className="font-bold w-[70px] flex-shrink-0">{field.label}</div>
-              <div className="truncate overflow-hidden text-ellipsis whitespace-nowrap">
-                {field.value}
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    ))}
-  </div>
-</>
+            // Set canvas size to match the image  
+            canvas.width = img.width;  
+            canvas.height = img.height;  
 
-); };
+            // Draw the image onto the canvas  
+            ctx.drawImage(img, 0, 0, img.width, img.height);  
+
+            // Convert the canvas to Base64  
+            const base64Data = canvas.toDataURL("image/webp");  
+
+            setSelectedImages((prev) => [...prev, base64Data]);  
+          };  
+        };  
+      });  
+    }  
+  };  
+
+  const handleSubmit = () => {  
+    if (selectedImages.length === 0) return;  
+
+    console.log("Submitting images:", selectedImages);  
+
+    selectedImages.forEach((base64Image) => {  
+      saveCropBlob({  
+        variables: {  
+          saveCropImageId: styleCode,  
+          file: base64Image,  
+        },  
+      });  
+    });  
+  };  
+
+  return (  
+    <>  
+      <BackButton />  
+      <div className="w-full space-y-2 m-2">  
+
+        {/* Image Upload UI */}  
+        <div className="flex flex-col items-center p-4 border rounded-md shadow-md bg-white">  
+          <input  
+            type="file"  
+            accept="image/*"  
+            multiple  
+            onChange={handleImageChange}  
+            className="mb-2 border p-1 rounded"  
+          />  
+
+          <div className="flex flex-wrap gap-2">  
+            {selectedImages.map((src, index) => (  
+              <img key={index} src={src} alt="Preview" className="w-20 h-20 object-cover rounded" />  
+            ))}  
+          </div>  
+
+          <button  
+            onClick={handleSubmit}  
+            className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"  
+          >  
+            Submit  
+          </button>  
+        </div>  
+
+        {/* Inventory Details */}  
+        {data?.getChildInventory_details?.map((item: any, idx: number) => (  
+          <div  
+            key={idx}  
+            className="flex flex-col items-center w-full bg-[#f1f1f1] shadow-md rounded-sm p-[2px] gap-y-2 m-[2px]"  
+          >  
+            <div className="w-full md:max-w-[200px] p-[2px]">  
+              <SwiperGallery images={item?.subImageFieldOut?.map((img: any) => img.ImagePath)} />  
+            </div>  
+
+            <div className="flex flex-col w-full text-[12px] text-[#000] min-w-0 p-[2px]">  
+              {[  
+                { label: "Name:", value: item.name },  
+                { label: "Color:", value: item.color },  
+                { label: "Size:", value: item.size },  
+                { label: "Price:", value: item.price },  
+                { label: "Stock:", value: item.stock },  
+                { label: "Status:", value: item.status },  
+                { label: "Creator:", value: item.creator },  
+                { label: "Editor:", value: item.editor },  
+                { label: "Created Date:", value: item.dateCreated },  
+                { label: "Updated Date:", value: item.dateUpdated },  
+              ].map((field, index) => (  
+                <div key={index} className="flex p-[2px]">  
+                  <div className="font-bold w-[70px] flex-shrink-0">{field.label}</div>  
+                  <div className="truncate overflow-hidden text-ellipsis whitespace-nowrap">  
+                    {field.value}  
+                  </div>  
+                </div>  
+              ))}  
+            </div>  
+          </div>  
+        ))}  
+      </div>  
+    </>  
+  );  
+};  
 
 export default DetailedView;
