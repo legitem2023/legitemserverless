@@ -5,6 +5,7 @@ import cookieReducer from './cookieSlice';
 import styleCodeReducer from './styleCodeSlice';
 import categoryReducer from './categorySlice';
 import swipeReducer from './swipeSlice'
+import detailIDReducer from './detailIDSlice';
 import productDetailsReducer from './productDetailsSlice';
 const store = configureStore({
   reducer: {
@@ -13,7 +14,8 @@ const store = configureStore({
     activeIndex:activeIndexReducer,
     category:categoryReducer,
     swipe:swipeReducer,
-    productDetails:productDetailsReducer
+    productDetails:productDetailsReducer,
+    detailID:detailIDReducer
   },
 });
 
