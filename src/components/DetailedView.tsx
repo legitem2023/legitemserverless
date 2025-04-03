@@ -1,7 +1,12 @@
 "use client";
 
-import { useQuery } from "@apollo/client"; import { useSelector } from "react-redux"; import { useState } from "react"; import { GET_CHILD_INVENTORY_DETAIL } from "./graphql/queries/queries"; import SwiperGallery from "./SwiperGallery"; import Loading from "./Loading"; import BackButton from "./UI/BackButton";
-
+import { useQuery,useMutation } from "@apollo/client"; 
+import { useSelector } from "react-redux"; 
+import { useState } from "react"; 
+import { GET_CHILD_INVENTORY_DETAIL } from "./graphql/queries/queries"; 
+import SwiperGallery from "./SwiperGallery"; import Loading from "./Loading"; 
+import BackButton from "./UI/BackButton";
+import { SAVE_CROP_IMAGE } from "./graphql/queries/mutation";
 const DetailedView = () => { const styleCode = useSelector((state: any) => state.styleCode.styleCode); const { data, loading } = useQuery(GET_CHILD_INVENTORY_DETAIL, { variables: { styleCode }, });
 
 const [selectedImages, setSelectedImages] = useState<string[]>([]);
@@ -9,7 +14,13 @@ const [selectedImages, setSelectedImages] = useState<string[]>([]);
 if (loading) return <Loading />;
 
 const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => { if (event.target.files) { const files = Array.from(event.target.files); const imageUrls = files.map((file) => URL.createObjectURL(file)); setSelectedImages(imageUrls); } };
-
+var [saveCropBlob] = useMutation(SAVE_CROP_IMAGE, {
+    onCompleted: data => {
+      if(data.saveCropImage.statusText ==="Image saved successfully"){
+        Manager.Success(data.saveCropImage.statusText);
+      }
+    }
+  });
 const handleSubmit = () => { console.log("Submitting images:", selectedImages); };
 
 return ( <> <BackButton /> <div className="w-full space-y-2 m-2"> {/* Image Upload UI */} <div className="flex flex-col items-center p-4 border rounded-md shadow-md bg-white"> <input
