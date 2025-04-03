@@ -4,6 +4,7 @@ import { useQuery,useMutation } from "@apollo/client";
 import { useSelector,useDispatch } from "react-redux";
 import {setActiveIndex} from './Redux/activeIndexSlice';
 import { setActiveIndex as Index2 } from "./Redux/swipeSlice";
+import { setDetailID } from './Redux/DetailIDSlice';
 import { GET_CHILD_INVENTORY_DETAIL } from "./graphql/queries/queries";
 import { DELETE_CHILD_INVENTORY } from "./graphql/queries/mutation";
 import Loading from "./Loading";
@@ -55,6 +56,7 @@ dispatch(Index2(2));
 
 const handleView = (id:any) =>{
 dispatch(Index2(3));
+dispatch(setDetailID(filter[0].id));
 }
 
   return (
