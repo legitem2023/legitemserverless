@@ -21,7 +21,7 @@ className="mb-2 border p-1 rounded"
 {data?.getChildInventory_details?.map((item: any, idx: number) => (
       <div
         key={idx}
-        className="flex flex-col items-center w-full bg-[#f1f1f1] shadow-md rounded-md p-[4px] gap-y-2 m-[2px]"
+        className="flex flex-col items-center w-full bg-[#f1f1f1] shadow-md rounded-sm p-[2px] gap-y-2 m-[2px]"
       >
         <div className="w-full md:max-w-[200px] p-[2px]">
           <SwiperGallery images={item?.subImageFieldOut?.map((img: any) => img.ImagePath)} />
