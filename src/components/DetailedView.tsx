@@ -19,7 +19,7 @@ const DetailedView = () => {
   const [saveCropBlob] = useMutation(SAVE_CROP_IMAGE, {
     onCompleted: (data) => {
       if (data.saveCropImage.statusText === "Image saved successfully") {
-        Manager.Success(data.saveCropImage.statusText);
+        //Manager.Success(data.saveCropImage.statusText);
       }
     },
   });
