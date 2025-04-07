@@ -72,12 +72,33 @@ if (filter?.length) {
             <button onClick={()=> dispatch(Index2(1))}  className="flex justify-center items-center p-2 rounded-md bg-[#451b05] text-[#ffffff] shadow-lg m-2">New Product</button>
           </div>
         </div>
+        <div className="flex w-full min-w-0 bg-[#f1f1f1] shadow-md mb-2">
+          {/* Left Section - Product Info */}
+          <div className="hidden xl:flex p-2">
+            <div className="w-[200px] font-bold ">Name</div>
+            <div className="w-[200px] font-bold ">Category</div>
+            <div className="w-[200px] font-bold ">Type</div>
+            <div className="w-[200px] font-bold ">Brand</div>
+            <div className="w-[200px] font-bold ">Action</div>
+          </div>
+        </div>
       {data.getParentInventory?.map((item:any,idx:number) => (
         // Added min-w-0 to product container
-        <div key={idx} className="flex flex-row w-full min-w-0 bg-[#f1f1f1] shadow-md mb-2">
+        <div key={idx} className="flex w-full min-w-0 bg-[#f1f1f1] shadow-md mb-2">
           {/* Left Section - Product Info */}
-         
-          <div className="flex flex-col gap-2 text-[12px] text-[#000] flex-grow min-w-0 p-2">
+          <div className="hidden xl:flex p-2">
+            <div className="w-[200px]">{item.name}</div>
+            <div className="w-[200px]">{item.category}</div>
+            <div className="w-[200px]">{item.productType}</div>
+            <div className="w-[200px]">{item.brandname}</div>
+            <div className="w-[200px]">
+              <button className="flex justify-center items-center p-2 rounded-md bg-[#451b05] text-[#ffffff] shadow-lg m-2" onClick={()=>handleEdit(item.id)}>Edit</button>
+              <button className="flex justify-center items-center p-2 rounded-md bg-[#451b05] text-[#ffffff] shadow-lg m-2" onClick={()=>handleDelete()}>Delete</button>
+            </div>
+          </div>
+
+
+          <div className="flex flex-col gap-2 text-[12px] text-[#000] flex-grow min-w-0 p-2 xl:hidden">
             {[
               { label: "Name:", value: item.name },
               { label: "Category:", value: item.category },
@@ -95,8 +116,8 @@ if (filter?.length) {
           </div>
           
           {/* Right Section - Actions */}
-          <div className="grow-0">
-            <div className="p-1 flex flex-col">
+          <div className="grow-0 flex xl:hidden">
+            <div className="p-1 flex-col">
               <DropdownButton
                 options={[
                   { id:item.id,label: "Edit", onClick: handleEdit },

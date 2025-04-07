@@ -18,7 +18,7 @@ if(ChartLoading) return
                 <div className="flex-1 flex flex-wrap relative p-2 font-bold">Dashboard</div>
           <hr></hr>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-2">
+      <div className="grid grid-cols-1 gap-2">
         {/* Stats Panel - Full width on mobile, 1/3 width on desktop */}
         <div className="lg:col-span-1">
           <div className="bg-white  shadow-md rounded-lg">

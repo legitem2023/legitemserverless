@@ -51,12 +51,13 @@ export default function SwipeTabs({ tabs }: SwipeTabsProps) {
   return (
     <div className="w-full">
       {/* Tabs Header */}
-      <div className="flex space-x-2 border-b border-gray-300 bg-[#ebb4a0]">
+      <div className="px-0 lg:px-[20%] border-b border-gray-300 bg-[#ebb4a0]">
+      <div className="flex border-b border-gray-300 bg-[#ebb4a0]">
         {tabs.map((tab, index) => (
           <button
             key={index}
             className={clsx(
-              "text-[25px] flex flex-col items-center justify-center flex-1 py-2 transition-all duration-300",
+              "text-[25px] flex flex-col items-center justify-center flex-1 p-2 transition-all duration-300",
               activeTab === index
                 ? "border-b-2 border-[#451b05] bg-[#451b05] text-[#ffffff]"
                 : "text-[#451b05]"
@@ -67,6 +68,7 @@ export default function SwipeTabs({ tabs }: SwipeTabsProps) {
           </button>
         ))}
       </div>
+      </div>
 
       {/* Swiper Content */}
       <Swiper
@@ -76,11 +78,11 @@ export default function SwipeTabs({ tabs }: SwipeTabsProps) {
         spaceBetween={10}
         slidesPerView={1}
         initialSlide={activeTab}
-        className="w-full"
+        className=""
       >
         {tabs.map((tab, index) => (
           <SwiperSlide key={index} className="relative">
-            <div className="p-2">{tab.content}</div>
+            <div className="px-0 lg:px-[20%] py-2">{tab.content}</div>
           </SwiperSlide>
         ))}
       </Swiper>
