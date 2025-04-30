@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.11.8",
+    "react-easy-crop": "^5.4.1",
     "react-chartjs-2": "^5.2.0",
     "chart.js": "^4.4.0",
     "@emotion/react": "^11.13.0",
