@@ -52,7 +52,7 @@ export default function SwipeTabs({ tabs }: SwipeTabsProps) {
   return (
     <div className="w-full flex flex-col lg:flex-row">
       {/* Tabs Header - responsive direction */}
-      <div className="bg-[#ebb4a0] border-b lg:border-b-0 lg:border-r border-gray-300 w-full">
+      <div className="bg-[#ebb4a0] border-b lg:border-b-0 lg:border-r border-gray-300 w-full border-box">
         <div className="flex lg:flex-col">
           {tabs.map((tab, index) => (
             <button
@@ -73,7 +73,7 @@ export default function SwipeTabs({ tabs }: SwipeTabsProps) {
       </div>
 
       {/* Swiper Content */}
-      <div className="w-full">
+      <div className="w-full border-box">
         <Swiper
           allowTouchMove={false}
           onSwiper={(swiper) => (swiperRef.current = swiper)}
