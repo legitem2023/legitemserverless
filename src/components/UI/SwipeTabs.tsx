@@ -73,7 +73,7 @@ export default function SwipeTabs({ tabs }: SwipeTabsProps) {
       </div>
 
       {/* Swiper Content */}
-      <div className="w-full lg:w-[85%]">
+      <div className="w-full">
         <Swiper
           allowTouchMove={false}
           onSwiper={(swiper) => (swiperRef.current = swiper)}
