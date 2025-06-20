@@ -48,7 +48,7 @@ const SwiperGallery: React.FC<SwiperGalleryProps> = ({
         </Swiper>
       </div>
 
-      {/* Thumbnail Swiper */}
+      {/* Thumbnail Swiper with 4:3 aspect ratio */}
       <Swiper
         onSwiper={setThumbsSwiper}
         modules={[Navigation, Thumbs]}
@@ -59,11 +59,13 @@ const SwiperGallery: React.FC<SwiperGalleryProps> = ({
       >
         {images.map((src, index) => (
           <SwiperSlide key={index} className="cursor-pointer">
-            <img
-              src={src}
-              alt={`Thumbnail ${index}`}
-              className="w-full h-16 object-cover rounded-md border border-gray-300"
-            />
+            <div className="w-full aspect-[4/3]">
+              <img
+                src={src}
+                alt={`Thumbnail ${index}`}
+                className="w-full h-full object-cover rounded-md border border-gray-300"
+              />
+            </div>
           </SwiperSlide>
         ))}
       </Swiper>
