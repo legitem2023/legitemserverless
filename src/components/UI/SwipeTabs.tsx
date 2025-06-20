@@ -66,7 +66,7 @@ export default function SwipeTabs({ tabs }: SwipeTabsProps) {
               onClick={() => handleTabClick(index)}
             >
               <Icon icon={tab.Icn} />
-              <span className="hidden lg:inline">{tab.label}</span>
+              {/* <span className="hidden lg:inline">{tab.label}</span>*/}
             </button>
           ))}
         </div>
