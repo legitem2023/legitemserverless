@@ -25,26 +25,28 @@ const SwiperGallery: React.FC<SwiperGalleryProps> = ({
 
   return (
     <div className="w-full">
-      {/* Main Swiper */}
-      <Swiper
-        modules={[Navigation, Pagination, Thumbs, Autoplay]}
-        navigation
-        pagination={{ clickable: true }}
-        loop={loop}
-        autoplay={autoplay ? { delay: 3000, disableOnInteraction: false } : false}
-        thumbs={{ swiper: thumbsSwiper }}
-        className="w-full"
-      >
-        {images.map((src, index) => (
-          <SwiperSlide key={index} className="flex items-center justify-center">
-            <img
-              src={src}
-              alt={`Slide ${index}`}
-              className="w-full h-auto object-cover rounded-lg"
-            />
-          </SwiperSlide>
-        ))}
-      </Swiper>
+      {/* Main Swiper with 4:3 aspect ratio */}
+      <div className="w-full aspect-[4/3]">
+        <Swiper
+          modules={[Navigation, Pagination, Thumbs, Autoplay]}
+          navigation
+          pagination={{ clickable: true }}
+          loop={loop}
+          autoplay={autoplay ? { delay: 3000, disableOnInteraction: false } : false}
+          thumbs={{ swiper: thumbsSwiper }}
+          className="w-full h-full"
+        >
+          {images.map((src, index) => (
+            <SwiperSlide key={index} className="flex items-center justify-center">
+              <img
+                src={src}
+                alt={`Slide ${index}`}
+                className="w-full h-full object-cover rounded-lg"
+              />
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </div>
 
       {/* Thumbnail Swiper */}
       <Swiper
