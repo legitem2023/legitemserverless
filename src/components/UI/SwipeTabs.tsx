@@ -9,7 +9,8 @@ import { Pagination } from "swiper/modules";
 import clsx from "clsx";
 import { Icon } from "@iconify/react";
 import { setActiveIndex } from "../Redux/activeIndexSlice";
-import {useDispatch} from "react-redux";
+import { useDispatch } from "react-redux";
+
 interface TabItem {
   label: string;
   Icn: string;
@@ -25,7 +26,7 @@ export default function SwipeTabs({ tabs }: SwipeTabsProps) {
   const swiperRef = useRef<any>(null);
   const router = useRouter();
   const dispatch = useDispatch();
-  // Get id from URL and set the active tab on initial render
+
   useEffect(() => {
     if (typeof window !== "undefined") {
       const params = new URLSearchParams(window.location.search);
@@ -40,8 +41,8 @@ export default function SwipeTabs({ tabs }: SwipeTabsProps) {
   }, [tabs]);
 
   const handleTabClick = (index: number) => {
-   dispatch(setActiveIndex(0));
-   setActiveTab(index);
+    dispatch(setActiveIndex(0));
+    setActiveTab(index);
     if (swiperRef.current && swiperRef.current.slideTo) {
       swiperRef.current.slideTo(index);
     }
@@ -49,43 +50,45 @@ export default function SwipeTabs({ tabs }: SwipeTabsProps) {
   };
 
   return (
-    <div className="w-full">
-      {/* Tabs Header */}
-      <div className="px-0 lg:px-[20%] border-b border-gray-300 bg-[#ebb4a0]">
-      <div className="flex border-b border-gray-300 bg-[#ebb4a0]">
-        {tabs.map((tab, index) => (
-          <button
-            key={index}
-            className={clsx(
-              "text-[25px] flex flex-col items-center justify-center flex-1 p-2 transition-all duration-300",
-              activeTab === index
-                ? "border-b-2 border-[#451b05] bg-[#451b05] text-[#ffffff]"
-                : "text-[#451b05]"
-            )}
-            onClick={() => handleTabClick(index)}
-          >
-            <Icon icon={tab.Icn} />
-          </button>
-        ))}
-      </div>
+    <div className="w-full flex flex-col lg:flex-row">
+      {/* Tabs Header - responsive direction */}
+      <div className="bg-[#ebb4a0] border-b lg:border-b-0 lg:border-r border-gray-300 w-full lg:w-[15%]">
+        <div className="flex lg:flex-col">
+          {tabs.map((tab, index) => (
+            <button
+              key={index}
+              className={clsx(
+                "text-[25px] flex items-center justify-center lg:justify-start gap-2 p-3 transition-all duration-300 w-full",
+                activeTab === index
+                  ? "bg-[#451b05] text-white lg:border-r-4 border-b-2 border-[#451b05]"
+                  : "text-[#451b05]"
+              )}
+              onClick={() => handleTabClick(index)}
+            >
+              <Icon icon={tab.Icn} />
+              <span className="hidden lg:inline">{tab.label}</span>
+            </button>
+          ))}
+        </div>
       </div>
 
       {/* Swiper Content */}
-      <Swiper
-        allowTouchMove={false}
-        onSwiper={(swiper) => (swiperRef.current = swiper)}
-        modules={[Pagination]}
-        spaceBetween={10}
-        slidesPerView={1}
-        initialSlide={activeTab}
-        className=""
-      >
-        {tabs.map((tab, index) => (
-          <SwiperSlide key={index} className="relative">
-            <div className="px-0 lg:px-[20%] py-2">{tab.content}</div>
-          </SwiperSlide>
-        ))}
-      </Swiper>
+      <div className="w-full lg:w-[85%]">
+        <Swiper
+          allowTouchMove={false}
+          onSwiper={(swiper) => (swiperRef.current = swiper)}
+          modules={[Pagination]}
+          spaceBetween={10}
+          slidesPerView={1}
+          initialSlide={activeTab}
+        >
+          {tabs.map((tab, index) => (
+            <SwiperSlide key={index}>
+              <div className="p-4">{tab.content}</div>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </div>
     </div>
   );
 }
