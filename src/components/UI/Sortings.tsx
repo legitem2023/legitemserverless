@@ -67,7 +67,7 @@ return {
 })
 }
 return (
-<div className='Search_container_grid flex flex-wrap border-2 border-gray-200 border-dashed m-2 border-box'>
+<div className='Search_container_grid flex flex-wrap border-2 border-gray-200 border-dashed m-2 border-box justify-center md:justify-start gap-2'>
 <div className="flex-1 relative p-2">
 <Select Selected={selectedCategory} InitialText="Select Category" Name="Category" Data={CollapsibleCategory()} function_event={(e:any)=>{dispatch(setCategories(e.target.value))}}/>
 </div>
