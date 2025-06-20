@@ -91,9 +91,9 @@ if (filter?.length) {
             <div className="w-[200px]">{item.category}</div>
             <div className="w-[200px]">{item.productType}</div>
             <div className="w-[200px]">{item.brandname}</div>
-            <div className="w-[200px]">
-              <button className="flex justify-center items-center p-2 rounded-md bg-[#451b05] text-[#ffffff] shadow-lg m-2" onClick={()=>handleEdit(item.id)}>Edit</button>
-              <button className="flex justify-center items-center p-2 rounded-md bg-[#451b05] text-[#ffffff] shadow-lg m-2" onClick={()=>handleDelete()}>Delete</button>
+            <div className="w-[200px] flex flex-row">
+              <button className="flex-1 justify-center items-center p-2 rounded-md bg-[#451b05] text-[#ffffff] shadow-lg m-2" onClick={()=>handleEdit(item.id)}>Edit</button>
+              <button className="flex-1 justify-center items-center p-2 rounded-md bg-[#451b05] text-[#ffffff] shadow-lg m-2" onClick={()=>handleDelete()}>Delete</button>
             </div>
           </div>
 
