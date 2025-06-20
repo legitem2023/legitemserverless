@@ -69,7 +69,7 @@ if (filter?.length) {
           </div>
           <Sortings/>
           <div className="flex-1 flex relative p-2">
-            <button onClick={()=> dispatch(Index2(1))}  className="flex justify-center items-center p-2 rounded-md bg-[#451b05] text-[#ffffff] shadow-lg m-2">New Product</button>
+            <button onClick={()=> dispatch(Index2(1))}  className="flex justify-center items-center p-2 rounded-md bg-[#451b05] text-[#ffffff] shadow-lg">New Product</button>
           </div>
         </div>
         <div className="flex w-full min-w-0 bg-[#f1f1f1] shadow-md mb-2">
