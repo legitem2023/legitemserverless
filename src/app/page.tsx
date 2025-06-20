@@ -57,8 +57,8 @@ const tabs = [
 export default function Home() {
   return (
     <Suspense fallback={<div>Loading....</div>}>
-      <div className="flex h-[100px]">
-        E-Crowd
+      <div className="flex h-[auto]">
+        <img src="/Crowd.svg" className="w-[100px] " />
       </div>
       <SwipeTabs tabs={tabs}/> {/* Default to first tab */}
     </Suspense>
