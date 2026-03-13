@@ -17,9 +17,9 @@ export default function ClothViewer({ modelPath = '/white_t-shirt_with_print.glb
   useEffect(() => {
     if (!containerRef.current) return;
 
-    // Scene setup
+    // Scene setup with better lighting for white shirt
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x1a1a2e);
+    scene.background = new THREE.Color(0x2a2a3a); // Slightly lighter background
 
     const container = containerRef.current;
     const width = container.clientWidth;
@@ -29,10 +29,13 @@ export default function ClothViewer({ modelPath = '/white_t-shirt_with_print.glb
     camera.position.set(3, 2, 4);
     camera.lookAt(0, 1.2, 0);
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: "high-performance" });
     renderer.setSize(width, height);
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.outputEncoding = THREE.sRGBEncoding;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.2;
     container.appendChild(renderer.domElement);
 
     const controls = new OrbitControls(camera, renderer.domElement);
@@ -40,33 +43,66 @@ export default function ClothViewer({ modelPath = '/white_t-shirt_with_print.glb
     controls.dampingFactor = 0.05;
     controls.target.set(0, 1.2, 0);
     controls.autoRotate = true;
-    controls.autoRotateSpeed = 0.5;
+    controls.autoRotateSpeed = 0.8;
 
-    // Lighting
-    const ambientLight = new THREE.AmbientLight(0x404060);
+    // Enhanced lighting for white shirt
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
     scene.add(ambientLight);
 
-    const mainLight = new THREE.DirectionalLight(0xffffff, 1.2);
-    mainLight.position.set(2, 5, 3);
-    mainLight.castShadow = true;
-    mainLight.shadow.mapSize.width = 1024;
-    mainLight.shadow.mapSize.height = 1024;
-    scene.add(mainLight);
+    // Key light - warm
+    const keyLight = new THREE.DirectionalLight(0xfff5e6, 1.5);
+    keyLight.position.set(2, 3, 3);
+    keyLight.castShadow = true;
+    keyLight.shadow.mapSize.width = 1024;
+    keyLight.shadow.mapSize.height = 1024;
+    scene.add(keyLight);
 
-    const fillLight = new THREE.DirectionalLight(0xffaa88, 0.5);
-    fillLight.position.set(-2, 2, 2);
+    // Fill light - cool
+    const fillLight = new THREE.DirectionalLight(0xe6f0ff, 0.8);
+    fillLight.position.set(-2, 1, 2);
     scene.add(fillLight);
 
-    // Ground reference
-    const gridHelper = new THREE.GridHelper(6, 20, 0x888888, 0x444444);
+    // Back light - rim lighting
+    const backLight = new THREE.DirectionalLight(0xffffff, 0.6);
+    backLight.position.set(0, 2, -3);
+    scene.add(backLight);
+
+    // Top light
+    const topLight = new THREE.DirectionalLight(0xffffff, 0.5);
+    topLight.position.set(0, 4, 1);
+    scene.add(topLight);
+
+    // Soft point lights for fill
+    const pointLight1 = new THREE.PointLight(0xffaa88, 0.4);
+    pointLight1.position.set(1, 2, 2);
+    scene.add(pointLight1);
+
+    const pointLight2 = new THREE.PointLight(0x88aaff, 0.3);
+    pointLight2.position.set(-1, 1, -1);
+    scene.add(pointLight2);
+
+    // Ground reference with better color
+    const gridHelper = new THREE.GridHelper(6, 20, 0xaaaaaa, 0x666666);
     gridHelper.position.y = 0;
     scene.add(gridHelper);
+
+    const groundGeometry = new THREE.CircleGeometry(4, 32);
+    const groundMaterial = new THREE.MeshStandardMaterial({ 
+      color: 0x2a2a3a, 
+      roughness: 0.7,
+      metalness: 0.1,
+      emissive: new THREE.Color(0x111122)
+    });
+    const ground = new THREE.Mesh(groundGeometry, groundMaterial);
+    ground.rotation.x = -Math.PI / 2;
+    ground.position.y = 0;
+    ground.receiveShadow = true;
+    scene.add(ground);
 
     // Load model
     const loader = new GLTFLoader();
     let allMeshes: THREE.Mesh[] = [];
     let originalPositions: Float32Array[] = [];
-    let meshOffsets: { x: number; y: number; z: number }[] = [];
     let time = 0;
 
     loader.load(
@@ -83,52 +119,45 @@ export default function ClothViewer({ modelPath = '/white_t-shirt_with_print.glb
         shirtGroup.scale.set(scale, scale, scale);
         shirtGroup.position.set(-center.x * scale, 1.2 - center.y * scale, -center.z * scale);
         
-        // Process all meshes and store their world positions
+        // Process all meshes
         shirtGroup.traverse((child) => {
           if (child instanceof THREE.Mesh) {
             // Clone geometry
             const geom = child.geometry.clone();
             child.geometry = geom;
             
-            // Convert vertices to world space and store
-            const positions = geom.attributes.position.array;
-            const worldPositions = new Float32Array(positions.length);
+            // Store original positions
+            const positions = geom.attributes.position.array.slice();
+            originalPositions.push(positions);
             
-            // Get mesh's world matrix
-            child.updateWorldMatrix(true, false);
-            const matrix = child.matrixWorld;
-            
-            // Transform each vertex to world space
-            for (let i = 0; i < positions.length; i += 3) {
-              const vertex = new THREE.Vector3(
-                positions[i],
-                positions[i + 1],
-                positions[i + 2]
-              );
-              vertex.applyMatrix4(matrix);
-              worldPositions[i] = vertex.x;
-              worldPositions[i + 1] = vertex.y;
-              worldPositions[i + 2] = vertex.z;
-            }
-            
-            originalPositions.push(worldPositions);
-            
-            // Store mesh offset from group center
-            meshOffsets.push({
-              x: child.position.x,
-              y: child.position.y,
-              z: child.position.z
-            });
-            
-            // Enhance material
+            // ENHANCE MATERIAL FOR WHITE TSHIRT
             if (Array.isArray(child.material)) {
               child.material.forEach(mat => {
-                mat.roughness = 0.7;
-                mat.metalness = 0.1;
+                mat.roughness = 0.4; // Less rough for more light reflection
+                mat.metalness = 0.0; // No metalness for fabric
+                mat.emissive = new THREE.Color(0x000000);
+                mat.emissiveIntensity = 0;
+                mat.flatShading = false;
+                mat.side = THREE.DoubleSide; // Show inside if visible
+                
+                // Preserve original texture if exists
+                if (mat.map) {
+                  mat.map.encoding = THREE.sRGBEncoding;
+                  mat.map.needsUpdate = true;
+                }
               });
             } else if (child.material) {
-              child.material.roughness = 0.7;
-              child.material.metalness = 0.1;
+              child.material.roughness = 0.4;
+              child.material.metalness = 0.0;
+              child.material.emissive = new THREE.Color(0x000000);
+              child.material.emissiveIntensity = 0;
+              child.material.flatShading = false;
+              child.material.side = THREE.DoubleSide;
+              
+              if (child.material.map) {
+                child.material.map.encoding = THREE.sRGBEncoding;
+                child.material.map.needsUpdate = true;
+              }
             }
             
             child.castShadow = true;
@@ -139,7 +168,7 @@ export default function ClothViewer({ modelPath = '/white_t-shirt_with_print.glb
         
         scene.add(shirtGroup);
         setLoading(false);
-        console.log(`Loaded ${allMeshes.length} meshes with unified softbody`);
+        console.log(`Loaded ${allMeshes.length} meshes with enhanced white shirt materials`);
       },
       undefined,
       (err) => {
@@ -149,65 +178,52 @@ export default function ClothViewer({ modelPath = '/white_t-shirt_with_print.glb
       }
     );
 
-    // Animation loop with unified softbody
+    // Animation loop with softer movement
     const animate = () => {
       requestAnimationFrame(animate);
       
-      time += 0.02;
+      time += 0.015;
 
       if (allMeshes.length > 0 && originalPositions.length > 0) {
-        // Apply SAME deformation to ALL meshes based on world position
         allMeshes.forEach((mesh, meshIndex) => {
-          const origWorldPos = originalPositions[meshIndex];
-          if (!origWorldPos) return;
+          const origPos = originalPositions[meshIndex];
+          if (!origPos) return;
           
           const positions = mesh.geometry.attributes.position.array;
           
-          // Get mesh's current transform
-          const matrix = mesh.matrixWorld;
-          const inverseMatrix = new THREE.Matrix4().copy(matrix).invert();
+          // Get mesh bounds for height factor
+          let minY = Infinity, maxY = -Infinity;
+          for (let i = 1; i < origPos.length; i += 3) {
+            minY = Math.min(minY, origPos[i]);
+            maxY = Math.max(maxY, origPos[i]);
+          }
+          const heightRange = maxY - minY;
           
-          // Process each vertex
+          // Apply gentler movement
           for (let i = 0; i < positions.length; i += 3) {
-            // Get original WORLD position
-            const worldX = origWorldPos[i];
-            const worldY = origWorldPos[i + 1];
-            const worldZ = origWorldPos[i + 2];
+            const origX = origPos[i];
+            const origY = origPos[i + 1];
+            const origZ = origPos[i + 2];
             
-            // Calculate height factor (0 at bottom, 1 at top of whole shirt)
-            const heightFactor = (worldY - 0.5) / 1.5; // Adjust based on your shirt's height
+            // Normalized height (0 at bottom, 1 at top)
+            const heightFactor = (origY - minY) / heightRange;
             
-            // Apply SAME wind formula to ALL vertices based on world position
-            const windX = Math.sin(time * 1.2 + worldY * 2) * 0.08;
-            const windZ = Math.cos(time * 1.0 + worldX * 2) * 0.08;
-            const flutter = Math.sin(time * 2.5 + worldZ * 3) * 0.04;
+            // Softer wind movement
+            const windStrength = 0.04; // Reduced from 0.08
+            const windSpeed = 1.0;
             
-            // More movement at bottom
-            const bottomFactor = Math.max(0, 1 - heightFactor * 1.2);
+            // Gentler waves
+            const moveX = Math.sin(time * windSpeed + origY * 1.5) * windStrength * (1 - heightFactor * 0.8);
+            const moveZ = Math.cos(time * windSpeed * 0.9 + origX * 1.5) * windStrength * (1 - heightFactor * 0.8);
+            const moveY = Math.sin(time * 1.2 + origX * 2) * 0.01 * (1 - heightFactor);
             
-            // Combined movement (SAME for all meshes at same world position)
-            const moveX = windX * bottomFactor;
-            const moveY = Math.sin(time * 1.5 + worldX) * 0.02 * bottomFactor;
-            const moveZ = (windZ + flutter) * bottomFactor;
-            
-            // Create new world position
-            const newWorldPos = new THREE.Vector3(
-              worldX + moveX,
-              worldY + moveY,
-              worldZ + moveZ
-            );
-            
-            // Convert back to local space
-            newWorldPos.applyMatrix4(inverseMatrix);
-            
-            // Apply to geometry
-            positions[i] = newWorldPos.x;
-            positions[i + 1] = newWorldPos.y;
-            positions[i + 2] = newWorldPos.z;
+            positions[i] = origX + moveX;
+            positions[i + 1] = origY + moveY;
+            positions[i + 2] = origZ + moveZ;
           }
           
           mesh.geometry.attributes.position.needsUpdate = true;
-          mesh.geometry.computeVertexNormals();
+          mesh.geometry.computeVertexNormals(); // Recalculate normals for proper lighting
         });
       }
 
@@ -237,11 +253,11 @@ export default function ClothViewer({ modelPath = '/white_t-shirt_with_print.glb
   }, [modelPath]);
 
   return (
-    <div style={{ position: 'relative', width: '100%', height: '500px', background: '#1a1a2e' }}>
+    <div style={{ position: 'relative', width: '100%', height: '500px', background: '#2a2a3a' }}>
       <div ref={containerRef} style={{ width: '100%', height: '100%' }} />
       {loading && (
-        <div style={{ position: 'absolute', bottom: 20, left: 20, color: '#ccc', background: 'rgba(0,0,0,0.6)', padding: '8px 15px', borderRadius: '20px' }}>
-          Loading unified softbody shirt...
+        <div style={{ position: 'absolute', bottom: 20, left: 20, color: '#fff', background: 'rgba(0,0,0,0.6)', padding: '8px 15px', borderRadius: '20px' }}>
+          Loading white shirt with soft lighting...
         </div>
       )}
       {error && (
@@ -251,4 +267,4 @@ export default function ClothViewer({ modelPath = '/white_t-shirt_with_print.glb
       )}
     </div>
   );
-                                     }
+                                }
