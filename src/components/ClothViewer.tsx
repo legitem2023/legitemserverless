@@ -2,9 +2,8 @@
 
 import { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
-//import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import { OrbitControls } from 'three/examples/jsm/Addons.js';
 import { GLTFLoader } from 'three/examples/jsm/Addons.js';
+import { OrbitControls } from 'three/examples/jsm/Addons.js';
 
 interface ClothViewerProps {
   modelPath?: string;
@@ -222,14 +221,12 @@ export default function ClothViewer({ modelPath = '/shirt.glb' }: ClothViewerPro
             // Initialize cloth simulator
             simulator = new ClothSimulator(geom);
 
-            // Optionally pin some vertices (e.g., shoulders)
-            // In a real shirt you'd identify top vertices by proximity to a point
-            // For demo we'll pin vertices with highest Y
+            // Pin vertices with highest Y (shoulders)
             const positions = geom.attributes.position.array;
-            const maxY = Math.max(...positions.filter((_, i) => i % 3 === 1));
+            // FIX: explicitly type the filter callback parameters
+            const maxY = Math.max(...positions.filter((_value: number, i: number) => i % 3 === 1));
             for (let i = 0; i < positions.length / 3; i++) {
               if (positions[i*3+1] > maxY - 0.2) {
-                // Pin this vertex by making it heavy and not moving
                 if (simulator.particles[i]) {
                   simulator.particles[i].mass = 1000; // essentially pinned
                 }
