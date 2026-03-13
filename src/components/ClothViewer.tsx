@@ -9,13 +9,16 @@ interface ClothViewerProps {
   modelPath?: string;
 }
 
-// Spring-mass system for cloth simulation
+// Improved spring-mass system for cloth simulation
 class ClothSimulator {
   geometry: THREE.BufferGeometry;
-  particles: { position: THREE.Vector3; velocity: THREE.Vector3; mass: number }[] = [];
+  particles: { position: THREE.Vector3; velocity: THREE.Vector3; mass: number; pinned: boolean }[] = [];
   springs: { p1: number; p2: number; restLength: number; stiffness: number }[] = [];
   tempVec = new THREE.Vector3();
-  tempVec2 = new THREE.Vector3();
+  gravity = 4.0;          // Reduced gravity for softer fall
+  damping = 0.98;          // Slightly higher damping
+  stiffness = 0.6;         // Lower stiffness to allow draping
+  iterations = 5;          // More iterations for stability
 
   constructor(geometry: THREE.BufferGeometry) {
     this.geometry = geometry;
@@ -31,18 +34,18 @@ class ClothSimulator {
         position: new THREE.Vector3(positions[i*3], positions[i*3+1], positions[i*3+2]),
         velocity: new THREE.Vector3(0, 0, 0),
         mass: 1.0,
+        pinned: false,
       });
     }
   }
 
   initSprings() {
     const indexAttr = this.geometry.index;
-    if (!indexAttr) return; // need indexed geometry
+    if (!indexAttr) return;
 
     const indices = indexAttr.array;
     const edgeSet = new Set<string>();
 
-    // Build edges from triangles
     for (let i = 0; i < indices.length; i += 3) {
       const a = indices[i];
       const b = indices[i+1];
@@ -53,7 +56,7 @@ class ClothSimulator {
       this.addSpring(c, a, edgeSet);
     }
 
-    // Also add bending springs (skip for simplicity)
+    // Add bending springs (skipped for simplicity)
   }
 
   addSpring(i1: number, i2: number, edgeSet: Set<string>) {
@@ -67,26 +70,25 @@ class ClothSimulator {
         p1: i1,
         p2: i2,
         restLength,
-        stiffness: 0.8,
+        stiffness: this.stiffness,
       });
     }
   }
 
-  simulate(deltaTime: number, wind: THREE.Vector3, gravity: number) {
+  simulate(deltaTime: number, wind: THREE.Vector3) {
     const sub = this.tempVec;
-    const force = this.tempVec2;
-    const damping = 0.99;
+    deltaTime = Math.min(deltaTime, 0.05); // Smaller cap for stability
 
-    // Apply gravity and wind
+    // Apply forces (gravity, wind)
     for (let p of this.particles) {
-      p.velocity.y -= gravity * deltaTime * p.mass;
+      if (p.pinned) continue;
+      p.velocity.y -= this.gravity * deltaTime;
       p.velocity.x += wind.x * deltaTime;
       p.velocity.z += wind.z * deltaTime;
     }
 
-    // Solve constraints (springs)
-    const iterations = 3;
-    for (let iter = 0; iter < iterations; iter++) {
+    // Solve constraints multiple times
+    for (let iter = 0; iter < this.iterations; iter++) {
       for (let s of this.springs) {
         const p1 = this.particles[s.p1];
         const p2 = this.particles[s.p2];
@@ -98,20 +100,24 @@ class ClothSimulator {
         const correction = (dist - s.restLength) / dist * s.stiffness * 0.5;
         const correctionVec = sub.multiplyScalar(correction);
 
-        if (!this.isPinned(s.p1)) p1.position.add(correctionVec);
-        if (!this.isPinned(s.p2)) p2.position.sub(correctionVec);
+        if (!p1.pinned) p1.position.add(correctionVec);
+        if (!p2.pinned) p2.position.sub(correctionVec);
       }
     }
 
     // Update velocities and integrate
     for (let p of this.particles) {
-      if (this.isPinned(p)) continue;
+      if (p.pinned) {
+        p.velocity.set(0, 0, 0);
+        continue;
+      }
+      // Estimate velocity from position change
       p.velocity.copy(p.position).sub(p.velocity).multiplyScalar(1/deltaTime);
-      p.velocity.multiplyScalar(damping);
-      p.position.copy(p.position).addScaledVector(p.velocity, deltaTime);
+      p.velocity.multiplyScalar(this.damping);
+      p.position.addScaledVector(p.velocity, deltaTime);
     }
 
-    // Update geometry
+    // Apply to geometry
     const positions = this.geometry.attributes.position.array;
     for (let i = 0; i < this.particles.length; i++) {
       positions[i*3] = this.particles[i].position.x;
@@ -122,13 +128,19 @@ class ClothSimulator {
     this.geometry.computeVertexNormals();
   }
 
-  // Simple pin: top few vertices (adjust based on your shirt)
-  isPinned(idxOrParticle: number | { position: THREE.Vector3 }): boolean {
-    if (typeof idxOrParticle === 'number') {
-      const y = this.particles[idxOrParticle].position.y;
-      return y > 1.5; // pin vertices above a certain height
+  // Pin vertices near the top (shoulders)
+  pinTopVertices(threshold: number = 0.2) {
+    // Find the highest Y coordinate
+    let maxY = -Infinity;
+    for (let p of this.particles) {
+      if (p.position.y > maxY) maxY = p.position.y;
     }
-    return false;
+    const pinY = maxY - threshold;
+    for (let p of this.particles) {
+      if (p.position.y >= pinY) {
+        p.pinned = true;
+      }
+    }
   }
 }
 
@@ -141,9 +153,9 @@ export default function ClothViewer({ modelPath = '/white_t-shirt_with_print.glb
   useEffect(() => {
     if (!containerRef.current) return;
 
-    // --- Scene setup ---
+    // Scene setup
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x87CEEB); // sky blue
+    scene.background = new THREE.Color(0x222222); // Dark background to see shirt better
 
     const container = containerRef.current;
     const width = container.clientWidth;
@@ -155,39 +167,26 @@ export default function ClothViewer({ modelPath = '/white_t-shirt_with_print.glb
 
     const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(width, height);
-    renderer.shadowMap.enabled = true;
-    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.shadowMap.enabled = false; // No ground, so shadows off
     container.appendChild(renderer.domElement);
 
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
     controls.target.set(0, 1, 0);
 
-    // --- Lighting (suitable for a shirt) ---
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
+    // Lighting
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
     scene.add(ambientLight);
 
-    const dirLight = new THREE.DirectionalLight(0xffffff, 1.2);
+    const dirLight = new THREE.DirectionalLight(0xffffff, 1.5);
     dirLight.position.set(2, 3, 2);
-    dirLight.castShadow = true;
-    dirLight.shadow.mapSize.width = 1024;
-    dirLight.shadow.mapSize.height = 1024;
     scene.add(dirLight);
 
     const backLight = new THREE.DirectionalLight(0xffffff, 0.5);
     backLight.position.set(-2, 1, -2);
     scene.add(backLight);
 
-    // Add a subtle ground plane
-    const planeGeo = new THREE.PlaneGeometry(10, 10);
-    const planeMat = new THREE.MeshStandardMaterial({ color: 0xeeeeee, side: THREE.DoubleSide });
-    const plane = new THREE.Mesh(planeGeo, planeMat);
-    plane.rotation.x = -Math.PI / 2;
-    plane.position.y = 0;
-    plane.receiveShadow = true;
-    scene.add(plane);
-
-    // --- Load GLB model (shirt) ---
+    // Load GLB shirt
     const loader = new GLTFLoader();
     let shirtMesh: THREE.Mesh | null = null;
     let simulator: ClothSimulator | null = null;
@@ -195,49 +194,43 @@ export default function ClothViewer({ modelPath = '/white_t-shirt_with_print.glb
     loader.load(
       modelPath,
       (gltf) => {
-        setDebug('Model loaded, applying cloth simulation...');
+        setDebug('Model loaded, setting up cloth...');
 
-        // Assume the first mesh is the shirt
+        // Find the first mesh
         gltf.scene.traverse((child) => {
-          if (child instanceof THREE.Mesh) {
+          if (child instanceof THREE.Mesh && !shirtMesh) {
             shirtMesh = child;
-            child.castShadow = true;
-            child.receiveShadow = true;
+            child.castShadow = false;
+            child.receiveShadow = false;
 
-            // Clone geometry for simulation (we'll modify positions)
+            // Clone geometry for simulation
             const geom = child.geometry.clone();
             child.geometry = geom;
 
-            // Center and scale if needed
+            // Center and scale to a reasonable size
             geom.center();
             const box = new THREE.Box3().setFromBufferAttribute(geom.attributes.position as THREE.BufferAttribute);
             const size = box.getSize(new THREE.Vector3());
-            const scale = 1 / Math.max(size.x, size.y, size.z);
+            const scale = 1.5 / Math.max(size.x, size.y, size.z); // Scale to ~1.5 units tall
             geom.scale(scale, scale, scale);
 
-            // Move up so it rests on ground
-            geom.translate(0, 0.5, 0);
+            // Move up so it's above origin
+            geom.translate(0, 1.0, 0);
 
-            // Initialize cloth simulator
+            // Initialize simulator
             simulator = new ClothSimulator(geom);
-
-            // Pin vertices with highest Y (shoulders)
-            const positions = geom.attributes.position.array;
-            // FIX: explicitly type the filter callback parameters
-            const maxY = Math.max(...positions.filter((_value: number, i: number) => i % 3 === 1));
-            for (let i = 0; i < positions.length / 3; i++) {
-              if (positions[i*3+1] > maxY - 0.2) {
-                if (simulator.particles[i]) {
-                  simulator.particles[i].mass = 1000; // essentially pinned
-                }
-              }
-            }
+            // Pin the top vertices (shoulders)
+            simulator.pinTopVertices(0.15);
 
             scene.add(gltf.scene);
             setLoading(false);
-            setDebug('Cloth simulation active');
+            setDebug('Cloth simulation running');
           }
         });
+
+        if (!shirtMesh) {
+          setError('No mesh found in model');
+        }
       },
       (progress) => {
         if (progress.total) {
@@ -252,22 +245,17 @@ export default function ClothViewer({ modelPath = '/white_t-shirt_with_print.glb
       }
     );
 
-    // --- Animation loop with cloth simulation ---
+    // Animation
     let clock = new THREE.Clock();
-    const wind = new THREE.Vector3(0.5, 0, 0.2); // constant wind
+    const wind = new THREE.Vector3(0.3, 0, 0.1); // Gentle wind
 
     const animate = () => {
       requestAnimationFrame(animate);
 
-      const delta = Math.min(clock.getDelta(), 0.1); // cap for stability
+      const delta = clock.getDelta();
 
       if (simulator && shirtMesh) {
-        // Simulate cloth
-        simulator.simulate(delta, wind, 9.8);
-
-        // Update bounding box for shadows
-        shirtMesh.geometry.computeBoundingBox();
-        shirtMesh.geometry.computeBoundingSphere();
+        simulator.simulate(delta, wind);
       }
 
       controls.update();
@@ -275,7 +263,7 @@ export default function ClothViewer({ modelPath = '/white_t-shirt_with_print.glb
     };
     animate();
 
-    // --- Resize handler ---
+    // Resize handler
     const handleResize = () => {
       if (!containerRef.current) return;
       const newWidth = containerRef.current.clientWidth;
@@ -286,7 +274,7 @@ export default function ClothViewer({ modelPath = '/white_t-shirt_with_print.glb
     };
     window.addEventListener('resize', handleResize);
 
-    // --- Cleanup ---
+    // Cleanup
     return () => {
       window.removeEventListener('resize', handleResize);
       if (container.contains(renderer.domElement)) {
@@ -302,7 +290,7 @@ export default function ClothViewer({ modelPath = '/white_t-shirt_with_print.glb
     left: 0,
     width: '100%',
     height: '500px',
-    backgroundColor: '#87CEEB',
+    backgroundColor: '#222',
     overflow: 'hidden'
   };
 
@@ -316,8 +304,8 @@ export default function ClothViewer({ modelPath = '/white_t-shirt_with_print.glb
     <div style={containerStyle}>
       <div style={canvasWrapperStyle} ref={containerRef} />
       {loading && (
-        <div style={{ position: 'absolute', bottom: 10, left: 10, color: '#333' }}>
-          Loading: {debug}
+        <div style={{ position: 'absolute', bottom: 10, left: 10, color: '#ccc' }}>
+          {debug}
         </div>
       )}
       {error && (
