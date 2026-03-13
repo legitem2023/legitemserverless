@@ -1,4 +1,4 @@
-// app/components/DeluxePrintGallery.tsx
+// app/components/DeluxeAnimeGallery.tsx
 'use client'
 import React, { useEffect, useState } from 'react';
 
@@ -279,27 +279,27 @@ const deluxeProducts: DeluxeProduct[] = [
   }
 ];
 
-// Mobile menu component (EXACTLY THE SAME)
+// Mobile Menu Component
 const MobileMenu = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
   if (!isOpen) return null;
   
   return (
-    <div className="mobile-menu-overlay" onClick={onClose}>
-      <div className="mobile-menu-content" onClick={e => e.stopPropagation()}>
-        <button className="mobile-menu-close" onClick={onClose}>✕</button>
-        <div className="mobile-menu-items">
-          <a href="#" className="mobile-menu-item">Collection</a>
-          <a href="#" className="mobile-menu-item">Atelier</a>
-          <a href="#" className="mobile-menu-item">Lookbook</a>
-          <a href="#" className="mobile-menu-item">Contact</a>
-          <a href="#" className="mobile-menu-item gold">Book Consultation</a>
+    <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50" onClick={onClose}>
+      <div className="fixed top-0 right-0 w-4/5 max-w-md h-full bg-[#14181f] p-8 border-l border-[#e3b34c] animate-slideIn" onClick={e => e.stopPropagation()}>
+        <button className="absolute top-4 right-4 text-3xl text-[#e3b34c] hover:text-[#f9e6b3]" onClick={onClose}>✕</button>
+        <div className="mt-16 flex flex-col gap-6">
+          <a href="#" className="text-white text-xl py-2 border-b border-[#e3b34c]/20 hover:border-[#e3b34c] transition">Collection</a>
+          <a href="#" className="text-white text-xl py-2 border-b border-[#e3b34c]/20 hover:border-[#e3b34c] transition">Atelier</a>
+          <a href="#" className="text-white text-xl py-2 border-b border-[#e3b34c]/20 hover:border-[#e3b34c] transition">Lookbook</a>
+          <a href="#" className="text-white text-xl py-2 border-b border-[#e3b34c]/20 hover:border-[#e3b34c] transition">Contact</a>
+          <a href="#" className="text-[#e3b34c] text-xl font-bold py-2 border-b border-[#e3b34c]">Book Consultation</a>
         </div>
       </div>
     </div>
   );
 };
 
-// Deluxe Thumbnail with Gold Accents (UPDATED with anime/DIsney/Marvel paths)
+// Deluxe Thumbnail Component
 const DeluxeThumbnail = ({ pathData, name, goldLabel }: { pathData: string; name: string; goldLabel?: boolean }) => {
   const svgMarkup = `
     <svg width="180" height="180" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
@@ -331,18 +331,22 @@ const DeluxeThumbnail = ({ pathData, name, goldLabel }: { pathData: string; name
   const encodedSvg = `data:image/svg+xml,${encodeURIComponent(svgMarkup)}`;
   
   return (
-    <div className="deluxe-thumbnail-wrapper">
-      <div className="thumbnail-gold-border">
+    <div className="relative">
+      <div className="p-1.5 bg-gradient-to-br from-[#bf9530] via-[#fcf6ba] to-[#b38728] rounded-xl shadow-lg">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={encodedSvg} alt={name} className="deluxe-thumbnail" loading="lazy" />
+        <img src={encodedSvg} alt={name} className="w-full h-auto rounded-lg" loading="lazy" />
       </div>
-      {goldLabel && <div className="gold-badge">COUTURE</div>}
+      {goldLabel && (
+        <div className="absolute -top-1 -right-1 bg-gradient-to-br from-[#bf9530] to-[#fcf6ba] text-[#0a0c12] px-2 py-0.5 rounded-full text-xs font-bold whitespace-nowrap shadow-lg">
+          COUTURE
+        </div>
+      )}
     </div>
   );
 };
 
-// Main Deluxe Gallery Component (EXACTLY THE SAME DESIGN, ONLY PRODUCTS CHANGED)
-export default function DeluxePrintGallery() {
+// Main Component
+export default function DeluxeAnimeGallery() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [windowWidth, setWindowWidth] = useState(0);
 
@@ -357,392 +361,23 @@ export default function DeluxePrintGallery() {
   const isTablet = windowWidth >= 768 && windowWidth < 1024;
 
   return (
-    <div className="deluxe-container">
-      <style jsx>{`
-        .deluxe-container {
-          max-width: 1600px;
-          margin: 0 auto;
-          padding: 1rem;
-          background: #0f0f13;
-          background-image: 
-            radial-gradient(circle at 30% 40%, rgba(227, 179, 76, 0.03) 0%, transparent 30%),
-            repeating-linear-gradient(45deg, rgba(227, 179, 76, 0.02) 0px, rgba(227, 179, 76, 0.02) 1px, transparent 1px, transparent 15px);
-          font-family: 'Cormorant Garamond', 'Times New Roman', serif;
-          min-height: 100vh;
-        }
-
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&display=swap');
-
-        /* Mobile Navigation */
-        .mobile-nav {
-          display: none;
-          position: sticky;
-          top: 0;
-          z-index: 100;
-          background: #0a0c12;
-          padding: 1rem;
-          border-bottom: 1px solid rgba(227, 179, 76, 0.3);
-          backdrop-filter: blur(10px);
-        }
-
-        .mobile-nav-header {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-        }
-
-        .mobile-logo {
-          font-size: 1.4rem;
-          font-weight: 700;
-          background: linear-gradient(135deg, #ffffff 0%, #e3b34c 100%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
-        }
-
-        .mobile-menu-button {
-          background: none;
-          border: 1px solid #e3b34c;
-          color: #e3b34c;
-          font-size: 1.5rem;
-          padding: 0.5rem 1rem;
-          border-radius: 8px;
-          cursor: pointer;
-        }
-
-        .mobile-menu-overlay {
-          position: fixed;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background: rgba(0,0,0,0.8);
-          z-index: 1000;
-          backdrop-filter: blur(5px);
-        }
-
-        .mobile-menu-content {
-          position: fixed;
-          top: 0;
-          right: 0;
-          width: 80%;
-          max-width: 400px;
-          height: 100vh;
-          background: #14181f;
-          padding: 2rem;
-          border-left: 1px solid #e3b34c;
-          animation: slideIn 0.3s ease;
-        }
-
-        @keyframes slideIn {
-          from { transform: translateX(100%); }
-          to { transform: translateX(0); }
-        }
-
-        .mobile-menu-close {
-          position: absolute;
-          top: 1rem;
-          right: 1rem;
-          background: none;
-          border: none;
-          color: #e3b34c;
-          font-size: 2rem;
-          cursor: pointer;
-        }
-
-        .mobile-menu-items {
-          margin-top: 4rem;
-          display: flex;
-          flex-direction: column;
-          gap: 1.5rem;
-        }
-
-        .mobile-menu-item {
-          color: white;
-          text-decoration: none;
-          font-size: 1.2rem;
-          padding: 0.5rem 0;
-          border-bottom: 1px solid rgba(227, 179, 76, 0.2);
-        }
-
-        .mobile-menu-item.gold {
-          color: #e3b34c;
-          font-weight: 700;
-        }
-
-        /* Header - EXACTLY THE SAME */
-        .deluxe-header {
-          background: linear-gradient(165deg, #0c1119 0%, #1a1f2b 100%);
-          padding: clamp(1.5rem, 5vw, 4rem);
-          border-radius: clamp(20px, 5vw, 40px);
-          margin-bottom: clamp(1.5rem, 4vw, 4rem);
-          position: relative;
-          overflow: hidden;
-          border: 1px solid rgba(227, 179, 76, 0.3);
-          box-shadow: 0 20px 40px rgba(0,0,0,0.6), inset 0 1px 1px rgba(255,255,255,0.1);
-        }
-
-        .header-gold-accent {
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          height: 4px;
-          background: linear-gradient(90deg, transparent, #e3b34c, #f9e6b3, #e3b34c, transparent);
-        }
-
-        .deluxe-header h1 {
-          font-size: clamp(2rem, 8vw, 5rem);
-          font-weight: 700;
-          margin: 0;
-          line-height: 1.1;
-          position: relative;
-          z-index: 2;
-          background: linear-gradient(135deg, #ffffff 0%, #f9e6b3 50%, #e3b34c 100%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
-          text-shadow: 0 2px 5px rgba(0,0,0,0.3);
-          letter-spacing: clamp(1px, 2vw, 2px);
-        }
-
-        .header-subtitle {
-          font-size: clamp(0.9rem, 3vw, 1.4rem);
-          color: #b8a87c;
-          letter-spacing: clamp(2px, 1vw, 4px);
-          margin-top: 0.5rem;
-          font-weight: 300;
-          text-transform: uppercase;
-        }
-
-        .header-emblems {
-          display: flex;
-          flex-wrap: wrap;
-          gap: clamp(1rem, 3vw, 3rem);
-          margin-top: clamp(1rem, 3vw, 2rem);
-        }
-
-        .emblem {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          color: #e3b34c;
-          border-right: 1px solid rgba(227, 179, 76, 0.3);
-          padding-right: clamp(1rem, 3vw, 2rem);
-        }
-
-        .emblem:last-child {
-          border-right: none;
-        }
-
-        .emblem-number {
-          font-size: clamp(1.2rem, 4vw, 2.2rem);
-          font-weight: 700;
-          color: white;
-        }
-
-        .emblem-text {
-          font-size: clamp(0.7rem, 2vw, 0.9rem);
-          text-transform: uppercase;
-          letter-spacing: 1px;
-          color: #b8a87c;
-          text-align: center;
-        }
-
-        /* Products Grid - SAME LAYOUT */
-        .deluxe-products-grid {
-          display: flex;
-          flex-direction: column;
-          gap: clamp(1rem, 3vw, 2.5rem);
-        }
-
-        .deluxe-card {
-          display: grid;
-          grid-template-columns: ${isMobile ? '1fr' : (isTablet ? '180px 1fr' : '220px 1fr')};
-          gap: clamp(1rem, 3vw, 2.5rem);
-          padding: clamp(1rem, 3vw, 2.5rem);
-          background: #14181f;
-          border-radius: clamp(20px, 4vw, 40px);
-          border: 1px solid #2a2f38;
-          transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-          position: relative;
-          overflow: hidden;
-        }
-
-        .deluxe-card:hover {
-          transform: ${!isMobile ? 'scale(1.02) translateY(-5px)' : 'none'};
-          border-color: #e3b34c;
-        }
-
-        /* Thumbnail */
-        .deluxe-thumbnail-wrapper {
-          position: relative;
-          width: ${isMobile ? '120px' : (isTablet ? '160px' : '100%')};
-          margin: ${isMobile ? '0 auto' : '0'};
-        }
-
-        .thumbnail-gold-border {
-          padding: 6px;
-          background: linear-gradient(145deg, #bf9530, #fcf6ba, #b38728);
-          border-radius: 16px;
-        }
-
-        .deluxe-thumbnail {
-          width: 100%;
-          height: auto;
-          border-radius: 12px;
-          display: block;
-        }
-
-        .gold-badge {
-          position: absolute;
-          top: -5px;
-          right: -5px;
-          background: linear-gradient(145deg, #bf9530, #fcf6ba);
-          color: #0a0c12;
-          padding: 0.25rem 0.75rem;
-          border-radius: 40px;
-          font-weight: 700;
-          font-size: 0.7rem;
-          white-space: nowrap;
-        }
-
-        /* Product Details */
-        .product-header {
-          display: flex;
-          flex-direction: ${isMobile ? 'column' : 'row'};
-          align-items: ${isMobile ? 'flex-start' : 'center'};
-          gap: ${isMobile ? '0.5rem' : '1.5rem'};
-          margin-bottom: 1rem;
-        }
-
-        .product-name {
-          font-size: clamp(1.5rem, 5vw, 2.8rem);
-          font-weight: 700;
-          margin: 0;
-          background: linear-gradient(135deg, #ffffff 0%, #e3b34c 100%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
-        }
-
-        .product-category {
-          font-size: clamp(0.7rem, 2vw, 1rem);
-          color: #b8a87c;
-          text-transform: uppercase;
-          letter-spacing: 1px;
-          border: 1px solid rgba(227, 179, 76, 0.3);
-          padding: 0.25rem 1rem;
-          border-radius: 40px;
-          white-space: nowrap;
-        }
-
-        .product-description {
-          font-size: clamp(0.9rem, 2.5vw, 1.1rem);
-          color: #b0b7c5;
-          margin-bottom: 1.5rem;
-          line-height: 1.6;
-          font-style: italic;
-          border-left: 2px solid #e3b34c;
-          padding-left: 1rem;
-        }
-
-        /* Specs Grid */
-        .specs-grid-luxury {
-          display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(${isMobile ? '140px' : '200px'}, 1fr));
-          gap: 1rem;
-          margin-bottom: 1.5rem;
-          background: rgba(0,0,0,0.3);
-          padding: clamp(0.8rem, 2vw, 1.5rem);
-          border-radius: 16px;
-        }
-
-        .spec-luxury-label {
-          font-size: clamp(0.7rem, 1.8vw, 0.8rem);
-          text-transform: uppercase;
-          color: #8f9bb3;
-          letter-spacing: 0.5px;
-        }
-
-        .spec-luxury-value {
-          font-size: clamp(0.9rem, 2.2vw, 1.1rem);
-          font-weight: 600;
-          color: #e3b34c;
-        }
-
-        /* Finish Tags */
-        .finish-tags {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 0.5rem;
-          margin-bottom: 1.5rem;
-        }
-
-        .finish-tag {
-          background: linear-gradient(145deg, #1e2632, #14181f);
-          border: 1px solid #e3b34c;
-          color: #e3b34c;
-          padding: 0.3rem 0.8rem;
-          border-radius: 40px;
-          font-size: clamp(0.7rem, 2vw, 0.85rem);
-          white-space: nowrap;
-        }
-
-        /* Action Buttons */
-        .action-buttons-luxury {
-          display: flex;
-          flex-direction: ${isMobile ? 'column' : 'row'};
-          gap: 1rem;
-          margin-top: 1rem;
-        }
-
-        .btn-primary-luxury,
-        .btn-secondary-luxury {
-          padding: ${isMobile ? '0.8rem 1rem' : '1rem 2rem'};
-          border-radius: 50px;
-          font-weight: 600;
-          font-size: clamp(0.8rem, 2.2vw, 1rem);
-          text-align: center;
-          cursor: pointer;
-          transition: all 0.3s;
-          width: ${isMobile ? '100%' : 'auto'};
-        }
-
-        .btn-primary-luxury {
-          background: linear-gradient(145deg, #bf9530, #f9e6b3);
-          border: 1px solid #fcf6ba;
-          color: #0a0c12;
-        }
-
-        .btn-secondary-luxury {
-          background: transparent;
-          border: 1px solid #e3b34c;
-          color: #e3b34c;
-        }
-
-        @media (max-width: 767px) {
-          .mobile-nav {
-            display: block;
-          }
-        }
-
-        @media (max-width: 380px) {
-          .specs-grid-luxury {
-            grid-template-columns: 1fr;
-          }
-          
-          .product-name {
-            font-size: 1.3rem;
-          }
-        }
-      `}</style>
+    <div className="max-w-[1600px] mx-auto p-4 bg-[#0f0f13] min-h-screen relative overflow-hidden">
+      {/* Background Patterns - Optimized */}
+      <div className="fixed inset-0 pointer-events-none">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_40%,rgba(227,179,76,0.03)_0%,transparent_30%)]"></div>
+        <div className="absolute inset-0 bg-[repeating-linear-gradient(45deg,rgba(227,179,76,0.02)_0px,rgba(227,179,76,0.02)_1px,transparent_1px,transparent_15px)]"></div>
+      </div>
 
       {/* Mobile Navigation */}
-      <div className="mobile-nav">
-        <div className="mobile-nav-header">
-          <span className="mobile-logo">A&R SILKSCREEN</span>
-          <button className="mobile-menu-button" onClick={() => setMobileMenuOpen(true)}>
+      <div className="md:hidden sticky top-0 z-40 bg-[#0a0c12]/95 backdrop-blur-sm p-4 border-b border-[#e3b34c]/30">
+        <div className="flex justify-between items-center">
+          <span className="text-xl font-bold bg-gradient-to-r from-white via-[#f9e6b3] to-[#e3b34c] bg-clip-text text-transparent">
+            A&R SILKSCREEN
+          </span>
+          <button 
+            className="border border-[#e3b34c] text-[#e3b34c] text-2xl px-4 py-2 rounded-lg"
+            onClick={() => setMobileMenuOpen(true)}
+          >
             ☰
           </button>
         </div>
@@ -750,85 +385,137 @@ export default function DeluxePrintGallery() {
 
       <MobileMenu isOpen={mobileMenuOpen} onClose={() => setMobileMenuOpen(false)} />
 
-      {/* Header - EXACTLY THE SAME */}
-      <header className="deluxe-header">
-        <div className="header-gold-accent"></div>
-        <h1>A & R <span>SILKSCREEN</span></h1>
-        <div className="header-subtitle">ATELIER • EST. 2008</div>
-        <div className="header-emblems">
-          <div className="emblem">
-            <span className="emblem-number">✦ 24K ✦</span>
-            <span className="emblem-text">Gold Service</span>
+      {/* Header - Exactly the same design */}
+      <header className="relative bg-gradient-to-br from-[#0c1119] to-[#1a1f2b] p-6 md:p-16 rounded-3xl md:rounded-[40px] mb-8 md:mb-16 overflow-hidden border border-[#e3b34c]/30 shadow-2xl">
+        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[#e3b34c] to-transparent"></div>
+        
+        {/* Animated shine effect - Optimized */}
+        <div className="absolute inset-0 opacity-5">
+          <div className="absolute inset-0 bg-[repeating-linear-gradient(45deg,transparent,transparent_20px,rgba(227,179,76,0.1)_20px,rgba(227,179,76,0.1)_40px)] animate-[shine_30s_linear_infinite]"></div>
+        </div>
+        
+        <h1 className="text-4xl md:text-7xl font-bold mb-2 bg-gradient-to-r from-white via-[#f9e6b3] to-[#e3b34c] bg-clip-text text-transparent">
+          A & R SILKSCREEN
+        </h1>
+        <div className="text-[#b8a87c] tracking-widest text-sm md:text-xl uppercase mb-6">
+          ATELIER • EST. 2008
+        </div>
+        
+        <div className="flex flex-wrap gap-6 md:gap-12">
+          <div className="pr-6 md:pr-12 border-r border-[#e3b34c]/30">
+            <div className="text-2xl md:text-4xl font-bold text-white">✦ 24K ✦</div>
+            <div className="text-[#b8a87c] text-xs md:text-sm uppercase tracking-wider">Gold Service</div>
           </div>
-          <div className="emblem">
-            <span className="emblem-number">∞</span>
-            <span className="emblem-text">Unlimited Revisions</span>
+          <div className="pr-6 md:pr-12 border-r border-[#e3b34c]/30">
+            <div className="text-2xl md:text-4xl font-bold text-white">∞</div>
+            <div className="text-[#b8a87c] text-xs md:text-sm uppercase tracking-wider">Unlimited Revisions</div>
           </div>
-          <div className="emblem">
-            <span className="emblem-number">8</span>
-            <span className="emblem-text">Master Printers</span>
+          <div>
+            <div className="text-2xl md:text-4xl font-bold text-white">8</div>
+            <div className="text-[#b8a87c] text-xs md:text-sm uppercase tracking-wider">Master Printers</div>
           </div>
         </div>
       </header>
 
-      {/* Products Grid - UPDATED WITH ANIME/DISNEY/MARVEL PRODUCTS */}
-      <div className="deluxe-products-grid">
+      {/* Products Grid */}
+      <div className="flex flex-col gap-4 md:gap-8">
         {deluxeProducts.map((product) => (
-          <div key={product.id} className="deluxe-card">
-            <DeluxeThumbnail 
-              pathData={product.pathData} 
-              name={product.name}
-              goldLabel={product.goldLabel}
-            />
+          <div 
+            key={product.id} 
+            className="relative bg-[#14181f] p-4 md:p-8 rounded-2xl md:rounded-[40px] border border-[#2a2f38] hover:border-[#e3b34c] transition-all duration-300 overflow-hidden group"
+          >
+            {/* Hover shine effect */}
+            <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-[#e3b34c]/10 to-transparent pointer-events-none"></div>
             
-            <div className="product-details">
-              <div className="product-header">
-                <h2 className="product-name">{product.name}</h2>
-                <span className="product-category">{product.category}</span>
+            <div className={`grid ${isMobile ? 'grid-cols-1' : isTablet ? 'grid-cols-[180px_1fr]' : 'grid-cols-[240px_1fr]'} gap-4 md:gap-8`}>
+              {/* Thumbnail */}
+              <div className={`${isMobile ? 'w-32 mx-auto' : 'w-full'}`}>
+                <DeluxeThumbnail 
+                  pathData={product.pathData} 
+                  name={product.name}
+                  goldLabel={product.goldLabel}
+                />
               </div>
               
-              <p className="product-description">"{product.description}"</p>
-              
-              <div className="specs-grid-luxury">
-                <div className="spec-luxury">
-                  <span className="spec-luxury-label">Technique</span>
-                  <span className="spec-luxury-value">{product.technique.split(' ')[0]}</span>
+              {/* Product Details */}
+              <div>
+                <div className={`flex ${isMobile ? 'flex-col' : 'flex-row items-center'} gap-2 md:gap-4 mb-4`}>
+                  <h2 className="text-2xl md:text-4xl font-bold bg-gradient-to-r from-white to-[#e3b34c] bg-clip-text text-transparent">
+                    {product.name}
+                  </h2>
+                  <span className="text-[#b8a87c] text-xs md:text-sm uppercase tracking-wider border border-[#e3b34c]/30 px-3 py-1 rounded-full whitespace-nowrap">
+                    {product.category}
+                  </span>
                 </div>
-                <div className="spec-luxury">
-                  <span className="spec-luxury-label">Colors</span>
-                  <span className="spec-luxury-value">{product.colors}</span>
+                
+                <p className="text-[#b0b7c5] text-sm md:text-base mb-6 italic border-l-2 border-[#e3b34c] pl-4">
+                  "{product.description}"
+                </p>
+                
+                {/* Specs Grid */}
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-6 bg-black/30 p-3 md:p-5 rounded-xl">
+                  <div>
+                    <div className="text-[#8f9bb3] text-xs uppercase tracking-wider">Technique</div>
+                    <div className="text-[#e3b34c] text-sm md:text-base font-semibold">{product.technique.split(' ')[0]}</div>
+                  </div>
+                  <div>
+                    <div className="text-[#8f9bb3] text-xs uppercase tracking-wider">Colors</div>
+                    <div className="text-[#e3b34c] text-sm md:text-base font-semibold">{product.colors}</div>
+                  </div>
+                  <div>
+                    <div className="text-[#8f9bb3] text-xs uppercase tracking-wider">Min Order</div>
+                    <div className="text-[#e3b34c] text-sm md:text-base font-semibold">{product.minOrder}</div>
+                  </div>
+                  <div>
+                    <div className="text-[#8f9bb3] text-xs uppercase tracking-wider">Price</div>
+                    <div className="text-[#e3b34c] text-sm md:text-base font-semibold">{product.price}</div>
+                  </div>
                 </div>
-                <div className="spec-luxury">
-                  <span className="spec-luxury-label">Min Order</span>
-                  <span className="spec-luxury-value">{product.minOrder}</span>
+                
+                {/* Finish Tags */}
+                <div className="flex flex-wrap gap-2 mb-6">
+                  {product.finish.slice(0, isMobile ? 2 : 4).map((f, idx) => (
+                    <span key={idx} className="bg-gradient-to-br from-[#1e2632] to-[#14181f] border border-[#e3b34c] text-[#e3b34c] px-3 py-1 rounded-full text-xs md:text-sm font-semibold">
+                      ✦ {f} ✦
+                    </span>
+                  ))}
+                  {isMobile && product.finish.length > 2 && (
+                    <span className="bg-gradient-to-br from-[#1e2632] to-[#14181f] border border-[#e3b34c] text-[#e3b34c] px-3 py-1 rounded-full text-xs md:text-sm font-semibold">
+                      +{product.finish.length - 2}
+                    </span>
+                  )}
                 </div>
-                <div className="spec-luxury">
-                  <span className="spec-luxury-label">Price</span>
-                  <span className="spec-luxury-value">{product.price}</span>
+                
+                {/* Action Buttons */}
+                <div className={`flex ${isMobile ? 'flex-col' : 'flex-row'} gap-3`}>
+                  <button className="bg-gradient-to-br from-[#bf9530] to-[#f9e6b3] border border-[#fcf6ba] text-[#0a0c12] px-4 md:px-8 py-3 rounded-full font-semibold text-sm md:text-base hover:shadow-xl hover:shadow-[#e3b34c]/30 transition-all w-full md:w-auto">
+                    {isMobile ? 'Consult' : 'Request Consultation'}
+                  </button>
+                  <button className="bg-transparent border-2 border-[#e3b34c] text-[#e3b34c] px-4 md:px-8 py-3 rounded-full font-semibold text-sm md:text-base hover:bg-[#e3b34c]/10 transition-all w-full md:w-auto">
+                    {isMobile ? 'View' : 'View Lookbook'}
+                  </button>
                 </div>
-              </div>
-              
-              <div className="finish-tags">
-                {product.finish.slice(0, isMobile ? 2 : 4).map((f, idx) => (
-                  <span key={idx} className="finish-tag">✦ {f} ✦</span>
-                ))}
-                {isMobile && product.finish.length > 2 && (
-                  <span className="finish-tag">+{product.finish.length - 2}</span>
-                )}
-              </div>
-              
-              <div className="action-buttons-luxury">
-                <button className="btn-primary-luxury">
-                  {isMobile ? 'Consult' : 'Request Consultation'}
-                </button>
-                <button className="btn-secondary-luxury">
-                  {isMobile ? 'View' : 'View Lookbook'}
-                </button>
               </div>
             </div>
           </div>
         ))}
       </div>
+
+      <style jsx>{`
+        @keyframes slideIn {
+          from { transform: translateX(100%); }
+          to { transform: translateX(0); }
+        }
+        
+        .animate-slideIn {
+          animation: slideIn 0.3s ease-out;
+        }
+        
+        @keyframes shine {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+      `}</style>
     </div>
   );
-}
+      }
