@@ -1,5 +1,5 @@
 "use client";
-
+import ClothViewer from '../components/ClothViewer';
 import React, { useEffect, useState } from 'react';
 
 interface DeluxeProduct {
@@ -749,6 +749,7 @@ export default function DeluxeAnimeGallery() {
             </div>
           </div>
         ))}
+      <ClothViewer/>
       </div>
 
       <style jsx>{`
