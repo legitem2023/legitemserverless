@@ -679,7 +679,7 @@ export default function DeluxeAnimeGallery() {
             
             <div className={`grid ${isMobile ? 'grid-cols-1' : isTablet ? 'grid-cols-[180px_1fr]' : 'grid-cols-[240px_1fr]'} gap-4 md:gap-8`}>
               {/* Thumbnail */}
-              <div className={`${isMobile ? 'w-32 mx-auto' : 'w-full'}`}>
+              <div className={`${isMobile ? 'w-full mx-auto' : 'w-full'}`}>
                 <DeluxeThumbnail 
                   imageUrl={product.imageUrl} 
                   name={product.name}
