@@ -1,197 +1,291 @@
-// app/components/DeluxePrintGallery.tsx
+// app/components/DeluxeAnimeGallery.tsx
 'use client'
 import React, { useEffect, useState } from 'react';
 
-interface DeluxeProduct {
+interface AnimeProduct {
   id: number;
   name: string;
-  category: string;
+  franchise: 'Anime' | 'Disney' | 'Marvel' | 'Original';
+  series: string;
   description: string;
   technique: string;
   colors: number;
-  area: string;
-  turnaround: string;
-  minOrder: number;
-  price: string;
-  artwork: string;
-  fabrics: string[];
-  finish: string[];
+  style: string[];
+  popular: boolean;
+  exclusive: boolean;
   limited: boolean;
-  goldLabel?: boolean;
   pathData: string;
+  character: string;
 }
 
-const deluxeProducts: DeluxeProduct[] = [
+const animeProducts: AnimeProduct[] = [
+  // ANIME COLLECTION
   {
     id: 1,
-    name: "Imperial Tee",
-    category: "Haute Couture Apparel",
-    description: "Premium 24-singles combed cotton with pearlized underbase",
-    technique: "8-Color Simulated Process with Metallic Accents",
+    name: "Naruto Uzumaki",
+    franchise: "Anime",
+    series: "Naruto Shippuden",
+    description: "Rasengan energy effect with Nine-Tails chakra mode - metallic gold and orange gradient",
+    technique: "Simulated Process with Metallic Inks",
     colors: 8,
-    area: "Full Front (14\" x 18\") + Left Chest",
-    turnaround: "5-7 business days • White Glove",
-    minOrder: 12,
-    price: "$22.50 - $45.00",
-    artwork: "Vector separations • PMS matched • Trap-ready",
-    fabrics: ["Supima Cotton", "Modal Blend", "Tencel Luxe"],
-    finish: ["Soft-hand", "Metallic", "Puff"],
-    limited: true,
-    goldLabel: true,
-    pathData: "M50 12L20 28v36l30 24 30-24V28L50 12z"
+    style: ["Manga Halftone", "Metallic", "Glow-in-Dark"],
+    popular: true,
+    exclusive: true,
+    limited: false,
+    character: "Naruto",
+    pathData: "M50 12L20 28v36l30 24 30-24V28L50 12z M35 45L45 35L55 45L50 60L35 45Z"
   },
   {
     id: 2,
-    name: "Regal Hoodie",
-    category: "Luxury Outerwear",
-    description: "14oz French Terry fleece with interior print detailing",
-    technique: "Platinum Series • 10-Color with Foil Accents",
-    colors: 10,
-    area: "Full Back (15\" x 20\") + Sleeves",
-    turnaround: "7-9 business days • Express Available",
-    minOrder: 6,
-    price: "$58.00 - $89.00",
-    artwork: "High-res separations • Spot process",
-    fabrics: ["Pima Cotton Fleece", "Cashmere Blend", "Bamboo Terry"],
-    finish: ["Foil", "Glitter", "Puff", "Suede"],
+    name: "Goku Ultra Instinct",
+    franchise: "Anime",
+    series: "Dragon Ball Super",
+    description: "Silver hair with aura effect - prismatic silver and blue tones",
+    technique: "8-Color Process with Prismatic Foil",
+    colors: 9,
+    style: ["Manga Effect", "Foil", "Holographic"],
+    popular: true,
+    exclusive: true,
     limited: true,
-    goldLabel: true,
-    pathData: "M20 30l30-14 30 14v28l-30 16-30-16V30z"
+    character: "Goku",
+    pathData: "M30 20L70 20L80 40L50 80L20 40L30 20Z M45 35L55 35L50 50L45 35Z"
   },
   {
     id: 3,
-    name: "Signature Tote",
-    category: "Accessories Collection",
-    description: "Hand-finished Italian canvas with leather trim options",
-    technique: "High-Density • 3-Color with Blind Deboss",
-    colors: 3,
-    area: "Centerpiece (12\" x 12\") + Handles",
-    turnaround: "10-12 business days",
-    minOrder: 25,
-    price: "$28.00 - $65.00",
-    artwork: "Vector • Deboss template required",
-    fabrics: ["Italian Cotton Canvas", "Waxed Canvas", "Vegan Leather"],
-    finish: ["Deboss", "High-Density", "Metallic"],
+    name: "Pikachu Thunder",
+    franchise: "Anime",
+    series: "Pokémon",
+    description: "Thunderbolt attack with sparkle effects - electric yellow with foil accents",
+    technique: "Spot Color with Glitter Base",
+    colors: 5,
+    style: ["Chibi Style", "Glitter", "Puff"],
+    popular: true,
+    exclusive: false,
     limited: false,
-    pathData: "M24 34h52v38H24V34zM30 28h40v10H30z"
+    character: "Pikachu",
+    pathData: "M40 30L60 30L70 50L50 75L30 50L40 30Z M45 45L55 45L50 60L45 45Z"
   },
   {
     id: 4,
-    name: "Crown Cap",
-    category: "Headwear Atelier",
-    description: "Wool-blend structured cap with leather strap and custom undervisor",
-    technique: "3D Puff Embroidery + Screen Printed Liner",
-    colors: 5,
-    area: "Front (5\" x 3\") + Back + Undervisor",
-    turnaround: "8-10 business days",
-    minOrder: 12,
-    price: "$32.00 - $58.00",
-    artwork: "Vector with 3D relief map",
-    fabrics: ["Merino Wool Blend", "Premium Twill", "Leather"],
-    finish: ["3D Puff", "Chainstitch", "Foil"],
+    name: "Levi Ackerman",
+    franchise: "Anime",
+    series: "Attack on Titan",
+    description: "Survey Corps emblem with gear effects - dark tones with silver highlights",
+    technique: "High-Density Discharge",
+    colors: 4,
+    style: ["Dark Fantasy", "Metallic", "Distressed"],
+    popular: false,
+    exclusive: true,
     limited: true,
-    pathData: "M22 40c0-11 12-20 28-20s28 9 28 20v18H22V40z"
+    character: "Levi",
+    pathData: "M25 30L75 30L85 50L50 85L15 50L25 30Z M40 45L60 45L50 70L40 45Z"
   },
+
+  // DISNEY COLLECTION
   {
     id: 5,
-    name: "Opulent Raglan",
-    category: "Luxury Sport",
-    description: "Japanese ring-spun with contrast melange sleeves",
-    technique: "Discharge • Waterbase • 4-Color Process",
-    colors: 6,
-    area: "Full Garment Printing",
-    turnaround: "6-8 business days",
-    minOrder: 24,
-    price: "$34.00 - $62.00",
-    artwork: "High-res • Color separations",
-    fabrics: ["Japanese Cotton", "Bamboo Viscose", "Recycled Poly"],
-    finish: ["Discharge", "Soft-hand", "Vintage"],
+    name: "Mickey Mouse",
+    franchise: "Disney",
+    series: "Classic",
+    description: "Vintage Mickey with sorcerer hat - nostalgic sepia tones with gold details",
+    technique: "Vintage Discharge with Gold Foil",
+    colors: 4,
+    style: ["Vintage", "Foil", "Sepia"],
+    popular: true,
+    exclusive: true,
     limited: false,
-    pathData: "M26 28l24-12 24 12v32l-24 14-24-14V28z"
+    character: "Mickey",
+    pathData: "M35 25L65 25L80 45L50 80L20 45L35 25Z M40 40L60 40L50 60L40 40Z"
   },
   {
     id: 6,
-    name: "Artisan Apron",
-    category: "Guild Collection",
-    description: "Double-front apron with tool pockets and branded hardware",
-    technique: "Leather Patch + Screen Printed Detail",
-    colors: 2,
-    area: "Bib + Pocket",
-    turnaround: "7-10 business days",
-    minOrder: 10,
-    price: "$45.00 - $85.00",
-    artwork: "Vector • Emboss template",
-    fabrics: ["14oz Selvedge Denim", "Oilcloth", "Waxed Canvas"],
-    finish: ["Leather Patch", "Deboss", "Contrast Stitch"],
+    name: "Elsa",
+    franchise: "Disney",
+    series: "Frozen",
+    description: "Ice palace background with snowflake details - crystal blue with glitter",
+    technique: "Crystal Process with Glitter Overlay",
+    colors: 6,
+    style: ["Glitter", "Holographic", "Ice Effect"],
+    popular: true,
+    exclusive: true,
     limited: true,
-    goldLabel: true,
-    pathData: "M32 40c0-14 36-14 36 0v36H32V40zM44 28h12v16H44z"
+    character: "Elsa",
+    pathData: "M30 25L70 25L85 45L50 85L15 45L30 25Z M35 40L65 40L50 70L35 40Z"
   },
   {
     id: 7,
-    name: "Petite Luxe",
-    category: "Youth Atelier",
-    description: "Organic cotton kids wear with heirloom quality",
-    technique: "Waterbase • 3-Color • Non-toxic inks",
-    colors: 3,
-    area: "Front (8\" x 10\")",
-    turnaround: "5-7 business days",
-    minOrder: 36,
-    price: "$18.00 - $32.00",
-    artwork: "Simple vector • Child-safe cert",
-    fabrics: ["Organic Cotton", "Bamboo", "Oeko-tex Certified"],
-    finish: ["Waterbase", "Eco-friendly", "Peach finish"],
+    name: "Stitch",
+    franchise: "Disney",
+    series: "Lilo & Stitch",
+    description: "Experiment 626 with Elvis pose - electric blue with glow accents",
+    technique: "4-Color Process with Glow-in-Dark",
+    colors: 5,
+    style: ["Glow-in-Dark", "Cartoon", "Pop Art"],
+    popular: true,
+    exclusive: false,
     limited: false,
-    pathData: "M54 20L74 32v24L54 68 34 56V32L54 20z"
+    character: "Stitch",
+    pathData: "M40 30L60 30L75 50L50 75L25 50L40 30Z M42 45L58 45L50 60L42 45Z"
   },
   {
     id: 8,
-    name: "Majestic Crew",
-    category: "Fleece Royale",
-    description: "Heavyweight 16oz fleece with custom neck labels",
-    technique: "Embroidery + Screen Print Combo",
+    name: "Nightmare Before Christmas",
+    franchise: "Disney",
+    series: "Tim Burton",
+    description: "Jack Skellington with Zero - gothic patterns with glow effects",
+    technique: "6-Color with Glow-in-Dark and Metallic",
     colors: 7,
-    area: "Full Front + Left Chest Embroidery",
-    turnaround: "8-11 business days",
-    minOrder: 12,
-    price: "$48.00 - $82.00",
-    artwork: "Vector + Digitized embroidery file",
-    fabrics: ["Supreme Fleece", "Alpaca Blend", "Heavy Cotton"],
-    finish: ["Embroidery", "Suede", "Distressed"],
+    style: ["Gothic", "Glow", "Striped"],
+    popular: false,
+    exclusive: true,
     limited: true,
-    pathData: "M28 36l22-10 22 10v28l-22 12-22-12V36z"
+    character: "Jack",
+    pathData: "M20 25L80 25L90 50L50 90L10 50L20 25Z M35 40L65 40L50 75L35 40Z"
+  },
+
+  // MARVEL COLLECTION
+  {
+    id: 9,
+    name: "Iron Man",
+    franchise: "Marvel",
+    series: "Avengers",
+    description: "Arc reactor with suit details - metallic red and gold foil",
+    technique: "Metallic Foil + High-Density",
+    colors: 5,
+    style: ["Metallic", "Tech", "Armor"],
+    popular: true,
+    exclusive: true,
+    limited: true,
+    character: "Tony Stark",
+    pathData: "M25 20L75 20L90 45L50 90L10 45L25 20Z M35 35L65 35L50 70L35 35Z"
+  },
+  {
+    id: 10,
+    name: "Spider-Man",
+    franchise: "Marvel",
+    series: "Spider-Verse",
+    description: "Miles Morales graffiti style - urban art with spray paint effect",
+    technique: "Simulated Process with Halftones",
+    colors: 7,
+    style: ["Graffiti", "Comic Dots", "Urban"],
+    popular: true,
+    exclusive: false,
+    limited: false,
+    character: "Miles Morales",
+    pathData: "M30 25L70 25L85 48L50 85L15 48L30 25Z M38 38L62 38L50 68L38 38Z"
+  },
+  {
+    id: 11,
+    name: "Thor",
+    franchise: "Marvel",
+    series: "Avengers",
+    description: "Stormbreaker with lightning effects - hammered metal texture",
+    technique: "Puff + Metallic + Glitter",
+    colors: 6,
+    style: ["Viking", "Metallic", "Texture"],
+    popular: false,
+    exclusive: true,
+    limited: true,
+    character: "Thor",
+    pathData: "M22 22L78 22L92 47L50 92L8 47L22 22Z M32 37L68 37L50 75L32 37Z"
+  },
+  {
+    id: 12,
+    name: "Black Panther",
+    franchise: "Marvel",
+    series: "Wakanda Forever",
+    description: "Vibranium suit pattern with purple glow - advanced texture print",
+    technique: "High-Density + Glow",
+    colors: 5,
+    style: ["Tribal", "Glow", "Texture"],
+    popular: true,
+    exclusive: true,
+    limited: true,
+    character: "T'Challa",
+    pathData: "M28 23L72 23L88 46L50 88L12 46L28 23Z M36 36L64 36L50 72L36 36Z"
+  },
+
+  // ORIGINAL DESIGNS
+  {
+    id: 13,
+    name: "Cyber Samurai",
+    franchise: "Original",
+    series: "Neo Tokyo",
+    description: "Futuristic samurai with neon accents - cyberpunk aesthetic",
+    technique: "ChromaBlast + Neon",
+    colors: 8,
+    style: ["Cyberpunk", "Neon", "Geometric"],
+    popular: true,
+    exclusive: true,
+    limited: true,
+    character: "Original",
+    pathData: "M20 20L80 20L95 50L50 95L5 50L20 20Z M30 35L70 35L50 80L30 35Z"
+  },
+  {
+    id: 14,
+    name: "Dragon Spirit",
+    franchise: "Original",
+    series: "Mythical",
+    description: "Eastern dragon with cloud details - traditional with modern flair",
+    technique: "9-Color Simulated Process",
+    colors: 9,
+    style: ["Traditional", "Gradient", "Detailed"],
+    popular: false,
+    exclusive: true,
+    limited: true,
+    character: "Dragon",
+    pathData: "M15 15L85 15L98 50L50 98L2 50L15 15Z M25 30L75 30L50 85L25 30Z"
   }
 ];
 
+// Franchise color themes
+const franchiseColors = {
+  Anime: { primary: '#FF6B6B', secondary: '#4ECDC4', accent: '#FFE66D' },
+  Disney: { primary: '#6C5CE7', secondary: '#A8E6CF', accent: '#FFD93D' },
+  Marvel: { primary: '#E74C3C', secondary: '#3498DB', accent: '#F1C40F' },
+  Original: { primary: '#9B59B6', secondary: '#1ABC9C', accent: '#E67E22' }
+};
+
 // Mobile menu component
-const MobileMenu = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
+const MobileMenu = ({ isOpen, onClose, franchise }: { isOpen: boolean; onClose: () => void; franchise: string }) => {
   if (!isOpen) return null;
   
   return (
     <div className="mobile-menu-overlay" onClick={onClose}>
       <div className="mobile-menu-content" onClick={e => e.stopPropagation()}>
         <button className="mobile-menu-close" onClick={onClose}>✕</button>
+        <div className="mobile-menu-header">
+          <span className="mobile-menu-title">Collections</span>
+        </div>
         <div className="mobile-menu-items">
-          <a href="#" className="mobile-menu-item">Collection</a>
-          <a href="#" className="mobile-menu-item">Atelier</a>
-          <a href="#" className="mobile-menu-item">Lookbook</a>
-          <a href="#" className="mobile-menu-item">Contact</a>
-          <a href="#" className="mobile-menu-item gold">Book Consultation</a>
+          <a href="#" className={`mobile-menu-item ${franchise === 'Anime' ? 'active' : ''}`}>Anime</a>
+          <a href="#" className={`mobile-menu-item ${franchise === 'Disney' ? 'active' : ''}`}>Disney</a>
+          <a href="#" className={`mobile-menu-item ${franchise === 'Marvel' ? 'active' : ''}`}>Marvel</a>
+          <a href="#" className={`mobile-menu-item ${franchise === 'Original' ? 'active' : ''}`}>Original</a>
+          <div className="mobile-menu-divider"></div>
+          <a href="#" className="mobile-menu-item gold">✨ Exclusive Drops</a>
+          <a href="#" className="mobile-menu-item gold">🎨 Custom Design</a>
         </div>
       </div>
     </div>
   );
 };
 
-// Deluxe Thumbnail with Gold Accents
-const DeluxeThumbnail = ({ pathData, name, goldLabel }: { pathData: string; name: string; goldLabel?: boolean }) => {
+// Anime-style thumbnail generator
+const AnimeThumbnail = ({ product }: { product: AnimeProduct }) => {
+  const colors = franchiseColors[product.franchise];
+  
   const svgMarkup = `
-    <svg width="180" height="180" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <svg width="200" height="200" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" style="stop-color:#bf9530"/>
-          <stop offset="50%" style="stop-color:#fcf6ba"/>
-          <stop offset="100%" style="stop-color:#b38728"/>
+        <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color:#1a1f2f"/>
+          <stop offset="100%" style="stop-color:#0f1219"/>
+        </linearGradient>
+        <linearGradient id="charGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color:${colors.primary}"/>
+          <stop offset="50%" style="stop-color:${colors.accent}"/>
+          <stop offset="100%" style="stop-color:${colors.secondary}"/>
         </linearGradient>
         <filter id="glow">
           <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
@@ -200,45 +294,56 @@ const DeluxeThumbnail = ({ pathData, name, goldLabel }: { pathData: string; name
             <feMergeNode in="SourceGraphic"/>
           </feMerge>
         </filter>
-        <pattern id="damask" patternUnits="userSpaceOnUse" width="20" height="20">
-          <path d="M10 0L20 10L10 20L0 10Z" fill="none" stroke="rgba(227,179,76,0.1)" stroke-width="0.5"/>
+        <pattern id="stars" patternUnits="userSpaceOnUse" width="20" height="20">
+          <circle cx="5" cy="5" r="1" fill="white" opacity="0.3"/>
+          <circle cx="15" cy="15" r="1" fill="white" opacity="0.3"/>
         </pattern>
       </defs>
-      <rect width="100" height="100" fill="#0a121c" rx="12" filter="url(#glow)"/>
-      <rect width="100" height="100" fill="url(#damask)" rx="12"/>
-      <path d="${pathData}" fill="url(#goldGradient)" transform="translate(0, 15) scale(0.85)" filter="url(#glow)"/>
-      <circle cx="50" cy="85" r="4" fill="#e3b34c" opacity="0.3"/>
-      ${goldLabel ? `<text x="15" y="25" fill="#e3b34c" font-size="8" font-family="Cormorant Garamond, serif" font-weight="bold">✦ LIMITED ✦</text>` : ''}
+      
+      <!-- Background -->
+      <rect width="100" height="100" fill="url(#bgGradient)" rx="16"/>
+      <rect width="100" height="100" fill="url(#stars)" rx="16"/>
+      
+      <!-- Character Silhouette -->
+      <path d="${product.pathData}" fill="url(#charGradient)" transform="translate(0, 10) scale(0.9)" filter="url(#glow)"/>
+      
+      <!-- Anime Effects -->
+      <circle cx="70" cy="25" r="8" fill="white" opacity="0.2"/>
+      <circle cx="75" cy="30" r="4" fill="white" opacity="0.3"/>
+      
+      <!-- Franchise Badge -->
+      <rect x="10" y="10" width="25" height="8" rx="4" fill="${colors.accent}" opacity="0.9"/>
+      <text x="12" y="17" fill="#0f1219" font-size="4" font-weight="bold">${product.franchise}</text>
+      
+      ${product.popular ? `<circle cx="85" cy="15" r="6" fill="#FFD700" opacity="0.9"/>` : ''}
+      ${product.popular ? `<text x="83" y="18" fill="#000" font-size="3" font-weight="bold">★</text>` : ''}
+      
+      ${product.limited ? `<text x="70" y="90" fill="${colors.accent}" font-size="4" font-weight="bold">LIMITED</text>` : ''}
     </svg>
   `;
   
   const encodedSvg = `data:image/svg+xml,${encodeURIComponent(svgMarkup)}`;
   
   return (
-    <div className="deluxe-thumbnail-wrapper">
-      <div className="thumbnail-gold-border">
+    <div className="anime-thumbnail-wrapper">
+      <div className="thumbnail-glow" style={{ background: `linear-gradient(145deg, ${colors.primary}, ${colors.accent})` }}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={encodedSvg} alt={name} className="deluxe-thumbnail" loading="lazy" />
+        <img src={encodedSvg} alt={product.name} className="anime-thumbnail" loading="lazy" />
       </div>
-      {goldLabel && <div className="gold-badge">COUTURE</div>}
+      {product.exclusive && <div className="exclusive-badge">EXCLUSIVE</div>}
     </div>
   );
 };
 
-// Main Deluxe Gallery Component
-export default function DeluxePrintGallery() {
+// Main Component
+export default function DeluxeAnimeGallery() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [windowWidth, setWindowWidth] = useState(0);
+  const [selectedFranchise, setSelectedFranchise] = useState<string>('all');
 
   useEffect(() => {
-    // Set initial width
     setWindowWidth(window.innerWidth);
-    
-    // Handle resize
-    const handleResize = () => {
-      setWindowWidth(window.innerWidth);
-    };
-    
+    const handleResize = () => setWindowWidth(window.innerWidth);
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
@@ -246,22 +351,29 @@ export default function DeluxePrintGallery() {
   const isMobile = windowWidth < 768;
   const isTablet = windowWidth >= 768 && windowWidth < 1024;
 
+  const filteredProducts = selectedFranchise === 'all' 
+    ? animeProducts 
+    : animeProducts.filter(p => p.franchise === selectedFranchise);
+
+  const franchises = ['all', 'Anime', 'Disney', 'Marvel', 'Original'];
+
   return (
-    <div className="deluxe-container">
+    <div className="anime-container">
       <style jsx>{`
-        .deluxe-container {
+        .anime-container {
           max-width: 1600px;
           margin: 0 auto;
           padding: 1rem;
-          background: #0f0f13;
+          background: #0a0c15;
           background-image: 
-            radial-gradient(circle at 30% 40%, rgba(227, 179, 76, 0.03) 0%, transparent 30%),
-            repeating-linear-gradient(45deg, rgba(227, 179, 76, 0.02) 0px, rgba(227, 179, 76, 0.02) 1px, transparent 1px, transparent 15px);
-          font-family: 'Cormorant Garamond', 'Times New Roman', serif;
+            radial-gradient(circle at 10% 20%, rgba(255, 107, 107, 0.05) 0%, transparent 30%),
+            radial-gradient(circle at 90% 70%, rgba(78, 205, 196, 0.05) 0%, transparent 30%),
+            repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.02) 0px, rgba(255, 255, 255, 0.02) 2px, transparent 2px, transparent 8px);
+          font-family: 'Poppins', 'Segoe UI', sans-serif;
           min-height: 100vh;
         }
 
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap');
 
         /* Mobile Navigation */
         .mobile-nav {
@@ -269,10 +381,11 @@ export default function DeluxePrintGallery() {
           position: sticky;
           top: 0;
           z-index: 100;
-          background: #0a0c12;
-          padding: 1rem;
-          border-bottom: 1px solid rgba(227, 179, 76, 0.3);
+          background: rgba(10, 12, 21, 0.95);
           backdrop-filter: blur(10px);
+          padding: 1rem;
+          border-bottom: 2px solid;
+          border-image: linear-gradient(90deg, #FF6B6B, #4ECDC4, #6C5CE7) 1;
         }
 
         .mobile-nav-header {
@@ -283,8 +396,8 @@ export default function DeluxePrintGallery() {
 
         .mobile-logo {
           font-size: 1.4rem;
-          font-weight: 700;
-          background: linear-gradient(135deg, #ffffff 0%, #e3b34c 100%);
+          font-weight: 800;
+          background: linear-gradient(135deg, #FF6B6B, #4ECDC4, #6C5CE7);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           background-clip: text;
@@ -292,12 +405,13 @@ export default function DeluxePrintGallery() {
 
         .mobile-menu-button {
           background: none;
-          border: 1px solid #e3b34c;
-          color: #e3b34c;
+          border: 2px solid #4ECDC4;
+          color: #4ECDC4;
           font-size: 1.5rem;
           padding: 0.5rem 1rem;
-          border-radius: 8px;
+          border-radius: 12px;
           cursor: pointer;
+          box-shadow: 0 0 15px rgba(78, 205, 196, 0.3);
         }
 
         .mobile-menu-overlay {
@@ -306,7 +420,7 @@ export default function DeluxePrintGallery() {
           left: 0;
           right: 0;
           bottom: 0;
-          background: rgba(0,0,0,0.8);
+          background: rgba(0,0,0,0.9);
           z-index: 1000;
           backdrop-filter: blur(5px);
         }
@@ -318,10 +432,52 @@ export default function DeluxePrintGallery() {
           width: 80%;
           max-width: 400px;
           height: 100vh;
-          background: #14181f;
+          background: #141a26;
           padding: 2rem;
-          border-left: 1px solid #e3b34c;
+          border-left: 3px solid;
+          border-image: linear-gradient(180deg, #FF6B6B, #4ECDC4, #6C5CE7) 1;
           animation: slideIn 0.3s ease;
+        }
+
+        .mobile-menu-header {
+          margin-bottom: 2rem;
+        }
+
+        .mobile-menu-title {
+          font-size: 1.8rem;
+          font-weight: 700;
+          color: white;
+        }
+
+        .mobile-menu-items {
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+        }
+
+        .mobile-menu-item {
+          color: #b8c7e0;
+          text-decoration: none;
+          font-size: 1.2rem;
+          padding: 0.8rem 0;
+          border-bottom: 1px solid rgba(78, 205, 196, 0.2);
+          transition: all 0.3s;
+        }
+
+        .mobile-menu-item.active {
+          color: #4ECDC4;
+          font-weight: 700;
+          border-bottom-color: #4ECDC4;
+        }
+
+        .mobile-menu-item.gold {
+          color: #FFD700;
+        }
+
+        .mobile-menu-divider {
+          height: 2px;
+          background: linear-gradient(90deg, transparent, #4ECDC4, transparent);
+          margin: 1rem 0;
         }
 
         @keyframes slideIn {
@@ -329,318 +485,360 @@ export default function DeluxePrintGallery() {
           to { transform: translateX(0); }
         }
 
-        .mobile-menu-close {
-          position: absolute;
-          top: 1rem;
-          right: 1rem;
-          background: none;
-          border: none;
-          color: #e3b34c;
-          font-size: 2rem;
-          cursor: pointer;
-        }
-
-        .mobile-menu-items {
-          margin-top: 4rem;
-          display: flex;
-          flex-direction: column;
-          gap: 1.5rem;
-        }
-
-        .mobile-menu-item {
-          color: white;
-          text-decoration: none;
-          font-size: 1.2rem;
-          padding: 0.5rem 0;
-          border-bottom: 1px solid rgba(227, 179, 76, 0.2);
-        }
-
-        .mobile-menu-item.gold {
-          color: #e3b34c;
-          font-weight: 700;
-        }
-
         /* Header */
-        .deluxe-header {
-          background: linear-gradient(165deg, #0c1119 0%, #1a1f2b 100%);
-          padding: clamp(1.5rem, 5vw, 4rem);
-          border-radius: clamp(20px, 5vw, 40px);
-          margin-bottom: clamp(1.5rem, 4vw, 4rem);
+        .anime-header {
+          background: linear-gradient(165deg, #0f1420 0%, #1a1f30 100%);
+          padding: clamp(2rem, 6vw, 4rem);
+          border-radius: clamp(24px, 5vw, 48px);
+          margin-bottom: clamp(2rem, 4vw, 3rem);
           position: relative;
           overflow: hidden;
-          border: 1px solid rgba(227, 179, 76, 0.3);
-          box-shadow: 0 20px 40px rgba(0,0,0,0.6), inset 0 1px 1px rgba(255,255,255,0.1);
+          border: 1px solid rgba(78, 205, 196, 0.3);
+          box-shadow: 0 20px 40px rgba(0,0,0,0.6);
         }
 
-        .header-gold-accent {
+        .anime-header::before {
+          content: '';
+          position: absolute;
+          top: -50%;
+          left: -50%;
+          width: 200%;
+          height: 200%;
+          background: repeating-linear-gradient(
+            45deg,
+            transparent,
+            transparent 20px,
+            rgba(78, 205, 196, 0.05) 20px,
+            rgba(78, 205, 196, 0.05) 40px
+          );
+          animation: shine 30s linear infinite;
+        }
+
+        @keyframes shine {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+
+        .header-accent {
           position: absolute;
           top: 0;
           left: 0;
           right: 0;
           height: 4px;
-          background: linear-gradient(90deg, transparent, #e3b34c, #f9e6b3, #e3b34c, transparent);
+          background: linear-gradient(90deg, #FF6B6B, #4ECDC4, #6C5CE7, #FFD93D);
         }
 
-        .deluxe-header h1 {
-          font-size: clamp(2rem, 8vw, 5rem);
-          font-weight: 700;
+        .anime-header h1 {
+          font-size: clamp(2rem, 8vw, 4.5rem);
+          font-weight: 800;
           margin: 0;
           line-height: 1.1;
-          position: relative;
-          z-index: 2;
-          background: linear-gradient(135deg, #ffffff 0%, #f9e6b3 50%, #e3b34c 100%);
+          background: linear-gradient(135deg, #FF6B6B, #4ECDC4, #6C5CE7, #FFD93D);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           background-clip: text;
-          text-shadow: 0 2px 5px rgba(0,0,0,0.3);
-          letter-spacing: clamp(1px, 2vw, 2px);
+          text-shadow: 0 0 30px rgba(78, 205, 196, 0.3);
         }
 
         .header-subtitle {
-          font-size: clamp(0.9rem, 3vw, 1.4rem);
-          color: #b8a87c;
-          letter-spacing: clamp(2px, 1vw, 4px);
+          font-size: clamp(1rem, 3vw, 1.4rem);
+          color: #b8c7e0;
           margin-top: 0.5rem;
-          font-weight: 300;
-          text-transform: uppercase;
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
         }
 
-        .header-emblems {
+        .header-stats {
           display: flex;
           flex-wrap: wrap;
-          gap: clamp(1rem, 3vw, 3rem);
-          margin-top: clamp(1rem, 3vw, 2rem);
+          gap: clamp(1rem, 3vw, 2rem);
+          margin-top: 2rem;
         }
 
-        .emblem {
+        .stat {
           display: flex;
           flex-direction: column;
-          align-items: center;
-          color: #e3b34c;
-          border-right: 1px solid rgba(227, 179, 76, 0.3);
-          padding-right: clamp(1rem, 3vw, 2rem);
+          border-right: 2px solid rgba(78, 205, 196, 0.3);
+          padding-right: 2rem;
         }
 
-        .emblem:last-child {
+        .stat:last-child {
           border-right: none;
         }
 
-        .emblem-number {
-          font-size: clamp(1.2rem, 4vw, 2.2rem);
-          font-weight: 700;
-          color: white;
+        .stat-number {
+          font-size: clamp(1.5rem, 4vw, 2.2rem);
+          font-weight: 800;
+          color: #4ECDC4;
         }
 
-        .emblem-text {
-          font-size: clamp(0.7rem, 2vw, 0.9rem);
-          text-transform: uppercase;
-          letter-spacing: 1px;
-          color: #b8a87c;
-          text-align: center;
+        .stat-label {
+          font-size: clamp(0.8rem, 2vw, 1rem);
+          color: #8f9fb0;
+        }
+
+        /* Franchise Filter */
+        .franchise-filter {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 1rem;
+          margin-bottom: 2.5rem;
+          padding: 0.5rem;
+          background: rgba(20, 26, 38, 0.6);
+          border-radius: 60px;
+          backdrop-filter: blur(10px);
+          border: 1px solid rgba(78, 205, 196, 0.2);
+        }
+
+        .filter-btn {
+          padding: 0.8rem 2rem;
+          border-radius: 40px;
+          font-weight: 600;
+          font-size: 1rem;
+          cursor: pointer;
+          transition: all 0.3s;
+          border: none;
+          background: transparent;
+          color: #b8c7e0;
+          flex: ${isMobile ? '1' : 'none'};
+        }
+
+        .filter-btn.active {
+          background: linear-gradient(135deg, #4ECDC4, #6C5CE7);
+          color: white;
+          box-shadow: 0 5px 20px rgba(78, 205, 196, 0.4);
         }
 
         /* Products Grid */
-        .deluxe-products-grid {
+        .products-grid {
           display: flex;
           flex-direction: column;
-          gap: clamp(1rem, 3vw, 2.5rem);
+          gap: 2rem;
         }
 
-        .deluxe-card {
+        .product-card {
           display: grid;
-          grid-template-columns: ${isMobile ? '1fr' : (isTablet ? '180px 1fr' : '220px 1fr')};
-          gap: clamp(1rem, 3vw, 2.5rem);
-          padding: clamp(1rem, 3vw, 2.5rem);
-          background: #14181f;
-          border-radius: clamp(20px, 4vw, 40px);
-          border: 1px solid #2a2f38;
-          transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+          grid-template-columns: ${isMobile ? '1fr' : (isTablet ? '200px 1fr' : '240px 1fr')};
+          gap: clamp(1.5rem, 3vw, 2.5rem);
+          padding: clamp(1.5rem, 3vw, 2rem);
+          background: #141a26;
+          border-radius: 32px;
+          border: 1px solid #2a3240;
+          transition: all 0.3s;
           position: relative;
           overflow: hidden;
         }
 
-        .deluxe-card:hover {
-          transform: ${!isMobile ? 'scale(1.02) translateY(-5px)' : 'none'};
-          border-color: #e3b34c;
+        .product-card:hover {
+          transform: ${!isMobile ? 'translateY(-5px)' : 'none'};
+          border-color: #4ECDC4;
+          box-shadow: 0 20px 40px rgba(78, 205, 196, 0.2);
+        }
+
+        .product-card::after {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 50%;
+          height: 100%;
+          background: linear-gradient(90deg, transparent, rgba(78, 205, 196, 0.1), transparent);
+          transition: left 0.5s;
+        }
+
+        .product-card:hover::after {
+          left: 150%;
         }
 
         /* Thumbnail */
-        .deluxe-thumbnail-wrapper {
+        .anime-thumbnail-wrapper {
           position: relative;
-          width: ${isMobile ? '120px' : (isTablet ? '160px' : '100%')};
+          width: ${isMobile ? '160px' : '100%'};
           margin: ${isMobile ? '0 auto' : '0'};
         }
 
-        .thumbnail-gold-border {
-          padding: 6px;
-          background: linear-gradient(145deg, #bf9530, #fcf6ba, #b38728);
-          border-radius: 16px;
+        .thumbnail-glow {
+          padding: 8px;
+          border-radius: 24px;
+          box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
-        .deluxe-thumbnail {
+        .anime-thumbnail {
           width: 100%;
           height: auto;
-          border-radius: 12px;
+          border-radius: 18px;
           display: block;
+          background: #0f1420;
         }
 
-        .gold-badge {
+        .exclusive-badge {
           position: absolute;
           top: -5px;
           right: -5px;
-          background: linear-gradient(145deg, #bf9530, #fcf6ba);
-          color: #0a0c12;
-          padding: 0.25rem 0.75rem;
+          background: linear-gradient(135deg, #FF6B6B, #FFD93D);
+          color: #0a0c15;
+          padding: 0.4rem 1rem;
           border-radius: 40px;
-          font-weight: 700;
-          font-size: 0.7rem;
-          white-space: nowrap;
+          font-weight: 800;
+          font-size: 0.8rem;
+          box-shadow: 0 5px 15px rgba(255, 107, 107, 0.5);
         }
 
-        /* Product Details */
+        /* Product Info */
+        .product-franchise {
+          display: inline-block;
+          padding: 0.3rem 1rem;
+          border-radius: 40px;
+          font-size: 0.8rem;
+          font-weight: 700;
+          margin-bottom: 0.5rem;
+        }
+
         .product-header {
           display: flex;
           flex-direction: ${isMobile ? 'column' : 'row'};
           align-items: ${isMobile ? 'flex-start' : 'center'};
-          gap: ${isMobile ? '0.5rem' : '1.5rem'};
-          margin-bottom: 1rem;
+          gap: 0.5rem 1rem;
+          margin-bottom: 0.5rem;
+          flex-wrap: wrap;
         }
 
         .product-name {
-          font-size: clamp(1.5rem, 5vw, 2.8rem);
-          font-weight: 700;
+          font-size: clamp(1.8rem, 4vw, 2.5rem);
+          font-weight: 800;
           margin: 0;
-          background: linear-gradient(135deg, #ffffff 0%, #e3b34c 100%);
+          background: linear-gradient(135deg, #fff, #b8c7e0);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           background-clip: text;
         }
 
-        .product-category {
-          font-size: clamp(0.7rem, 2vw, 1rem);
-          color: #b8a87c;
-          text-transform: uppercase;
-          letter-spacing: 1px;
-          border: 1px solid rgba(227, 179, 76, 0.3);
-          padding: 0.25rem 1rem;
-          border-radius: 40px;
-          white-space: nowrap;
+        .product-series {
+          font-size: 1rem;
+          color: #8f9fb0;
+          font-style: italic;
         }
 
         .product-description {
-          font-size: clamp(0.9rem, 2.5vw, 1.1rem);
-          color: #b0b7c5;
+          font-size: clamp(0.95rem, 2.2vw, 1.1rem);
+          color: #b8c7e0;
           margin-bottom: 1.5rem;
           line-height: 1.6;
-          font-style: italic;
-          border-left: 2px solid #e3b34c;
-          padding-left: 1rem;
-        }
-
-        /* Specs Grid - Responsive */
-        .specs-grid-luxury {
-          display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(${isMobile ? '140px' : '200px'}, 1fr));
-          gap: 1rem;
-          margin-bottom: 1.5rem;
-          background: rgba(0,0,0,0.3);
-          padding: clamp(0.8rem, 2vw, 1.5rem);
+          padding: 1rem;
+          background: rgba(0,0,0,0.2);
           border-radius: 16px;
+          border-left: 4px solid #4ECDC4;
         }
 
-        .spec-luxury-label {
-          font-size: clamp(0.7rem, 1.8vw, 0.8rem);
-          text-transform: uppercase;
-          color: #8f9bb3;
-          letter-spacing: 0.5px;
-        }
-
-        .spec-luxury-value {
-          font-size: clamp(0.9rem, 2.2vw, 1.1rem);
-          font-weight: 600;
-          color: #e3b34c;
-        }
-
-        /* Finish Tags */
-        .finish-tags {
+        /* Style Tags */
+        .style-tags {
           display: flex;
           flex-wrap: wrap;
           gap: 0.5rem;
           margin-bottom: 1.5rem;
         }
 
-        .finish-tag {
-          background: linear-gradient(145deg, #1e2632, #14181f);
-          border: 1px solid #e3b34c;
-          color: #e3b34c;
-          padding: 0.3rem 0.8rem;
+        .style-tag {
+          background: rgba(78, 205, 196, 0.1);
+          border: 1px solid #4ECDC4;
+          color: #4ECDC4;
+          padding: 0.4rem 1rem;
           border-radius: 40px;
-          font-size: clamp(0.7rem, 2vw, 0.85rem);
-          white-space: nowrap;
+          font-size: 0.85rem;
+          font-weight: 600;
         }
 
-        /* Action Buttons - Stack on mobile */
-        .action-buttons-luxury {
+        /* Specs */
+        .specs-row {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(${isMobile ? '120px' : '150px'}, 1fr));
+          gap: 1rem;
+          margin-bottom: 1.5rem;
+          padding: 1rem;
+          background: #0f1420;
+          border-radius: 16px;
+        }
+
+        .spec-item {
+          display: flex;
+          flex-direction: column;
+        }
+
+        .spec-label {
+          font-size: 0.7rem;
+          color: #6f7f90;
+          text-transform: uppercase;
+        }
+
+        .spec-value {
+          font-size: 1.1rem;
+          font-weight: 700;
+          color: #4ECDC4;
+        }
+
+        /* Actions */
+        .action-buttons {
           display: flex;
           flex-direction: ${isMobile ? 'column' : 'row'};
           gap: 1rem;
-          margin-top: 1rem;
         }
 
-        .btn-primary-luxury,
-        .btn-secondary-luxury {
-          padding: ${isMobile ? '0.8rem 1rem' : '1rem 2rem'};
+        .btn-primary {
+          background: linear-gradient(135deg, #4ECDC4, #6C5CE7);
+          border: none;
+          padding: ${isMobile ? '0.8rem' : '1rem 2rem'};
           border-radius: 50px;
-          font-weight: 600;
-          font-size: clamp(0.8rem, 2.2vw, 1rem);
-          text-align: center;
+          font-weight: 700;
+          font-size: 1rem;
+          color: white;
           cursor: pointer;
           transition: all 0.3s;
           width: ${isMobile ? '100%' : 'auto'};
         }
 
-        .btn-primary-luxury {
-          background: linear-gradient(145deg, #bf9530, #f9e6b3);
-          border: 1px solid #fcf6ba;
-          color: #0a0c12;
+        .btn-primary:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 10px 25px rgba(78, 205, 196, 0.4);
         }
 
-        .btn-secondary-luxury {
+        .btn-secondary {
           background: transparent;
-          border: 1px solid #e3b34c;
-          color: #e3b34c;
+          border: 2px solid #4ECDC4;
+          padding: ${isMobile ? '0.8rem' : '1rem 2rem'};
+          border-radius: 50px;
+          font-weight: 700;
+          font-size: 1rem;
+          color: #4ECDC4;
+          cursor: pointer;
+          transition: all 0.3s;
+          width: ${isMobile ? '100%' : 'auto'};
         }
 
-        /* Tablet and Desktop adjustments */
-        @media (min-width: 1024px) {
-          .deluxe-container {
-            padding: 2rem;
-          }
-        }
-
-        /* Hide desktop elements on mobile */
         @media (max-width: 767px) {
           .mobile-nav {
             display: block;
           }
           
-          .desktop-only {
-            display: none;
+          .franchise-filter {
+            overflow-x: auto;
+            flex-wrap: nowrap;
+            padding: 0.5rem;
+            -webkit-overflow-scrolling: touch;
+          }
+          
+          .filter-btn {
+            white-space: nowrap;
           }
         }
 
-        /* Small phone adjustments */
         @media (max-width: 380px) {
-          .specs-grid-luxury {
+          .specs-row {
             grid-template-columns: 1fr;
           }
           
           .product-name {
-            font-size: 1.3rem;
-          }
-          
-          .finish-tag {
-            font-size: 0.65rem;
+            font-size: 1.5rem;
           }
         }
       `}</style>
@@ -648,94 +846,121 @@ export default function DeluxePrintGallery() {
       {/* Mobile Navigation */}
       <div className="mobile-nav">
         <div className="mobile-nav-header">
-          <span className="mobile-logo">A&R SILKSCREEN</span>
+          <span className="mobile-logo">A&R ANIME COLLECTION</span>
           <button className="mobile-menu-button" onClick={() => setMobileMenuOpen(true)}>
-            ☰
+            ⚡
           </button>
         </div>
       </div>
 
-      <MobileMenu isOpen={mobileMenuOpen} onClose={() => setMobileMenuOpen(false)} />
+      <MobileMenu 
+        isOpen={mobileMenuOpen} 
+        onClose={() => setMobileMenuOpen(false)} 
+        franchise={selectedFranchise}
+      />
 
       {/* Header */}
-      <header className="deluxe-header">
-        <div className="header-gold-accent"></div>
-        <h1>A & R <span>SILKSCREEN</span></h1>
-        <div className="header-subtitle">ATELIER • EST. 2008</div>
-        <div className="header-emblems">
-          <div className="emblem">
-            <span className="emblem-number">✦ 24K ✦</span>
-            <span className="emblem-text">Gold Service</span>
+      <header className="anime-header">
+        <div className="header-accent"></div>
+        <h1>A & R SILKSCREEN</h1>
+        <div className="header-subtitle">
+          <span>⚡ ANIME COLLECTION</span>
+          <span>✨ DISNEY</span>
+          <span>⚡ MARVEL</span>
+        </div>
+        <div className="header-stats">
+          <div className="stat">
+            <span className="stat-number">14+</span>
+            <span className="stat-label">Exclusive Designs</span>
           </div>
-          <div className="emblem">
-            <span className="emblem-number">∞</span>
-            <span className="emblem-text">Unlimited Revisions</span>
+          <div className="stat">
+            <span className="stat-number">8-Color</span>
+            <span className="stat-label">Premium Printing</span>
           </div>
-          <div className="emblem">
-            <span className="emblem-number">8</span>
-            <span className="emblem-text">Master Printers</span>
+          <div className="stat">
+            <span className="stat-number">✨</span>
+            <span className="stat-label">Glow/Foil Options</span>
           </div>
         </div>
       </header>
 
+      {/* Franchise Filter */}
+      <div className="franchise-filter">
+        {franchises.map(f => (
+          <button
+            key={f}
+            className={`filter-btn ${selectedFranchise === f ? 'active' : ''}`}
+            onClick={() => setSelectedFranchise(f)}
+          >
+            {f === 'all' ? '🔥 ALL' : f.toUpperCase()}
+          </button>
+        ))}
+      </div>
+
       {/* Products Grid */}
-      <div className="deluxe-products-grid">
-        {deluxeProducts.map((product) => (
-          <div key={product.id} className="deluxe-card">
-            <DeluxeThumbnail 
-              pathData={product.pathData} 
-              name={product.name}
-              goldLabel={product.goldLabel}
-            />
-            
-            <div className="product-details">
-              <div className="product-header">
-                <h2 className="product-name">{product.name}</h2>
-                <span className="product-category">{product.category.split(' ')[0]}</span>
-              </div>
+      <div className="products-grid">
+        {filteredProducts.map((product) => {
+          const colors = franchiseColors[product.franchise];
+          
+          return (
+            <div key={product.id} className="product-card">
+              <AnimeThumbnail product={product} />
               
-              <p className="product-description">"{product.description}"</p>
-              
-              <div className="specs-grid-luxury">
-                <div className="spec-luxury">
-                  <span className="spec-luxury-label">Colors</span>
-                  <span className="spec-luxury-value">{product.colors}</span>
+              <div className="product-info">
+                <div 
+                  className="product-franchise"
+                  style={{ 
+                    background: `linear-gradient(135deg, ${colors.primary}, ${colors.secondary})`,
+                    color: '#0a0c15'
+                  }}
+                >
+                  {product.franchise} • {product.character}
                 </div>
-                <div className="spec-luxury">
-                  <span className="spec-luxury-label">Min Order</span>
-                  <span className="spec-luxury-value">{product.minOrder}</span>
+                
+                <div className="product-header">
+                  <h2 className="product-name">{product.name}</h2>
+                  <span className="product-series">{product.series}</span>
                 </div>
-                <div className="spec-luxury">
-                  <span className="spec-luxury-label">Price</span>
-                  <span className="spec-luxury-value">{product.price}</span>
+                
+                <p className="product-description">{product.description}</p>
+                
+                <div className="style-tags">
+                  {product.style.slice(0, isMobile ? 2 : 3).map((style, idx) => (
+                    <span key={idx} className="style-tag">{style}</span>
+                  ))}
+                  {isMobile && product.style.length > 2 && (
+                    <span className="style-tag">+{product.style.length - 2}</span>
+                  )}
                 </div>
-                <div className="spec-luxury">
-                  <span className="spec-luxury-label">Turnaround</span>
-                  <span className="spec-luxury-value">{product.turnaround.split('•')[0]}</span>
+                
+                <div className="specs-row">
+                  <div className="spec-item">
+                    <span className="spec-label">Technique</span>
+                    <span className="spec-value">{product.technique.split(' ')[0]}</span>
+                  </div>
+                  <div className="spec-item">
+                    <span className="spec-label">Colors</span>
+                    <span className="spec-value">{product.colors}-Color</span>
+                  </div>
+                  <div className="spec-item">
+                    <span className="spec-label">Edition</span>
+                    <span className="spec-value">{product.limited ? 'Limited' : 'Standard'}</span>
+                  </div>
                 </div>
-              </div>
-              
-              <div className="finish-tags">
-                {product.finish.slice(0, isMobile ? 2 : 4).map((f, idx) => (
-                  <span key={idx} className="finish-tag">✦ {f} ✦</span>
-                ))}
-                {isMobile && product.finish.length > 2 && (
-                  <span className="finish-tag">+{product.finish.length - 2}</span>
-                )}
-              </div>
-              
-              <div className="action-buttons-luxury">
-                <button className="btn-primary-luxury">
-                  {isMobile ? 'Consult' : 'Request Consultation'}
-                </button>
-                <button className="btn-secondary-luxury">
-                  {isMobile ? 'View' : 'View Lookbook'}
-                </button>
+                
+                <div className="action-buttons">
+                  <button className="btn-primary">
+                    {isMobile ? 'Print This' : 'Print This Design'}
+                  </button>
+                  <button className="btn-secondary">
+                    {isMobile ? 'Customize' : 'Customize Character'}
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );
-}
+      }
