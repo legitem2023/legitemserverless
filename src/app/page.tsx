@@ -760,7 +760,14 @@ export default function DeluxeAnimeGallery() {
         .animate-slideIn {
           animation: slideIn 0.3s ease-out;
         }
-      `}</style>
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+`}</style>
     </div>
   );
     }
