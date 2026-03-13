@@ -369,7 +369,7 @@ export default function DeluxeAnimeGallery() {
       </div>
 
       {/* Mobile Navigation */}
-      <div className="md:hidden sticky top-0 z-40 bg-[#0a0c12]/95 backdrop-blur-sm p-4 border-b border-[#e3b34c]/30">
+      <div className="sticky top-0 z-40 bg-[#0a0c12]/95 backdrop-blur-sm p-4 border-b border-[#e3b34c]/30">
         <div className="flex justify-between items-center">
           <span className="text-xl font-bold bg-gradient-to-r from-white via-[#f9e6b3] to-[#e3b34c] bg-clip-text text-transparent">
             A&R SILKSCREEN
@@ -385,37 +385,15 @@ export default function DeluxeAnimeGallery() {
 
       <MobileMenu isOpen={mobileMenuOpen} onClose={() => setMobileMenuOpen(false)} />
 
-      {/* Header - Exactly the same design */}
-      <header className="relative bg-gradient-to-br from-[#0c1119] to-[#1a1f2b] p-6 md:p-16 rounded-3xl md:rounded-[40px] mb-8 md:mb-16 overflow-hidden border border-[#e3b34c]/30 shadow-2xl">
-        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[#e3b34c] to-transparent"></div>
-        
-        {/* Animated shine effect - Optimized */}
-        <div className="absolute inset-0 opacity-5">
-          <div className="absolute inset-0 bg-[repeating-linear-gradient(45deg,transparent,transparent_20px,rgba(227,179,76,0.1)_20px,rgba(227,179,76,0.1)_40px)] animate-[shine_30s_linear_infinite]"></div>
-        </div>
-        
-        <h1 className="text-4xl md:text-7xl font-bold mb-2 bg-gradient-to-r from-white via-[#f9e6b3] to-[#e3b34c] bg-clip-text text-transparent">
+      {/* Header - Mobile style only (same for all devices) */}
+      <div className="py-6 mb-6">
+        <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-white via-[#f9e6b3] to-[#e3b34c] bg-clip-text text-transparent">
           A & R SILKSCREEN
         </h1>
-        <div className="text-[#b8a87c] tracking-widest text-sm md:text-xl uppercase mb-6">
+        <div className="text-[#b8a87c] tracking-widest text-sm uppercase mt-1">
           ATELIER • EST. 2008
         </div>
-        
-        <div className="flex flex-wrap gap-6 md:gap-12">
-          <div className="pr-6 md:pr-12 border-r border-[#e3b34c]/30">
-            <div className="text-2xl md:text-4xl font-bold text-white">✦ 24K ✦</div>
-            <div className="text-[#b8a87c] text-xs md:text-sm uppercase tracking-wider">Gold Service</div>
-          </div>
-          <div className="pr-6 md:pr-12 border-r border-[#e3b34c]/30">
-            <div className="text-2xl md:text-4xl font-bold text-white">∞</div>
-            <div className="text-[#b8a87c] text-xs md:text-sm uppercase tracking-wider">Unlimited Revisions</div>
-          </div>
-          <div>
-            <div className="text-2xl md:text-4xl font-bold text-white">8</div>
-            <div className="text-[#b8a87c] text-xs md:text-sm uppercase tracking-wider">Master Printers</div>
-          </div>
-        </div>
-      </header>
+      </div>
 
       {/* Products Grid */}
       <div className="flex flex-col gap-4 md:gap-8">
@@ -509,11 +487,6 @@ export default function DeluxeAnimeGallery() {
         
         .animate-slideIn {
           animation: slideIn 0.3s ease-out;
-        }
-        
-        @keyframes shine {
-          0% { transform: rotate(0deg); }
-          100% { transform: rotate(360deg); }
         }
       `}</style>
     </div>
