@@ -66,114 +66,118 @@ export default function ClothViewer({ modelPath = '/white_t-shirt_with_print.glb
 
     // Load and setup the shirt
     const loader = new GLTFLoader();
-    let shirtMesh: THREE.Mesh | null = null;
+    let allMeshes: THREE.Mesh[] = [];
     let simulator: any = null;
 
-    // Advanced cloth simulator using Position-Based Dynamics
-    class PBDClothSimulator {
-      mesh: THREE.Mesh;
-      originalPositions: Float32Array;
-      particles: { 
+    // Unified cloth simulator for all parts
+    class UnifiedClothSimulator {
+      meshes: THREE.Mesh[];
+      allParticles: { 
         current: THREE.Vector3; 
         previous: THREE.Vector3;
         pinned: boolean;
-        mass: number;
+        originalPos: THREE.Vector3;
+        meshIndex: number;
+        vertexIndex: number;
       }[] = [];
       constraints: { a: number; b: number; restLength: number; stiffness: number }[] = [];
       tempVec = new THREE.Vector3();
       
-      // Physics parameters - tuned for t-shirt fabric
-      gravity = -3.5;
-      damping = 0.99;
-      windStrength = 0.4;
-      windFrequency = 0.5;
+      // Physics parameters
+      gravity = -3.0;
+      damping = 0.98;
+      windStrength = 0.3;
+      windFrequency = 0.8;
       time = 0;
 
-      constructor(mesh: THREE.Mesh) {
-        this.mesh = mesh;
+      constructor(meshes: THREE.Mesh[]) {
+        this.meshes = meshes;
         
-        // Clone the geometry to work with
-        const geometry = mesh.geometry.clone();
-        mesh.geometry = geometry;
+        // First, collect all vertices from all meshes
+        let globalVertexIndex = 0;
         
-        // Store original positions as reference
-        const positionAttr = geometry.attributes.position;
-        this.originalPositions = new Float32Array(positionAttr.array);
+        meshes.forEach((mesh, meshIndex) => {
+          // Clone geometry for each mesh
+          const geom = mesh.geometry.clone();
+          mesh.geometry = geom;
+          
+          const positions = geom.attributes.position.array;
+          const count = positions.length / 3;
+          
+          for (let i = 0; i < count; i++) {
+            const x = positions[i*3];
+            const y = positions[i*3+1];
+            const z = positions[i*3+2];
+            
+            // Transform to world position (considering mesh transform)
+            const worldPos = new THREE.Vector3(x, y, z).applyMatrix4(mesh.matrixWorld);
+            
+            this.allParticles.push({
+              current: worldPos.clone(),
+              previous: worldPos.clone(),
+              originalPos: worldPos.clone(),
+              pinned: false,
+              meshIndex,
+              vertexIndex: i
+            });
+            
+            globalVertexIndex++;
+          }
+        });
         
-        this.initParticles();
-        this.initConstraints();
+        console.log(`Total particles: ${this.allParticles.length}`);
+        
+        // Now create constraints between nearby vertices (including across meshes)
+        this.createAllConstraints();
         this.pinShouldersAndCollar();
       }
 
-      initParticles() {
-        const positions = this.mesh.geometry.attributes.position.array;
-        const count = positions.length / 3;
+      createAllConstraints() {
+        // Find vertices that are close to each other (including between different meshes)
+        // This connects front, back, and shoulders
+        const threshold = 0.15; // Distance threshold for connecting vertices
         
-        for (let i = 0; i < count; i++) {
-          const x = positions[i*3];
-          const y = positions[i*3+1];
-          const z = positions[i*3+2];
+        for (let i = 0; i < this.allParticles.length; i++) {
+          const p1 = this.allParticles[i];
           
-          this.particles.push({
-            current: new THREE.Vector3(x, y, z),
-            previous: new THREE.Vector3(x, y, z),
-            pinned: false,
-            mass: 1.0
-          });
+          // Only check against vertices after i to avoid duplicates
+          for (let j = i + 1; j < this.allParticles.length; j++) {
+            const p2 = this.allParticles[j];
+            
+            // Calculate distance
+            const dist = p1.current.distanceTo(p2.current);
+            
+            // If vertices are close enough, create a constraint
+            if (dist < threshold) {
+              // Different stiffness based on whether it's within same mesh or across meshes
+              const stiffness = (p1.meshIndex === p2.meshIndex) ? 0.9 : 0.7;
+              
+              this.constraints.push({
+                a: i,
+                b: j,
+                restLength: dist,
+                stiffness
+              });
+            }
+          }
         }
-      }
-
-      initConstraints() {
-        const indices = this.mesh.geometry.index?.array;
-        if (!indices) return;
-
-        const edgeSet = new Set<string>();
         
-        // Create structural constraints (edges of triangles)
-        for (let i = 0; i < indices.length; i += 3) {
-          const a = indices[i];
-          const b = indices[i+1];
-          const c = indices[i+2];
-          
-          this.addConstraint(a, b, edgeSet, 0.9); // High stiffness for structure
-          this.addConstraint(b, c, edgeSet, 0.9);
-          this.addConstraint(c, a, edgeSet, 0.9);
-        }
-
-        // Add some bending constraints (skip every other vertex for performance)
-        console.log(`Created ${this.constraints.length} constraints`);
-      }
-
-      addConstraint(i1: number, i2: number, edgeSet: Set<string>, stiffness: number) {
-        const key = i1 < i2 ? `${i1}-${i2}` : `${i2}-${i1}`;
-        if (!edgeSet.has(key)) {
-          edgeSet.add(key);
-          const p1 = this.particles[i1].current;
-          const p2 = this.particles[i2].current;
-          const restLength = p1.distanceTo(p2);
-          this.constraints.push({
-            a: i1,
-            b: i2,
-            restLength,
-            stiffness
-          });
-        }
+        console.log(`Created ${this.constraints.length} constraints connecting all parts`);
       }
 
       pinShouldersAndCollar() {
-        // Find top region vertices (shoulders and collar)
-        // Get bounding box
-        let minY = Infinity, maxY = -Infinity;
-        for (let p of this.particles) {
-          if (p.current.y < minY) minY = p.current.y;
+        // Find the highest points (shoulders)
+        let maxY = -Infinity;
+        for (let p of this.allParticles) {
           if (p.current.y > maxY) maxY = p.current.y;
         }
         
-        const shoulderThreshold = maxY - 0.15; // Top 15% is shoulders
+        const shoulderThreshold = maxY - 0.2;
         
-        // Also find center top for collar
-        let centerX = 0, count = 0;
-        for (let p of this.particles) {
+        // Also find center X to identify collar area
+        let centerX = 0;
+        let count = 0;
+        for (let p of this.allParticles) {
           if (p.current.y > shoulderThreshold) {
             centerX += p.current.x;
             count++;
@@ -181,69 +185,71 @@ export default function ClothViewer({ modelPath = '/white_t-shirt_with_print.glb
         }
         centerX /= count;
         
-        // Pin vertices in shoulder region
-        for (let i = 0; i < this.particles.length; i++) {
-          const p = this.particles[i];
+        // Pin shoulder vertices
+        for (let i = 0; i < this.allParticles.length; i++) {
+          const p = this.allParticles[i];
+          
+          // Pin if in top region (shoulders and collar)
           if (p.current.y > shoulderThreshold) {
-            // Shoulder area - partially pinned
             p.pinned = true;
-            p.mass = 1000; // Very heavy
             
-            // Store original position for these pinned vertices
-            this.originalPositions[i*3] = p.current.x;
-            this.originalPositions[i*3+1] = p.current.y;
-            this.originalPositions[i*3+2] = p.current.z;
+            // Update the actual mesh vertex to maintain position
+            const mesh = this.meshes[p.meshIndex];
+            const positions = mesh.geometry.attributes.position.array;
+            const localPos = p.originalPos.clone();
+            
+            // Transform back to local space
+            const worldToLocal = new THREE.Matrix4().copy(mesh.matrixWorld).invert();
+            localPos.applyMatrix4(worldToLocal);
+            
+            positions[p.vertexIndex * 3] = localPos.x;
+            positions[p.vertexIndex * 3 + 1] = localPos.y;
+            positions[p.vertexIndex * 3 + 2] = localPos.z;
           }
         }
         
-        console.log(`Pinned ${this.particles.filter(p => p.pinned).length} vertices at shoulders`);
+        console.log(`Pinned ${this.allParticles.filter(p => p.pinned).length} vertices at shoulders`);
       }
 
       simulate(deltaTime: number) {
         this.time += deltaTime;
-        deltaTime = Math.min(deltaTime, 0.03); // Cap for stability
+        deltaTime = Math.min(deltaTime, 0.03);
         
-        // Verlet integration with forces
-        for (let i = 0; i < this.particles.length; i++) {
-          const p = this.particles[i];
-          if (p.pinned) {
-            // Keep pinned vertices at original positions
-            p.current.set(
-              this.originalPositions[i*3],
-              this.originalPositions[i*3+1],
-              this.originalPositions[i*3+2]
-            );
-            p.previous.copy(p.current);
-            continue;
-          }
+        // Verlet integration
+        for (let i = 0; i < this.allParticles.length; i++) {
+          const p = this.allParticles[i];
+          if (p.pinned) continue;
           
           // Calculate velocity
           const velocity = new THREE.Vector3().copy(p.current).sub(p.previous);
           
-          // Save current position as previous
+          // Save current as previous
           p.previous.copy(p.current);
           
           // Apply gravity
-          p.current.y += this.gravity * deltaTime * deltaTime * 5;
+          p.current.y += this.gravity * deltaTime * deltaTime * 4;
           
-          // Apply dynamic wind
-          const windX = Math.sin(this.time * this.windFrequency) * this.windStrength * deltaTime * 2;
-          const windZ = Math.cos(this.time * this.windFrequency * 0.7) * this.windStrength * deltaTime * 2;
+          // Apply dynamic wind (varies with height)
+          const windFactor = 1 - (p.current.y / 3); // More wind at bottom
+          const windX = Math.sin(this.time * this.windFrequency + p.current.z) * this.windStrength * deltaTime * 3 * windFactor;
+          const windZ = Math.cos(this.time * this.windFrequency * 0.5 + p.current.x) * this.windStrength * deltaTime * 3 * windFactor;
+          
           p.current.x += windX;
           p.current.z += windZ;
           
-          // Add some damping
+          // Apply damping
           p.current.x += velocity.x * (this.damping - 1);
           p.current.z += velocity.z * (this.damping - 1);
+          p.current.y += velocity.y * (this.damping - 1) * 0.5;
         }
 
         // Solve constraints multiple times
-        const iterations = 8; // More iterations for better stability
+        const iterations = 10;
         
         for (let iter = 0; iter < iterations; iter++) {
           for (let c of this.constraints) {
-            const p1 = this.particles[c.a];
-            const p2 = this.particles[c.b];
+            const p1 = this.allParticles[c.a];
+            const p2 = this.allParticles[c.b];
             
             if (p1.pinned && p2.pinned) continue;
             
@@ -255,43 +261,57 @@ export default function ClothViewer({ modelPath = '/white_t-shirt_with_print.glb
             delta.multiplyScalar(correction);
             
             if (!p1.pinned && !p2.pinned) {
-              // Both move
               p1.current.sub(delta);
               p2.current.add(delta);
             } else if (!p1.pinned) {
-              // Only p1 moves
               p1.current.sub(delta.multiplyScalar(2));
             } else if (!p2.pinned) {
-              // Only p2 moves
               p2.current.add(delta.multiplyScalar(2));
             }
           }
         }
 
-        // Update mesh geometry
-        const positions = this.mesh.geometry.attributes.position.array;
-        for (let i = 0; i < this.particles.length; i++) {
-          positions[i*3] = this.particles[i].current.x;
-          positions[i*3+1] = this.particles[i].current.y;
-          positions[i*3+2] = this.particles[i].current.z;
+        // Update all meshes with new vertex positions
+        for (let mesh of this.meshes) {
+          const positions = mesh.geometry.attributes.position.array;
+          // Reset positions to zero before applying updates
+          for (let i = 0; i < positions.length; i++) {
+            positions[i] = 0;
+          }
         }
         
-        this.mesh.geometry.attributes.position.needsUpdate = true;
-        this.mesh.geometry.computeVertexNormals();
+        // Apply updated positions to each mesh
+        for (let p of this.allParticles) {
+          const mesh = this.meshes[p.meshIndex];
+          const positions = mesh.geometry.attributes.position.array;
+          
+          // Transform world position back to local space
+          const localPos = p.current.clone();
+          const worldToLocal = new THREE.Matrix4().copy(mesh.matrixWorld).invert();
+          localPos.applyMatrix4(worldToLocal);
+          
+          positions[p.vertexIndex * 3] = localPos.x;
+          positions[p.vertexIndex * 3 + 1] = localPos.y;
+          positions[p.vertexIndex * 3 + 2] = localPos.z;
+        }
+        
+        // Update all meshes
+        for (let mesh of this.meshes) {
+          mesh.geometry.attributes.position.needsUpdate = true;
+          mesh.geometry.computeVertexNormals();
+        }
       }
     }
 
     loader.load(
       modelPath,
       (gltf) => {
-        setDebug('Processing shirt for cloth simulation...');
+        setDebug('Processing all shirt parts...');
         
-        // Find the shirt mesh
+        // Collect ALL meshes
         gltf.scene.traverse((child) => {
-          if (child instanceof THREE.Mesh && !shirtMesh) {
-            shirtMesh = child;
-            
-            // Enhance material for better cloth appearance
+          if (child instanceof THREE.Mesh) {
+            // Enhance material
             if (Array.isArray(child.material)) {
               child.material.forEach(mat => {
                 mat.roughness = 0.7;
@@ -302,41 +322,37 @@ export default function ClothViewer({ modelPath = '/white_t-shirt_with_print.glb
               child.material.metalness = 0.1;
             }
             
-            // Center and scale the shirt appropriately
-            const box = new THREE.Box3().setFromObject(child);
-            const size = box.getSize(new THREE.Vector3());
-            const center = box.getCenter(new THREE.Vector3());
-            
-            // Scale to reasonable size
-            const scale = 1.5 / size.y;
-            child.scale.set(scale, scale, scale);
-            
-            // Position it
-            child.position.set(0, 1.2, 0);
-            
-            // Setup shadows
             child.castShadow = true;
             child.receiveShadow = true;
             
-            // Clone geometry for simulation
-            const geom = child.geometry.clone();
-            child.geometry = geom;
-            
-            // Center the geometry locally
-            geom.center();
-            
-            // Initialize simulator
-            simulator = new PBDClothSimulator(child);
-            
-            scene.add(gltf.scene);
-            setLoading(false);
-            setDebug('Cloth simulation running on shirt');
+            allMeshes.push(child);
           }
         });
 
-        if (!shirtMesh) {
-          setError('No mesh found in model');
+        if (allMeshes.length === 0) {
+          setError('No meshes found in model');
+          return;
         }
+
+        // Scale and position the entire group
+        const box = new THREE.Box3().setFromObject(gltf.scene);
+        const size = box.getSize(new THREE.Vector3());
+        const center = box.getCenter(new THREE.Vector3());
+        
+        // Scale to reasonable size
+        const scale = 1.5 / size.y;
+        gltf.scene.scale.set(scale, scale, scale);
+        
+        // Center the whole group
+        gltf.scene.position.set(-center.x * scale, 1.2 - center.y * scale, -center.z * scale);
+        
+        scene.add(gltf.scene);
+        
+        // Initialize unified simulator with ALL meshes
+        simulator = new UnifiedClothSimulator(allMeshes);
+        
+        setLoading(false);
+        setDebug(`Cloth simulation active on ${allMeshes.length} connected parts`);
       },
       (progress) => {
         if (progress.total) {
@@ -413,4 +429,4 @@ export default function ClothViewer({ modelPath = '/white_t-shirt_with_print.glb
       )}
     </div>
   );
-                                      }
+      }
