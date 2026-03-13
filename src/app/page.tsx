@@ -650,16 +650,6 @@ export default function DeluxeAnimeGallery() {
 
       <MobileMenu isOpen={mobileMenuOpen} onClose={() => setMobileMenuOpen(false)} />
 
-      {/* Header - Mobile style only */}
-      <div className="py-6 mb-6">
-        <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-white via-[#f9e6b3] to-[#e3b34c] bg-clip-text text-transparent">
-          A & R SILKSCREEN
-        </h1>
-        <div className="text-[#b8a87c] tracking-widest text-sm uppercase mt-1">
-          ATELIER • EST. 2008
-        </div>
-      </div>
-
       {/* Category Filter */}
       <div className="flex flex-wrap gap-2 mb-6 p-2">
         {categories.map((cat) => (
