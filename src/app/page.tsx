@@ -1,5 +1,5 @@
 // app/components/DeluxeAnimeGallery.tsx
-'use client'
+"use client"
 import React, { useEffect, useState } from 'react';
 
 interface DeluxeProduct {
@@ -22,260 +22,283 @@ interface DeluxeProduct {
 }
 
 const deluxeProducts: DeluxeProduct[] = [
-  // ANIME COLLECTION
+  // PROGRAMMING LANGUAGES COLLECTION
   {
     id: 1,
-    name: "Naruto Uzumaki",
-    category: "Anime Collection",
-    description: "Rasengan energy effect with Nine-Tails chakra mode - metallic gold and orange gradient",
-    technique: "8-Color Simulated with Metallic Inks",
-    colors: 8,
+    name: "Python",
+    category: "Programming Languages",
+    description: "Python logo with snake design - blue and yellow gradient with code snippets background",
+    technique: "6-Color Simulated with Metallic",
+    colors: 6,
     area: "Full Front (14\" x 18\")",
     turnaround: "5-7 business days",
     minOrder: 12,
-    price: "$32.50 - $55.00",
-    artwork: "Vector art • PMS matched",
-    fabrics: ["Premium Cotton", "Tri-blend", "Athletic"],
-    finish: ["Metallic", "Glow-in-Dark", "Soft-hand"],
+    price: "$28.50 - $45.00",
+    artwork: "Vector • Python syntax pattern",
+    fabrics: ["Premium Cotton", "Tri-blend", "Tech Wear"],
+    finish: ["Metallic", "Glow-in-Dark", "Code Pattern"],
     limited: true,
     goldLabel: true,
-    pathData: "M50 12L20 28v36l30 24 30-24V28L50 12z M35 45L45 35L55 45L50 60L35 45Z"
+    pathData: "M30 20L70 20L85 40L70 60L30 60L15 40L30 20Z M40 35L60 35L55 50L45 50L40 35Z"
   },
   {
     id: 2,
-    name: "Goku Ultra Instinct",
-    category: "Anime Collection",
-    description: "Silver hair with aura effect - prismatic silver and blue metallic tones",
-    technique: "9-Color Process with Prismatic Foil",
-    colors: 9,
-    area: "Full Front + Back",
-    turnaround: "7-9 business days",
-    minOrder: 6,
-    price: "$45.00 - $75.00",
-    artwork: "High-res • Color separations",
-    fabrics: ["Heavy Cotton", "French Terry", "Blend"],
-    finish: ["Foil", "Holographic", "Puff"],
-    limited: true,
-    goldLabel: true,
-    pathData: "M30 20L70 20L80 40L50 80L20 40L30 20Z M45 35L55 35L50 50L45 35Z"
+    name: "JavaScript",
+    category: "Programming Languages",
+    description: "JavaScript logo with yellow background and curly braces pattern - ES6+ edition",
+    technique: "5-Color with Glitter Yellow",
+    colors: 5,
+    area: "Full Front",
+    turnaround: "4-6 business days",
+    minOrder: 18,
+    price: "$26.00 - $42.00",
+    artwork: "Vector • JSX elements",
+    fabrics: ["Cotton", "Streetwear", "Developer Fit"],
+    finish: ["Glitter", "Metallic", "Code Pattern"],
+    limited: false,
+    pathData: "M35 25L65 25L80 45L65 65L35 65L20 45L35 25Z M42 40L58 40L50 55L42 40Z"
   },
   {
     id: 3,
-    name: "Pikachu Thunder",
-    category: "Pokémon Series",
-    description: "Thunderbolt attack with sparkle effects - electric yellow with glitter base",
-    technique: "5-Color Spot with Glitter Base",
-    colors: 5,
-    area: "Front Center (12\" x 14\")",
-    turnaround: "4-6 business days",
-    minOrder: 24,
-    price: "$24.00 - $38.00",
-    artwork: "Vector • Bold lines",
-    fabrics: ["Cotton", "Baby Rib", "Youth"],
-    finish: ["Glitter", "Puff", "Yellow Glow"],
-    limited: false,
-    pathData: "M40 30L60 30L70 50L50 75L30 50L40 30Z M45 45L55 45L50 60L45 45Z"
+    name: "React",
+    category: "Frameworks",
+    description: "React logo with atomic design - blue gradient with component pattern background",
+    technique: "7-Color with Holographic",
+    colors: 7,
+    area: "Full Front + Sleeves",
+    turnaround: "6-8 business days",
+    minOrder: 10,
+    price: "$32.00 - $52.00",
+    artwork: "Vector • Component hierarchy",
+    fabrics: ["Premium Cotton", "Tech Fabric"],
+    finish: ["Holographic", "Glow", "Geometric"],
+    limited: true,
+    goldLabel: true,
+    pathData: "M25 20L75 20L90 45L75 70L25 70L10 45L25 20Z M30 35L45 45L30 55L40 45L30 35Z M70 35L55 45L70 55L60 45L70 35Z M50 45L45 50L50 55L55 50L50 45Z"
   },
   {
     id: 4,
-    name: "Levi Ackerman",
-    category: "Attack on Titan",
-    description: "Survey Corps emblem with gear effects - dark tones with silver highlights",
-    technique: "4-Color High-Density Discharge",
-    colors: 4,
-    area: "Full Back (15\" x 20\")",
-    turnaround: "6-8 business days",
-    minOrder: 12,
-    price: "$38.00 - $58.00",
-    artwork: "Vector • High contrast",
-    fabrics: ["Heavy Cotton", "Dark Garments"],
-    finish: ["Distressed", "Metallic", "Discharge"],
-    limited: true,
-    goldLabel: true,
-    pathData: "M25 30L75 30L85 50L50 85L15 50L25 30Z M40 45L60 45L50 70L40 45Z"
-  },
-
-  // DISNEY COLLECTION
-  {
-    id: 5,
-    name: "Mickey Mouse",
-    category: "Disney Classics",
-    description: "Vintage Mickey with sorcerer hat - nostalgic sepia with gold foil details",
-    technique: "Vintage Discharge + Gold Foil",
-    colors: 4,
-    area: "Front (12\" x 14\")",
-    turnaround: "5-7 business days",
-    minOrder: 24,
-    price: "$28.00 - $42.00",
-    artwork: "Vector • Vintage style",
-    fabrics: ["Soft Cotton", "Heritage Blend"],
-    finish: ["Foil", "Sepia", "Vintage"],
-    limited: false,
-    pathData: "M35 25L65 25L80 45L50 80L20 45L35 25Z M40 40L60 40L50 60L40 40Z"
-  },
-  {
-    id: 6,
-    name: "Elsa",
-    category: "Frozen Collection",
-    description: "Ice palace background with snowflake details - crystal blue with glitter",
-    technique: "6-Color with Glitter Overlay",
-    colors: 6,
-    area: "Full Front",
-    turnaround: "5-7 business days",
-    minOrder: 18,
-    price: "$34.00 - $52.00",
-    artwork: "Gradient • Snowflake details",
-    fabrics: ["Premium Cotton", "Girls Fit"],
-    finish: ["Glitter", "Holographic", "Ice Effect"],
-    limited: true,
-    goldLabel: true,
-    pathData: "M30 25L70 25L85 45L50 85L15 45L30 25Z M35 40L65 40L50 70L35 40Z"
-  },
-  {
-    id: 7,
-    name: "Stitch",
-    category: "Lilo & Stitch",
-    description: "Experiment 626 with Elvis pose - electric blue with glow accents",
-    technique: "5-Color with Glow-in-Dark",
-    colors: 5,
-    area: "Front Center",
-    turnaround: "4-6 business days",
-    minOrder: 24,
-    price: "$26.00 - $40.00",
-    artwork: "Vector • Cartoon style",
-    fabrics: ["Cotton", "Youth", "Toddler"],
-    finish: ["Glow-in-Dark", "Pop Art", "Soft-hand"],
-    limited: false,
-    pathData: "M40 30L60 30L75 50L50 75L25 50L40 30Z M42 45L58 45L50 60L42 45Z"
-  },
-  {
-    id: 8,
-    name: "Nightmare Before Christmas",
-    category: "Tim Burton Collection",
-    description: "Jack Skellington with Zero - gothic patterns with glow effects",
-    technique: "7-Color with Glow + Metallic",
-    colors: 7,
-    area: "Full Front + Sleeve",
-    turnaround: "6-8 business days",
-    minOrder: 12,
-    price: "$42.00 - $65.00",
-    artwork: "Vector • Gothic style",
-    fabrics: ["Heavy Cotton", "Dark Garments"],
-    finish: ["Glow", "Metallic", "Striped"],
-    limited: true,
-    goldLabel: true,
-    pathData: "M20 25L80 25L90 50L50 90L10 50L20 25Z M35 40L65 40L50 75L35 40Z"
-  },
-
-  // MARVEL COLLECTION
-  {
-    id: 9,
-    name: "Iron Man",
-    category: "Marvel Avengers",
-    description: "Arc reactor with suit details - metallic red and gold foil",
-    technique: "5-Color Metallic Foil",
+    name: "Java",
+    category: "Programming Languages",
+    description: "Java logo with coffee cup - classic blue and red with enterprise patterns",
+    technique: "5-Color High-Density",
     colors: 5,
     area: "Full Chest",
     turnaround: "5-7 business days",
+    minOrder: 15,
+    price: "$29.00 - $48.00",
+    artwork: "Vector • Enterprise style",
+    fabrics: ["Heavy Cotton", "Business Casual"],
+    finish: ["Metallic", "Texture", "Classic"],
+    limited: true,
+    pathData: "M28 22L72 22L88 45L72 68L28 68L12 45L28 22Z M38 35L45 45L38 55L48 45L38 35Z M62 35L55 45L62 55L52 45L62 35Z"
+  },
+  {
+    id: 5,
+    name: "C++",
+    category: "Programming Languages",
+    description: "C++ logo with system architecture - performance edition with gear patterns",
+    technique: "4-Color Metallic + Puff",
+    colors: 4,
+    area: "Full Back",
+    turnaround: "6-8 business days",
     minOrder: 12,
-    price: "$38.00 - $58.00",
-    artwork: "Vector • Tech lines",
-    fabrics: ["Premium Cotton", "Performance"],
-    finish: ["Metallic", "Foil", "Armor effect"],
+    price: "$31.00 - $50.00",
+    artwork: "Vector • System level",
+    fabrics: ["Heavy Cotton", "Durable Blend"],
+    finish: ["Puff", "Metallic", "Textured"],
+    limited: false,
+    pathData: "M26 24L74 24L89 45L74 66L26 66L11 45L26 24Z M36 38L50 45L36 52L44 45L36 38Z M64 38L50 45L64 52L56 45L64 38Z"
+  },
+  {
+    id: 6,
+    name: "TypeScript",
+    category: "Programming Languages",
+    description: "TypeScript logo with blue gradient - typed superset with interface patterns",
+    technique: "6-Color with Blue Foil",
+    colors: 6,
+    area: "Full Front",
+    turnaround: "5-7 business days",
+    minOrder: 14,
+    price: "$27.00 - $44.00",
+    artwork: "Vector • Type definitions",
+    fabrics: ["Premium Cotton", "Developer Edition"],
+    finish: ["Foil", "Glow", "Modern"],
     limited: true,
     goldLabel: true,
-    pathData: "M25 20L75 20L90 45L50 90L10 45L25 20Z M35 35L65 35L50 70L35 35Z"
+    pathData: "M30 23L70 23L86 45L70 67L30 67L14 45L30 23Z M40 36L60 36L55 54L45 54L40 36Z"
+  },
+  {
+    id: 7,
+    name: "HTML5",
+    category: "Web Technologies",
+    description: "HTML5 shield logo with orange gradient - semantic web with document structure",
+    technique: "4-Color with Orange Glitter",
+    colors: 4,
+    area: "Front Center",
+    turnaround: "4-6 business days",
+    minOrder: 20,
+    price: "$22.00 - $35.00",
+    artwork: "Vector • Tags and elements",
+    fabrics: ["Cotton", "Casual"],
+    finish: ["Glitter", "Bold", "Web Style"],
+    limited: false,
+    pathData: "M32 25L68 25L82 45L68 65L32 65L18 45L32 25Z M42 38L58 38L50 55L42 38Z"
+  },
+  {
+    id: 8,
+    name: "CSS3",
+    category: "Web Technologies",
+    description: "CSS3 shield with blue gradient - styling with flexbox and grid patterns",
+    technique: "4-Color with Blue Metallic",
+    colors: 4,
+    area: "Front Center",
+    turnaround: "4-6 business days",
+    minOrder: 20,
+    price: "$22.00 - $35.00",
+    artwork: "Vector • Style rules",
+    fabrics: ["Cotton", "Casual"],
+    finish: ["Metallic", "Geometric", "Modern"],
+    limited: false,
+    pathData: "M33 26L67 26L81 45L67 64L33 64L19 45L33 26Z M43 39L57 39L50 54L43 39Z"
+  },
+  {
+    id: 9,
+    name: "Node.js",
+    category: "Backend",
+    description: "Node.js logo with green gradient - event-driven architecture with async patterns",
+    technique: "5-Color with Green Foil",
+    colors: 5,
+    area: "Full Front",
+    turnaround: "5-7 business days",
+    minOrder: 12,
+    price: "$29.00 - $46.00",
+    artwork: "Vector • NPM packages",
+    fabrics: ["Premium Cotton", "Developer"],
+    finish: ["Foil", "Glow", "Server Style"],
+    limited: true,
+    pathData: "M29 24L71 24L87 45L71 66L29 66L13 45L29 24Z M39 37L61 37L50 58L39 37Z"
   },
   {
     id: 10,
-    name: "Spider-Man",
-    category: "Spider-Verse",
-    description: "Miles Morales graffiti style - urban art with spray paint effect",
-    technique: "7-Color with Halftones",
-    colors: 7,
-    area: "Full Front",
+    name: "SQL",
+    category: "Databases",
+    description: "SQL database logo with silver gradient - queries and table structures",
+    technique: "4-Color Metallic Silver",
+    colors: 4,
+    area: "Full Chest",
     turnaround: "5-7 business days",
-    minOrder: 18,
-    price: "$32.00 - $48.00",
-    artwork: "Comic style • Halftones",
-    fabrics: ["Cotton", "Streetwear"],
-    finish: ["Graffiti", "Urban", "Pop Art"],
+    minOrder: 15,
+    price: "$26.00 - $40.00",
+    artwork: "Vector • Query patterns",
+    fabrics: ["Cotton", "Professional"],
+    finish: ["Metallic", "Grid Pattern", "Data Style"],
     limited: false,
-    pathData: "M30 25L70 25L85 48L50 85L15 48L30 25Z M38 38L62 38L50 68L38 38Z"
+    pathData: "M31 25L69 25L84 45L69 65L31 65L16 45L31 25Z M41 38L59 38L50 55L41 38Z"
   },
   {
     id: 11,
-    name: "Thor",
-    category: "Marvel Avengers",
-    description: "Stormbreaker with lightning effects - hammered metal texture",
-    technique: "6-Color Puff + Metallic",
-    colors: 6,
-    area: "Full Back",
-    turnaround: "6-8 business days",
+    name: "Git",
+    category: "Version Control",
+    description: "Git logo with orange gradient - branching and merging with workflow patterns",
+    technique: "5-Color with Orange Metallic",
+    colors: 5,
+    area: "Full Front",
+    turnaround: "5-7 business days",
     minOrder: 12,
-    price: "$44.00 - $68.00",
-    artwork: "Vector • Viking style",
-    fabrics: ["Heavy Cotton", "Fleece"],
-    finish: ["Puff", "Metallic", "Textured"],
+    price: "$25.00 - $38.00",
+    artwork: "Vector • Branch diagram",
+    fabrics: ["Cotton", "Developer"],
+    finish: ["Metallic", "Flow Pattern", "Modern"],
     limited: true,
-    goldLabel: true,
-    pathData: "M22 22L78 22L92 47L50 92L8 47L22 22Z M32 37L68 37L50 75L32 37Z"
+    pathData: "M34 24L66 24L80 45L66 66L34 66L20 45L34 24Z M44 37L56 37L50 53L44 37Z"
   },
   {
     id: 12,
-    name: "Black Panther",
-    category: "Wakanda Forever",
-    description: "Vibranium suit pattern with purple glow - advanced texture print",
-    technique: "5-Color High-Density + Glow",
+    name: "Docker",
+    category: "DevOps",
+    description: "Docker whale with containers - blue gradient with microservices pattern",
+    technique: "6-Color with Blue Glow",
+    colors: 6,
+    area: "Full Front + Back",
+    turnaround: "6-8 business days",
+    minOrder: 10,
+    price: "$34.00 - $54.00",
+    artwork: "Vector • Container ships",
+    fabrics: ["Premium Cotton", "Tech"],
+    finish: ["Glow", "Metallic", "Cloud Pattern"],
+    limited: true,
+    goldLabel: true,
+    pathData: "M27 22L73 22L89 45L73 68L27 68L11 45L27 22Z M37 35L63 35L50 58L37 35Z"
+  },
+  {
+    id: 13,
+    name: "Rust",
+    category: "Systems Programming",
+    description: "Rust logo with gear - memory-safe with performance patterns",
+    technique: "5-Color with Orange-Brown Gradient",
     colors: 5,
     area: "Full Front",
     turnaround: "6-8 business days",
-    minOrder: 12,
-    price: "$40.00 - $62.00",
-    artwork: "Tribal pattern • Vector",
-    fabrics: ["Premium Cotton", "Dark garments"],
-    finish: ["Glow", "Texture", "Tribal"],
-    limited: true,
-    goldLabel: true,
-    pathData: "M28 23L72 23L88 46L50 88L12 46L28 23Z M36 36L64 36L50 72L36 36Z"
-  },
-
-  // ORIGINAL ANIME-STYLE
-  {
-    id: 13,
-    name: "Cyber Samurai",
-    category: "Original Series",
-    description: "Futuristic samurai with neon accents - cyberpunk aesthetic",
-    technique: "8-Color ChromaBlast + Neon",
-    colors: 8,
-    area: "Full Front + Sleeves",
-    turnaround: "7-9 business days",
     minOrder: 10,
-    price: "$48.00 - $72.00",
-    artwork: "Vector • Cyberpunk",
-    fabrics: ["Performance", "Streetwear"],
-    finish: ["Neon", "Geometric", "Glow"],
+    price: "$33.00 - $52.00",
+    artwork: "Vector • Systems level",
+    fabrics: ["Heavy Cotton", "Developer"],
+    finish: ["Metallic", "Texture", "Modern"],
     limited: true,
     goldLabel: true,
-    pathData: "M20 20L80 20L95 50L50 95L5 50L20 20Z M30 35L70 35L50 80L30 35Z"
+    pathData: "M28 23L72 23L88 45L72 67L28 67L12 45L28 23Z M38 36L62 36L50 58L38 36Z"
   },
   {
     id: 14,
-    name: "Dragon Spirit",
-    category: "Mythical Collection",
-    description: "Eastern dragon with cloud details - traditional with modern gradient",
-    technique: "9-Color Simulated Process",
-    colors: 9,
-    area: "Full Back",
-    turnaround: "8-10 business days",
-    minOrder: 8,
-    price: "$55.00 - $85.00",
-    artwork: "Detailed vector • Asian style",
-    fabrics: ["Premium", "Silk blend"],
-    finish: ["Gradient", "Detailed", "Metallic"],
+    name: "Go",
+    category: "Programming Languages",
+    description: "Golang gopher with blue - concurrent design with goroutine patterns",
+    technique: "5-Color with Blue Metallic",
+    colors: 5,
+    area: "Full Front",
+    turnaround: "5-7 business days",
+    minOrder: 12,
+    price: "$28.00 - $45.00",
+    artwork: "Vector • Gopher mascot",
+    fabrics: ["Cotton", "Developer"],
+    finish: ["Metallic", "Playful", "Modern"],
     limited: true,
-    goldLabel: true,
-    pathData: "M15 15L85 15L98 50L50 98L2 50L15 15Z M25 30L75 30L50 85L25 30Z"
+    pathData: "M30 24L70 24L85 45L70 66L30 66L15 45L30 24Z M40 37L60 37L50 55L40 37Z"
+  },
+  {
+    id: 15,
+    name: "Swift",
+    category: "Mobile Development",
+    description: "Swift logo with orange gradient - iOS development with swiftUI patterns",
+    technique: "5-Color with Orange Foil",
+    colors: 5,
+    area: "Full Front",
+    turnaround: "5-7 business days",
+    minOrder: 12,
+    price: "$30.00 - $48.00",
+    artwork: "Vector • Swift syntax",
+    fabrics: ["Premium Cotton", "iOS Dev"],
+    finish: ["Foil", "Modern", "Apple Style"],
+    limited: true,
+    pathData: "M32 23L68 23L83 45L68 67L32 67L17 45L32 23Z M42 36L58 36L50 54L42 36Z"
+  },
+  {
+    id: 16,
+    name: "Kotlin",
+    category: "Mobile Development",
+    description: "Kotlin logo with purple gradient - android development with coroutines",
+    technique: "5-Color with Purple Metallic",
+    colors: 5,
+    area: "Full Front",
+    turnaround: "5-7 business days",
+    minOrder: 12,
+    price: "$29.00 - $46.00",
+    artwork: "Vector • Android Studio",
+    fabrics: ["Cotton", "Android Dev"],
+    finish: ["Metallic", "Modern", "Gradient"],
+    limited: false,
+    pathData: "M33 24L67 24L82 45L67 66L33 66L18 45L33 24Z M43 37L57 37L50 54L43 37Z"
   }
 ];
 
@@ -301,13 +324,38 @@ const MobileMenu = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void 
 
 // Deluxe Thumbnail Component
 const DeluxeThumbnail = ({ pathData, name, goldLabel }: { pathData: string; name: string; goldLabel?: boolean }) => {
+  // Color mapping for different programming languages
+  const getLanguageColor = (lang: string) => {
+    const colors: {[key: string]: string} = {
+      "Python": "#3776AB",
+      "JavaScript": "#F7DF1E",
+      "React": "#61DAFB",
+      "Java": "#007396",
+      "C++": "#00599C",
+      "TypeScript": "#3178C6",
+      "HTML5": "#E34F26",
+      "CSS3": "#1572B6",
+      "Node.js": "#339933",
+      "SQL": "#4479A1",
+      "Git": "#F05032",
+      "Docker": "#2496ED",
+      "Rust": "#DEA584",
+      "Go": "#00ADD8",
+      "Swift": "#FA7343",
+      "Kotlin": "#7F52FF"
+    };
+    return colors[name] || "#e3b34c";
+  };
+
+  const primaryColor = getLanguageColor(name);
+  
   const svgMarkup = `
     <svg width="180" height="180" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" style="stop-color:#bf9530"/>
+        <linearGradient id="langGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color:${primaryColor}"/>
           <stop offset="50%" style="stop-color:#fcf6ba"/>
-          <stop offset="100%" style="stop-color:#b38728"/>
+          <stop offset="100%" style="stop-color:${primaryColor}"/>
         </linearGradient>
         <filter id="glow">
           <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
@@ -316,15 +364,16 @@ const DeluxeThumbnail = ({ pathData, name, goldLabel }: { pathData: string; name
             <feMergeNode in="SourceGraphic"/>
           </feMerge>
         </filter>
-        <pattern id="damask" patternUnits="userSpaceOnUse" width="20" height="20">
-          <path d="M10 0L20 10L10 20L0 10Z" fill="none" stroke="rgba(227,179,76,0.1)" stroke-width="0.5"/>
+        <pattern id="code" patternUnits="userSpaceOnUse" width="20" height="20">
+          <text x="2" y="10" fill="rgba(255,255,255,0.1)" font-size="6" font-family="monospace">{ }</text>
+          <text x="12" y="18" fill="rgba(255,255,255,0.1)" font-size="6" font-family="monospace"> &lt;/&gt;</text>
         </pattern>
       </defs>
       <rect width="100" height="100" fill="#0a121c" rx="12" filter="url(#glow)"/>
-      <rect width="100" height="100" fill="url(#damask)" rx="12"/>
-      <path d="${pathData}" fill="url(#goldGradient)" transform="translate(0, 15) scale(0.85)" filter="url(#glow)"/>
-      <circle cx="50" cy="85" r="4" fill="#e3b34c" opacity="0.3"/>
-      ${goldLabel ? `<text x="15" y="25" fill="#e3b34c" font-size="8" font-family="Cormorant Garamond, serif" font-weight="bold">✦ LIMITED ✦</text>` : ''}
+      <rect width="100" height="100" fill="url(#code)" rx="12"/>
+      <path d="${pathData}" fill="url(#langGradient)" transform="translate(0, 15) scale(0.85)" filter="url(#glow)"/>
+      <circle cx="50" cy="85" r="4" fill="${primaryColor}" opacity="0.3"/>
+      ${goldLabel ? `<text x="15" y="25" fill="${primaryColor}" font-size="8" font-family="Cormorant Garamond, serif" font-weight="bold">✦ LIMITED ✦</text>` : ''}
     </svg>
   `;
   
@@ -349,6 +398,7 @@ const DeluxeThumbnail = ({ pathData, name, goldLabel }: { pathData: string; name
 export default function DeluxeAnimeGallery() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [windowWidth, setWindowWidth] = useState(0);
+  const [filter, setFilter] = useState<string>('all');
 
   useEffect(() => {
     setWindowWidth(window.innerWidth);
@@ -359,6 +409,13 @@ export default function DeluxeAnimeGallery() {
 
   const isMobile = windowWidth < 768;
   const isTablet = windowWidth >= 768 && windowWidth < 1024;
+
+  // Get unique categories
+  const categories = ['all', ...new Set(deluxeProducts.map(p => p.category))];
+  
+  const filteredProducts = filter === 'all' 
+    ? deluxeProducts 
+    : deluxeProducts.filter(p => p.category === filter);
 
   return (
     <div className="max-w-[1600px] mx-auto p-4 bg-[#0f0f13] min-h-screen relative overflow-hidden">
@@ -385,7 +442,7 @@ export default function DeluxeAnimeGallery() {
 
       <MobileMenu isOpen={mobileMenuOpen} onClose={() => setMobileMenuOpen(false)} />
 
-      {/* Header - Mobile style only (same for all devices) */}
+      {/* Header - Mobile style only */}
       <div className="py-6 mb-6">
         <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-white via-[#f9e6b3] to-[#e3b34c] bg-clip-text text-transparent">
           A & R SILKSCREEN
@@ -395,9 +452,26 @@ export default function DeluxeAnimeGallery() {
         </div>
       </div>
 
+      {/* Category Filter */}
+      <div className="flex flex-wrap gap-2 mb-6">
+        {categories.map((cat) => (
+          <button
+            key={cat}
+            onClick={() => setFilter(cat)}
+            className={`px-4 py-2 rounded-full text-sm font-semibold transition-all ${
+              filter === cat
+                ? 'bg-gradient-to-r from-[#bf9530] to-[#f9e6b3] text-[#0a0c12]'
+                : 'bg-[#14181f] border border-[#e3b34c]/30 text-[#b8a87c] hover:border-[#e3b34c]'
+            }`}
+          >
+            {cat === 'all' ? '🔥 ALL' : cat}
+          </button>
+        ))}
+      </div>
+
       {/* Products Grid */}
       <div className="flex flex-col gap-4 md:gap-8">
-        {deluxeProducts.map((product) => (
+        {filteredProducts.map((product) => (
           <div 
             key={product.id} 
             className="relative bg-[#14181f] p-4 md:p-8 rounded-2xl md:rounded-[40px] border border-[#2a2f38] hover:border-[#e3b34c] transition-all duration-300 overflow-hidden group"
@@ -491,4 +565,4 @@ export default function DeluxeAnimeGallery() {
       `}</style>
     </div>
   );
-      }
+                }
