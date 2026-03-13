@@ -661,7 +661,7 @@ export default function DeluxeAnimeGallery() {
       </div>
 
       {/* Category Filter */}
-      <div className="flex flex-wrap gap-2 mb-6">
+      <div className="flex flex-wrap gap-2 mb-6 p-2">
         {categories.map((cat) => (
           <button
             key={cat}
@@ -678,7 +678,7 @@ export default function DeluxeAnimeGallery() {
       </div>
 
       {/* Products Grid */}
-      <div className="flex flex-col gap-4 md:gap-8">
+      <div className="flex flex-col gap-4 md:gap-8 p-2">
         {filteredProducts.map((product) => (
           <div 
             key={product.id} 
