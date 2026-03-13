@@ -132,7 +132,7 @@ class ClothSimulator {
   }
 }
 
-export default function ClothViewer({ modelPath = '/shirt.glb' }: ClothViewerProps) {
+export default function ClothViewer({ modelPath = '/white_t-shirt_with_print.glb' }: ClothViewerProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
