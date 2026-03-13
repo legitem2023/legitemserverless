@@ -650,22 +650,22 @@ export default function DeluxeAnimeGallery() {
 
       <MobileMenu isOpen={mobileMenuOpen} onClose={() => setMobileMenuOpen(false)} />
 
-      {/* Category Filter */}
-      <div className="flex flex-wrap gap-2 mb-6 p-2">
-        {categories.map((cat) => (
-          <button
-            key={cat}
-            onClick={() => setFilter(cat)}
-            className={`px-4 py-2 rounded-full text-sm font-semibold transition-all ${
-              filter === cat
-                ? 'bg-gradient-to-r from-[#bf9530] to-[#f9e6b3] text-[#0a0c12]'
-                : 'bg-[#14181f] border border-[#e3b34c]/30 text-[#b8a87c] hover:border-[#e3b34c]'
-            }`}
-          >
-            {cat === 'all' ? '🔥 ALL' : cat}
-          </button>
-        ))}
-      </div>
+{/* Category Filter - Horizontal Scroll */}
+<div className="overflow-x-auto whitespace-nowrap py-2 px-2 mb-4 scrollbar-hide">
+  {categories.map((cat) => (
+    <button
+      key={cat}
+      onClick={() => setFilter(cat)}
+      className={`inline-block mr-2 px-4 py-2 rounded-full text-sm font-semibold transition-all ${
+        filter === cat
+          ? 'bg-gradient-to-r from-[#bf9530] to-[#f9e6b3] text-[#0a0c12]'
+          : 'bg-[#14181f] border border-[#e3b34c]/30 text-[#b8a87c] hover:border-[#e3b34c]'
+      }`}
+    >
+      {cat === 'all' ? '🔥 ALL' : cat}
+    </button>
+  ))}
+</div>
 
       {/* Products Grid */}
       <div className="flex flex-col gap-4 md:gap-8 p-2">
