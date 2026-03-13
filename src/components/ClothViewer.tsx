@@ -168,7 +168,7 @@ export default function ClothViewer({ modelPath = '/white_t-shirt_with_print.glb
           originalWorldPositions.push(worldPositions);
           
           // Enhance material
-          if (Array.isArray(mesh.material)) {
+         /* if (Array.isArray(mesh.material)) {
             mesh.material.forEach(mat => {
               mat.roughness = 0.4;
               mat.metalness = 0.0;
@@ -176,7 +176,7 @@ export default function ClothViewer({ modelPath = '/white_t-shirt_with_print.glb
           } else if (mesh.material) {
             mesh.material.roughness = 0.4;
             mesh.material.metalness = 0.0;
-          }
+          }*/
           
           mesh.castShadow = true;
           mesh.receiveShadow = true;
