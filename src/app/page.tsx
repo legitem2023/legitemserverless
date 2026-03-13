@@ -626,7 +626,7 @@ export default function DeluxeAnimeGallery() {
     : deluxeProducts.filter(p => p.category === filter);
 
   return (
-    <div className="max-w-[1600px] mx-auto p-4 bg-[#0f0f13] min-h-screen relative overflow-hidden">
+    <div className="max-w-[1600px] mx-auto p-0 bg-[#0f0f13] min-h-screen relative overflow-hidden">
       {/* Background Patterns */}
       <div className="fixed inset-0 pointer-events-none">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_40%,rgba(227,179,76,0.03)_0%,transparent_30%)]"></div>
