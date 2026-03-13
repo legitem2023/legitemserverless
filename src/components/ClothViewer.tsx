@@ -32,7 +32,7 @@ export default function ClothViewer({ modelPath = '/white_t-shirt_with_print.glb
     const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: "high-performance" });
     renderer.setSize(width, height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.shadowMap.enabled = false; // Disable shadows for performance
+    renderer.shadowMap.enabled = false;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.2;
     container.appendChild(renderer.domElement);
@@ -44,7 +44,7 @@ export default function ClothViewer({ modelPath = '/white_t-shirt_with_print.glb
     controls.autoRotate = true;
     controls.autoRotateSpeed = 0.8;
 
-    // Simple but effective lighting
+    // Simple lighting
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
     scene.add(ambientLight);
 
@@ -114,28 +114,40 @@ export default function ClothViewer({ modelPath = '/white_t-shirt_with_print.glb
       }
     );
 
-    // Simple animation with group-based movement
+    // Gentle animation - SUBTLE movement
     const animate = () => {
       requestAnimationFrame(animate);
       
-      phase += 0.02;
+      phase += 0.01; // Slower phase change
 
       if (meshes.length > 0) {
-        // Instead of moving individual vertices, apply a simple bend to the whole group
         meshes.forEach((mesh) => {
           const positions = mesh.geometry.attributes.position.array;
           
-          // Simple bend: move vertices based on their Y position
-          for (let i = 1; i < positions.length; i += 3) {
-            const y = positions[i];
-            const heightFactor = (y + 0.5) / 2; // Normalize roughly
+          // Store original positions if not already stored
+          if (!mesh.userData.originalPositions) {
+            mesh.userData.originalPositions = positions.slice();
+          }
+          
+          const originalPos = mesh.userData.originalPositions;
+          
+          // Very subtle movement
+          for (let i = 0; i < positions.length; i += 3) {
+            const origX = originalPos[i];
+            const origY = originalPos[i + 1];
+            const origZ = originalPos[i + 2];
             
-            // Simple sine wave movement - more at bottom
-            const bendAmount = Math.sin(phase * 2 + y * 3) * 0.02 * heightFactor;
+            // Height factor (0 at bottom, 1 at top)
+            const heightFactor = (origY + 0.8) / 2.2; // Adjust based on your shirt
             
-            // Apply same bend to all vertices at same Y level
-            positions[i - 1] += Math.sin(phase + y) * 0.01 * heightFactor; // X movement
-            positions[i + 1] += Math.cos(phase * 1.3 + y) * 0.01 * heightFactor; // Z movement
+            // TINY movements - max 0.01 units (about 1% of shirt size)
+            const windX = Math.sin(phase * 1.5 + origY * 2) * 0.004 * heightFactor;
+            const windZ = Math.cos(phase * 1.3 + origX * 2) * 0.004 * heightFactor;
+            const windY = Math.sin(phase * 2 + origX) * 0.002 * heightFactor;
+            
+            positions[i] = origX + windX;
+            positions[i + 1] = origY + windY;
+            positions[i + 2] = origZ + windZ;
           }
           
           mesh.geometry.attributes.position.needsUpdate = true;
@@ -183,4 +195,4 @@ export default function ClothViewer({ modelPath = '/white_t-shirt_with_print.glb
       )}
     </div>
   );
-}
+        }
