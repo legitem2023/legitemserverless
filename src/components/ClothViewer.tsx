@@ -19,7 +19,7 @@ export default function ClothViewer({ modelPath = '/white_t-shirt_with_print.glb
 
     // Scene setup
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x2a2a3a);
+    scene.background = new THREE.Color(0x000000);
 
     const container = containerRef.current;
     const width = container.clientWidth;
@@ -41,7 +41,7 @@ export default function ClothViewer({ modelPath = '/white_t-shirt_with_print.glb
     controls.enableDamping = true;
     controls.dampingFactor = 0.05;
     controls.target.set(0, 1.2, 0);
-    controls.autoRotate = true;
+    controls.autoRotate = false;
     controls.autoRotateSpeed = 0.8;
 
     // Simple lighting
