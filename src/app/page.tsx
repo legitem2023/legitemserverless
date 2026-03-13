@@ -650,8 +650,8 @@ export default function DeluxeAnimeGallery() {
       {/* Mobile Navigation */}
       <div className="sticky top-0 z-40 bg-[#0a0c12]/95 backdrop-blur-sm p-4 border-b border-[#e3b34c]/30">
         <div className="flex justify-between items-center">
-          <span className="text-xl font-bold bg-gradient-to-r from-white via-[#f9e6b3] to-[#e3b34c] bg-clip-text text-transparent">
-            A&R SILKSCREEN
+          <span className="text-lg font-bold bg-gradient-to-r from-white via-[#f9e6b3] to-[#e3b34c] bg-clip-text text-transparent">
+            A&R SILKSCREEN PRINTING
           </span>
           <button 
             className="border border-[#e3b34c] text-[#e3b34c] text-2xl px-4 py-2 rounded-lg"
