@@ -606,6 +606,7 @@ export default function DeluxeAnimeGallery() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [windowWidth, setWindowWidth] = useState(0);
   const [filter, setFilter] = useState<string>('all');
+  const [showClothViewer, setShowClothViewer] = useState(false);
 
   useEffect(() => {
     setWindowWidth(window.innerWidth);
@@ -650,25 +651,25 @@ export default function DeluxeAnimeGallery() {
 
       <MobileMenu isOpen={mobileMenuOpen} onClose={() => setMobileMenuOpen(false)} />
 
-{/* Category Filter - Horizontal Scroll */}
-<div className="overflow-x-auto whitespace-nowrap py-2 px-2 mb-4 scrollbar-hide">
-  {categories.map((cat) => (
-    <button
-      key={cat}
-      onClick={() => setFilter(cat)}
-      className={`inline-block mr-2 px-4 py-2 rounded-full text-sm font-semibold transition-all ${
-        filter === cat
-          ? 'bg-gradient-to-r from-[#bf9530] to-[#f9e6b3] text-[#0a0c12]'
-          : 'bg-[#14181f] border border-[#e3b34c]/30 text-[#b8a87c] hover:border-[#e3b34c]'
-      }`}
-    >
-      {cat === 'all' ? '🔥 ALL' : cat}
-    </button>
-  ))}
-</div>
+      {/* Category Filter - Horizontal Scroll */}
+      <div className="overflow-x-auto whitespace-nowrap py-2 px-2 mb-4 scrollbar-hide">
+        {categories.map((cat) => (
+          <button
+            key={cat}
+            onClick={() => setFilter(cat)}
+            className={`inline-block mr-2 px-4 py-2 rounded-full text-sm font-semibold transition-all ${
+              filter === cat
+                ? 'bg-gradient-to-r from-[#bf9530] to-[#f9e6b3] text-[#0a0c12]'
+                : 'bg-[#14181f] border border-[#e3b34c]/30 text-[#b8a87c] hover:border-[#e3b34c]'
+            }`}
+          >
+            {cat === 'all' ? '🔥 ALL' : cat}
+          </button>
+        ))}
+      </div>
 
       {/* Products Grid */}
-      <div className="flex flex-col gap-4 md:gap-8 p-2">
+      <div className="flex flex-col gap-4 md:gap-8 p-2 pb-24">
         {filteredProducts.map((product) => (
           <div 
             key={product.id} 
@@ -741,7 +742,10 @@ export default function DeluxeAnimeGallery() {
                   <button className="bg-gradient-to-br from-[#bf9530] to-[#f9e6b3] border border-[#fcf6ba] text-[#0a0c12] px-4 md:px-8 py-3 rounded-full font-semibold text-sm md:text-base hover:shadow-xl hover:shadow-[#e3b34c]/30 transition-all w-full md:w-auto">
                     {isMobile ? 'Consult' : 'Request Consultation'}
                   </button>
-                  <button className="bg-transparent border-2 border-[#e3b34c] text-[#e3b34c] px-4 md:px-8 py-3 rounded-full font-semibold text-sm md:text-base hover:bg-[#e3b34c]/10 transition-all w-full md:w-auto">
+                  <button 
+                    onClick={() => setShowClothViewer(true)}
+                    className="bg-transparent border-2 border-[#e3b34c] text-[#e3b34c] px-4 md:px-8 py-3 rounded-full font-semibold text-sm md:text-base hover:bg-[#e3b34c]/10 transition-all w-full md:w-auto"
+                  >
                     {isMobile ? 'View' : 'View Lookbook'}
                   </button>
                 </div>
@@ -749,8 +753,34 @@ export default function DeluxeAnimeGallery() {
             </div>
           </div>
         ))}
-      <ClothViewer/>
       </div>
+
+      {/* ClothViewer Modal */}
+      {showClothViewer && (
+        <div className="fixed inset-0 z-50 flex items-end justify-center">
+          {/* Backdrop */}
+          <div 
+            className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+            onClick={() => setShowClothViewer(false)}
+          />
+          
+          {/* Slide-up Content */}
+          <div className="relative w-full bg-[#14181f] border-t border-[#e3b34c] rounded-t-3xl animate-slideUp">
+            <div className="flex justify-between items-center p-4 border-b border-[#e3b34c]/30">
+              <h3 className="text-[#e3b34c] font-semibold">Cloth Viewer</h3>
+              <button 
+                onClick={() => setShowClothViewer(false)}
+                className="text-[#e3b34c] hover:text-[#f9e6b3] text-2xl"
+              >
+                ✕
+              </button>
+            </div>
+            <div className="p-4">
+              <ClothViewer/>
+            </div>
+          </div>
+        </div>
+      )}
 
       <style jsx>{`
         @keyframes slideIn {
@@ -758,17 +788,27 @@ export default function DeluxeAnimeGallery() {
           to { transform: translateX(0); }
         }
         
+        @keyframes slideUp {
+          from { transform: translateY(100%); }
+          to { transform: translateY(0); }
+        }
+        
         .animate-slideIn {
           animation: slideIn 0.3s ease-out;
         }
-  .scrollbar-hide::-webkit-scrollbar {
-    display: none;
-  }
-  .scrollbar-hide {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
-`}</style>
+        
+        .animate-slideUp {
+          animation: slideUp 0.3s ease-out;
+        }
+        
+        .scrollbar-hide::-webkit-scrollbar {
+          display: none;
+        }
+        .scrollbar-hide {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+      `}</style>
     </div>
   );
-    }
+}
