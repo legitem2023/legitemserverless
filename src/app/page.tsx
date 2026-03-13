@@ -18,11 +18,11 @@ interface DeluxeProduct {
   finish: string[];
   limited: boolean;
   goldLabel?: boolean;
-  pathData: string;
+  imageUrl: string;   // URL to the actual product image (PNG, SVG, etc.)
 }
 
 const deluxeProducts: DeluxeProduct[] = [
-  // PROGRAMMING LANGUAGES COLLECTION
+  // ========== PROGRAMMING LANGUAGES (Free CDN images) ==========
   {
     id: 1,
     name: "Python",
@@ -39,7 +39,7 @@ const deluxeProducts: DeluxeProduct[] = [
     finish: ["Metallic", "Glow-in-Dark", "Code Pattern"],
     limited: true,
     goldLabel: true,
-    pathData: "M30 20L70 20L85 40L70 60L30 60L15 40L30 20Z M40 35L60 35L55 50L45 50L40 35Z"
+    imageUrl: "https://cdn.jsdelivr.net/gh/abranhe/programming-languages-logos@master/src/python/python_256x256.png"
   },
   {
     id: 2,
@@ -56,7 +56,7 @@ const deluxeProducts: DeluxeProduct[] = [
     fabrics: ["Cotton", "Streetwear", "Developer Fit"],
     finish: ["Glitter", "Metallic", "Code Pattern"],
     limited: false,
-    pathData: "M35 25L65 25L80 45L65 65L35 65L20 45L35 25Z M42 40L58 40L50 55L42 40Z"
+    imageUrl: "https://cdn.jsdelivr.net/gh/abranhe/programming-languages-logos@master/src/javascript/javascript_256x256.png"
   },
   {
     id: 3,
@@ -74,7 +74,7 @@ const deluxeProducts: DeluxeProduct[] = [
     finish: ["Holographic", "Glow", "Geometric"],
     limited: true,
     goldLabel: true,
-    pathData: "M25 20L75 20L90 45L75 70L25 70L10 45L25 20Z M30 35L45 45L30 55L40 45L30 35Z M70 35L55 45L70 55L60 45L70 35Z M50 45L45 50L50 55L55 50L50 45Z"
+    imageUrl: "https://cdn.jsdelivr.net/gh/abranhe/programming-languages-logos@master/src/react/react_256x256.png"
   },
   {
     id: 4,
@@ -91,7 +91,7 @@ const deluxeProducts: DeluxeProduct[] = [
     fabrics: ["Heavy Cotton", "Business Casual"],
     finish: ["Metallic", "Texture", "Classic"],
     limited: true,
-    pathData: "M28 22L72 22L88 45L72 68L28 68L12 45L28 22Z M38 35L45 45L38 55L48 45L38 35Z M62 35L55 45L62 55L52 45L62 35Z"
+    imageUrl: "https://cdn.jsdelivr.net/gh/abranhe/programming-languages-logos@master/src/java/java_256x256.png"
   },
   {
     id: 5,
@@ -108,7 +108,7 @@ const deluxeProducts: DeluxeProduct[] = [
     fabrics: ["Heavy Cotton", "Durable Blend"],
     finish: ["Puff", "Metallic", "Textured"],
     limited: false,
-    pathData: "M26 24L74 24L89 45L74 66L26 66L11 45L26 24Z M36 38L50 45L36 52L44 45L36 38Z M64 38L50 45L64 52L56 45L64 38Z"
+    imageUrl: "https://cdn.jsdelivr.net/gh/abranhe/programming-languages-logos@master/src/cpp/cpp_256x256.png"
   },
   {
     id: 6,
@@ -126,7 +126,7 @@ const deluxeProducts: DeluxeProduct[] = [
     finish: ["Foil", "Glow", "Modern"],
     limited: true,
     goldLabel: true,
-    pathData: "M30 23L70 23L86 45L70 67L30 67L14 45L30 23Z M40 36L60 36L55 54L45 54L40 36Z"
+    imageUrl: "https://cdn.jsdelivr.net/gh/abranhe/programming-languages-logos@master/src/typescript/typescript_256x256.png"
   },
   {
     id: 7,
@@ -143,7 +143,7 @@ const deluxeProducts: DeluxeProduct[] = [
     fabrics: ["Cotton", "Casual"],
     finish: ["Glitter", "Bold", "Web Style"],
     limited: false,
-    pathData: "M32 25L68 25L82 45L68 65L32 65L18 45L32 25Z M42 38L58 38L50 55L42 38Z"
+    imageUrl: "https://cdn.jsdelivr.net/gh/abranhe/programming-languages-logos@master/src/html/html_256x256.png"
   },
   {
     id: 8,
@@ -160,7 +160,7 @@ const deluxeProducts: DeluxeProduct[] = [
     fabrics: ["Cotton", "Casual"],
     finish: ["Metallic", "Geometric", "Modern"],
     limited: false,
-    pathData: "M33 26L67 26L81 45L67 64L33 64L19 45L33 26Z M43 39L57 39L50 54L43 39Z"
+    imageUrl: "https://cdn.jsdelivr.net/gh/abranhe/programming-languages-logos@master/src/css/css_256x256.png"
   },
   {
     id: 9,
@@ -177,7 +177,7 @@ const deluxeProducts: DeluxeProduct[] = [
     fabrics: ["Premium Cotton", "Developer"],
     finish: ["Foil", "Glow", "Server Style"],
     limited: true,
-    pathData: "M29 24L71 24L87 45L71 66L29 66L13 45L29 24Z M39 37L61 37L50 58L39 37Z"
+    imageUrl: "https://cdn.jsdelivr.net/gh/abranhe/programming-languages-logos@master/src/nodejs/nodejs_256x256.png"
   },
   {
     id: 10,
@@ -194,7 +194,7 @@ const deluxeProducts: DeluxeProduct[] = [
     fabrics: ["Cotton", "Professional"],
     finish: ["Metallic", "Grid Pattern", "Data Style"],
     limited: false,
-    pathData: "M31 25L69 25L84 45L69 65L31 65L16 45L31 25Z M41 38L59 38L50 55L41 38Z"
+    imageUrl: "https://cdn.jsdelivr.net/gh/abranhe/programming-languages-logos@master/src/sql/sql_256x256.png"
   },
   {
     id: 11,
@@ -211,7 +211,7 @@ const deluxeProducts: DeluxeProduct[] = [
     fabrics: ["Cotton", "Developer"],
     finish: ["Metallic", "Flow Pattern", "Modern"],
     limited: true,
-    pathData: "M34 24L66 24L80 45L66 66L34 66L20 45L34 24Z M44 37L56 37L50 53L44 37Z"
+    imageUrl: "https://cdn.jsdelivr.net/gh/abranhe/programming-languages-logos@master/src/git/git_256x256.png"
   },
   {
     id: 12,
@@ -229,7 +229,7 @@ const deluxeProducts: DeluxeProduct[] = [
     finish: ["Glow", "Metallic", "Cloud Pattern"],
     limited: true,
     goldLabel: true,
-    pathData: "M27 22L73 22L89 45L73 68L27 68L11 45L27 22Z M37 35L63 35L50 58L37 35Z"
+    imageUrl: "https://cdn.jsdelivr.net/gh/abranhe/programming-languages-logos@master/src/docker/docker_256x256.png"
   },
   {
     id: 13,
@@ -247,7 +247,7 @@ const deluxeProducts: DeluxeProduct[] = [
     finish: ["Metallic", "Texture", "Modern"],
     limited: true,
     goldLabel: true,
-    pathData: "M28 23L72 23L88 45L72 67L28 67L12 45L28 23Z M38 36L62 36L50 58L38 36Z"
+    imageUrl: "https://cdn.jsdelivr.net/gh/abranhe/programming-languages-logos@master/src/rust/rust_256x256.png"
   },
   {
     id: 14,
@@ -264,7 +264,7 @@ const deluxeProducts: DeluxeProduct[] = [
     fabrics: ["Cotton", "Developer"],
     finish: ["Metallic", "Playful", "Modern"],
     limited: true,
-    pathData: "M30 24L70 24L85 45L70 66L30 66L15 45L30 24Z M40 37L60 37L50 55L40 37Z"
+    imageUrl: "https://cdn.jsdelivr.net/gh/abranhe/programming-languages-logos@master/src/go/go_256x256.png"
   },
   {
     id: 15,
@@ -281,7 +281,7 @@ const deluxeProducts: DeluxeProduct[] = [
     fabrics: ["Premium Cotton", "iOS Dev"],
     finish: ["Foil", "Modern", "Apple Style"],
     limited: true,
-    pathData: "M32 23L68 23L83 45L68 67L32 67L17 45L32 23Z M42 36L58 36L50 54L42 36Z"
+    imageUrl: "https://cdn.jsdelivr.net/gh/abranhe/programming-languages-logos@master/src/swift/swift_256x256.png"
   },
   {
     id: 16,
@@ -298,7 +298,263 @@ const deluxeProducts: DeluxeProduct[] = [
     fabrics: ["Cotton", "Android Dev"],
     finish: ["Metallic", "Modern", "Gradient"],
     limited: false,
-    pathData: "M33 24L67 24L82 45L67 66L33 66L18 45L33 24Z M43 37L57 37L50 54L43 37Z"
+    imageUrl: "https://cdn.jsdelivr.net/gh/abranhe/programming-languages-logos@master/src/kotlin/kotlin_256x256.png"
+  },
+
+  // ========== ANIME COLLECTION (Placeholder images – replace with your own licensed images) ==========
+  {
+    id: 17,
+    name: "Naruto Uzumaki",
+    category: "Anime Collection",
+    description: "Rasengan energy effect with Nine-Tails chakra mode - metallic gold and orange gradient",
+    technique: "8-Color Simulated with Metallic Inks",
+    colors: 8,
+    area: "Full Front (14\" x 18\")",
+    turnaround: "5-7 business days",
+    minOrder: 12,
+    price: "$32.50 - $55.00",
+    artwork: "Vector art • PMS matched",
+    fabrics: ["Premium Cotton", "Tri-blend", "Athletic"],
+    finish: ["Metallic", "Glow-in-Dark", "Soft-hand"],
+    limited: true,
+    goldLabel: true,
+    imageUrl: "https://placehold.co/300x300/FF6B6B/FFFFFF?text=Naruto"
+  },
+  {
+    id: 18,
+    name: "Goku Ultra Instinct",
+    category: "Anime Collection",
+    description: "Silver hair with aura effect - prismatic silver and blue metallic tones",
+    technique: "9-Color Process with Prismatic Foil",
+    colors: 9,
+    area: "Full Front + Back",
+    turnaround: "7-9 business days",
+    minOrder: 6,
+    price: "$45.00 - $75.00",
+    artwork: "High-res • Color separations",
+    fabrics: ["Heavy Cotton", "French Terry", "Blend"],
+    finish: ["Foil", "Holographic", "Puff"],
+    limited: true,
+    goldLabel: true,
+    imageUrl: "https://placehold.co/300x300/FFD93D/000000?text=Goku"
+  },
+  {
+    id: 19,
+    name: "Pikachu Thunder",
+    category: "Pokémon Series",
+    description: "Thunderbolt attack with sparkle effects - electric yellow with glitter base",
+    technique: "5-Color Spot with Glitter Base",
+    colors: 5,
+    area: "Front Center (12\" x 14\")",
+    turnaround: "4-6 business days",
+    minOrder: 24,
+    price: "$24.00 - $38.00",
+    artwork: "Vector • Bold lines",
+    fabrics: ["Cotton", "Baby Rib", "Youth"],
+    finish: ["Glitter", "Puff", "Yellow Glow"],
+    limited: false,
+    imageUrl: "https://placehold.co/300x300/F7DC6F/000000?text=Pikachu"
+  },
+  {
+    id: 20,
+    name: "Levi Ackerman",
+    category: "Attack on Titan",
+    description: "Survey Corps emblem with gear effects - dark tones with silver highlights",
+    technique: "4-Color High-Density Discharge",
+    colors: 4,
+    area: "Full Back (15\" x 20\")",
+    turnaround: "6-8 business days",
+    minOrder: 12,
+    price: "$38.00 - $58.00",
+    artwork: "Vector • High contrast",
+    fabrics: ["Heavy Cotton", "Dark Garments"],
+    finish: ["Distressed", "Metallic", "Discharge"],
+    limited: true,
+    goldLabel: true,
+    imageUrl: "https://placehold.co/300x300/2C3E50/FFFFFF?text=Levi"
+  },
+
+  // ========== DISNEY COLLECTION (Placeholder images – replace with your own licensed images) ==========
+  {
+    id: 21,
+    name: "Mickey Mouse",
+    category: "Disney Classics",
+    description: "Vintage Mickey with sorcerer hat - nostalgic sepia with gold foil details",
+    technique: "Vintage Discharge + Gold Foil",
+    colors: 4,
+    area: "Front (12\" x 14\")",
+    turnaround: "5-7 business days",
+    minOrder: 24,
+    price: "$28.00 - $42.00",
+    artwork: "Vector • Vintage style",
+    fabrics: ["Soft Cotton", "Heritage Blend"],
+    finish: ["Foil", "Sepia", "Vintage"],
+    limited: false,
+    imageUrl: "https://placehold.co/300x300/000000/FFFFFF?text=Mickey"
+  },
+  {
+    id: 22,
+    name: "Elsa",
+    category: "Frozen Collection",
+    description: "Ice palace background with snowflake details - crystal blue with glitter",
+    technique: "6-Color with Glitter Overlay",
+    colors: 6,
+    area: "Full Front",
+    turnaround: "5-7 business days",
+    minOrder: 18,
+    price: "$34.00 - $52.00",
+    artwork: "Gradient • Snowflake details",
+    fabrics: ["Premium Cotton", "Girls Fit"],
+    finish: ["Glitter", "Holographic", "Ice Effect"],
+    limited: true,
+    goldLabel: true,
+    imageUrl: "https://placehold.co/300x300/5DADE2/FFFFFF?text=Elsa"
+  },
+  {
+    id: 23,
+    name: "Stitch",
+    category: "Lilo & Stitch",
+    description: "Experiment 626 with Elvis pose - electric blue with glow accents",
+    technique: "5-Color with Glow-in-Dark",
+    colors: 5,
+    area: "Front Center",
+    turnaround: "4-6 business days",
+    minOrder: 24,
+    price: "$26.00 - $40.00",
+    artwork: "Vector • Cartoon style",
+    fabrics: ["Cotton", "Youth", "Toddler"],
+    finish: ["Glow-in-Dark", "Pop Art", "Soft-hand"],
+    limited: false,
+    imageUrl: "https://placehold.co/300x300/3498DB/FFFFFF?text=Stitch"
+  },
+  {
+    id: 24,
+    name: "Nightmare Before Christmas",
+    category: "Tim Burton Collection",
+    description: "Jack Skellington with Zero - gothic patterns with glow effects",
+    technique: "7-Color with Glow + Metallic",
+    colors: 7,
+    area: "Full Front + Sleeve",
+    turnaround: "6-8 business days",
+    minOrder: 12,
+    price: "$42.00 - $65.00",
+    artwork: "Vector • Gothic style",
+    fabrics: ["Heavy Cotton", "Dark Garments"],
+    finish: ["Glow", "Metallic", "Striped"],
+    limited: true,
+    goldLabel: true,
+    imageUrl: "https://placehold.co/300x300/34495E/FFFFFF?text=Jack"
+  },
+
+  // ========== MARVEL COLLECTION (Placeholder images – replace with your own licensed images) ==========
+  {
+    id: 25,
+    name: "Iron Man",
+    category: "Marvel Avengers",
+    description: "Arc reactor with suit details - metallic red and gold foil",
+    technique: "5-Color Metallic Foil",
+    colors: 5,
+    area: "Full Chest",
+    turnaround: "5-7 business days",
+    minOrder: 12,
+    price: "$38.00 - $58.00",
+    artwork: "Vector • Tech lines",
+    fabrics: ["Premium Cotton", "Performance"],
+    finish: ["Metallic", "Foil", "Armor effect"],
+    limited: true,
+    goldLabel: true,
+    imageUrl: "https://placehold.co/300x300/C0392B/FFFFFF?text=Iron+Man"
+  },
+  {
+    id: 26,
+    name: "Spider-Man",
+    category: "Spider-Verse",
+    description: "Miles Morales graffiti style - urban art with spray paint effect",
+    technique: "7-Color with Halftones",
+    colors: 7,
+    area: "Full Front",
+    turnaround: "5-7 business days",
+    minOrder: 18,
+    price: "$32.00 - $48.00",
+    artwork: "Comic style • Halftones",
+    fabrics: ["Cotton", "Streetwear"],
+    finish: ["Graffiti", "Urban", "Pop Art"],
+    limited: false,
+    imageUrl: "https://placehold.co/300x300/E74C3C/FFFFFF?text=Spider-Man"
+  },
+  {
+    id: 27,
+    name: "Thor",
+    category: "Marvel Avengers",
+    description: "Stormbreaker with lightning effects - hammered metal texture",
+    technique: "6-Color Puff + Metallic",
+    colors: 6,
+    area: "Full Back",
+    turnaround: "6-8 business days",
+    minOrder: 12,
+    price: "$44.00 - $68.00",
+    artwork: "Vector • Viking style",
+    fabrics: ["Heavy Cotton", "Fleece"],
+    finish: ["Puff", "Metallic", "Textured"],
+    limited: true,
+    goldLabel: true,
+    imageUrl: "https://placehold.co/300x300/7D3C98/FFFFFF?text=Thor"
+  },
+  {
+    id: 28,
+    name: "Black Panther",
+    category: "Wakanda Forever",
+    description: "Vibranium suit pattern with purple glow - advanced texture print",
+    technique: "5-Color High-Density + Glow",
+    colors: 5,
+    area: "Full Front",
+    turnaround: "6-8 business days",
+    minOrder: 12,
+    price: "$40.00 - $62.00",
+    artwork: "Tribal pattern • Vector",
+    fabrics: ["Premium Cotton", "Dark garments"],
+    finish: ["Glow", "Texture", "Tribal"],
+    limited: true,
+    goldLabel: true,
+    imageUrl: "https://placehold.co/300x300/512E5F/FFFFFF?text=Black+Panther"
+  },
+
+  // ========== ORIGINAL ANIME-STYLE (Placeholder images) ==========
+  {
+    id: 29,
+    name: "Cyber Samurai",
+    category: "Original Series",
+    description: "Futuristic samurai with neon accents - cyberpunk aesthetic",
+    technique: "8-Color ChromaBlast + Neon",
+    colors: 8,
+    area: "Full Front + Sleeves",
+    turnaround: "7-9 business days",
+    minOrder: 10,
+    price: "$48.00 - $72.00",
+    artwork: "Vector • Cyberpunk",
+    fabrics: ["Performance", "Streetwear"],
+    finish: ["Neon", "Geometric", "Glow"],
+    limited: true,
+    goldLabel: true,
+    imageUrl: "https://placehold.co/300x300/00FFFF/000000?text=Cyber+Samurai"
+  },
+  {
+    id: 30,
+    name: "Dragon Spirit",
+    category: "Mythical Collection",
+    description: "Eastern dragon with cloud details - traditional with modern gradient",
+    technique: "9-Color Simulated Process",
+    colors: 9,
+    area: "Full Back",
+    turnaround: "8-10 business days",
+    minOrder: 8,
+    price: "$55.00 - $85.00",
+    artwork: "Detailed vector • Asian style",
+    fabrics: ["Premium", "Silk blend"],
+    finish: ["Gradient", "Detailed", "Metallic"],
+    limited: true,
+    goldLabel: true,
+    imageUrl: "https://placehold.co/300x300/FF5733/FFFFFF?text=Dragon"
   }
 ];
 
@@ -322,68 +578,19 @@ const MobileMenu = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void 
   );
 };
 
-// Deluxe Thumbnail Component
-const DeluxeThumbnail = ({ pathData, name, goldLabel }: { pathData: string; name: string; goldLabel?: boolean }) => {
-  // Color mapping for different programming languages
-  const getLanguageColor = (lang: string) => {
-    const colors: {[key: string]: string} = {
-      "Python": "#3776AB",
-      "JavaScript": "#F7DF1E",
-      "React": "#61DAFB",
-      "Java": "#007396",
-      "C++": "#00599C",
-      "TypeScript": "#3178C6",
-      "HTML5": "#E34F26",
-      "CSS3": "#1572B6",
-      "Node.js": "#339933",
-      "SQL": "#4479A1",
-      "Git": "#F05032",
-      "Docker": "#2496ED",
-      "Rust": "#DEA584",
-      "Go": "#00ADD8",
-      "Swift": "#FA7343",
-      "Kotlin": "#7F52FF"
-    };
-    return colors[name] || "#e3b34c";
-  };
-
-  const primaryColor = getLanguageColor(name);
-  
-  const svgMarkup = `
-    <svg width="180" height="180" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <linearGradient id="langGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" style="stop-color:${primaryColor}"/>
-          <stop offset="50%" style="stop-color:#fcf6ba"/>
-          <stop offset="100%" style="stop-color:${primaryColor}"/>
-        </linearGradient>
-        <filter id="glow">
-          <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
-          <feMerge>
-            <feMergeNode in="coloredBlur"/>
-            <feMergeNode in="SourceGraphic"/>
-          </feMerge>
-        </filter>
-        <pattern id="code" patternUnits="userSpaceOnUse" width="20" height="20">
-          <text x="2" y="10" fill="rgba(255,255,255,0.1)" font-size="6" font-family="monospace">{ }</text>
-          <text x="12" y="18" fill="rgba(255,255,255,0.1)" font-size="6" font-family="monospace"> &lt;/&gt;</text>
-        </pattern>
-      </defs>
-      <rect width="100" height="100" fill="#0a121c" rx="12" filter="url(#glow)"/>
-      <rect width="100" height="100" fill="url(#code)" rx="12"/>
-      <path d="${pathData}" fill="url(#langGradient)" transform="translate(0, 15) scale(0.85)" filter="url(#glow)"/>
-      <circle cx="50" cy="85" r="4" fill="${primaryColor}" opacity="0.3"/>
-      ${goldLabel ? `<text x="15" y="25" fill="${primaryColor}" font-size="8" font-family="Cormorant Garamond, serif" font-weight="bold">✦ LIMITED ✦</text>` : ''}
-    </svg>
-  `;
-  
-  const encodedSvg = `data:image/svg+xml,${encodeURIComponent(svgMarkup)}`;
-  
+// Deluxe Thumbnail Component (now using actual image URLs)
+const DeluxeThumbnail = ({ imageUrl, name, goldLabel }: { imageUrl: string; name: string; goldLabel?: boolean }) => {
   return (
     <div className="relative">
       <div className="p-1.5 bg-gradient-to-br from-[#bf9530] via-[#fcf6ba] to-[#b38728] rounded-xl shadow-lg">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={encodedSvg} alt={name} className="w-full h-auto rounded-lg" loading="lazy" />
+        <div className="relative w-full aspect-square bg-[#0a121c] rounded-lg overflow-hidden">
+          <img 
+            src={imageUrl} 
+            alt={name}
+            className="w-full h-full object-contain p-2"
+            loading="lazy"
+          />
+        </div>
       </div>
       {goldLabel && (
         <div className="absolute -top-1 -right-1 bg-gradient-to-br from-[#bf9530] to-[#fcf6ba] text-[#0a0c12] px-2 py-0.5 rounded-full text-xs font-bold whitespace-nowrap shadow-lg">
@@ -410,7 +617,7 @@ export default function DeluxeAnimeGallery() {
   const isMobile = windowWidth < 768;
   const isTablet = windowWidth >= 768 && windowWidth < 1024;
 
-  // Get unique categories - FIXED: Convert Set to array properly
+  // Get unique categories
   const uniqueCategories = Array.from(new Set(deluxeProducts.map(p => p.category)));
   const categories = ['all', ...uniqueCategories];
   
@@ -420,7 +627,7 @@ export default function DeluxeAnimeGallery() {
 
   return (
     <div className="max-w-[1600px] mx-auto p-4 bg-[#0f0f13] min-h-screen relative overflow-hidden">
-      {/* Background Patterns - Optimized */}
+      {/* Background Patterns */}
       <div className="fixed inset-0 pointer-events-none">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_40%,rgba(227,179,76,0.03)_0%,transparent_30%)]"></div>
         <div className="absolute inset-0 bg-[repeating-linear-gradient(45deg,rgba(227,179,76,0.02)_0px,rgba(227,179,76,0.02)_1px,transparent_1px,transparent_15px)]"></div>
@@ -484,7 +691,7 @@ export default function DeluxeAnimeGallery() {
               {/* Thumbnail */}
               <div className={`${isMobile ? 'w-32 mx-auto' : 'w-full'}`}>
                 <DeluxeThumbnail 
-                  pathData={product.pathData} 
+                  imageUrl={product.imageUrl} 
                   name={product.name}
                   goldLabel={product.goldLabel}
                 />
@@ -566,4 +773,4 @@ export default function DeluxeAnimeGallery() {
       `}</style>
     </div>
   );
-                          }
+    }
