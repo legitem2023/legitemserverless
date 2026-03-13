@@ -1,5 +1,5 @@
-// app/components/DeluxeAnimeGallery.tsx
-"use client"
+"use client";
+
 import React, { useEffect, useState } from 'react';
 
 interface DeluxeProduct {
@@ -410,8 +410,9 @@ export default function DeluxeAnimeGallery() {
   const isMobile = windowWidth < 768;
   const isTablet = windowWidth >= 768 && windowWidth < 1024;
 
-  // Get unique categories
-  const categories = ['all', ...new Set(deluxeProducts.map(p => p.category))];
+  // Get unique categories - FIXED: Convert Set to array properly
+  const uniqueCategories = Array.from(new Set(deluxeProducts.map(p => p.category)));
+  const categories = ['all', ...uniqueCategories];
   
   const filteredProducts = filter === 'all' 
     ? deluxeProducts 
@@ -565,4 +566,4 @@ export default function DeluxeAnimeGallery() {
       `}</style>
     </div>
   );
-                }
+                          }
