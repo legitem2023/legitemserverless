@@ -64,14 +64,15 @@ export default function ClothViewer({ modelPath = '/white_t-shirt_with_print.glb
 
     // Load model
     const loader = new GLTFLoader();
-    let shirtGroup: THREE.Group | null = null;
-    let originalPositions: Map<THREE.Mesh, Float32Array> = new Map();
+    let allMeshes: THREE.Mesh[] = [];
+    let originalPositions: Float32Array[] = [];
+    let meshOffsets: { x: number; y: number; z: number }[] = [];
     let time = 0;
 
     loader.load(
       modelPath,
       (gltf) => {
-        shirtGroup = gltf.scene;
+        const shirtGroup = gltf.scene;
         
         // Center and scale
         const box = new THREE.Box3().setFromObject(shirtGroup);
@@ -82,36 +83,63 @@ export default function ClothViewer({ modelPath = '/white_t-shirt_with_print.glb
         shirtGroup.scale.set(scale, scale, scale);
         shirtGroup.position.set(-center.x * scale, 1.2 - center.y * scale, -center.z * scale);
         
-        // Store original positions for all meshes
+        // Process all meshes and store their world positions
         shirtGroup.traverse((child) => {
           if (child instanceof THREE.Mesh) {
             // Clone geometry
             const geom = child.geometry.clone();
             child.geometry = geom;
             
-            // Store original positions
-            const positions = geom.attributes.position.array.slice();
-            originalPositions.set(child, positions);
+            // Convert vertices to world space and store
+            const positions = geom.attributes.position.array;
+            const worldPositions = new Float32Array(positions.length);
+            
+            // Get mesh's world matrix
+            child.updateWorldMatrix(true, false);
+            const matrix = child.matrixWorld;
+            
+            // Transform each vertex to world space
+            for (let i = 0; i < positions.length; i += 3) {
+              const vertex = new THREE.Vector3(
+                positions[i],
+                positions[i + 1],
+                positions[i + 2]
+              );
+              vertex.applyMatrix4(matrix);
+              worldPositions[i] = vertex.x;
+              worldPositions[i + 1] = vertex.y;
+              worldPositions[i + 2] = vertex.z;
+            }
+            
+            originalPositions.push(worldPositions);
+            
+            // Store mesh offset from group center
+            meshOffsets.push({
+              x: child.position.x,
+              y: child.position.y,
+              z: child.position.z
+            });
             
             // Enhance material
             if (Array.isArray(child.material)) {
               child.material.forEach(mat => {
-                mat.roughness = 0.8;
-                mat.metalness = 0.0;
+                mat.roughness = 0.7;
+                mat.metalness = 0.1;
               });
             } else if (child.material) {
-              child.material.roughness = 0.8;
-              child.material.metalness = 0.0;
+              child.material.roughness = 0.7;
+              child.material.metalness = 0.1;
             }
             
             child.castShadow = true;
             child.receiveShadow = true;
+            allMeshes.push(child);
           }
         });
         
         scene.add(shirtGroup);
         setLoading(false);
-        console.log(`Loaded shirt with ${originalPositions.size} meshes`);
+        console.log(`Loaded ${allMeshes.length} meshes with unified softbody`);
       },
       undefined,
       (err) => {
@@ -121,29 +149,66 @@ export default function ClothViewer({ modelPath = '/white_t-shirt_with_print.glb
       }
     );
 
-    // Animation loop with RIGID swaying (keeps parts attached)
+    // Animation loop with unified softbody
     const animate = () => {
       requestAnimationFrame(animate);
       
       time += 0.02;
 
-      if (shirtGroup && originalPositions.size > 0) {
-        // Apply a gentle rotation to the ENTIRE shirt
-        // This keeps all parts perfectly attached
-        const swayX = Math.sin(time * 0.8) * 0.05; // 5 degree sway
-        const swayZ = Math.cos(time * 0.6) * 0.03; // 3 degree sway
-        
-        // Instead of moving vertices, rotate the whole group slightly
-        shirtGroup.rotation.x = swayX;
-        shirtGroup.rotation.z = swayZ;
-        
-        // Add a tiny bit of squash and stretch (still as a whole)
-        const squash = 1 + Math.sin(time * 1.5) * 0.01;
-        shirtGroup.scale.y = 1.8 / 1.5 * squash; // Maintain base scale
-        shirtGroup.scale.x = 1.8 / 1.5 * (2 - squash); // Compensate width
-        
-        // Keep the group centered
-        shirtGroup.position.y = 1.2 + Math.sin(time * 1.2) * 0.02;
+      if (allMeshes.length > 0 && originalPositions.length > 0) {
+        // Apply SAME deformation to ALL meshes based on world position
+        allMeshes.forEach((mesh, meshIndex) => {
+          const origWorldPos = originalPositions[meshIndex];
+          if (!origWorldPos) return;
+          
+          const positions = mesh.geometry.attributes.position.array;
+          
+          // Get mesh's current transform
+          const matrix = mesh.matrixWorld;
+          const inverseMatrix = new THREE.Matrix4().copy(matrix).invert();
+          
+          // Process each vertex
+          for (let i = 0; i < positions.length; i += 3) {
+            // Get original WORLD position
+            const worldX = origWorldPos[i];
+            const worldY = origWorldPos[i + 1];
+            const worldZ = origWorldPos[i + 2];
+            
+            // Calculate height factor (0 at bottom, 1 at top of whole shirt)
+            const heightFactor = (worldY - 0.5) / 1.5; // Adjust based on your shirt's height
+            
+            // Apply SAME wind formula to ALL vertices based on world position
+            const windX = Math.sin(time * 1.2 + worldY * 2) * 0.08;
+            const windZ = Math.cos(time * 1.0 + worldX * 2) * 0.08;
+            const flutter = Math.sin(time * 2.5 + worldZ * 3) * 0.04;
+            
+            // More movement at bottom
+            const bottomFactor = Math.max(0, 1 - heightFactor * 1.2);
+            
+            // Combined movement (SAME for all meshes at same world position)
+            const moveX = windX * bottomFactor;
+            const moveY = Math.sin(time * 1.5 + worldX) * 0.02 * bottomFactor;
+            const moveZ = (windZ + flutter) * bottomFactor;
+            
+            // Create new world position
+            const newWorldPos = new THREE.Vector3(
+              worldX + moveX,
+              worldY + moveY,
+              worldZ + moveZ
+            );
+            
+            // Convert back to local space
+            newWorldPos.applyMatrix4(inverseMatrix);
+            
+            // Apply to geometry
+            positions[i] = newWorldPos.x;
+            positions[i + 1] = newWorldPos.y;
+            positions[i + 2] = newWorldPos.z;
+          }
+          
+          mesh.geometry.attributes.position.needsUpdate = true;
+          mesh.geometry.computeVertexNormals();
+        });
       }
 
       controls.update();
@@ -176,7 +241,7 @@ export default function ClothViewer({ modelPath = '/white_t-shirt_with_print.glb
       <div ref={containerRef} style={{ width: '100%', height: '100%' }} />
       {loading && (
         <div style={{ position: 'absolute', bottom: 20, left: 20, color: '#ccc', background: 'rgba(0,0,0,0.6)', padding: '8px 15px', borderRadius: '20px' }}>
-          Loading shirt...
+          Loading unified softbody shirt...
         </div>
       )}
       {error && (
@@ -186,4 +251,4 @@ export default function ClothViewer({ modelPath = '/white_t-shirt_with_print.glb
       )}
     </div>
   );
-}
+                                     }
