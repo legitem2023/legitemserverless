@@ -40,7 +40,7 @@ export default function ClothViewer({ modelPath = '/white_t-shirt_with_print.glb
     controls.dampingFactor = 0.05;
     controls.target.set(0, 1.2, 0);
     controls.autoRotate = true;
-    controls.autoRotateSpeed = 1.0;
+    controls.autoRotateSpeed = 0.5;
 
     // Lighting
     const ambientLight = new THREE.AmbientLight(0x404060);
@@ -57,22 +57,22 @@ export default function ClothViewer({ modelPath = '/white_t-shirt_with_print.glb
     fillLight.position.set(-2, 2, 2);
     scene.add(fillLight);
 
-    // Simple ground
+    // Ground reference
     const gridHelper = new THREE.GridHelper(6, 20, 0x888888, 0x444444);
     gridHelper.position.y = 0;
     scene.add(gridHelper);
 
     // Load model
     const loader = new GLTFLoader();
-    let shirtGroup: THREE.Group | null = null;
     let meshes: THREE.Mesh[] = [];
-    let originalPositions: Map<THREE.Mesh, Float32Array> = new Map();
+    let originalPositions: Float32Array[] = [];
+    let boundingBoxes: THREE.Box3[] = [];
     let time = 0;
 
     loader.load(
       modelPath,
       (gltf) => {
-        shirtGroup = gltf.scene;
+        const shirtGroup = gltf.scene;
         
         // Center and scale
         const box = new THREE.Box3().setFromObject(shirtGroup);
@@ -83,26 +83,32 @@ export default function ClothViewer({ modelPath = '/white_t-shirt_with_print.glb
         shirtGroup.scale.set(scale, scale, scale);
         shirtGroup.position.set(-center.x * scale, 1.2 - center.y * scale, -center.z * scale);
         
-        // Collect all meshes and store original positions
+        // Process all meshes
         shirtGroup.traverse((child) => {
           if (child instanceof THREE.Mesh) {
-            // Clone geometry to work with
+            // Clone geometry
             const geom = child.geometry.clone();
             child.geometry = geom;
             
             // Store original positions
             const positions = geom.attributes.position.array.slice();
-            originalPositions.set(child, positions);
+            originalPositions.push(positions);
+            
+            // Store bounding box for this mesh
+            const meshBox = new THREE.Box3().setFromObject(child);
+            boundingBoxes.push(meshBox);
             
             // Enhance material
             if (Array.isArray(child.material)) {
               child.material.forEach(mat => {
                 mat.roughness = 0.7;
                 mat.metalness = 0.1;
+                mat.emissive = new THREE.Color(0x111122);
               });
             } else if (child.material) {
               child.material.roughness = 0.7;
               child.material.metalness = 0.1;
+              child.material.emissive = new THREE.Color(0x111122);
             }
             
             child.castShadow = true;
@@ -113,7 +119,7 @@ export default function ClothViewer({ modelPath = '/white_t-shirt_with_print.glb
         
         scene.add(shirtGroup);
         setLoading(false);
-        console.log(`Loaded ${meshes.length} meshes for softbody`);
+        console.log(`Loaded ${meshes.length} meshes for wind animation`);
       },
       undefined,
       (err) => {
@@ -123,39 +129,60 @@ export default function ClothViewer({ modelPath = '/white_t-shirt_with_print.glb
       }
     );
 
-    // Animation loop with simple softbody
+    // Animation loop with visible wind effect
     const animate = () => {
       requestAnimationFrame(animate);
       
-      time += 0.02;
+      time += 0.03; // Slower time progression
 
-      if (meshes.length > 0 && originalPositions.size > 0) {
-        // Simple softbody deformation
-        meshes.forEach((mesh) => {
-          const origPos = originalPositions.get(mesh);
+      if (meshes.length > 0 && originalPositions.length > 0) {
+        meshes.forEach((mesh, meshIndex) => {
+          const origPos = originalPositions[meshIndex];
           if (!origPos) return;
           
           const positions = mesh.geometry.attributes.position.array;
+          const meshBox = boundingBoxes[meshIndex];
           
-          // Apply gentle sine wave deformation
+          if (!meshBox) return;
+          
+          // Get mesh bounds
+          const meshMinY = meshBox.min.y;
+          const meshMaxY = meshBox.max.y;
+          const meshHeight = meshMaxY - meshMinY;
+          
+          // Apply wind-like deformation to each vertex
           for (let i = 0; i < positions.length; i += 3) {
-            // Get original position
             const origX = origPos[i];
             const origY = origPos[i + 1];
             const origZ = origPos[i + 2];
             
-            // Calculate deformation based on position and time
-            const wave1 = Math.sin(time * 2 + origY * 3) * 0.02;
-            const wave2 = Math.cos(time * 1.5 + origX * 2) * 0.02;
-            const wave3 = Math.sin(time * 2.5 + origZ * 2) * 0.02;
+            // Calculate normalized height (0 at bottom, 1 at top)
+            const normalizedY = (origY - meshMinY) / meshHeight;
             
-            // Apply deformation (more at bottom, less at top)
-            const heightFactor = (origY + 1) / 2; // 0 at bottom, 1 at top
-            const deformAmount = (1 - heightFactor * 0.7) * 0.05; // More deformation at bottom
+            // Wind parameters - adjusted for visibility
+            const windSpeed = 1.5;
+            const windStrength = 0.15; // 15% movement
             
-            positions[i] = origX + Math.sin(time * 2 + origY) * deformAmount;
-            positions[i + 1] = origY + Math.cos(time * 1.5 + origX) * deformAmount * 0.5;
-            positions[i + 2] = origZ + Math.sin(time * 2.5 + origZ) * deformAmount;
+            // Primary wind direction (diagonal)
+            const windDirX = Math.sin(time * windSpeed + origY * 2) * windStrength;
+            const windDirZ = Math.cos(time * windSpeed * 0.8 + origX * 2) * windStrength;
+            
+            // Secondary flutter
+            const flutterX = Math.sin(time * 3 + origZ * 3) * 0.08;
+            const flutterZ = Math.cos(time * 2.5 + origX * 3) * 0.08;
+            
+            // More movement at bottom, less at top
+            const heightFactor = Math.max(0, 1 - normalizedY * 1.5); // Top stays more stable
+            
+            // Combine movements
+            const moveX = (windDirX + flutterX) * heightFactor;
+            const moveY = Math.sin(time * 2 + origX) * 0.03 * (1 - normalizedY); // Slight vertical bounce
+            const moveZ = (windDirZ + flutterZ) * heightFactor;
+            
+            // Apply movement
+            positions[i] = origX + moveX;
+            positions[i + 1] = origY + moveY;
+            positions[i + 2] = origZ + moveZ;
           }
           
           mesh.geometry.attributes.position.needsUpdate = true;
@@ -193,7 +220,7 @@ export default function ClothViewer({ modelPath = '/white_t-shirt_with_print.glb
       <div ref={containerRef} style={{ width: '100%', height: '100%' }} />
       {loading && (
         <div style={{ position: 'absolute', bottom: 20, left: 20, color: '#ccc', background: 'rgba(0,0,0,0.6)', padding: '8px 15px', borderRadius: '20px' }}>
-          Loading shirt with softbody...
+          Loading shirt with wind effect...
         </div>
       )}
       {error && (
