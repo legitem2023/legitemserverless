@@ -17,9 +17,9 @@ export default function ClothViewer({ modelPath = '/white_t-shirt_with_print.glb
   useEffect(() => {
     if (!containerRef.current) return;
 
-    // Scene setup with better lighting for white shirt
+    // Scene setup
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x2a2a3a); // Slightly lighter background
+    scene.background = new THREE.Color(0x2a2a3a);
 
     const container = containerRef.current;
     const width = container.clientWidth;
@@ -29,11 +29,10 @@ export default function ClothViewer({ modelPath = '/white_t-shirt_with_print.glb
     camera.position.set(3, 2, 4);
     camera.lookAt(0, 1.2, 0);
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: "high-performance" });
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(width, height);
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-    renderer.outputEncoding = THREE.sRGBEncoding;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.2;
     container.appendChild(renderer.domElement);
@@ -45,11 +44,10 @@ export default function ClothViewer({ modelPath = '/white_t-shirt_with_print.glb
     controls.autoRotate = true;
     controls.autoRotateSpeed = 0.8;
 
-    // Enhanced lighting for white shirt
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+    // Lighting
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
     scene.add(ambientLight);
 
-    // Key light - warm
     const keyLight = new THREE.DirectionalLight(0xfff5e6, 1.5);
     keyLight.position.set(2, 3, 3);
     keyLight.castShadow = true;
@@ -57,52 +55,24 @@ export default function ClothViewer({ modelPath = '/white_t-shirt_with_print.glb
     keyLight.shadow.mapSize.height = 1024;
     scene.add(keyLight);
 
-    // Fill light - cool
-    const fillLight = new THREE.DirectionalLight(0xe6f0ff, 0.8);
+    const fillLight = new THREE.DirectionalLight(0xe6f0ff, 0.9);
     fillLight.position.set(-2, 1, 2);
     scene.add(fillLight);
 
-    // Back light - rim lighting
-    const backLight = new THREE.DirectionalLight(0xffffff, 0.6);
+    const backLight = new THREE.DirectionalLight(0xffffff, 0.7);
     backLight.position.set(0, 2, -3);
     scene.add(backLight);
 
-    // Top light
-    const topLight = new THREE.DirectionalLight(0xffffff, 0.5);
-    topLight.position.set(0, 4, 1);
-    scene.add(topLight);
-
-    // Soft point lights for fill
-    const pointLight1 = new THREE.PointLight(0xffaa88, 0.4);
-    pointLight1.position.set(1, 2, 2);
-    scene.add(pointLight1);
-
-    const pointLight2 = new THREE.PointLight(0x88aaff, 0.3);
-    pointLight2.position.set(-1, 1, -1);
-    scene.add(pointLight2);
-
-    // Ground reference with better color
+    // Ground
     const gridHelper = new THREE.GridHelper(6, 20, 0xaaaaaa, 0x666666);
     gridHelper.position.y = 0;
     scene.add(gridHelper);
 
-    const groundGeometry = new THREE.CircleGeometry(4, 32);
-    const groundMaterial = new THREE.MeshStandardMaterial({ 
-      color: 0x2a2a3a, 
-      roughness: 0.7,
-      metalness: 0.1,
-      emissive: new THREE.Color(0x111122)
-    });
-    const ground = new THREE.Mesh(groundGeometry, groundMaterial);
-    ground.rotation.x = -Math.PI / 2;
-    ground.position.y = 0;
-    ground.receiveShadow = true;
-    scene.add(ground);
-
     // Load model
     const loader = new GLTFLoader();
     let allMeshes: THREE.Mesh[] = [];
-    let originalPositions: Float32Array[] = [];
+    let originalWorldPositions: Float32Array[] = [];
+    let vertexMap: Map<string, { meshIndices: number[], vertexIndices: number[] }> = new Map();
     let time = 0;
 
     loader.load(
@@ -119,56 +89,101 @@ export default function ClothViewer({ modelPath = '/white_t-shirt_with_print.glb
         shirtGroup.scale.set(scale, scale, scale);
         shirtGroup.position.set(-center.x * scale, 1.2 - center.y * scale, -center.z * scale);
         
-        // Process all meshes
+        // Update matrices to get correct world positions
+        shirtGroup.updateWorldMatrix(true, true);
+        
+        // First pass: collect ALL vertices in world space
+        const tempVertices: { mesh: THREE.Mesh, meshIndex: number, vertexIndex: number, worldPos: THREE.Vector3 }[] = [];
+        
         shirtGroup.traverse((child) => {
           if (child instanceof THREE.Mesh) {
+            const meshIndex = allMeshes.length;
+            allMeshes.push(child);
+            
             // Clone geometry
             const geom = child.geometry.clone();
             child.geometry = geom;
             
-            // Store original positions
-            const positions = geom.attributes.position.array.slice();
-            originalPositions.push(positions);
+            // Get world matrix
+            const matrix = child.matrixWorld;
             
-            // ENHANCE MATERIAL FOR WHITE TSHIRT
-            if (Array.isArray(child.material)) {
-              child.material.forEach(mat => {
-                mat.roughness = 0.4; // Less rough for more light reflection
-                mat.metalness = 0.0; // No metalness for fabric
-                mat.emissive = new THREE.Color(0x000000);
-                mat.emissiveIntensity = 0;
-                mat.flatShading = false;
-                mat.side = THREE.DoubleSide; // Show inside if visible
-                
-                // Preserve original texture if exists
-                if (mat.map) {
-                  mat.map.encoding = THREE.sRGBEncoding;
-                  mat.map.needsUpdate = true;
-                }
-              });
-            } else if (child.material) {
-              child.material.roughness = 0.4;
-              child.material.metalness = 0.0;
-              child.material.emissive = new THREE.Color(0x000000);
-              child.material.emissiveIntensity = 0;
-              child.material.flatShading = false;
-              child.material.side = THREE.DoubleSide;
+            // Get positions
+            const positions = geom.attributes.position.array;
+            
+            // Store original positions and collect vertices
+            for (let i = 0; i < positions.length; i += 3) {
+              const localPos = new THREE.Vector3(
+                positions[i],
+                positions[i + 1],
+                positions[i + 2]
+              );
               
-              if (child.material.map) {
-                child.material.map.encoding = THREE.sRGBEncoding;
-                child.material.map.needsUpdate = true;
-              }
+              // Convert to world space
+              const worldPos = localPos.clone().applyMatrix4(matrix);
+              
+              tempVertices.push({
+                mesh: child,
+                meshIndex,
+                vertexIndex: i / 3,
+                worldPos
+              });
             }
-            
-            child.castShadow = true;
-            child.receiveShadow = true;
-            allMeshes.push(child);
           }
+        });
+        
+        // Group vertices by their world position (rounded to avoid floating point issues)
+        tempVertices.forEach(item => {
+          const key = `${item.worldPos.x.toFixed(4)},${item.worldPos.y.toFixed(4)},${item.worldPos.z.toFixed(4)}`;
+          
+          if (!vertexMap.has(key)) {
+            vertexMap.set(key, { meshIndices: [], vertexIndices: [] });
+          }
+          const entry = vertexMap.get(key)!;
+          entry.meshIndices.push(item.meshIndex);
+          entry.vertexIndices.push(item.vertexIndex);
+        });
+        
+        console.log(`Found ${vertexMap.size} unique vertex positions across ${allMeshes.length} meshes`);
+        
+        // Store original world positions for each mesh
+        allMeshes.forEach((mesh, meshIndex) => {
+          const geom = mesh.geometry;
+          const positions = geom.attributes.position.array;
+          const worldPositions = new Float32Array(positions.length);
+          
+          const matrix = mesh.matrixWorld;
+          
+          for (let i = 0; i < positions.length; i += 3) {
+            const localPos = new THREE.Vector3(
+              positions[i],
+              positions[i + 1],
+              positions[i + 2]
+            );
+            const worldPos = localPos.clone().applyMatrix4(matrix);
+            worldPositions[i] = worldPos.x;
+            worldPositions[i + 1] = worldPos.y;
+            worldPositions[i + 2] = worldPos.z;
+          }
+          
+          originalWorldPositions.push(worldPositions);
+          
+          // Enhance material
+          if (Array.isArray(mesh.material)) {
+            mesh.material.forEach(mat => {
+              mat.roughness = 0.4;
+              mat.metalness = 0.0;
+            });
+          } else if (mesh.material) {
+            mesh.material.roughness = 0.4;
+            mesh.material.metalness = 0.0;
+          }
+          
+          mesh.castShadow = true;
+          mesh.receiveShadow = true;
         });
         
         scene.add(shirtGroup);
         setLoading(false);
-        console.log(`Loaded ${allMeshes.length} meshes with enhanced white shirt materials`);
       },
       undefined,
       (err) => {
@@ -178,52 +193,78 @@ export default function ClothViewer({ modelPath = '/white_t-shirt_with_print.glb
       }
     );
 
-    // Animation loop with softer movement
+    // Animation loop with synchronized vertex movement
     const animate = () => {
       requestAnimationFrame(animate);
       
       time += 0.015;
 
-      if (allMeshes.length > 0 && originalPositions.length > 0) {
+      if (allMeshes.length > 0 && originalWorldPositions.length > 0 && vertexMap.size > 0) {
+        // Create a map for new world positions
+        const newWorldPositions = new Map<string, THREE.Vector3>();
+        
+        // Calculate movement for each UNIQUE vertex position
+        vertexMap.forEach((value, key) => {
+          // Parse the original world position from the key
+          const [x, y, z] = key.split(',').map(Number);
+          
+          // Calculate height factor for this vertex
+          const minY = 0.3; // Adjust based on your shirt
+          const maxY = 2.1; // Adjust based on your shirt
+          const heightFactor = Math.max(0, Math.min(1, (y - minY) / (maxY - minY)));
+          
+          // Apply SAME movement formula to this unique vertex
+          const windStrength = 0.03;
+          const windSpeed = 1.0;
+          
+          const moveX = Math.sin(time * windSpeed + y * 1.5) * windStrength * (1 - heightFactor * 0.7);
+          const moveZ = Math.cos(time * windSpeed * 0.9 + x * 1.5) * windStrength * (1 - heightFactor * 0.7);
+          const moveY = Math.sin(time * 1.2 + x * 2) * 0.008 * (1 - heightFactor);
+          
+          // Store new world position
+          newWorldPositions.set(key, new THREE.Vector3(
+            x + moveX,
+            y + moveY,
+            z + moveZ
+          ));
+        });
+        
+        // Apply the calculated movements to ALL meshes
         allMeshes.forEach((mesh, meshIndex) => {
-          const origPos = originalPositions[meshIndex];
-          if (!origPos) return;
+          const origWorldPos = originalWorldPositions[meshIndex];
+          if (!origWorldPos) return;
           
           const positions = mesh.geometry.attributes.position.array;
+          const matrix = mesh.matrixWorld;
+          const inverseMatrix = new THREE.Matrix4().copy(matrix).invert();
           
-          // Get mesh bounds for height factor
-          let minY = Infinity, maxY = -Infinity;
-          for (let i = 1; i < origPos.length; i += 3) {
-            minY = Math.min(minY, origPos[i]);
-            maxY = Math.max(maxY, origPos[i]);
-          }
-          const heightRange = maxY - minY;
-          
-          // Apply gentler movement
+          // Process each vertex
           for (let i = 0; i < positions.length; i += 3) {
-            const origX = origPos[i];
-            const origY = origPos[i + 1];
-            const origZ = origPos[i + 2];
+            const vertexIndex = i / 3;
             
-            // Normalized height (0 at bottom, 1 at top)
-            const heightFactor = (origY - minY) / heightRange;
+            // Get original world position
+            const worldX = origWorldPos[i];
+            const worldY = origWorldPos[i + 1];
+            const worldZ = origWorldPos[i + 2];
             
-            // Softer wind movement
-            const windStrength = 0.04; // Reduced from 0.08
-            const windSpeed = 1.0;
+            // Find the key for this vertex
+            const key = `${worldX.toFixed(4)},${worldY.toFixed(4)},${worldZ.toFixed(4)}`;
             
-            // Gentler waves
-            const moveX = Math.sin(time * windSpeed + origY * 1.5) * windStrength * (1 - heightFactor * 0.8);
-            const moveZ = Math.cos(time * windSpeed * 0.9 + origX * 1.5) * windStrength * (1 - heightFactor * 0.8);
-            const moveY = Math.sin(time * 1.2 + origX * 2) * 0.01 * (1 - heightFactor);
+            // Get the new world position (all vertices with same key get SAME movement)
+            const newWorldPos = newWorldPositions.get(key);
             
-            positions[i] = origX + moveX;
-            positions[i + 1] = origY + moveY;
-            positions[i + 2] = origZ + moveZ;
+            if (newWorldPos) {
+              // Convert back to local space
+              const localPos = newWorldPos.clone().applyMatrix4(inverseMatrix);
+              
+              positions[i] = localPos.x;
+              positions[i + 1] = localPos.y;
+              positions[i + 2] = localPos.z;
+            }
           }
           
           mesh.geometry.attributes.position.needsUpdate = true;
-          mesh.geometry.computeVertexNormals(); // Recalculate normals for proper lighting
+          mesh.geometry.computeVertexNormals();
         });
       }
 
@@ -257,7 +298,7 @@ export default function ClothViewer({ modelPath = '/white_t-shirt_with_print.glb
       <div ref={containerRef} style={{ width: '100%', height: '100%' }} />
       {loading && (
         <div style={{ position: 'absolute', bottom: 20, left: 20, color: '#fff', background: 'rgba(0,0,0,0.6)', padding: '8px 15px', borderRadius: '20px' }}>
-          Loading white shirt with soft lighting...
+          Loading shirt with synchronized movement...
         </div>
       )}
       {error && (
@@ -267,4 +308,4 @@ export default function ClothViewer({ modelPath = '/white_t-shirt_with_print.glb
       )}
     </div>
   );
-                                }
+              }
