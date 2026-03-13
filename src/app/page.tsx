@@ -1,7 +1,6 @@
 // app/components/DeluxePrintGallery.tsx
 'use client'
-import React from 'react';
-import Image from 'next/image';
+import React, { useEffect, useState } from 'react';
 
 interface DeluxeProduct {
   id: number;
@@ -164,6 +163,26 @@ const deluxeProducts: DeluxeProduct[] = [
   }
 ];
 
+// Mobile menu component
+const MobileMenu = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
+  if (!isOpen) return null;
+  
+  return (
+    <div className="mobile-menu-overlay" onClick={onClose}>
+      <div className="mobile-menu-content" onClick={e => e.stopPropagation()}>
+        <button className="mobile-menu-close" onClick={onClose}>✕</button>
+        <div className="mobile-menu-items">
+          <a href="#" className="mobile-menu-item">Collection</a>
+          <a href="#" className="mobile-menu-item">Atelier</a>
+          <a href="#" className="mobile-menu-item">Lookbook</a>
+          <a href="#" className="mobile-menu-item">Contact</a>
+          <a href="#" className="mobile-menu-item gold">Book Consultation</a>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 // Deluxe Thumbnail with Gold Accents
 const DeluxeThumbnail = ({ pathData, name, goldLabel }: { pathData: string; name: string; goldLabel?: boolean }) => {
   const svgMarkup = `
@@ -199,7 +218,7 @@ const DeluxeThumbnail = ({ pathData, name, goldLabel }: { pathData: string; name
     <div className="deluxe-thumbnail-wrapper">
       <div className="thumbnail-gold-border">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={encodedSvg} alt={name} className="deluxe-thumbnail" />
+        <img src={encodedSvg} alt={name} className="deluxe-thumbnail" loading="lazy" />
       </div>
       {goldLabel && <div className="gold-badge">COUTURE</div>}
     </div>
@@ -208,53 +227,149 @@ const DeluxeThumbnail = ({ pathData, name, goldLabel }: { pathData: string; name
 
 // Main Deluxe Gallery Component
 export default function DeluxePrintGallery() {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [windowWidth, setWindowWidth] = useState(0);
+
+  useEffect(() => {
+    // Set initial width
+    setWindowWidth(window.innerWidth);
+    
+    // Handle resize
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+    
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const isMobile = windowWidth < 768;
+  const isTablet = windowWidth >= 768 && windowWidth < 1024;
+
   return (
     <div className="deluxe-container">
       <style jsx>{`
         .deluxe-container {
           max-width: 1600px;
           margin: 0 auto;
-          padding: 2rem;
+          padding: 1rem;
           background: #0f0f13;
           background-image: 
             radial-gradient(circle at 30% 40%, rgba(227, 179, 76, 0.03) 0%, transparent 30%),
             repeating-linear-gradient(45deg, rgba(227, 179, 76, 0.02) 0px, rgba(227, 179, 76, 0.02) 1px, transparent 1px, transparent 15px);
           font-family: 'Cormorant Garamond', 'Times New Roman', serif;
+          min-height: 100vh;
         }
 
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&display=swap');
 
+        /* Mobile Navigation */
+        .mobile-nav {
+          display: none;
+          position: sticky;
+          top: 0;
+          z-index: 100;
+          background: #0a0c12;
+          padding: 1rem;
+          border-bottom: 1px solid rgba(227, 179, 76, 0.3);
+          backdrop-filter: blur(10px);
+        }
+
+        .mobile-nav-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+
+        .mobile-logo {
+          font-size: 1.4rem;
+          font-weight: 700;
+          background: linear-gradient(135deg, #ffffff 0%, #e3b34c 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+        }
+
+        .mobile-menu-button {
+          background: none;
+          border: 1px solid #e3b34c;
+          color: #e3b34c;
+          font-size: 1.5rem;
+          padding: 0.5rem 1rem;
+          border-radius: 8px;
+          cursor: pointer;
+        }
+
+        .mobile-menu-overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: rgba(0,0,0,0.8);
+          z-index: 1000;
+          backdrop-filter: blur(5px);
+        }
+
+        .mobile-menu-content {
+          position: fixed;
+          top: 0;
+          right: 0;
+          width: 80%;
+          max-width: 400px;
+          height: 100vh;
+          background: #14181f;
+          padding: 2rem;
+          border-left: 1px solid #e3b34c;
+          animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+          from { transform: translateX(100%); }
+          to { transform: translateX(0); }
+        }
+
+        .mobile-menu-close {
+          position: absolute;
+          top: 1rem;
+          right: 1rem;
+          background: none;
+          border: none;
+          color: #e3b34c;
+          font-size: 2rem;
+          cursor: pointer;
+        }
+
+        .mobile-menu-items {
+          margin-top: 4rem;
+          display: flex;
+          flex-direction: column;
+          gap: 1.5rem;
+        }
+
+        .mobile-menu-item {
+          color: white;
+          text-decoration: none;
+          font-size: 1.2rem;
+          padding: 0.5rem 0;
+          border-bottom: 1px solid rgba(227, 179, 76, 0.2);
+        }
+
+        .mobile-menu-item.gold {
+          color: #e3b34c;
+          font-weight: 700;
+        }
+
+        /* Header */
         .deluxe-header {
           background: linear-gradient(165deg, #0c1119 0%, #1a1f2b 100%);
-          padding: 3rem 4rem;
-          border-radius: 40px 40px 40px 40px;
-          margin-bottom: 4rem;
+          padding: clamp(1.5rem, 5vw, 4rem);
+          border-radius: clamp(20px, 5vw, 40px);
+          margin-bottom: clamp(1.5rem, 4vw, 4rem);
           position: relative;
           overflow: hidden;
           border: 1px solid rgba(227, 179, 76, 0.3);
           box-shadow: 0 20px 40px rgba(0,0,0,0.6), inset 0 1px 1px rgba(255,255,255,0.1);
-        }
-
-        .deluxe-header::before {
-          content: '';
-          position: absolute;
-          top: -50%;
-          left: -50%;
-          width: 200%;
-          height: 200%;
-          background: repeating-linear-gradient(
-            45deg,
-            transparent,
-            transparent 20px,
-            rgba(227, 179, 76, 0.03) 20px,
-            rgba(227, 179, 76, 0.03) 40px
-          );
-          animation: shine 40s linear infinite;
-        }
-
-        @keyframes shine {
-          0% { transform: rotate(0deg); }
-          100% { transform: rotate(360deg); }
         }
 
         .header-gold-accent {
@@ -267,7 +382,7 @@ export default function DeluxePrintGallery() {
         }
 
         .deluxe-header h1 {
-          font-size: 5rem;
+          font-size: clamp(2rem, 8vw, 5rem);
           font-weight: 700;
           margin: 0;
           line-height: 1.1;
@@ -278,26 +393,23 @@ export default function DeluxePrintGallery() {
           -webkit-text-fill-color: transparent;
           background-clip: text;
           text-shadow: 0 2px 5px rgba(0,0,0,0.3);
-          letter-spacing: 2px;
+          letter-spacing: clamp(1px, 2vw, 2px);
         }
 
         .header-subtitle {
-          font-size: 1.4rem;
+          font-size: clamp(0.9rem, 3vw, 1.4rem);
           color: #b8a87c;
-          letter-spacing: 4px;
+          letter-spacing: clamp(2px, 1vw, 4px);
           margin-top: 0.5rem;
           font-weight: 300;
           text-transform: uppercase;
-          position: relative;
-          z-index: 2;
         }
 
         .header-emblems {
           display: flex;
-          gap: 3rem;
-          margin-top: 2rem;
-          position: relative;
-          z-index: 2;
+          flex-wrap: wrap;
+          gap: clamp(1rem, 3vw, 3rem);
+          margin-top: clamp(1rem, 3vw, 2rem);
         }
 
         .emblem {
@@ -306,7 +418,7 @@ export default function DeluxePrintGallery() {
           align-items: center;
           color: #e3b34c;
           border-right: 1px solid rgba(227, 179, 76, 0.3);
-          padding-right: 2rem;
+          padding-right: clamp(1rem, 3vw, 2rem);
         }
 
         .emblem:last-child {
@@ -314,77 +426,62 @@ export default function DeluxePrintGallery() {
         }
 
         .emblem-number {
-          font-size: 2.2rem;
+          font-size: clamp(1.2rem, 4vw, 2.2rem);
           font-weight: 700;
           color: white;
         }
 
         .emblem-text {
-          font-size: 0.9rem;
+          font-size: clamp(0.7rem, 2vw, 0.9rem);
           text-transform: uppercase;
-          letter-spacing: 2px;
+          letter-spacing: 1px;
           color: #b8a87c;
+          text-align: center;
         }
 
+        /* Products Grid */
         .deluxe-products-grid {
           display: flex;
           flex-direction: column;
-          gap: 2.5rem;
+          gap: clamp(1rem, 3vw, 2.5rem);
         }
 
         .deluxe-card {
           display: grid;
-          grid-template-columns: 220px 1fr;
-          gap: 2.5rem;
-          padding: 2.5rem;
+          grid-template-columns: ${isMobile ? '1fr' : (isTablet ? '180px 1fr' : '220px 1fr')};
+          gap: clamp(1rem, 3vw, 2.5rem);
+          padding: clamp(1rem, 3vw, 2.5rem);
           background: #14181f;
-          border-radius: 40px;
+          border-radius: clamp(20px, 4vw, 40px);
           border: 1px solid #2a2f38;
           transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
           position: relative;
           overflow: hidden;
-          box-shadow: 0 15px 30px -15px rgba(0,0,0,0.7);
         }
 
         .deluxe-card:hover {
-          transform: scale(1.02) translateY(-5px);
+          transform: ${!isMobile ? 'scale(1.02) translateY(-5px)' : 'none'};
           border-color: #e3b34c;
-          box-shadow: 0 30px 50px -20px #000, 0 0 0 1px rgba(227, 179, 76, 0.3);
-          background: #1a1f29;
         }
 
-        .deluxe-card::after {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: -100%;
-          width: 50%;
-          height: 100%;
-          background: linear-gradient(90deg, transparent, rgba(227, 179, 76, 0.1), transparent);
-          transition: left 0.7s;
-        }
-
-        .deluxe-card:hover::after {
-          left: 150%;
-        }
-
+        /* Thumbnail */
         .deluxe-thumbnail-wrapper {
           position: relative;
+          width: ${isMobile ? '120px' : (isTablet ? '160px' : '100%')};
+          margin: ${isMobile ? '0 auto' : '0'};
         }
 
         .thumbnail-gold-border {
-          padding: 8px;
+          padding: 6px;
           background: linear-gradient(145deg, #bf9530, #fcf6ba, #b38728);
-          border-radius: 24px;
-          box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+          border-radius: 16px;
         }
 
         .deluxe-thumbnail {
           width: 100%;
           height: auto;
-          border-radius: 16px;
+          border-radius: 12px;
           display: block;
-          background: #0a121c;
         }
 
         .gold-badge {
@@ -393,186 +490,177 @@ export default function DeluxePrintGallery() {
           right: -5px;
           background: linear-gradient(145deg, #bf9530, #fcf6ba);
           color: #0a0c12;
-          padding: 0.5rem 1.5rem;
+          padding: 0.25rem 0.75rem;
           border-radius: 40px;
           font-weight: 700;
-          font-size: 0.9rem;
-          letter-spacing: 1px;
-          box-shadow: 0 5px 15px rgba(227, 179, 76, 0.5);
-          border: 1px solid #f9e6b3;
-          transform: rotate(5deg);
+          font-size: 0.7rem;
+          white-space: nowrap;
         }
 
-        .product-details {
-          display: flex;
-          flex-direction: column;
-        }
-
+        /* Product Details */
         .product-header {
           display: flex;
-          align-items: center;
-          gap: 1.5rem;
+          flex-direction: ${isMobile ? 'column' : 'row'};
+          align-items: ${isMobile ? 'flex-start' : 'center'};
+          gap: ${isMobile ? '0.5rem' : '1.5rem'};
           margin-bottom: 1rem;
-          flex-wrap: wrap;
         }
 
         .product-name {
-          font-size: 2.8rem;
+          font-size: clamp(1.5rem, 5vw, 2.8rem);
           font-weight: 700;
           margin: 0;
           background: linear-gradient(135deg, #ffffff 0%, #e3b34c 100%);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           background-clip: text;
-          letter-spacing: 1px;
         }
 
         .product-category {
-          font-size: 1rem;
+          font-size: clamp(0.7rem, 2vw, 1rem);
           color: #b8a87c;
           text-transform: uppercase;
-          letter-spacing: 3px;
+          letter-spacing: 1px;
           border: 1px solid rgba(227, 179, 76, 0.3);
-          padding: 0.4rem 1.2rem;
+          padding: 0.25rem 1rem;
           border-radius: 40px;
+          white-space: nowrap;
         }
 
         .product-description {
-          font-size: 1.1rem;
+          font-size: clamp(0.9rem, 2.5vw, 1.1rem);
           color: #b0b7c5;
-          margin-bottom: 1.8rem;
+          margin-bottom: 1.5rem;
           line-height: 1.6;
           font-style: italic;
           border-left: 2px solid #e3b34c;
-          padding-left: 1.5rem;
+          padding-left: 1rem;
         }
 
+        /* Specs Grid - Responsive */
         .specs-grid-luxury {
           display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-          gap: 1.2rem;
-          margin-bottom: 1.8rem;
+          grid-template-columns: repeat(auto-fill, minmax(${isMobile ? '140px' : '200px'}, 1fr));
+          gap: 1rem;
+          margin-bottom: 1.5rem;
           background: rgba(0,0,0,0.3);
-          padding: 1.5rem;
-          border-radius: 20px;
-          border: 1px solid #2a2f38;
-        }
-
-        .spec-luxury {
-          display: flex;
-          flex-direction: column;
-          gap: 0.3rem;
+          padding: clamp(0.8rem, 2vw, 1.5rem);
+          border-radius: 16px;
         }
 
         .spec-luxury-label {
-          font-size: 0.8rem;
+          font-size: clamp(0.7rem, 1.8vw, 0.8rem);
           text-transform: uppercase;
           color: #8f9bb3;
-          letter-spacing: 1.5px;
-          font-weight: 300;
+          letter-spacing: 0.5px;
         }
 
         .spec-luxury-value {
-          font-size: 1.1rem;
+          font-size: clamp(0.9rem, 2.2vw, 1.1rem);
           font-weight: 600;
           color: #e3b34c;
         }
 
+        /* Finish Tags */
         .finish-tags {
           display: flex;
           flex-wrap: wrap;
           gap: 0.5rem;
-          margin-bottom: 1.8rem;
+          margin-bottom: 1.5rem;
         }
 
         .finish-tag {
           background: linear-gradient(145deg, #1e2632, #14181f);
           border: 1px solid #e3b34c;
           color: #e3b34c;
-          padding: 0.4rem 1.2rem;
+          padding: 0.3rem 0.8rem;
           border-radius: 40px;
-          font-size: 0.85rem;
-          font-weight: 600;
-          text-transform: uppercase;
-          letter-spacing: 1px;
-          box-shadow: 0 2px 8px rgba(227, 179, 76, 0.2);
+          font-size: clamp(0.7rem, 2vw, 0.85rem);
+          white-space: nowrap;
         }
 
+        /* Action Buttons - Stack on mobile */
         .action-buttons-luxury {
           display: flex;
-          gap: 1.5rem;
-          margin-top: 1.5rem;
+          flex-direction: ${isMobile ? 'column' : 'row'};
+          gap: 1rem;
+          margin-top: 1rem;
+        }
+
+        .btn-primary-luxury,
+        .btn-secondary-luxury {
+          padding: ${isMobile ? '0.8rem 1rem' : '1rem 2rem'};
+          border-radius: 50px;
+          font-weight: 600;
+          font-size: clamp(0.8rem, 2.2vw, 1rem);
+          text-align: center;
+          cursor: pointer;
+          transition: all 0.3s;
+          width: ${isMobile ? '100%' : 'auto'};
         }
 
         .btn-primary-luxury {
           background: linear-gradient(145deg, #bf9530, #f9e6b3);
-          border: none;
-          padding: 1rem 2.5rem;
-          border-radius: 50px;
-          font-weight: 700;
-          font-size: 1rem;
-          text-transform: uppercase;
-          letter-spacing: 2px;
-          color: #0a0c12;
-          cursor: pointer;
-          transition: all 0.3s;
           border: 1px solid #fcf6ba;
-          box-shadow: 0 5px 20px rgba(227, 179, 76, 0.4);
-        }
-
-        .btn-primary-luxury:hover {
-          transform: translateY(-3px);
-          box-shadow: 0 10px 30px rgba(227, 179, 76, 0.7);
+          color: #0a0c12;
         }
 
         .btn-secondary-luxury {
           background: transparent;
           border: 1px solid #e3b34c;
-          padding: 1rem 2.5rem;
-          border-radius: 50px;
-          font-weight: 600;
-          font-size: 1rem;
-          text-transform: uppercase;
-          letter-spacing: 2px;
           color: #e3b34c;
-          cursor: pointer;
-          transition: all 0.3s;
         }
 
-        .btn-secondary-luxury:hover {
-          background: rgba(227, 179, 76, 0.1);
-          border-color: #f9e6b3;
-          color: #f9e6b3;
+        /* Tablet and Desktop adjustments */
+        @media (min-width: 1024px) {
+          .deluxe-container {
+            padding: 2rem;
+          }
         }
 
-        @media (max-width: 1000px) {
-          .deluxe-card {
+        /* Hide desktop elements on mobile */
+        @media (max-width: 767px) {
+          .mobile-nav {
+            display: block;
+          }
+          
+          .desktop-only {
+            display: none;
+          }
+        }
+
+        /* Small phone adjustments */
+        @media (max-width: 380px) {
+          .specs-grid-luxury {
             grid-template-columns: 1fr;
           }
           
-          .deluxe-header h1 {
-            font-size: 3.5rem;
-          }
-        }
-
-        @media (max-width: 600px) {
-          .deluxe-header {
-            padding: 2rem;
-          }
-          
-          .deluxe-header h1 {
-            font-size: 2.5rem;
-          }
-          
           .product-name {
-            font-size: 2rem;
+            font-size: 1.3rem;
+          }
+          
+          .finish-tag {
+            font-size: 0.65rem;
           }
         }
       `}</style>
 
+      {/* Mobile Navigation */}
+      <div className="mobile-nav">
+        <div className="mobile-nav-header">
+          <span className="mobile-logo">A&R SILKSCREEN</span>
+          <button className="mobile-menu-button" onClick={() => setMobileMenuOpen(true)}>
+            ☰
+          </button>
+        </div>
+      </div>
+
+      <MobileMenu isOpen={mobileMenuOpen} onClose={() => setMobileMenuOpen(false)} />
+
+      {/* Header */}
       <header className="deluxe-header">
         <div className="header-gold-accent"></div>
-        <h1>A & R <span style={{ color: '#e3b34c' }}>SILKSCREEN</span></h1>
+        <h1>A & R <span>SILKSCREEN</span></h1>
         <div className="header-subtitle">ATELIER • EST. 2008</div>
         <div className="header-emblems">
           <div className="emblem">
@@ -590,6 +678,7 @@ export default function DeluxePrintGallery() {
         </div>
       </header>
 
+      {/* Products Grid */}
       <div className="deluxe-products-grid">
         {deluxeProducts.map((product) => (
           <div key={product.id} className="deluxe-card">
@@ -602,47 +691,46 @@ export default function DeluxePrintGallery() {
             <div className="product-details">
               <div className="product-header">
                 <h2 className="product-name">{product.name}</h2>
-                <span className="product-category">{product.category}</span>
+                <span className="product-category">{product.category.split(' ')[0]}</span>
               </div>
               
               <p className="product-description">"{product.description}"</p>
               
               <div className="specs-grid-luxury">
                 <div className="spec-luxury">
-                  <span className="spec-luxury-label">Technique</span>
-                  <span className="spec-luxury-value">{product.technique}</span>
-                </div>
-                <div className="spec-luxury">
                   <span className="spec-luxury-label">Colors</span>
-                  <span className="spec-luxury-value">{product.colors} colors</span>
-                </div>
-                <div className="spec-luxury">
-                  <span className="spec-luxury-label">Print Area</span>
-                  <span className="spec-luxury-value">{product.area}</span>
-                </div>
-                <div className="spec-luxury">
-                  <span className="spec-luxury-label">Turnaround</span>
-                  <span className="spec-luxury-value">{product.turnaround}</span>
+                  <span className="spec-luxury-value">{product.colors}</span>
                 </div>
                 <div className="spec-luxury">
                   <span className="spec-luxury-label">Min Order</span>
-                  <span className="spec-luxury-value">{product.minOrder} pieces</span>
+                  <span className="spec-luxury-value">{product.minOrder}</span>
                 </div>
                 <div className="spec-luxury">
                   <span className="spec-luxury-label">Price</span>
                   <span className="spec-luxury-value">{product.price}</span>
                 </div>
+                <div className="spec-luxury">
+                  <span className="spec-luxury-label">Turnaround</span>
+                  <span className="spec-luxury-value">{product.turnaround.split('•')[0]}</span>
+                </div>
               </div>
               
               <div className="finish-tags">
-                {product.finish.map((f, idx) => (
+                {product.finish.slice(0, isMobile ? 2 : 4).map((f, idx) => (
                   <span key={idx} className="finish-tag">✦ {f} ✦</span>
                 ))}
+                {isMobile && product.finish.length > 2 && (
+                  <span className="finish-tag">+{product.finish.length - 2}</span>
+                )}
               </div>
               
               <div className="action-buttons-luxury">
-                <button className="btn-primary-luxury">Request Consultation</button>
-                <button className="btn-secondary-luxury">View Lookbook</button>
+                <button className="btn-primary-luxury">
+                  {isMobile ? 'Consult' : 'Request Consultation'}
+                </button>
+                <button className="btn-secondary-luxury">
+                  {isMobile ? 'View' : 'View Lookbook'}
+                </button>
               </div>
             </div>
           </div>
