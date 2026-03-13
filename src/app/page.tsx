@@ -615,6 +615,19 @@ export default function DeluxeAnimeGallery() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  // Prevent body scroll when modal is open
+  useEffect(() => {
+    if (showClothViewer) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [showClothViewer]);
+
   const isMobile = windowWidth < 768;
   const isTablet = windowWidth >= 768 && windowWidth < 1024;
 
@@ -669,7 +682,7 @@ export default function DeluxeAnimeGallery() {
       </div>
 
       {/* Products Grid */}
-      <div className="flex flex-col gap-4 md:gap-8 p-2 pb-24">
+      <div className="flex flex-col gap-4 md:gap-8 p-2">
         {filteredProducts.map((product) => (
           <div 
             key={product.id} 
@@ -755,31 +768,36 @@ export default function DeluxeAnimeGallery() {
         ))}
       </div>
 
-      {/* ClothViewer Modal */}
+      {/* ClothViewer Modal - Fixed overlay that doesn't affect page layout */}
       {showClothViewer && (
-        <div className="fixed inset-0 z-50 flex items-end justify-center">
+        <>
           {/* Backdrop */}
           <div 
-            className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+            className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50"
             onClick={() => setShowClothViewer(false)}
           />
           
-          {/* Slide-up Content */}
-          <div className="relative w-full bg-[#14181f] border-t border-[#e3b34c] rounded-t-3xl animate-slideUp">
-            <div className="flex justify-between items-center p-4 border-b border-[#e3b34c]/30">
-              <h3 className="text-[#e3b34c] font-semibold">Cloth Viewer</h3>
-              <button 
-                onClick={() => setShowClothViewer(false)}
-                className="text-[#e3b34c] hover:text-[#f9e6b3] text-2xl"
-              >
-                ✕
-              </button>
-            </div>
-            <div className="p-4">
-              <ClothViewer/>
+          {/* Modal Content - Fixed at bottom */}
+          <div className="fixed bottom-0 left-0 right-0 z-50 max-h-[90vh] overflow-y-auto">
+            <div className="bg-[#14181f] border-t-2 border-[#e3b34c] rounded-t-3xl shadow-2xl animate-slideUp">
+              {/* Header */}
+              <div className="sticky top-0 bg-[#14181f] flex justify-between items-center p-4 border-b border-[#e3b34c]/30 rounded-t-3xl">
+                <h3 className="text-[#e3b34c] font-semibold text-lg">Cloth Viewer</h3>
+                <button 
+                  onClick={() => setShowClothViewer(false)}
+                  className="text-[#e3b34c] hover:text-[#f9e6b3] text-2xl w-8 h-8 flex items-center justify-center rounded-full hover:bg-[#e3b34c]/10 transition-all"
+                >
+                  ✕
+                </button>
+              </div>
+              
+              {/* Content */}
+              <div className="p-4">
+                <ClothViewer/>
+              </div>
             </div>
           </div>
-        </div>
+        </>
       )}
 
       <style jsx>{`
