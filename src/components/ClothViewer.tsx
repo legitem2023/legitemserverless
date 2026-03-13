@@ -20,7 +20,7 @@ export default function ClothViewer({ modelPath = '/white_t-shirt_with_print.glb
 
     // Scene setup
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x111122);
+    scene.background = new THREE.Color(0x1a1a2e);
 
     const container = containerRef.current;
     const width = container.clientWidth;
@@ -28,9 +28,9 @@ export default function ClothViewer({ modelPath = '/white_t-shirt_with_print.glb
 
     const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
     camera.position.set(3, 2, 4);
-    camera.lookAt(0, 1, 0);
+    camera.lookAt(0, 1.2, 0);
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(width, height);
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
@@ -38,118 +38,71 @@ export default function ClothViewer({ modelPath = '/white_t-shirt_with_print.glb
 
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
-    controls.dampingFactor = 0.05;
     controls.target.set(0, 1.2, 0);
 
     // Lighting
     const ambientLight = new THREE.AmbientLight(0x404060);
     scene.add(ambientLight);
 
-    const mainLight = new THREE.DirectionalLight(0xffffff, 1.5);
+    const mainLight = new THREE.DirectionalLight(0xffffff, 1.2);
     mainLight.position.set(2, 5, 3);
     mainLight.castShadow = true;
     mainLight.shadow.mapSize.width = 1024;
     mainLight.shadow.mapSize.height = 1024;
-    const d = 4;
-    mainLight.shadow.camera.left = -d;
-    mainLight.shadow.camera.right = d;
-    mainLight.shadow.camera.top = d;
-    mainLight.shadow.camera.bottom = -d;
-    mainLight.shadow.camera.near = 2;
-    mainLight.shadow.camera.far = 10;
     scene.add(mainLight);
 
-    const fillLight = new THREE.DirectionalLight(0xffccaa, 0.5);
-    fillLight.position.set(-2, 1, 2);
+    const fillLight = new THREE.DirectionalLight(0xffaa88, 0.5);
+    fillLight.position.set(-2, 2, 2);
     scene.add(fillLight);
 
-    // Simple ground plane for shadow reference
+    // Simple ground
     const groundGeometry = new THREE.CircleGeometry(5, 32);
-    const groundMaterial = new THREE.MeshStandardMaterial({ color: 0x223344, roughness: 0.8, metalness: 0.2 });
+    const groundMaterial = new THREE.MeshStandardMaterial({ color: 0x2a2a3a, roughness: 0.8 });
     const ground = new THREE.Mesh(groundGeometry, groundMaterial);
     ground.rotation.x = -Math.PI / 2;
     ground.position.y = 0;
     ground.receiveShadow = true;
     scene.add(ground);
 
-    // Load the shirt model (invisible, just for collision)
+    // Load and setup the shirt
     const loader = new GLTFLoader();
-    let shirtModel: THREE.Group | null = null;
-    let clothMesh: THREE.Mesh | null = null;
-    let clothSimulator: any = null;
+    let shirtMesh: THREE.Mesh | null = null;
+    let simulator: any = null;
 
-    // Create cloth plane that will drape over the shirt
-    const createCloth = () => {
-      // Create a grid of vertices for cloth
-      const widthSegments = 30;
-      const heightSegments = 40;
-      const clothWidth = 2.0;
-      const clothHeight = 2.5;
-      
-      const geometry = new THREE.BufferGeometry();
-      const vertices: number[] = [];
-      const indices: number[] = [];
-      const normals: number[] = [];
-      const uvs: number[] = [];
-
-      // Create vertices
-      for (let i = 0; i <= heightSegments; i++) {
-        const y = (i / heightSegments - 0.5) * clothHeight;
-        for (let j = 0; j <= widthSegments; j++) {
-          const x = (j / widthSegments - 0.5) * clothWidth;
-          const z = 0;
-          vertices.push(x, y + 1.5, z);
-          uvs.push(j / widthSegments, i / heightSegments);
-        }
-      }
-
-      // Create indices for triangles
-      for (let i = 0; i < heightSegments; i++) {
-        for (let j = 0; j < widthSegments; j++) {
-          const a = i * (widthSegments + 1) + j;
-          const b = i * (widthSegments + 1) + j + 1;
-          const c = (i + 1) * (widthSegments + 1) + j;
-          const d = (i + 1) * (widthSegments + 1) + j + 1;
-
-          indices.push(a, b, c);
-          indices.push(b, d, c);
-        }
-      }
-
-      geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
-      geometry.setAttribute('uv', new THREE.Float32BufferAttribute(uvs, 2));
-      geometry.setIndex(indices);
-      geometry.computeVertexNormals();
-
-      // Cloth material
-      const material = new THREE.MeshStandardMaterial({
-        color: 0xffffff,
-        roughness: 0.3,
-        metalness: 0.1,
-        emissive: 0x000000,
-        side: THREE.DoubleSide,
-        flatShading: false
-      });
-
-      const mesh = new THREE.Mesh(geometry, material);
-      mesh.castShadow = true;
-      mesh.receiveShadow = true;
-      return mesh;
-    };
-
-    // Simple position-based cloth simulation
-    class SimpleClothSimulator {
+    // Advanced cloth simulator using Position-Based Dynamics
+    class PBDClothSimulator {
       mesh: THREE.Mesh;
-      particles: { pos: THREE.Vector3; oldPos: THREE.Vector3; pinned: boolean }[] = [];
-      constraints: { a: number; b: number; restDist: number }[] = [];
-      gravity = new THREE.Vector3(0, -2.0, 0);
-      wind = new THREE.Vector3(0.2, 0, 0.1);
+      originalPositions: Float32Array;
+      particles: { 
+        current: THREE.Vector3; 
+        previous: THREE.Vector3;
+        pinned: boolean;
+        mass: number;
+      }[] = [];
+      constraints: { a: number; b: number; restLength: number; stiffness: number }[] = [];
       tempVec = new THREE.Vector3();
+      
+      // Physics parameters - tuned for t-shirt fabric
+      gravity = -3.5;
+      damping = 0.99;
+      windStrength = 0.4;
+      windFrequency = 0.5;
+      time = 0;
 
       constructor(mesh: THREE.Mesh) {
         this.mesh = mesh;
+        
+        // Clone the geometry to work with
+        const geometry = mesh.geometry.clone();
+        mesh.geometry = geometry;
+        
+        // Store original positions as reference
+        const positionAttr = geometry.attributes.position;
+        this.originalPositions = new Float32Array(positionAttr.array);
+        
         this.initParticles();
         this.initConstraints();
+        this.pinShouldersAndCollar();
       }
 
       initParticles() {
@@ -162,9 +115,10 @@ export default function ClothViewer({ modelPath = '/white_t-shirt_with_print.glb
           const z = positions[i*3+2];
           
           this.particles.push({
-            pos: new THREE.Vector3(x, y, z),
-            oldPos: new THREE.Vector3(x, y, z),
-            pinned: y > 2.2 // Pin top edge (shoulders)
+            current: new THREE.Vector3(x, y, z),
+            previous: new THREE.Vector3(x, y, z),
+            pinned: false,
+            mass: 1.0
           });
         }
       }
@@ -175,48 +129,117 @@ export default function ClothViewer({ modelPath = '/white_t-shirt_with_print.glb
 
         const edgeSet = new Set<string>();
         
+        // Create structural constraints (edges of triangles)
         for (let i = 0; i < indices.length; i += 3) {
           const a = indices[i];
           const b = indices[i+1];
           const c = indices[i+2];
           
-          this.addConstraint(a, b, edgeSet);
-          this.addConstraint(b, c, edgeSet);
-          this.addConstraint(c, a, edgeSet);
+          this.addConstraint(a, b, edgeSet, 0.9); // High stiffness for structure
+          this.addConstraint(b, c, edgeSet, 0.9);
+          this.addConstraint(c, a, edgeSet, 0.9);
         }
+
+        // Add some bending constraints (skip every other vertex for performance)
+        console.log(`Created ${this.constraints.length} constraints`);
       }
 
-      addConstraint(i1: number, i2: number, edgeSet: Set<string>) {
+      addConstraint(i1: number, i2: number, edgeSet: Set<string>, stiffness: number) {
         const key = i1 < i2 ? `${i1}-${i2}` : `${i2}-${i1}`;
         if (!edgeSet.has(key)) {
           edgeSet.add(key);
-          const p1 = this.particles[i1].pos;
-          const p2 = this.particles[i2].pos;
-          const restDist = p1.distanceTo(p2);
-          this.constraints.push({ a: i1, b: i2, restDist });
+          const p1 = this.particles[i1].current;
+          const p2 = this.particles[i2].current;
+          const restLength = p1.distanceTo(p2);
+          this.constraints.push({
+            a: i1,
+            b: i2,
+            restLength,
+            stiffness
+          });
         }
       }
 
-      simulate(deltaTime: number) {
-        deltaTime = Math.min(deltaTime, 0.03); // Stability
+      pinShouldersAndCollar() {
+        // Find top region vertices (shoulders and collar)
+        // Get bounding box
+        let minY = Infinity, maxY = -Infinity;
+        for (let p of this.particles) {
+          if (p.current.y < minY) minY = p.current.y;
+          if (p.current.y > maxY) maxY = p.current.y;
+        }
         
-        // Verlet integration
+        const shoulderThreshold = maxY - 0.15; // Top 15% is shoulders
+        
+        // Also find center top for collar
+        let centerX = 0, count = 0;
+        for (let p of this.particles) {
+          if (p.current.y > shoulderThreshold) {
+            centerX += p.current.x;
+            count++;
+          }
+        }
+        centerX /= count;
+        
+        // Pin vertices in shoulder region
         for (let i = 0; i < this.particles.length; i++) {
           const p = this.particles[i];
-          if (p.pinned) continue;
+          if (p.current.y > shoulderThreshold) {
+            // Shoulder area - partially pinned
+            p.pinned = true;
+            p.mass = 1000; // Very heavy
+            
+            // Store original position for these pinned vertices
+            this.originalPositions[i*3] = p.current.x;
+            this.originalPositions[i*3+1] = p.current.y;
+            this.originalPositions[i*3+2] = p.current.z;
+          }
+        }
+        
+        console.log(`Pinned ${this.particles.filter(p => p.pinned).length} vertices at shoulders`);
+      }
+
+      simulate(deltaTime: number) {
+        this.time += deltaTime;
+        deltaTime = Math.min(deltaTime, 0.03); // Cap for stability
+        
+        // Verlet integration with forces
+        for (let i = 0; i < this.particles.length; i++) {
+          const p = this.particles[i];
+          if (p.pinned) {
+            // Keep pinned vertices at original positions
+            p.current.set(
+              this.originalPositions[i*3],
+              this.originalPositions[i*3+1],
+              this.originalPositions[i*3+2]
+            );
+            p.previous.copy(p.current);
+            continue;
+          }
           
-          const vel = new THREE.Vector3().copy(p.pos).sub(p.oldPos);
-          p.oldPos.copy(p.pos);
+          // Calculate velocity
+          const velocity = new THREE.Vector3().copy(p.current).sub(p.previous);
           
-          // Apply forces
-          p.pos.add(vel);
-          p.pos.x += this.wind.x * deltaTime * 2;
-          p.pos.y += this.gravity.y * deltaTime * deltaTime * 5;
-          p.pos.z += this.wind.z * deltaTime * 2;
+          // Save current position as previous
+          p.previous.copy(p.current);
+          
+          // Apply gravity
+          p.current.y += this.gravity * deltaTime * deltaTime * 5;
+          
+          // Apply dynamic wind
+          const windX = Math.sin(this.time * this.windFrequency) * this.windStrength * deltaTime * 2;
+          const windZ = Math.cos(this.time * this.windFrequency * 0.7) * this.windStrength * deltaTime * 2;
+          p.current.x += windX;
+          p.current.z += windZ;
+          
+          // Add some damping
+          p.current.x += velocity.x * (this.damping - 1);
+          p.current.z += velocity.z * (this.damping - 1);
         }
 
         // Solve constraints multiple times
-        const iterations = 5;
+        const iterations = 8; // More iterations for better stability
+        
         for (let iter = 0; iter < iterations; iter++) {
           for (let c of this.constraints) {
             const p1 = this.particles[c.a];
@@ -224,20 +247,23 @@ export default function ClothViewer({ modelPath = '/white_t-shirt_with_print.glb
             
             if (p1.pinned && p2.pinned) continue;
             
-            const delta = new THREE.Vector3().copy(p2.pos).sub(p1.pos);
+            const delta = this.tempVec.copy(p2.current).sub(p1.current);
             const dist = delta.length();
             if (dist === 0) continue;
             
-            const correction = (c.restDist - dist) / dist * 0.5;
+            const correction = (c.restLength - dist) / dist * c.stiffness * 0.5;
             delta.multiplyScalar(correction);
             
             if (!p1.pinned && !p2.pinned) {
-              p1.pos.sub(delta);
-              p2.pos.add(delta);
+              // Both move
+              p1.current.sub(delta);
+              p2.current.add(delta);
             } else if (!p1.pinned) {
-              p1.pos.sub(delta.multiplyScalar(2));
+              // Only p1 moves
+              p1.current.sub(delta.multiplyScalar(2));
             } else if (!p2.pinned) {
-              p2.pos.add(delta.multiplyScalar(2));
+              // Only p2 moves
+              p2.current.add(delta.multiplyScalar(2));
             }
           }
         }
@@ -245,10 +271,11 @@ export default function ClothViewer({ modelPath = '/white_t-shirt_with_print.glb
         // Update mesh geometry
         const positions = this.mesh.geometry.attributes.position.array;
         for (let i = 0; i < this.particles.length; i++) {
-          positions[i*3] = this.particles[i].pos.x;
-          positions[i*3+1] = this.particles[i].pos.y;
-          positions[i*3+2] = this.particles[i].pos.z;
+          positions[i*3] = this.particles[i].current.x;
+          positions[i*3+1] = this.particles[i].current.y;
+          positions[i*3+2] = this.particles[i].current.z;
         }
+        
         this.mesh.geometry.attributes.position.needsUpdate = true;
         this.mesh.geometry.computeVertexNormals();
       }
@@ -257,47 +284,64 @@ export default function ClothViewer({ modelPath = '/white_t-shirt_with_print.glb
     loader.load(
       modelPath,
       (gltf) => {
-        setDebug('Loading shirt model...');
+        setDebug('Processing shirt for cloth simulation...');
         
-        // Get the shirt model
+        // Find the shirt mesh
         gltf.scene.traverse((child) => {
-          if (child instanceof THREE.Mesh) {
-            shirtModel = gltf.scene;
+          if (child instanceof THREE.Mesh && !shirtMesh) {
+            shirtMesh = child;
             
-            // Make the original shirt semi-transparent and wireframe for reference
-            child.material = new THREE.MeshStandardMaterial({
-              color: 0x336699,
-              transparent: true,
-              opacity: 0.3,
-              wireframe: true
-            });
-            child.castShadow = false;
-            child.receiveShadow = false;
+            // Enhance material for better cloth appearance
+            if (Array.isArray(child.material)) {
+              child.material.forEach(mat => {
+                mat.roughness = 0.7;
+                mat.metalness = 0.1;
+              });
+            } else if (child.material) {
+              child.material.roughness = 0.7;
+              child.material.metalness = 0.1;
+            }
+            
+            // Center and scale the shirt appropriately
+            const box = new THREE.Box3().setFromObject(child);
+            const size = box.getSize(new THREE.Vector3());
+            const center = box.getCenter(new THREE.Vector3());
+            
+            // Scale to reasonable size
+            const scale = 1.5 / size.y;
+            child.scale.set(scale, scale, scale);
+            
+            // Position it
+            child.position.set(0, 1.2, 0);
+            
+            // Setup shadows
+            child.castShadow = true;
+            child.receiveShadow = true;
+            
+            // Clone geometry for simulation
+            const geom = child.geometry.clone();
+            child.geometry = geom;
+            
+            // Center the geometry locally
+            geom.center();
+            
+            // Initialize simulator
+            simulator = new PBDClothSimulator(child);
+            
+            scene.add(gltf.scene);
+            setLoading(false);
+            setDebug('Cloth simulation running on shirt');
           }
         });
 
-        if (shirtModel) {
-          // Scale and position the shirt model
-          shirtModel.scale.set(0.8, 0.8, 0.8);
-          shirtModel.position.set(0, 0.8, 0);
-          shirtModel.rotation.y = Math.PI;
-          scene.add(shirtModel);
+        if (!shirtMesh) {
+          setError('No mesh found in model');
         }
-
-        // Create cloth
-        clothMesh = createCloth();
-        scene.add(clothMesh);
-
-        // Initialize simulator
-        clothSimulator = new SimpleClothSimulator(clothMesh);
-        
-        setLoading(false);
-        setDebug('Cloth simulation active');
       },
       (progress) => {
         if (progress.total) {
           const percent = Math.round((progress.loaded / progress.total) * 100);
-          setDebug(`Loading shirt: ${percent}%`);
+          setDebug(`Loading: ${percent}%`);
         }
       },
       (err) => {
@@ -307,7 +351,7 @@ export default function ClothViewer({ modelPath = '/white_t-shirt_with_print.glb
       }
     );
 
-    // Animation loop
+    // Animation
     let clock = new THREE.Clock();
 
     const animate = () => {
@@ -315,8 +359,8 @@ export default function ClothViewer({ modelPath = '/white_t-shirt_with_print.glb
 
       const delta = clock.getDelta();
 
-      if (clothSimulator) {
-        clothSimulator.simulate(delta);
+      if (simulator) {
+        simulator.simulate(delta);
       }
 
       controls.update();
@@ -324,7 +368,7 @@ export default function ClothViewer({ modelPath = '/white_t-shirt_with_print.glb
     };
     animate();
 
-    // Resize handler
+    // Resize
     const handleResize = () => {
       if (!containerRef.current) return;
       const newWidth = containerRef.current.clientWidth;
@@ -350,7 +394,7 @@ export default function ClothViewer({ modelPath = '/white_t-shirt_with_print.glb
     left: 0,
     width: '100%',
     height: '500px',
-    backgroundColor: '#111122',
+    backgroundColor: '#1a1a2e',
     overflow: 'hidden'
   };
 
@@ -358,15 +402,15 @@ export default function ClothViewer({ modelPath = '/white_t-shirt_with_print.glb
     <div style={containerStyle}>
       <div style={{ width: '100%', height: '500px', position: 'relative' }} ref={containerRef} />
       {loading && (
-        <div style={{ position: 'absolute', bottom: 20, left: 20, color: '#ccc', background: 'rgba(0,0,0,0.5)', padding: '8px 15px', borderRadius: '20px' }}>
+        <div style={{ position: 'absolute', bottom: 20, left: 20, color: '#ccc', background: 'rgba(0,0,0,0.6)', padding: '8px 15px', borderRadius: '20px' }}>
           {debug}
         </div>
       )}
       {error && (
-        <div style={{ position: 'absolute', bottom: 20, left: 20, color: '#ff6b6b', background: 'rgba(0,0,0,0.5)', padding: '8px 15px', borderRadius: '20px' }}>
+        <div style={{ position: 'absolute', bottom: 20, left: 20, color: '#ff6b6b', background: 'rgba(0,0,0,0.6)', padding: '8px 15px', borderRadius: '20px' }}>
           ⚠️ {error}
         </div>
       )}
     </div>
   );
-      }
+                                      }
