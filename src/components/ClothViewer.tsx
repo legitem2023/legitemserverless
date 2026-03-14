@@ -64,7 +64,6 @@ export default function ClothViewer({ modelPath = '/white_t-shirt_with_print.glb
     // Load model
     const loader = new GLTFLoader();
     let meshes: THREE.Mesh[] = [];
-    let phase = 0;
 
     loader.load(
       modelPath,
@@ -114,47 +113,11 @@ export default function ClothViewer({ modelPath = '/white_t-shirt_with_print.glb
       }
     );
 
-    // Gentle animation - SUBTLE movement
+    // Animation loop - NO VERTEX ANIMATION
     const animate = () => {
       requestAnimationFrame(animate);
       
-      phase += 0.01; // Slower phase change
-
-      if (meshes.length > 0) {
-        meshes.forEach((mesh) => {
-          const positions = mesh.geometry.attributes.position.array;
-          
-          // Store original positions if not already stored
-          if (!mesh.userData.originalPositions) {
-            mesh.userData.originalPositions = positions.slice();
-          }
-          
-          const originalPos = mesh.userData.originalPositions;
-          
-          // Very subtle movement
-          for (let i = 0; i < positions.length; i += 3) {
-            const origX = originalPos[i];
-            const origY = originalPos[i + 1];
-            const origZ = originalPos[i + 2];
-            
-            // Height factor (0 at bottom, 1 at top)
-            const heightFactor = (origY + 0.8) / 2.2; // Adjust based on your shirt
-            
-            // TINY movements - max 0.01 units (about 1% of shirt size)
-            const windX = Math.sin(phase * 1.5 + origY * 2) * 0.004 * heightFactor;
-            const windZ = Math.cos(phase * 1.3 + origX * 2) * 0.004 * heightFactor;
-            const windY = Math.sin(phase * 2 + origX) * 0.002 * heightFactor;
-            
-            positions[i] = origX + windX;
-            positions[i + 1] = origY + windY;
-            positions[i + 2] = origZ + windZ;
-          }
-          
-          mesh.geometry.attributes.position.needsUpdate = true;
-          mesh.geometry.computeVertexNormals();
-        });
-      }
-
+      // No mesh animation - just update controls and render
       controls.update();
       renderer.render(scene, camera);
     };
@@ -195,4 +158,4 @@ export default function ClothViewer({ modelPath = '/white_t-shirt_with_print.glb
       )}
     </div>
   );
-        }
+}
