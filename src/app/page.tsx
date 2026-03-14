@@ -653,7 +653,7 @@ export default function DeluxeAnimeGallery() {
           {/*<span className="text-lg font-bold bg-gradient-to-r from-white via-[#f9e6b3] to-[#e3b34c] bg-clip-text text-transparent">
             A&R SILKSCREEN PRINTING
           </span>*/}
-          <img src="/ARLog.svg" className="h-[100px] p-2 "/>
+          <img src="/ARSP.svg" className="h-[100px] p-2 "/>
           <button 
             className="border border-[#e3b34c] text-[#e3b34c] text-2xl px-4 py-2 rounded-lg"
             onClick={() => setMobileMenuOpen(true)}
