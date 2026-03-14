@@ -18,16 +18,16 @@ interface DeluxeProduct {
   finish: string[];
   limited: boolean;
   goldLabel?: boolean;
-  imageUrl: string;   // URL to the actual product image (PNG, SVG, etc.)
+  imageUrl: string;
 }
 
 const deluxeProducts: DeluxeProduct[] = [
-  // ========== PROGRAMMING LANGUAGES (Free CDN images) ==========
+  // ========== PROGRAMMING LANGUAGES ==========
   {
     id: 1,
     name: "Python",
     category: "Programming Languages",
-    description: "Python logo with snake design - blue and yellow gradient with code snippets background",
+    description: "Python logo with snake design - blue and yellow gradient",
     technique: "6-Color Simulated with Metallic",
     colors: 6,
     area: "Full Front (14\" x 18\")",
@@ -45,7 +45,7 @@ const deluxeProducts: DeluxeProduct[] = [
     id: 2,
     name: "JavaScript",
     category: "Programming Languages",
-    description: "JavaScript logo with yellow background and curly braces pattern - ES6+ edition",
+    description: "JavaScript logo with yellow background - ES6+ edition",
     technique: "5-Color with Glitter Yellow",
     colors: 5,
     area: "Full Front",
@@ -62,7 +62,7 @@ const deluxeProducts: DeluxeProduct[] = [
     id: 3,
     name: "React",
     category: "Frameworks",
-    description: "React logo with atomic design - blue gradient with component pattern background",
+    description: "React logo with atomic design - blue gradient",
     technique: "7-Color with Holographic",
     colors: 7,
     area: "Full Front + Sleeves",
@@ -80,7 +80,7 @@ const deluxeProducts: DeluxeProduct[] = [
     id: 4,
     name: "Java",
     category: "Programming Languages",
-    description: "Java logo with coffee cup - classic blue and red with enterprise patterns",
+    description: "Java logo with coffee cup - classic blue and red",
     technique: "5-Color High-Density",
     colors: 5,
     area: "Full Chest",
@@ -97,7 +97,7 @@ const deluxeProducts: DeluxeProduct[] = [
     id: 5,
     name: "C++",
     category: "Programming Languages",
-    description: "C++ logo with system architecture - performance edition with gear patterns",
+    description: "C++ logo with system architecture - performance edition",
     technique: "4-Color Metallic + Puff",
     colors: 4,
     area: "Full Back",
@@ -114,7 +114,7 @@ const deluxeProducts: DeluxeProduct[] = [
     id: 6,
     name: "TypeScript",
     category: "Programming Languages",
-    description: "TypeScript logo with blue gradient - typed superset with interface patterns",
+    description: "TypeScript logo with blue gradient - typed superset",
     technique: "6-Color with Blue Foil",
     colors: 6,
     area: "Full Front",
@@ -132,7 +132,7 @@ const deluxeProducts: DeluxeProduct[] = [
     id: 7,
     name: "HTML5",
     category: "Web Technologies",
-    description: "HTML5 shield logo with orange gradient - semantic web with document structure",
+    description: "HTML5 shield logo with orange gradient - semantic web",
     technique: "4-Color with Orange Glitter",
     colors: 4,
     area: "Front Center",
@@ -149,7 +149,7 @@ const deluxeProducts: DeluxeProduct[] = [
     id: 8,
     name: "CSS3",
     category: "Web Technologies",
-    description: "CSS3 shield with blue gradient - styling with flexbox and grid patterns",
+    description: "CSS3 shield with blue gradient - styling with flexbox",
     technique: "4-Color with Blue Metallic",
     colors: 4,
     area: "Front Center",
@@ -166,7 +166,7 @@ const deluxeProducts: DeluxeProduct[] = [
     id: 9,
     name: "Node.js",
     category: "Backend",
-    description: "Node.js logo with green gradient - event-driven architecture with async patterns",
+    description: "Node.js logo with green gradient - event-driven architecture",
     technique: "5-Color with Green Foil",
     colors: 5,
     area: "Full Front",
@@ -183,7 +183,7 @@ const deluxeProducts: DeluxeProduct[] = [
     id: 10,
     name: "SQL",
     category: "Databases",
-    description: "SQL database logo with silver gradient - queries and table structures",
+    description: "SQL database logo with silver gradient - queries",
     technique: "4-Color Metallic Silver",
     colors: 4,
     area: "Full Chest",
@@ -200,7 +200,7 @@ const deluxeProducts: DeluxeProduct[] = [
     id: 11,
     name: "Git",
     category: "Version Control",
-    description: "Git logo with orange gradient - branching and merging with workflow patterns",
+    description: "Git logo with orange gradient - branching and merging",
     technique: "5-Color with Orange Metallic",
     colors: 5,
     area: "Full Front",
@@ -217,7 +217,7 @@ const deluxeProducts: DeluxeProduct[] = [
     id: 12,
     name: "Docker",
     category: "DevOps",
-    description: "Docker whale with containers - blue gradient with microservices pattern",
+    description: "Docker whale with containers - blue gradient",
     technique: "6-Color with Blue Glow",
     colors: 6,
     area: "Full Front + Back",
@@ -235,7 +235,7 @@ const deluxeProducts: DeluxeProduct[] = [
     id: 13,
     name: "Rust",
     category: "Systems Programming",
-    description: "Rust logo with gear - memory-safe with performance patterns",
+    description: "Rust logo with gear - memory-safe with performance",
     technique: "5-Color with Orange-Brown Gradient",
     colors: 5,
     area: "Full Front",
@@ -253,7 +253,7 @@ const deluxeProducts: DeluxeProduct[] = [
     id: 14,
     name: "Go",
     category: "Programming Languages",
-    description: "Golang gopher with blue - concurrent design with goroutine patterns",
+    description: "Golang gopher with blue - concurrent design",
     technique: "5-Color with Blue Metallic",
     colors: 5,
     area: "Full Front",
@@ -270,7 +270,7 @@ const deluxeProducts: DeluxeProduct[] = [
     id: 15,
     name: "Swift",
     category: "Mobile Development",
-    description: "Swift logo with orange gradient - iOS development with swiftUI patterns",
+    description: "Swift logo with orange gradient - iOS development",
     technique: "5-Color with Orange Foil",
     colors: 5,
     area: "Full Front",
@@ -287,7 +287,7 @@ const deluxeProducts: DeluxeProduct[] = [
     id: 16,
     name: "Kotlin",
     category: "Mobile Development",
-    description: "Kotlin logo with purple gradient - android development with coroutines",
+    description: "Kotlin logo with purple gradient - android development",
     technique: "5-Color with Purple Metallic",
     colors: 5,
     area: "Full Front",
@@ -301,260 +301,109 @@ const deluxeProducts: DeluxeProduct[] = [
     imageUrl: "https://cdn.jsdelivr.net/gh/abranhe/programming-languages-logos@master/src/kotlin/kotlin_256x256.png"
   },
 
-  // ========== ANIME COLLECTION (Placeholder images – replace with your own licensed images) ==========
+  // ========== OPERATING SYSTEMS ==========
   {
     id: 17,
-    name: "Naruto Uzumaki",
-    category: "Anime Collection",
-    description: "Rasengan energy effect with Nine-Tails chakra mode - metallic gold and orange gradient",
-    technique: "8-Color Simulated with Metallic Inks",
-    colors: 8,
-    area: "Full Front (14\" x 18\")",
-    turnaround: "5-7 business days",
-    minOrder: 12,
-    price: "$32.50 - $55.00",
-    artwork: "Vector art • PMS matched",
-    fabrics: ["Premium Cotton", "Tri-blend", "Athletic"],
-    finish: ["Metallic", "Glow-in-Dark", "Soft-hand"],
-    limited: true,
-    goldLabel: true,
-    imageUrl: "https://placehold.co/300x300/FF6B6B/FFFFFF?text=Naruto"
+    name: "Windows 11",
+    category: "Operating Systems",
+    description: "Modern Windows logo with gradient - blue window design",
+    technique: "4-Color with Blue Metallic",
+    colors: 4,
+    area: "Full Chest",
+    turnaround: "4-6 business days",
+    minOrder: 15,
+    price: "$24.00 - $38.00",
+    artwork: "Vector • Windows style",
+    fabrics: ["Cotton", "Tech Wear"],
+    finish: ["Metallic", "Glossy", "Modern"],
+    limited: false,
+    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Windows_logo_-_2012.svg/512px-Windows_logo_-_2012.svg.png"
   },
   {
     id: 18,
-    name: "Goku Ultra Instinct",
-    category: "Anime Collection",
-    description: "Silver hair with aura effect - prismatic silver and blue metallic tones",
-    technique: "9-Color Process with Prismatic Foil",
-    colors: 9,
-    area: "Full Front + Back",
-    turnaround: "7-9 business days",
-    minOrder: 6,
-    price: "$45.00 - $75.00",
-    artwork: "High-res • Color separations",
-    fabrics: ["Heavy Cotton", "French Terry", "Blend"],
-    finish: ["Foil", "Holographic", "Puff"],
+    name: "macOS",
+    category: "Operating Systems",
+    description: "Apple macOS logo - sleek silver design",
+    technique: "3-Color with Silver Foil",
+    colors: 3,
+    area: "Front Center",
+    turnaround: "4-6 business days",
+    minOrder: 12,
+    price: "$28.00 - $42.00",
+    artwork: "Vector • Apple style",
+    fabrics: ["Premium Cotton", "Tech"],
+    finish: ["Foil", "Matte", "Premium"],
     limited: true,
     goldLabel: true,
-    imageUrl: "https://placehold.co/300x300/FFD93D/000000?text=Goku"
+    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Apple_logo_black.svg/512px-Apple_logo_black.svg.png"
   },
   {
     id: 19,
-    name: "Pikachu Thunder",
-    category: "Pokémon Series",
-    description: "Thunderbolt attack with sparkle effects - electric yellow with glitter base",
-    technique: "5-Color Spot with Glitter Base",
-    colors: 5,
-    area: "Front Center (12\" x 14\")",
-    turnaround: "4-6 business days",
-    minOrder: 24,
-    price: "$24.00 - $38.00",
-    artwork: "Vector • Bold lines",
-    fabrics: ["Cotton", "Baby Rib", "Youth"],
-    finish: ["Glitter", "Puff", "Yellow Glow"],
+    name: "Linux",
+    category: "Operating Systems",
+    description: "Tux the penguin - classic Linux mascot",
+    technique: "4-Color with Black & White",
+    colors: 4,
+    area: "Full Front",
+    turnaround: "5-7 business days",
+    minOrder: 10,
+    price: "$26.00 - $40.00",
+    artwork: "Vector • Tux design",
+    fabrics: ["Cotton", "Developer"],
+    finish: ["Matte", "Classic", "Soft-hand"],
     limited: false,
-    imageUrl: "https://placehold.co/300x300/F7DC6F/000000?text=Pikachu"
+    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Tux.svg/512px-Tux.svg.png"
   },
   {
     id: 20,
-    name: "Levi Ackerman",
-    category: "Attack on Titan",
-    description: "Survey Corps emblem with gear effects - dark tones with silver highlights",
-    technique: "4-Color High-Density Discharge",
+    name: "Ubuntu",
+    category: "Operating Systems",
+    description: "Ubuntu logo with orange and white - circle of friends",
+    technique: "4-Color with Orange Metallic",
     colors: 4,
-    area: "Full Back (15\" x 20\")",
-    turnaround: "6-8 business days",
+    area: "Full Front",
+    turnaround: "5-7 business days",
     minOrder: 12,
-    price: "$38.00 - $58.00",
-    artwork: "Vector • High contrast",
-    fabrics: ["Heavy Cotton", "Dark Garments"],
-    finish: ["Distressed", "Metallic", "Discharge"],
+    price: "$25.00 - $38.00",
+    artwork: "Vector • Ubuntu style",
+    fabrics: ["Cotton", "Developer"],
+    finish: ["Metallic", "Matte", "Modern"],
     limited: true,
-    goldLabel: true,
-    imageUrl: "https://placehold.co/300x300/2C3E50/FFFFFF?text=Levi"
+    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/Ubuntu_logoib.svg/512px-Ubuntu_logoib.svg.png"
   },
-
-  // ========== DISNEY COLLECTION (Placeholder images – replace with your own licensed images) ==========
   {
     id: 21,
-    name: "Mickey Mouse",
-    category: "Disney Classics",
-    description: "Vintage Mickey with sorcerer hat - nostalgic sepia with gold foil details",
-    technique: "Vintage Discharge + Gold Foil",
+    name: "Android",
+    category: "Operating Systems",
+    description: "Android robot logo - green with modern design",
+    technique: "4-Color with Green Glow",
     colors: 4,
-    area: "Front (12\" x 14\")",
-    turnaround: "5-7 business days",
-    minOrder: 24,
-    price: "$28.00 - $42.00",
-    artwork: "Vector • Vintage style",
-    fabrics: ["Soft Cotton", "Heritage Blend"],
-    finish: ["Foil", "Sepia", "Vintage"],
+    area: "Full Front",
+    turnaround: "4-6 business days",
+    minOrder: 15,
+    price: "$23.00 - $36.00",
+    artwork: "Vector • Android robot",
+    fabrics: ["Cotton", "Tech"],
+    finish: ["Glow", "Matte", "Fun"],
     limited: false,
-    imageUrl: "https://placehold.co/300x300/000000/FFFFFF?text=Mickey"
+    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Android_robot.svg/512px-Android_robot.svg.png"
   },
   {
     id: 22,
-    name: "Elsa",
-    category: "Frozen Collection",
-    description: "Ice palace background with snowflake details - crystal blue with glitter",
-    technique: "6-Color with Glitter Overlay",
-    colors: 6,
-    area: "Full Front",
-    turnaround: "5-7 business days",
-    minOrder: 18,
-    price: "$34.00 - $52.00",
-    artwork: "Gradient • Snowflake details",
-    fabrics: ["Premium Cotton", "Girls Fit"],
-    finish: ["Glitter", "Holographic", "Ice Effect"],
-    limited: true,
-    goldLabel: true,
-    imageUrl: "https://placehold.co/300x300/5DADE2/FFFFFF?text=Elsa"
-  },
-  {
-    id: 23,
-    name: "Stitch",
-    category: "Lilo & Stitch",
-    description: "Experiment 626 with Elvis pose - electric blue with glow accents",
-    technique: "5-Color with Glow-in-Dark",
-    colors: 5,
+    name: "iOS",
+    category: "Operating Systems",
+    description: "Apple iOS logo - sleek design",
+    technique: "3-Color with Silver Foil",
+    colors: 3,
     area: "Front Center",
     turnaround: "4-6 business days",
-    minOrder: 24,
-    price: "$26.00 - $40.00",
-    artwork: "Vector • Cartoon style",
-    fabrics: ["Cotton", "Youth", "Toddler"],
-    finish: ["Glow-in-Dark", "Pop Art", "Soft-hand"],
-    limited: false,
-    imageUrl: "https://placehold.co/300x300/3498DB/FFFFFF?text=Stitch"
-  },
-  {
-    id: 24,
-    name: "Nightmare Before Christmas",
-    category: "Tim Burton Collection",
-    description: "Jack Skellington with Zero - gothic patterns with glow effects",
-    technique: "7-Color with Glow + Metallic",
-    colors: 7,
-    area: "Full Front + Sleeve",
-    turnaround: "6-8 business days",
     minOrder: 12,
-    price: "$42.00 - $65.00",
-    artwork: "Vector • Gothic style",
-    fabrics: ["Heavy Cotton", "Dark Garments"],
-    finish: ["Glow", "Metallic", "Striped"],
+    price: "$27.00 - $41.00",
+    artwork: "Vector • Apple style",
+    fabrics: ["Premium Cotton", "Tech"],
+    finish: ["Foil", "Matte", "Premium"],
     limited: true,
-    goldLabel: true,
-    imageUrl: "https://placehold.co/300x300/34495E/FFFFFF?text=Jack"
-  },
-
-  // ========== MARVEL COLLECTION (Placeholder images – replace with your own licensed images) ==========
-  {
-    id: 25,
-    name: "Iron Man",
-    category: "Marvel Avengers",
-    description: "Arc reactor with suit details - metallic red and gold foil",
-    technique: "5-Color Metallic Foil",
-    colors: 5,
-    area: "Full Chest",
-    turnaround: "5-7 business days",
-    minOrder: 12,
-    price: "$38.00 - $58.00",
-    artwork: "Vector • Tech lines",
-    fabrics: ["Premium Cotton", "Performance"],
-    finish: ["Metallic", "Foil", "Armor effect"],
-    limited: true,
-    goldLabel: true,
-    imageUrl: "https://placehold.co/300x300/C0392B/FFFFFF?text=Iron+Man"
-  },
-  {
-    id: 26,
-    name: "Spider-Man",
-    category: "Spider-Verse",
-    description: "Miles Morales graffiti style - urban art with spray paint effect",
-    technique: "7-Color with Halftones",
-    colors: 7,
-    area: "Full Front",
-    turnaround: "5-7 business days",
-    minOrder: 18,
-    price: "$32.00 - $48.00",
-    artwork: "Comic style • Halftones",
-    fabrics: ["Cotton", "Streetwear"],
-    finish: ["Graffiti", "Urban", "Pop Art"],
-    limited: false,
-    imageUrl: "https://placehold.co/300x300/E74C3C/FFFFFF?text=Spider-Man"
-  },
-  {
-    id: 27,
-    name: "Thor",
-    category: "Marvel Avengers",
-    description: "Stormbreaker with lightning effects - hammered metal texture",
-    technique: "6-Color Puff + Metallic",
-    colors: 6,
-    area: "Full Back",
-    turnaround: "6-8 business days",
-    minOrder: 12,
-    price: "$44.00 - $68.00",
-    artwork: "Vector • Viking style",
-    fabrics: ["Heavy Cotton", "Fleece"],
-    finish: ["Puff", "Metallic", "Textured"],
-    limited: true,
-    goldLabel: true,
-    imageUrl: "https://placehold.co/300x300/7D3C98/FFFFFF?text=Thor"
-  },
-  {
-    id: 28,
-    name: "Black Panther",
-    category: "Wakanda Forever",
-    description: "Vibranium suit pattern with purple glow - advanced texture print",
-    technique: "5-Color High-Density + Glow",
-    colors: 5,
-    area: "Full Front",
-    turnaround: "6-8 business days",
-    minOrder: 12,
-    price: "$40.00 - $62.00",
-    artwork: "Tribal pattern • Vector",
-    fabrics: ["Premium Cotton", "Dark garments"],
-    finish: ["Glow", "Texture", "Tribal"],
-    limited: true,
-    goldLabel: true,
-    imageUrl: "https://placehold.co/300x300/512E5F/FFFFFF?text=Black+Panther"
-  },
-
-  // ========== ORIGINAL ANIME-STYLE (Placeholder images) ==========
-  {
-    id: 29,
-    name: "Cyber Samurai",
-    category: "Original Series",
-    description: "Futuristic samurai with neon accents - cyberpunk aesthetic",
-    technique: "8-Color ChromaBlast + Neon",
-    colors: 8,
-    area: "Full Front + Sleeves",
-    turnaround: "7-9 business days",
-    minOrder: 10,
-    price: "$48.00 - $72.00",
-    artwork: "Vector • Cyberpunk",
-    fabrics: ["Performance", "Streetwear"],
-    finish: ["Neon", "Geometric", "Glow"],
-    limited: true,
-    goldLabel: true,
-    imageUrl: "https://placehold.co/300x300/00FFFF/000000?text=Cyber+Samurai"
-  },
-  {
-    id: 30,
-    name: "Dragon Spirit",
-    category: "Mythical Collection",
-    description: "Eastern dragon with cloud details - traditional with modern gradient",
-    technique: "9-Color Simulated Process",
-    colors: 9,
-    area: "Full Back",
-    turnaround: "8-10 business days",
-    minOrder: 8,
-    price: "$55.00 - $85.00",
-    artwork: "Detailed vector • Asian style",
-    fabrics: ["Premium", "Silk blend"],
-    finish: ["Gradient", "Detailed", "Metallic"],
-    limited: true,
-    goldLabel: true,
-    imageUrl: "https://placehold.co/300x300/FF5733/FFFFFF?text=Dragon"
+    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Apple_logo_black.svg/512px-Apple_logo_black.svg.png"
   }
 ];
 
@@ -578,7 +427,7 @@ const MobileMenu = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void 
   );
 };
 
-// Deluxe Thumbnail Component (now using actual image URLs)
+// Deluxe Thumbnail Component
 const DeluxeThumbnail = ({ imageUrl, name, goldLabel }: { imageUrl: string; name: string; goldLabel?: boolean }) => {
   return (
     <div className="relative">
@@ -607,6 +456,8 @@ export default function DeluxeAnimeGallery() {
   const [windowWidth, setWindowWidth] = useState(0);
   const [filter, setFilter] = useState<string>('all');
   const [showClothViewer, setShowClothViewer] = useState(false);
+  const [showInstructions, setShowInstructions] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<DeluxeProduct | null>(null);
 
   useEffect(() => {
     setWindowWidth(window.innerWidth);
@@ -617,7 +468,7 @@ export default function DeluxeAnimeGallery() {
 
   // Prevent body scroll when modal is open
   useEffect(() => {
-    if (showClothViewer) {
+    if (showClothViewer || showInstructions) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = 'unset';
@@ -626,7 +477,7 @@ export default function DeluxeAnimeGallery() {
     return () => {
       document.body.style.overflow = 'unset';
     };
-  }, [showClothViewer]);
+  }, [showClothViewer, showInstructions]);
 
   const isMobile = windowWidth < 768;
   const isTablet = windowWidth >= 768 && windowWidth < 1024;
@@ -639,6 +490,41 @@ export default function DeluxeAnimeGallery() {
     ? deluxeProducts 
     : deluxeProducts.filter(p => p.category === filter);
 
+  const handleConsultClick = (product: DeluxeProduct) => {
+    setSelectedProduct(product);
+    setShowInstructions(true);
+  };
+
+  const copyToClipboard = (text: string) => {
+    navigator.clipboard.writeText(text).then(() => {
+      alert('Message copied to clipboard! Please paste it in Messenger.');
+    }).catch(() => {
+      alert('Could not copy message. Please manually type it.');
+    });
+  };
+
+  const openMessenger = () => {
+    if (selectedProduct) {
+      // Create a simple message with just the essential info
+      const message = encodeURIComponent(
+        `Hi! I'm interested in the "${selectedProduct.name}" design.\n\n` +
+        `View the design here: ${selectedProduct.imageUrl}\n\n` +
+        `Category: ${selectedProduct.category}\n` +
+        `Technique: ${selectedProduct.technique}\n` +
+        `Min Order: ${selectedProduct.minOrder}\n` +
+        `Price: ${selectedProduct.price}\n\n` +
+        `I'd like to get a consultation for this print. Thanks!`
+      );
+      
+      // Open Messenger
+      window.open(`https://m.me/robert.marquez.9404362?text=${message}`, '_blank');
+      
+      // Close instructions
+      setShowInstructions(false);
+      setSelectedProduct(null);
+    }
+  };
+
   return (
     <div className="max-w-[1600px] mx-auto p-0 bg-[#0f0f13] min-h-screen relative overflow-hidden">
       {/* Background Patterns */}
@@ -650,7 +536,7 @@ export default function DeluxeAnimeGallery() {
       {/* Mobile Navigation */}
       <div className="sticky top-0 z-40 bg-[#0a0c12]/95 backdrop-blur-sm p-1 border-b border-[#e3b34c]/30">
         <div className="flex justify-between items-center">
-          <img src="/ARSP.svg" className="h-[100px] p-2 "/>
+          <img src="/ARSP.svg" className="h-[100px] p-2 " alt="Logo" />
           <button 
             className="border border-[#e3b34c] text-[#e3b34c] text-2xl px-4 py-2 rounded-lg"
             onClick={() => setMobileMenuOpen(true)}
@@ -751,19 +637,7 @@ export default function DeluxeAnimeGallery() {
                 {/* Action Buttons */}
                 <div className={`flex ${isMobile ? 'flex-col' : 'flex-row'} gap-3`}>
                   <button 
-                    onClick={() => {
-                      // Create a pre-filled message with product details and image URL
-                      const message = encodeURIComponent(
-                        `Hi! I'm interested in the ${product.name} design.\n\n` +
-                        `Product: ${product.name}\n` +
-                        `Category: ${product.category}\n` +
-                        `Image: ${product.imageUrl}\n\n` +
-                        `I'd like to get a consultation for this print.`
-                      );
-                      
-                      // Redirect to Messenger with the pre-filled message
-                      window.open(`https://m.me/robert.marquez.9404362?text=${message}`, '_blank');
-                    }}
+                    onClick={() => handleConsultClick(product)}
                     className="bg-gradient-to-br from-[#bf9530] to-[#f9e6b3] border border-[#fcf6ba] text-[#0a0c12] px-4 md:px-8 py-3 rounded-full font-semibold text-sm md:text-base hover:shadow-xl hover:shadow-[#e3b34c]/30 transition-all w-full md:w-auto"
                   >
                     {isMobile ? 'Consult' : 'Request Consultation'}
@@ -781,7 +655,112 @@ export default function DeluxeAnimeGallery() {
         ))}
       </div>
 
-      {/* ClothViewer Modal - Fixed overlay that doesn't affect page layout */}
+      {/* Instructions Modal */}
+      {showInstructions && selectedProduct && (
+        <>
+          {/* Backdrop */}
+          <div 
+            className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50"
+            onClick={() => {
+              setShowInstructions(false);
+              setSelectedProduct(null);
+            }}
+          />
+          
+          {/* Modal Content */}
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+            <div className="bg-[#14181f] border-2 border-[#e3b34c] rounded-2xl shadow-2xl max-w-md w-full animate-fadeIn">
+              {/* Header */}
+              <div className="flex justify-between items-center p-4 border-b border-[#e3b34c]/30">
+                <h3 className="text-[#e3b34c] font-bold text-xl">📱 Send Consultation Request</h3>
+                <button 
+                  onClick={() => {
+                    setShowInstructions(false);
+                    setSelectedProduct(null);
+                  }}
+                  className="text-[#e3b34c] hover:text-[#f9e6b3] text-2xl w-8 h-8 flex items-center justify-center rounded-full hover:bg-[#e3b34c]/10 transition-all"
+                >
+                  ✕
+                </button>
+              </div>
+              
+              {/* Content */}
+              <div className="p-6">
+                <div className="mb-6">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-12 h-12 bg-gradient-to-br from-[#bf9530] to-[#f9e6b3] rounded-lg flex items-center justify-center">
+                      <span className="text-[#0a0c12] font-bold text-xl">📋</span>
+                    </div>
+                    <div>
+                      <p className="text-white font-semibold">{selectedProduct.name}</p>
+                      <p className="text-[#b8a87c] text-sm">{selectedProduct.category}</p>
+                    </div>
+                  </div>
+                  
+                  <div className="bg-black/30 p-4 rounded-lg mb-4">
+                    <p className="text-[#e3b34c] font-semibold mb-2">⚠️ Important:</p>
+                    <p className="text-[#b0b7c5] text-sm">
+                      Facebook Messenger may not always show the pre-filled message. 
+                      If the message box is empty, please:
+                    </p>
+                    <ol className="text-[#b0b7c5] text-sm list-decimal list-inside mt-2 space-y-1">
+                      <li>Copy the message below</li>
+                      <li>Paste it in Messenger</li>
+                      <li>Click Send</li>
+                    </ol>
+                  </div>
+                  
+                  <div className="bg-[#1e2632] p-3 rounded-lg mb-3">
+                    <p className="text-[#b8a87c] text-xs mb-1">Message to send:</p>
+                    <p className="text-white text-sm">
+                      Hi! I'm interested in the "{selectedProduct.name}" design.
+                      <br /><br />
+                      View the design here: {selectedProduct.imageUrl}
+                      <br /><br />
+                      Category: {selectedProduct.category} | Technique: {selectedProduct.technique} | Min Order: {selectedProduct.minOrder} | Price: {selectedProduct.price}
+                      <br /><br />
+                      I'd like to get a consultation for this print. Thanks!
+                    </p>
+                  </div>
+                  
+                  <button
+                    onClick={() => copyToClipboard(
+                      `Hi! I'm interested in the "${selectedProduct.name}" design.\n\n` +
+                      `View the design here: ${selectedProduct.imageUrl}\n\n` +
+                      `Category: ${selectedProduct.category} | Technique: ${selectedProduct.technique} | Min Order: ${selectedProduct.minOrder} | Price: ${selectedProduct.price}\n\n` +
+                      `I'd like to get a consultation for this print. Thanks!`
+                    )}
+                    className="w-full bg-[#1e2632] border border-[#e3b34c] text-[#e3b34c] px-4 py-2 rounded-lg text-sm font-semibold hover:bg-[#e3b34c]/10 transition-all mb-3"
+                  >
+                    📋 Copy Message to Clipboard
+                  </button>
+                </div>
+                
+                {/* Action Buttons */}
+                <div className="flex gap-3">
+                  <button
+                    onClick={openMessenger}
+                    className="flex-1 bg-gradient-to-br from-[#bf9530] to-[#f9e6b3] border border-[#fcf6ba] text-[#0a0c12] px-4 py-3 rounded-full font-semibold text-sm hover:shadow-xl hover:shadow-[#e3b34c]/30 transition-all"
+                  >
+                    Open Messenger
+                  </button>
+                  <button
+                    onClick={() => {
+                      setShowInstructions(false);
+                      setSelectedProduct(null);
+                    }}
+                    className="flex-1 bg-transparent border-2 border-[#e3b34c] text-[#e3b34c] px-4 py-3 rounded-full font-semibold text-sm hover:bg-[#e3b34c]/10 transition-all"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+
+      {/* ClothViewer Modal */}
       {showClothViewer && (
         <>
           {/* Backdrop */}
@@ -790,7 +769,7 @@ export default function DeluxeAnimeGallery() {
             onClick={() => setShowClothViewer(false)}
           />
           
-          {/* Modal Content - Fixed at bottom */}
+          {/* Modal Content */}
           <div className="fixed bottom-0 left-0 right-0 z-50 max-h-[90vh] overflow-y-auto">
             <div className="bg-[#14181f] border-t-2 border-[#e3b34c] rounded-t-3xl shadow-2xl animate-slideUp">
               {/* Header */}
@@ -824,12 +803,21 @@ export default function DeluxeAnimeGallery() {
           to { transform: translateY(0); }
         }
         
+        @keyframes fadeIn {
+          from { opacity: 0; transform: scale(0.95); }
+          to { opacity: 1; transform: scale(1); }
+        }
+        
         .animate-slideIn {
           animation: slideIn 0.3s ease-out;
         }
         
         .animate-slideUp {
           animation: slideUp 0.3s ease-out;
+        }
+        
+        .animate-fadeIn {
+          animation: fadeIn 0.2s ease-out;
         }
         
         .scrollbar-hide::-webkit-scrollbar {
@@ -842,4 +830,4 @@ export default function DeluxeAnimeGallery() {
       `}</style>
     </div>
   );
-}
+                                          }
