@@ -650,9 +650,6 @@ export default function DeluxeAnimeGallery() {
       {/* Mobile Navigation */}
       <div className="sticky top-0 z-40 bg-[#0a0c12]/95 backdrop-blur-sm p-1 border-b border-[#e3b34c]/30">
         <div className="flex justify-between items-center">
-          {/*<span className="text-lg font-bold bg-gradient-to-r from-white via-[#f9e6b3] to-[#e3b34c] bg-clip-text text-transparent">
-            A&R SILKSCREEN PRINTING
-          </span>*/}
           <img src="/ARSP.svg" className="h-[100px] p-2 "/>
           <button 
             className="border border-[#e3b34c] text-[#e3b34c] text-2xl px-4 py-2 rounded-lg"
@@ -753,7 +750,22 @@ export default function DeluxeAnimeGallery() {
                 
                 {/* Action Buttons */}
                 <div className={`flex ${isMobile ? 'flex-col' : 'flex-row'} gap-3`}>
-                  <button className="bg-gradient-to-br from-[#bf9530] to-[#f9e6b3] border border-[#fcf6ba] text-[#0a0c12] px-4 md:px-8 py-3 rounded-full font-semibold text-sm md:text-base hover:shadow-xl hover:shadow-[#e3b34c]/30 transition-all w-full md:w-auto">
+                  <button 
+                    onClick={() => {
+                      // Create a pre-filled message with product details and image URL
+                      const message = encodeURIComponent(
+                        `Hi! I'm interested in the ${product.name} design.\n\n` +
+                        `Product: ${product.name}\n` +
+                        `Category: ${product.category}\n` +
+                        `Image: ${product.imageUrl}\n\n` +
+                        `I'd like to get a consultation for this print.`
+                      );
+                      
+                      // Redirect to Messenger with the pre-filled message
+                      window.open(`https://m.me/robert.marquez.9404362?text=${message}`, '_blank');
+                    }}
+                    className="bg-gradient-to-br from-[#bf9530] to-[#f9e6b3] border border-[#fcf6ba] text-[#0a0c12] px-4 md:px-8 py-3 rounded-full font-semibold text-sm md:text-base hover:shadow-xl hover:shadow-[#e3b34c]/30 transition-all w-full md:w-auto"
+                  >
                     {isMobile ? 'Consult' : 'Request Consultation'}
                   </button>
                   <button 
