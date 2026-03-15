@@ -23,8 +23,6 @@ interface DeluxeProduct {
 
 const deluxeProducts: DeluxeProduct[] = [
   // ========== OPERATING SYSTEMS ==========
-
-  
    {
     id: 15,
     name: "Word of Wisdom",
@@ -59,7 +57,6 @@ const deluxeProducts: DeluxeProduct[] = [
     limited: false,
     imageUrl: "/file_000000003a5872069ca631e1ff62d022.png"
   }, 
-  
   {
     id: 17,
     name: "Windows 11",
@@ -216,6 +213,7 @@ export default function DeluxeAnimeGallery() {
   const [showClothViewer, setShowClothViewer] = useState(false);
   const [showInstructions, setShowInstructions] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<DeluxeProduct | null>(null);
+  const [viewerKey, setViewerKey] = useState(0);
 
   useEffect(() => {
     setWindowWidth(window.innerWidth);
@@ -223,20 +221,19 @@ export default function DeluxeAnimeGallery() {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
-/*
-  // Prevent body scroll when modal is open
+
+  // Force resize event when modal opens to refresh Three.js canvas
   useEffect(() => {
-    if (showClothViewer || showInstructions) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
+    if (showClothViewer) {
+      // Small delay to ensure DOM is ready
+      setTimeout(() => {
+        window.dispatchEvent(new Event('resize'));
+        // Force a re-render of Three.js by updating key
+        setViewerKey(prev => prev + 1);
+      }, 50);
     }
-    
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
-  }, [showClothViewer, showInstructions]);
-*/
+  }, [showClothViewer]);
+
   const isMobile = windowWidth < 768;
   const isTablet = windowWidth >= 768 && windowWidth < 1024;
 
@@ -254,11 +251,8 @@ export default function DeluxeAnimeGallery() {
   };
 
   const openMessenger = () => {
-    // Close modal first for faster perceived performance
     setShowInstructions(false);
     setSelectedProduct(null);
-    
-    // Open Messenger directly - no message, just redirect
     setTimeout(() => {
       window.open('https://m.me/robert.marquez.9404362', '_blank');
     }, 50);
@@ -267,39 +261,6 @@ export default function DeluxeAnimeGallery() {
   return (
     <div className="max-w-[1600px] mx-auto p-0 bg-[#0f0f13] min-h-screen relative overflow-hidden">
       {/* Background Patterns */}
-        {/* ClothViewer Modal - HIDE/SHOW INSTEAD OF MOUNT/UNMOUNT */}
-      <div 
-        className={`fixed inset-0 z-50 transition-opacity duration-300 ease-in-out ${
-          showClothViewer ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
-        }`}
-      >
-        {/* Backdrop */}
-        <div 
-          className="absolute inset-0 bg-black/70 backdrop-blur-sm"
-          onClick={() => setShowClothViewer(false)}
-        />
-        
-        {/* Modal Content */}
-        <div className="absolute inset-0 flex items-center justify-center p-4">
-          <div className="bg-[#14181f] border-2 border-[#e3b34c] rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] flex flex-col">
-            {/* Header */}
-            <div className="flex justify-between items-center p-4 border-b border-[#e3b34c]/30 flex-shrink-0">
-              <h3 className="text-[#e3b34c] font-bold text-xl">3D Cloth Viewer</h3>
-              <button 
-                onClick={() => setShowClothViewer(false)}
-                className="text-[#e3b34c] hover:text-[#f9e6b3] text-2xl w-8 h-8 flex items-center justify-center rounded-full hover:bg-[#e3b34c]/10 transition-all"
-              >
-                ✕
-              </button>
-            </div>
-            
-            {/* Content */}
-            <div className="flex-1 overflow-hidden p-4">
-               <ClothViewer />
-            </div>
-          </div>
-        </div>
-      </div>    
       <div className="fixed inset-0 pointer-events-none">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_40%,rgba(227,179,76,0.03)_0%,transparent_30%)]"></div>
         <div className="absolute inset-0 bg-[repeating-linear-gradient(45deg,rgba(227,179,76,0.02)_0px,rgba(227,179,76,0.02)_1px,transparent_1px,transparent_15px)]"></div>
@@ -308,7 +269,7 @@ export default function DeluxeAnimeGallery() {
       {/* Mobile Navigation */}
       <div className="sticky top-0 z-40 bg-[#0a0c12]/95 backdrop-blur-sm p-1 border-b border-[#e3b34c]/30">
         <div className="flex justify-between items-center">
-          <img src="/ARSP.svg" className="h-[100px] p-2 " alt="Logo" />
+          <img src="/ARSP.svg" className="h-[100px] p-2" alt="Logo" />
           <button 
             className="border border-[#e3b34c] text-[#e3b34c] text-2xl px-4 py-2 rounded-lg"
             onClick={() => setMobileMenuOpen(true)}
@@ -320,7 +281,7 @@ export default function DeluxeAnimeGallery() {
 
       <MobileMenu isOpen={mobileMenuOpen} onClose={() => setMobileMenuOpen(false)} />
 
-      {/* Category Filter - Horizontal Scroll */}
+      {/* Category Filter */}
       <div className="overflow-x-auto whitespace-nowrap py-2 px-2 mb-4 scrollbar-hide">
         {categories.map((cat) => (
           <button
@@ -344,7 +305,6 @@ export default function DeluxeAnimeGallery() {
             key={product.id} 
             className="relative bg-[#14181f] p-4 md:p-8 rounded-2xl md:rounded-[40px] border border-[#2a2f38] hover:border-[#e3b34c] transition-all duration-300 overflow-hidden group"
           >
-            {/* Hover shine effect */}
             <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-[#e3b34c]/10 to-transparent pointer-events-none"></div>
             
             <div className={`grid ${isMobile ? 'grid-cols-1' : isTablet ? 'grid-cols-[180px_1fr]' : 'grid-cols-[240px_1fr]'} gap-4 md:gap-8`}>
@@ -427,10 +387,49 @@ export default function DeluxeAnimeGallery() {
         ))}
       </div>
 
-      {/* Instructions Modal - OPTIMIZED VERSION */}
+      {/* ClothViewer Modal - FIXED VERSION */}
+      <div 
+        className={`fixed inset-0 z-50 transition-opacity duration-300 ease-in-out ${
+          showClothViewer ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+        }`}
+      >
+        {/* Backdrop */}
+        <div 
+          className="absolute inset-0 bg-black/70 backdrop-blur-sm"
+          onClick={() => setShowClothViewer(false)}
+        />
+        
+        {/* Modal Content */}
+        <div className="absolute inset-0 flex items-center justify-center p-4">
+          <div className="bg-[#14181f] border-2 border-[#e3b34c] rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] flex flex-col">
+            {/* Header */}
+            <div className="flex justify-between items-center p-4 border-b border-[#e3b34c]/30 flex-shrink-0">
+              <h3 className="text-[#e3b34c] font-bold text-xl">3D Cloth Viewer</h3>
+              <button 
+                onClick={() => setShowClothViewer(false)}
+                className="text-[#e3b34c] hover:text-[#f9e6b3] text-2xl w-8 h-8 flex items-center justify-center rounded-full hover:bg-[#e3b34c]/10 transition-all"
+              >
+                ✕
+              </button>
+            </div>
+            
+            {/* Content - Always render ClothViewer but hide with CSS */}
+            <div className="flex-1 overflow-hidden p-4">
+              <div style={{ display: showClothViewer ? 'block' : 'none' }}>
+                <ClothViewer 
+                  key={viewerKey}
+                  height={400}
+                  visible={showClothViewer}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Instructions Modal */}
       {showInstructions && selectedProduct && (
         <>
-          {/* Backdrop */}
           <div 
             className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50"
             onClick={() => {
@@ -439,10 +438,8 @@ export default function DeluxeAnimeGallery() {
             }}
           />
           
-          {/* Modal Content */}
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none">
             <div className="bg-[#14181f] border-2 border-[#e3b34c] rounded-2xl shadow-2xl w-full max-w-md max-h-[90vh] flex flex-col pointer-events-auto animate-fadeIn">
-              {/* Header - Fixed at top */}
               <div className="flex justify-between items-center p-4 border-b border-[#e3b34c]/30 flex-shrink-0">
                 <h3 className="text-[#e3b34c] font-bold text-xl">📱 Contact via Messenger</h3>
                 <button 
@@ -456,7 +453,6 @@ export default function DeluxeAnimeGallery() {
                 </button>
               </div>
               
-              {/* Content - Scrollable */}
               <div className="flex-1 overflow-y-auto p-6">
                 <div className="mb-6">
                   <div className="flex items-center gap-3 mb-4">
@@ -493,7 +489,6 @@ export default function DeluxeAnimeGallery() {
                 </div>
               </div>
               
-              {/* Footer - Fixed at bottom */}
               <div className="flex gap-3 p-4 border-t border-[#e3b34c]/30 flex-shrink-0">
                 <button
                   onClick={openMessenger}
@@ -515,8 +510,6 @@ export default function DeluxeAnimeGallery() {
           </div>
         </>
       )}
-
-
 
       <style jsx>{`
         @keyframes slideIn {
@@ -556,4 +549,4 @@ export default function DeluxeAnimeGallery() {
       `}</style>
     </div>
   );
-}
+      }
