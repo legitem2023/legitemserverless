@@ -384,7 +384,7 @@ export default function DeluxeAnimeGallery() {
         <>
           {/* Backdrop */}
           <div 
-            className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50"
+            className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 overflow-y"
             onClick={() => {
               setShowInstructions(false);
               setSelectedProduct(null);
@@ -484,7 +484,7 @@ export default function DeluxeAnimeGallery() {
         </>
       )}
 
-      {/* ClothViewer Modal */}
+      {/* ClothViewer Modal - FIXED VERSION */}
       {showClothViewer && (
         <>
           {/* Backdrop */}
@@ -494,11 +494,11 @@ export default function DeluxeAnimeGallery() {
           />
           
           {/* Modal Content */}
-          <div className="fixed bottom-0 left-0 right-0 z-50 max-h-[90vh] overflow-y-auto">
-            <div className="bg-[#14181f] border-t-2 border-[#e3b34c] rounded-t-3xl shadow-2xl animate-slideUp">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none">
+            <div className="bg-[#14181f] border-2 border-[#e3b34c] rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] flex flex-col pointer-events-auto animate-fadeIn">
               {/* Header */}
-              <div className="sticky top-0 bg-[#14181f] flex justify-between items-center p-4 border-b border-[#e3b34c]/30 rounded-t-3xl">
-                <h3 className="text-[#e3b34c] font-semibold text-lg">Cloth Viewer</h3>
+              <div className="flex justify-between items-center p-4 border-b border-[#e3b34c]/30">
+                <h3 className="text-[#e3b34c] font-bold text-xl">3D Cloth Viewer</h3>
                 <button 
                   onClick={() => setShowClothViewer(false)}
                   className="text-[#e3b34c] hover:text-[#f9e6b3] text-2xl w-8 h-8 flex items-center justify-center rounded-full hover:bg-[#e3b34c]/10 transition-all"
@@ -507,8 +507,8 @@ export default function DeluxeAnimeGallery() {
                 </button>
               </div>
               
-              {/* Content */}
-              <div className="p-4">
+              {/* Content - Scrollable */}
+              <div className="flex-1 overflow-y-auto p-4">
                 <ClothViewer/>
               </div>
             </div>
@@ -554,4 +554,4 @@ export default function DeluxeAnimeGallery() {
       `}</style>
     </div>
   );
-    }
+}
