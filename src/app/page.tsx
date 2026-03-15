@@ -213,7 +213,6 @@ export default function DeluxeAnimeGallery() {
   const [showClothViewer, setShowClothViewer] = useState(false);
   const [showInstructions, setShowInstructions] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<DeluxeProduct | null>(null);
-  const [viewerKey, setViewerKey] = useState(0);
 
   useEffect(() => {
     setWindowWidth(window.innerWidth);
@@ -222,15 +221,13 @@ export default function DeluxeAnimeGallery() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Force resize event when modal opens to refresh Three.js canvas
+  // Force resize event when modal becomes visible
   useEffect(() => {
     if (showClothViewer) {
-      // Small delay to ensure DOM is ready
+      // Small delay to ensure display:block has taken effect
       setTimeout(() => {
         window.dispatchEvent(new Event('resize'));
-        // Force a re-render of Three.js by updating key
-        setViewerKey(prev => prev + 1);
-      }, 50);
+      }, 100);
     }
   }, [showClothViewer]);
 
@@ -387,18 +384,15 @@ export default function DeluxeAnimeGallery() {
         ))}
       </div>
 
-      {/* ClothViewer Modal - FIXED VERSION */}
+      {/* ClothViewer Modal - FIXED WITH DISPLAY NONE/BLOCK */}
       <div 
-        className={`fixed inset-0 z-50 transition-opacity duration-300 ease-in-out ${
-          showClothViewer ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+        className={`fixed inset-0 z-50 transition-all duration-300 ease-in-out ${
+          showClothViewer ? 'bg-black/70 backdrop-blur-sm' : 'bg-transparent'
         }`}
+        style={{ 
+          display: showClothViewer ? 'block' : 'none'
+        }}
       >
-        {/* Backdrop */}
-        <div 
-          className="absolute inset-0 bg-black/70 backdrop-blur-sm"
-          onClick={() => setShowClothViewer(false)}
-        />
-        
         {/* Modal Content */}
         <div className="absolute inset-0 flex items-center justify-center p-4">
           <div className="bg-[#14181f] border-2 border-[#e3b34c] rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] flex flex-col">
@@ -413,14 +407,9 @@ export default function DeluxeAnimeGallery() {
               </button>
             </div>
             
-            {/* Content - Always render ClothViewer but hide with CSS */}
+            {/* Content - ALWAYS RENDERED, never unmounted */}
             <div className="flex-1 overflow-hidden p-4">
-              <div style={{ display: showClothViewer ? 'block' : 'none' }}>
-                <ClothViewer 
-                  key={viewerKey}
-                  height={400}
-                />
-              </div>
+              <ClothViewer />
             </div>
           </div>
         </div>
@@ -548,4 +537,4 @@ export default function DeluxeAnimeGallery() {
       `}</style>
     </div>
   );
-      }
+                      }
