@@ -486,7 +486,7 @@ export default function DeluxeAnimeGallery() {
         </>
       )}
 
-      {/* ClothViewer Modal - USING HIDE/SHOW INSTEAD OF MOUNT/UNMOUNT */}
+      {/* ClothViewer Modal - HIDE/SHOW INSTEAD OF MOUNT/UNMOUNT */}
       <div 
         className={`fixed inset-0 z-50 transition-opacity duration-300 ease-in-out ${
           showClothViewer ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
@@ -500,7 +500,7 @@ export default function DeluxeAnimeGallery() {
         
         {/* Modal Content */}
         <div className="absolute inset-0 flex items-center justify-center p-4">
-          <div className="bg-[#14181f] border-2 border-[#e3b34c] rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] flex flex-col transform transition-all duration-300 ease-in-out">
+          <div className="bg-[#14181f] border-2 border-[#e3b34c] rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] flex flex-col">
             {/* Header */}
             <div className="flex justify-between items-center p-4 border-b border-[#e3b34c]/30 flex-shrink-0">
               <h3 className="text-[#e3b34c] font-bold text-xl">3D Cloth Viewer</h3>
