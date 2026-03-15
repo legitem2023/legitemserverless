@@ -168,11 +168,17 @@ export default function ClothViewer({ modelPath = '/white_t-shirt_with_print.glb
         if (mesh.material) {
           if (Array.isArray(mesh.material)) {
             mesh.material.forEach(mat => {
-              if (mat.map) mat.map.needsUpdate = true;
+              // Check if material has a map property (like MeshStandardMaterial)
+              if ('map' in mat && mat.map) {
+                mat.map.needsUpdate = true;
+              }
               mat.needsUpdate = true;
             });
           } else {
-            if (mesh.material.map) mesh.material.map.needsUpdate = true;
+            // Check if material has a map property (like MeshStandardMaterial)
+            if ('map' in mesh.material && mesh.material.map) {
+              mesh.material.map.needsUpdate = true;
+            }
             mesh.material.needsUpdate = true;
           }
         }
@@ -279,4 +285,4 @@ export default function ClothViewer({ modelPath = '/white_t-shirt_with_print.glb
       )}
     </div>
   );
-      }
+            }
