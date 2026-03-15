@@ -26,6 +26,27 @@ interface DeluxeProduct {
 
 const deluxeProducts: DeluxeProduct[] = [
   // ========== OPERATING SYSTEMS ==========
+
+  
+  
+   {
+    id: 16,
+    name: "Code of Darkness",
+    category: "Programming",
+    description: "Programing Meme",
+    technique: "2-Color black and white",
+    colors: 2,
+    area: "Full Chest",
+    turnaround: "4-6 business days",
+    minOrder: 15,
+    price: "₱24.00 - ₱38.00",
+    artwork: "Vector • Windows style",
+    fabrics: ["Cotton", "Tech Wear"],
+    finish: ["Modern"],
+    limited: false,
+    imageUrl: "/file_000000003a5872069ca631e1ff62d022.png"
+  }, 
+  
   {
     id: 17,
     name: "Windows 11",
