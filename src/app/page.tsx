@@ -267,7 +267,7 @@ export default function DeluxeAnimeGallery() {
   return (
     <div className="max-w-[1600px] mx-auto p-0 bg-[#0f0f13] min-h-screen relative overflow-hidden">
       {/* Background Patterns */}
-      <ClothViewer />
+      
       <div className="fixed inset-0 pointer-events-none">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_40%,rgba(227,179,76,0.03)_0%,transparent_30%)]"></div>
         <div className="absolute inset-0 bg-[repeating-linear-gradient(45deg,rgba(227,179,76,0.02)_0px,rgba(227,179,76,0.02)_1px,transparent_1px,transparent_15px)]"></div>
@@ -512,7 +512,7 @@ export default function DeluxeAnimeGallery() {
             
             {/* Content */}
             <div className="flex-1 overflow-hidden p-4">
-               
+               <ClothViewer />
             </div>
           </div>
         </div>
