@@ -59,7 +59,7 @@ const deluxeProducts: DeluxeProduct[] = [
     finish: ["Foil", "Matte", "Premium"],
     limited: true,
     goldLabel: true,
-    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg"
+    imageUrl: "https://camranger.com/wp-content/uploads/2018/08/macOS.jpg"
   },
   {
     id: 19,
