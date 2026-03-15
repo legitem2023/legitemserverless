@@ -13,27 +13,13 @@ export default function ClothViewer({ modelPath = '/white_t-shirt_with_print.glb
   const containerRef = useRef<HTMLDivElement>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  
-  // Store references for cleanup
-  const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
-  const sceneRef = useRef<THREE.Scene | null>(null);
-  const cameraRef = useRef<THREE.PerspectiveCamera | null>(null);
-  const controlsRef = useRef<OrbitControls | null>(null);
-  const animationFrameRef = useRef<number | undefined>(undefined);
-  const meshesRef = useRef<THREE.Mesh[]>([]);
 
   useEffect(() => {
     if (!containerRef.current) return;
 
-    // Clear any existing content
-    while (containerRef.current.firstChild) {
-      containerRef.current.removeChild(containerRef.current.firstChild);
-    }
-
     // Scene setup
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x2a2a3a);
-    sceneRef.current = scene;
+    scene.background = new THREE.Color(0x000000);
 
     const container = containerRef.current;
     const width = container.clientWidth;
@@ -42,40 +28,14 @@ export default function ClothViewer({ modelPath = '/white_t-shirt_with_print.glb
     const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
     camera.position.set(3, 2, 4);
     camera.lookAt(0, 1.2, 0);
-    cameraRef.current = camera;
 
-    // Create renderer with context loss handling
-    const renderer = new THREE.WebGLRenderer({ 
-      antialias: true, 
-      powerPreference: "high-performance",
-      preserveDrawingBuffer: true,
-      alpha: false
-    });
-    
+    const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: "high-performance" });
     renderer.setSize(width, height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.shadowMap.enabled = false;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.2;
-    
-    // Handle context loss
-    renderer.domElement.addEventListener('webglcontextlost', (event) => {
-      event.preventDefault();
-      console.log('WebGL context lost, attempting to recover...');
-      if (animationFrameRef.current) {
-        cancelAnimationFrame(animationFrameRef.current);
-      }
-    }, false);
-
-    renderer.domElement.addEventListener('webglcontextrestored', () => {
-      console.log('WebGL context restored');
-      if (sceneRef.current && cameraRef.current && rendererRef.current) {
-        setupSceneAfterRestore();
-      }
-    }, false);
-
     container.appendChild(renderer.domElement);
-    rendererRef.current = renderer;
 
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
@@ -83,7 +43,6 @@ export default function ClothViewer({ modelPath = '/white_t-shirt_with_print.glb
     controls.target.set(0, 1.2, 0);
     controls.autoRotate = false;
     controls.autoRotateSpeed = 0.8;
-    controlsRef.current = controls;
 
     // Simple lighting
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
@@ -104,7 +63,7 @@ export default function ClothViewer({ modelPath = '/white_t-shirt_with_print.glb
 
     // Load model
     const loader = new GLTFLoader();
-    meshesRef.current = [];
+    let meshes: THREE.Mesh[] = [];
 
     loader.load(
       modelPath,
@@ -132,21 +91,19 @@ export default function ClothViewer({ modelPath = '/white_t-shirt_with_print.glb
               child.material.forEach(mat => {
                 mat.roughness = 0.5;
                 mat.metalness = 0.0;
-                mat.needsUpdate = true;
               });
             } else if (child.material) {
               child.material.roughness = 0.5;
               child.material.metalness = 0.0;
-              child.material.needsUpdate = true;
             }
             
-            meshesRef.current.push(child);
+            meshes.push(child);
           }
         });
         
         scene.add(shirtGroup);
         setLoading(false);
-        console.log(`Loaded ${meshesRef.current.length} meshes`);
+        console.log(`Loaded ${meshes.length} meshes`);
       },
       undefined,
       (err) => {
@@ -156,108 +113,33 @@ export default function ClothViewer({ modelPath = '/white_t-shirt_with_print.glb
       }
     );
 
-    // Helper function for context restore
-    const setupSceneAfterRestore = () => {
-      if (!sceneRef.current || !cameraRef.current || !rendererRef.current) return;
-      
-      meshesRef.current.forEach(mesh => {
-        if (mesh.material) {
-          if (Array.isArray(mesh.material)) {
-            mesh.material.forEach(mat => {
-              // Check if material has a map property
-              if ('map' in mat && mat.map) {
-                // Use type assertion to access needsUpdate
-                (mat.map as any).needsUpdate = true;
-              }
-              mat.needsUpdate = true;
-            });
-          } else {
-            // Check if material has a map property
-            if ('map' in mesh.material && mesh.material.map) {
-              // Use type assertion to access needsUpdate
-              (mesh.material.map as any).needsUpdate = true;
-            }
-            mesh.material.needsUpdate = true;
-          }
-        }
-      });
-    };
-
-    // Animation loop
+    // Animation loop - NO VERTEX ANIMATION
     const animate = () => {
-      if (!sceneRef.current || !cameraRef.current || !rendererRef.current) return;
+      requestAnimationFrame(animate);
       
-      const gl = rendererRef.current.getContext();
-      if (gl && gl.isContextLost()) {
-        animationFrameRef.current = requestAnimationFrame(animate);
-        return;
-      }
-      
-      if (controlsRef.current) {
-        controlsRef.current.update();
-      }
-      
-      try {
-        rendererRef.current.render(sceneRef.current, cameraRef.current);
-      } catch (e) {
-        console.error('Render error:', e);
-      }
-      
-      animationFrameRef.current = requestAnimationFrame(animate);
+      // No mesh animation - just update controls and render
+      controls.update();
+      renderer.render(scene, camera);
     };
     
     animate();
 
     const handleResize = () => {
-      if (!containerRef.current || !cameraRef.current || !rendererRef.current) return;
+      if (!containerRef.current) return;
       const newWidth = containerRef.current.clientWidth;
       const newHeight = 500;
-      cameraRef.current.aspect = newWidth / newHeight;
-      cameraRef.current.updateProjectionMatrix();
-      rendererRef.current.setSize(newWidth, newHeight);
+      camera.aspect = newWidth / newHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(newWidth, newHeight);
     };
-    
     window.addEventListener('resize', handleResize);
 
-    // Cleanup function
     return () => {
       window.removeEventListener('resize', handleResize);
-      
-      if (animationFrameRef.current) {
-        cancelAnimationFrame(animationFrameRef.current);
-        animationFrameRef.current = undefined;
+      if (container.contains(renderer.domElement)) {
+        container.removeChild(renderer.domElement);
       }
-      
-      if (controlsRef.current) {
-        controlsRef.current.dispose();
-        controlsRef.current = null;
-      }
-      
-      meshesRef.current.forEach(mesh => {
-        if (mesh.geometry) {
-          mesh.geometry.dispose();
-        }
-        if (mesh.material) {
-          if (Array.isArray(mesh.material)) {
-            mesh.material.forEach(mat => mat.dispose());
-          } else {
-            mesh.material.dispose();
-          }
-        }
-      });
-      meshesRef.current = [];
-      
-      if (rendererRef.current) {
-        const domElement = rendererRef.current.domElement;
-        if (domElement && domElement.parentNode) {
-          domElement.parentNode.removeChild(domElement);
-        }
-        rendererRef.current.dispose();
-        rendererRef.current = null;
-      }
-      
-      sceneRef.current = null;
-      cameraRef.current = null;
+      renderer.dispose();
     };
   }, [modelPath]);
 
@@ -276,4 +158,4 @@ export default function ClothViewer({ modelPath = '/white_t-shirt_with_print.glb
       )}
     </div>
   );
-      }
+}
