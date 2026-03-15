@@ -419,7 +419,6 @@ export default function DeluxeAnimeGallery() {
                 <ClothViewer 
                   key={viewerKey}
                   height={400}
-                  visible={showClothViewer}
                 />
               </div>
             </div>
