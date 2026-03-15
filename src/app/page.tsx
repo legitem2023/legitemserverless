@@ -379,12 +379,12 @@ export default function DeluxeAnimeGallery() {
         ))}
       </div>
 
-      {/* Instructions Modal */}
+      {/* Instructions Modal - FIXED VERSION */}
       {showInstructions && selectedProduct && (
         <>
           {/* Backdrop */}
           <div 
-            className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 overflow-y"
+            className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50"
             onClick={() => {
               setShowInstructions(false);
               setSelectedProduct(null);
@@ -392,10 +392,10 @@ export default function DeluxeAnimeGallery() {
           />
           
           {/* Modal Content */}
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-            <div className="bg-[#14181f] border-2 border-[#e3b34c] rounded-2xl shadow-2xl max-w-md w-full animate-fadeIn">
-              {/* Header */}
-              <div className="flex justify-between items-center p-4 border-b border-[#e3b34c]/30">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none">
+            <div className="bg-[#14181f] border-2 border-[#e3b34c] rounded-2xl shadow-2xl w-full max-w-md max-h-[90vh] flex flex-col pointer-events-auto animate-fadeIn">
+              {/* Header - Fixed at top */}
+              <div className="flex justify-between items-center p-4 border-b border-[#e3b34c]/30 flex-shrink-0">
                 <h3 className="text-[#e3b34c] font-bold text-xl">📱 Send Consultation Request</h3>
                 <button 
                   onClick={() => {
@@ -408,11 +408,11 @@ export default function DeluxeAnimeGallery() {
                 </button>
               </div>
               
-              {/* Content */}
-              <div className="p-6">
+              {/* Content - Scrollable */}
+              <div className="flex-1 overflow-y-auto p-6">
                 <div className="mb-6">
                   <div className="flex items-center gap-3 mb-4">
-                    <div className="w-12 h-12 bg-gradient-to-br from-[#bf9530] to-[#f9e6b3] rounded-lg flex items-center justify-center">
+                    <div className="w-12 h-12 bg-gradient-to-br from-[#bf9530] to-[#f9e6b3] rounded-lg flex items-center justify-center flex-shrink-0">
                       <span className="text-[#0a0c12] font-bold text-xl">📋</span>
                     </div>
                     <div>
@@ -436,7 +436,7 @@ export default function DeluxeAnimeGallery() {
                   
                   <div className="bg-[#1e2632] p-3 rounded-lg mb-3">
                     <p className="text-[#b8a87c] text-xs mb-1">Message to send:</p>
-                    <p className="text-white text-sm">
+                    <p className="text-white text-sm break-words">
                       Hi! I'm interested in the "{selectedProduct.name}" design.
                       <br /><br />
                       View the design here: {selectedProduct.imageUrl}
@@ -459,32 +459,32 @@ export default function DeluxeAnimeGallery() {
                     📋 Copy Message to Clipboard
                   </button>
                 </div>
-                
-                {/* Action Buttons */}
-                <div className="flex gap-3">
-                  <button
-                    onClick={openMessenger}
-                    className="flex-1 bg-gradient-to-br from-[#bf9530] to-[#f9e6b3] border border-[#fcf6ba] text-[#0a0c12] px-4 py-3 rounded-full font-semibold text-sm hover:shadow-xl hover:shadow-[#e3b34c]/30 transition-all"
-                  >
-                    Open Messenger
-                  </button>
-                  <button
-                    onClick={() => {
-                      setShowInstructions(false);
-                      setSelectedProduct(null);
-                    }}
-                    className="flex-1 bg-transparent border-2 border-[#e3b34c] text-[#e3b34c] px-4 py-3 rounded-full font-semibold text-sm hover:bg-[#e3b34c]/10 transition-all"
-                  >
-                    Cancel
-                  </button>
-                </div>
+              </div>
+              
+              {/* Footer - Fixed at bottom */}
+              <div className="flex gap-3 p-4 border-t border-[#e3b34c]/30 flex-shrink-0">
+                <button
+                  onClick={openMessenger}
+                  className="flex-1 bg-gradient-to-br from-[#bf9530] to-[#f9e6b3] border border-[#fcf6ba] text-[#0a0c12] px-4 py-3 rounded-full font-semibold text-sm hover:shadow-xl hover:shadow-[#e3b34c]/30 transition-all"
+                >
+                  Open Messenger
+                </button>
+                <button
+                  onClick={() => {
+                    setShowInstructions(false);
+                    setSelectedProduct(null);
+                  }}
+                  className="flex-1 bg-transparent border-2 border-[#e3b34c] text-[#e3b34c] px-4 py-3 rounded-full font-semibold text-sm hover:bg-[#e3b34c]/10 transition-all"
+                >
+                  Cancel
+                </button>
               </div>
             </div>
           </div>
         </>
       )}
 
-      {/* ClothViewer Modal - FIXED VERSION */}
+      {/* ClothViewer Modal */}
       {showClothViewer && (
         <>
           {/* Backdrop */}
@@ -497,7 +497,7 @@ export default function DeluxeAnimeGallery() {
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none">
             <div className="bg-[#14181f] border-2 border-[#e3b34c] rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] flex flex-col pointer-events-auto animate-fadeIn">
               {/* Header */}
-              <div className="flex justify-between items-center p-4 border-b border-[#e3b34c]/30">
+              <div className="flex justify-between items-center p-4 border-b border-[#e3b34c]/30 flex-shrink-0">
                 <h3 className="text-[#e3b34c] font-bold text-xl">3D Cloth Viewer</h3>
                 <button 
                   onClick={() => setShowClothViewer(false)}
@@ -554,4 +554,4 @@ export default function DeluxeAnimeGallery() {
       `}</style>
     </div>
   );
-}
+    }
