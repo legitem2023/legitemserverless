@@ -48,7 +48,7 @@ export default function ClothViewer({ modelPath = '/white_t-shirt_with_print.glb
     const renderer = new THREE.WebGLRenderer({ 
       antialias: true, 
       powerPreference: "high-performance",
-      preserveDrawingBuffer: true, // Helps with context loss
+      preserveDrawingBuffer: true,
       alpha: false
     });
     
@@ -62,7 +62,6 @@ export default function ClothViewer({ modelPath = '/white_t-shirt_with_print.glb
     renderer.domElement.addEventListener('webglcontextlost', (event) => {
       event.preventDefault();
       console.log('WebGL context lost, attempting to recover...');
-      // Cancel animation frame
       if (animationFrameRef.current) {
         cancelAnimationFrame(animationFrameRef.current);
       }
@@ -70,7 +69,6 @@ export default function ClothViewer({ modelPath = '/white_t-shirt_with_print.glb
 
     renderer.domElement.addEventListener('webglcontextrestored', () => {
       console.log('WebGL context restored');
-      // Re-setup scene on context restore
       if (sceneRef.current && cameraRef.current && rendererRef.current) {
         setupSceneAfterRestore();
       }
@@ -134,12 +132,12 @@ export default function ClothViewer({ modelPath = '/white_t-shirt_with_print.glb
               child.material.forEach(mat => {
                 mat.roughness = 0.5;
                 mat.metalness = 0.0;
-                mat.needsUpdate = true; // Force material update
+                mat.needsUpdate = true;
               });
             } else if (child.material) {
               child.material.roughness = 0.5;
               child.material.metalness = 0.0;
-              child.material.needsUpdate = true; // Force material update
+              child.material.needsUpdate = true;
             }
             
             meshesRef.current.push(child);
@@ -162,22 +160,22 @@ export default function ClothViewer({ modelPath = '/white_t-shirt_with_print.glb
     const setupSceneAfterRestore = () => {
       if (!sceneRef.current || !cameraRef.current || !rendererRef.current) return;
       
-      // Re-add all objects to scene if needed
-      // The scene should still have its objects, but we might need to re-upload textures
       meshesRef.current.forEach(mesh => {
         if (mesh.material) {
           if (Array.isArray(mesh.material)) {
             mesh.material.forEach(mat => {
-              // Check if material has a map property (like MeshStandardMaterial)
+              // Check if material has a map property
               if ('map' in mat && mat.map) {
-                mat.map.needsUpdate = true;
+                // Use type assertion to access needsUpdate
+                (mat.map as any).needsUpdate = true;
               }
               mat.needsUpdate = true;
             });
           } else {
-            // Check if material has a map property (like MeshStandardMaterial)
+            // Check if material has a map property
             if ('map' in mesh.material && mesh.material.map) {
-              mesh.material.map.needsUpdate = true;
+              // Use type assertion to access needsUpdate
+              (mesh.material.map as any).needsUpdate = true;
             }
             mesh.material.needsUpdate = true;
           }
@@ -189,10 +187,8 @@ export default function ClothViewer({ modelPath = '/white_t-shirt_with_print.glb
     const animate = () => {
       if (!sceneRef.current || !cameraRef.current || !rendererRef.current) return;
       
-      // Check if context is still valid
       const gl = rendererRef.current.getContext();
       if (gl && gl.isContextLost()) {
-        // If context is lost, just request next frame and skip rendering
         animationFrameRef.current = requestAnimationFrame(animate);
         return;
       }
@@ -227,19 +223,16 @@ export default function ClothViewer({ modelPath = '/white_t-shirt_with_print.glb
     return () => {
       window.removeEventListener('resize', handleResize);
       
-      // Cancel animation frame
       if (animationFrameRef.current) {
         cancelAnimationFrame(animationFrameRef.current);
         animationFrameRef.current = undefined;
       }
       
-      // Dispose controls
       if (controlsRef.current) {
         controlsRef.current.dispose();
         controlsRef.current = null;
       }
       
-      // Dispose geometries and materials
       meshesRef.current.forEach(mesh => {
         if (mesh.geometry) {
           mesh.geometry.dispose();
@@ -254,7 +247,6 @@ export default function ClothViewer({ modelPath = '/white_t-shirt_with_print.glb
       });
       meshesRef.current = [];
       
-      // Dispose renderer and remove DOM element
       if (rendererRef.current) {
         const domElement = rendererRef.current.domElement;
         if (domElement && domElement.parentNode) {
@@ -264,7 +256,6 @@ export default function ClothViewer({ modelPath = '/white_t-shirt_with_print.glb
         rendererRef.current = null;
       }
       
-      // Clear references
       sceneRef.current = null;
       cameraRef.current = null;
     };
@@ -285,4 +276,4 @@ export default function ClothViewer({ modelPath = '/white_t-shirt_with_print.glb
       )}
     </div>
   );
-            }
+      }
