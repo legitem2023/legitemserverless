@@ -219,34 +219,15 @@ export default function DeluxeAnimeGallery() {
     setShowInstructions(true);
   };
 
-  const copyToClipboard = (text: string) => {
-    navigator.clipboard.writeText(text).then(() => {
-      alert('Message copied to clipboard! Please paste it in Messenger.');
-    }).catch(() => {
-      alert('Could not copy message. Please manually type it.');
-    });
-  };
-
   const openMessenger = () => {
-    if (selectedProduct) {
-      // Create a simple message with just the essential info
-      const message = encodeURIComponent(
-        `Hi! I'm interested in the "${selectedProduct.name}" design.\n\n` +
-        `View the design here: ${selectedProduct.imageUrl}\n\n` +
-        `Category: ${selectedProduct.category}\n` +
-        `Technique: ${selectedProduct.technique}\n` +
-        `Min Order: ${selectedProduct.minOrder}\n` +
-        `Price: ${selectedProduct.price}\n\n` +
-        `I'd like to get a consultation for this print. Thanks!`
-      );
-      
-      // Open Messenger
-      window.open(`https://m.me/robert.marquez.9404362?text=${message}`, '_blank');
-      
-      // Close instructions
-      setShowInstructions(false);
-      setSelectedProduct(null);
-    }
+    // Close modal first for faster perceived performance
+    setShowInstructions(false);
+    setSelectedProduct(null);
+    
+    // Open Messenger directly - no message, just redirect
+    setTimeout(() => {
+      window.open('https://m.me/robert.marquez.9404362', '_blank');
+    }, 50);
   };
 
   return (
@@ -379,7 +360,7 @@ export default function DeluxeAnimeGallery() {
         ))}
       </div>
 
-      {/* Instructions Modal - FIXED VERSION */}
+      {/* Instructions Modal - OPTIMIZED VERSION */}
       {showInstructions && selectedProduct && (
         <>
           {/* Backdrop */}
@@ -396,7 +377,7 @@ export default function DeluxeAnimeGallery() {
             <div className="bg-[#14181f] border-2 border-[#e3b34c] rounded-2xl shadow-2xl w-full max-w-md max-h-[90vh] flex flex-col pointer-events-auto animate-fadeIn">
               {/* Header - Fixed at top */}
               <div className="flex justify-between items-center p-4 border-b border-[#e3b34c]/30 flex-shrink-0">
-                <h3 className="text-[#e3b34c] font-bold text-xl">📱 Send Consultation Request</h3>
+                <h3 className="text-[#e3b34c] font-bold text-xl">📱 Contact via Messenger</h3>
                 <button 
                   onClick={() => {
                     setShowInstructions(false);
@@ -413,7 +394,7 @@ export default function DeluxeAnimeGallery() {
                 <div className="mb-6">
                   <div className="flex items-center gap-3 mb-4">
                     <div className="w-12 h-12 bg-gradient-to-br from-[#bf9530] to-[#f9e6b3] rounded-lg flex items-center justify-center flex-shrink-0">
-                      <span className="text-[#0a0c12] font-bold text-xl">📋</span>
+                      <span className="text-[#0a0c12] font-bold text-xl">💬</span>
                     </div>
                     <div>
                       <p className="text-white font-semibold">{selectedProduct.name}</p>
@@ -422,42 +403,26 @@ export default function DeluxeAnimeGallery() {
                   </div>
                   
                   <div className="bg-black/30 p-4 rounded-lg mb-4">
-                    <p className="text-[#e3b34c] font-semibold mb-2">⚠️ Important:</p>
-                    <p className="text-[#b0b7c5] text-sm">
-                      Facebook Messenger may not always show the pre-filled message. 
-                      If the message box is empty, please:
-                    </p>
-                    <ol className="text-[#b0b7c5] text-sm list-decimal list-inside mt-2 space-y-1">
-                      <li>Copy the message below</li>
-                      <li>Paste it in Messenger</li>
-                      <li>Click Send</li>
+                    <p className="text-[#e3b34c] font-semibold mb-2">📋 Instructions:</p>
+                    <ol className="text-[#b0b7c5] text-sm list-decimal list-inside space-y-2">
+                      <li>Click "Open Messenger" below</li>
+                      <li>You'll be redirected to Messenger</li>
+                      <li>Send a message about "{selectedProduct.name}"</li>
+                      <li>The consultant will respond shortly</li>
                     </ol>
                   </div>
                   
-                  <div className="bg-[#1e2632] p-3 rounded-lg mb-3">
-                    <p className="text-[#b8a87c] text-xs mb-1">Message to send:</p>
-                    <p className="text-white text-sm break-words">
-                      Hi! I'm interested in the "{selectedProduct.name}" design.
-                      <br /><br />
-                      View the design here: {selectedProduct.imageUrl}
-                      <br /><br />
-                      Category: {selectedProduct.category} | Technique: {selectedProduct.technique} | Min Order: {selectedProduct.minOrder} | Price: {selectedProduct.price}
-                      <br /><br />
-                      I'd like to get a consultation for this print. Thanks!
-                    </p>
+                  <div className="bg-[#1e2632] p-4 rounded-lg">
+                    <p className="text-[#b8a87c] text-xs mb-2">Product details to mention:</p>
+                    <div className="grid grid-cols-2 gap-2 text-sm">
+                      <span className="text-[#e3b34c]">Technique:</span>
+                      <span className="text-white">{selectedProduct.technique}</span>
+                      <span className="text-[#e3b34c]">Min Order:</span>
+                      <span className="text-white">{selectedProduct.minOrder}</span>
+                      <span className="text-[#e3b34c]">Price:</span>
+                      <span className="text-white">{selectedProduct.price}</span>
+                    </div>
                   </div>
-                  
-                  <button
-                    onClick={() => copyToClipboard(
-                      `Hi! I'm interested in the "${selectedProduct.name}" design.\n\n` +
-                      `View the design here: ${selectedProduct.imageUrl}\n\n` +
-                      `Category: ${selectedProduct.category} | Technique: ${selectedProduct.technique} | Min Order: ${selectedProduct.minOrder} | Price: ${selectedProduct.price}\n\n` +
-                      `I'd like to get a consultation for this print. Thanks!`
-                    )}
-                    className="w-full bg-[#1e2632] border border-[#e3b34c] text-[#e3b34c] px-4 py-2 rounded-lg text-sm font-semibold hover:bg-[#e3b34c]/10 transition-all mb-3"
-                  >
-                    📋 Copy Message to Clipboard
-                  </button>
                 </div>
               </div>
               
@@ -554,4 +519,4 @@ export default function DeluxeAnimeGallery() {
       `}</style>
     </div>
   );
-    }
+      }
