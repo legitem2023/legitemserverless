@@ -511,7 +511,7 @@ export default function DeluxeAnimeGallery() {
             
             {/* Content */}
             <div className="flex-1 overflow-hidden p-4">
-              {/* <ClothViewer />*/}
+               <ClothViewer />
             </div>
           </div>
         </div>
