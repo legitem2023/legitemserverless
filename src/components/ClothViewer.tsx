@@ -167,21 +167,42 @@ export default function ClothViewer({
               child.geometry.attributes.normal = child.geometry.attributes.normal.clone();
             }
             
-            // Optimize material
+            // Handle materials with proper type guards
             if (Array.isArray(child.material)) {
               child.material.forEach(mat => {
-                if (mat instanceof THREE.Material) {
+                // Check if it's a material with roughness/metalness properties
+                if (mat instanceof THREE.MeshStandardMaterial || 
+                    mat instanceof THREE.MeshPhysicalMaterial) {
                   mat.roughness = 0.5;
                   mat.metalness = 0.0;
+                  mat.emissive = new THREE.Color(0x000000);
+                  mat.needsUpdate = true;
+                } else if (mat instanceof THREE.MeshPhongMaterial) {
+                  mat.shininess = 30;
+                  mat.emissive = new THREE.Color(0x000000);
+                  mat.needsUpdate = true;
+                } else if (mat instanceof THREE.MeshLambertMaterial) {
                   mat.emissive = new THREE.Color(0x000000);
                   mat.needsUpdate = true;
                 }
               });
             } else if (child.material instanceof THREE.Material) {
-              child.material.roughness = 0.5;
-              child.material.metalness = 0.0;
-              child.material.emissive = new THREE.Color(0x000000);
-              child.material.needsUpdate = true;
+              const mat = child.material;
+              // Check for specific material types
+              if (mat instanceof THREE.MeshStandardMaterial || 
+                  mat instanceof THREE.MeshPhysicalMaterial) {
+                mat.roughness = 0.5;
+                mat.metalness = 0.0;
+                mat.emissive = new THREE.Color(0x000000);
+                mat.needsUpdate = true;
+              } else if (mat instanceof THREE.MeshPhongMaterial) {
+                mat.shininess = 30;
+                mat.emissive = new THREE.Color(0x000000);
+                mat.needsUpdate = true;
+              } else if (mat instanceof THREE.MeshLambertMaterial) {
+                mat.emissive = new THREE.Color(0x000000);
+                mat.needsUpdate = true;
+              }
             }
             
             // Enable frustum culling
@@ -279,7 +300,11 @@ export default function ClothViewer({
             object.geometry.dispose();
             
             if (Array.isArray(object.material)) {
-              object.material.forEach(material => material.dispose());
+              object.material.forEach(material => {
+                if (material instanceof THREE.Material) {
+                  material.dispose();
+                }
+              });
             } else if (object.material instanceof THREE.Material) {
               object.material.dispose();
             }
@@ -324,7 +349,7 @@ export default function ClothViewer({
                 ? `Loading... ${Math.round(loaderState.progress)}%` 
                 : 'Loading shirt...'}
             </span>
-            <style jsx>{`
+            <style>{`
               @keyframes spin {
                 to { transform: rotate(360deg); }
               }
@@ -359,4 +384,4 @@ export default function ClothViewer({
       {loaderDisplay}
     </div>
   );
-}
+                                   }
