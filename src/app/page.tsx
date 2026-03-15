@@ -32,7 +32,7 @@ const deluxeProducts: DeluxeProduct[] = [
    {
     id: 16,
     name: "Code of Darkness",
-    category: "Programming",
+    category: "Programing",
     description: "Programing Meme",
     technique: "2-Color black and white",
     colors: 2,
