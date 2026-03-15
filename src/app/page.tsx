@@ -486,37 +486,39 @@ export default function DeluxeAnimeGallery() {
         </>
       )}
 
-      {/* ClothViewer Modal */}
-      {showClothViewer && (
-        <>
-          {/* Backdrop */}
-          <div 
-            className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50"
-            onClick={() => setShowClothViewer(false)}
-          />
-          
-          {/* Modal Content */}
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none">
-            <div className="bg-[#14181f] border-2 border-[#e3b34c] rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] flex flex-col pointer-events-auto animate-fadeIn">
-              {/* Header */}
-              <div className="flex justify-between items-center p-4 border-b border-[#e3b34c]/30 flex-shrink-0">
-                <h3 className="text-[#e3b34c] font-bold text-xl">3D Cloth Viewer</h3>
-                <button 
-                  onClick={() => setShowClothViewer(false)}
-                  className="text-[#e3b34c] hover:text-[#f9e6b3] text-2xl w-8 h-8 flex items-center justify-center rounded-full hover:bg-[#e3b34c]/10 transition-all"
-                >
-                  ✕
-                </button>
-              </div>
-              
-              {/* Content - Scrollable */}
-              <div className="flex-1 overflow-y-auto p-4">
-                <ClothViewer/>
-              </div>
+      {/* ClothViewer Modal - USING HIDE/SHOW INSTEAD OF MOUNT/UNMOUNT */}
+      <div 
+        className={`fixed inset-0 z-50 transition-opacity duration-300 ease-in-out ${
+          showClothViewer ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+        }`}
+      >
+        {/* Backdrop */}
+        <div 
+          className="absolute inset-0 bg-black/70 backdrop-blur-sm"
+          onClick={() => setShowClothViewer(false)}
+        />
+        
+        {/* Modal Content */}
+        <div className="absolute inset-0 flex items-center justify-center p-4">
+          <div className="bg-[#14181f] border-2 border-[#e3b34c] rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] flex flex-col transform transition-all duration-300 ease-in-out">
+            {/* Header */}
+            <div className="flex justify-between items-center p-4 border-b border-[#e3b34c]/30 flex-shrink-0">
+              <h3 className="text-[#e3b34c] font-bold text-xl">3D Cloth Viewer</h3>
+              <button 
+                onClick={() => setShowClothViewer(false)}
+                className="text-[#e3b34c] hover:text-[#f9e6b3] text-2xl w-8 h-8 flex items-center justify-center rounded-full hover:bg-[#e3b34c]/10 transition-all"
+              >
+                ✕
+              </button>
+            </div>
+            
+            {/* Content */}
+            <div className="flex-1 overflow-hidden p-4">
+              <ClothViewer />
             </div>
           </div>
-        </>
-      )}
+        </div>
+      </div>
 
       <style jsx>{`
         @keyframes slideIn {
@@ -556,4 +558,4 @@ export default function DeluxeAnimeGallery() {
       `}</style>
     </div>
   );
-      }
+}
