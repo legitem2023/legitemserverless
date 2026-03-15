@@ -19,55 +19,102 @@ export default function ClothViewer({
   const cameraRef = useRef<THREE.PerspectiveCamera | null>(null);
   const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
   const controlsRef = useRef<OrbitControls | null>(null);
+  const modelRef = useRef<THREE.Group | null>(null);
   const animationFrameRef = useRef<number>(0);
+  const contextLostRef = useRef<boolean>(false);
 
-  useEffect(() => {
+  // Function to initialize or re-initialize the scene
+  const initScene = () => {
     if (!containerRef.current) return;
 
-    // Clean setup - only what's needed
     const container = containerRef.current;
     const width = container.clientWidth;
 
+    // Clear container if needed
+    while (container.firstChild) {
+      container.removeChild(container.firstChild);
+    }
+
     // Scene
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x2a2a3a);
+    scene.background = new THREE.Color(0x1a1f2a);
     sceneRef.current = scene;
 
     // Camera
     const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
-    camera.position.set(2, 1.5, 3);
-    camera.lookAt(0, 1, 0);
+    camera.position.set(2.5, 1.8, 3.5);
+    camera.lookAt(0, 1.2, 0);
     cameraRef.current = camera;
 
-    // Renderer - minimal config
-    const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: "high-performance" });
+    // Renderer with context loss handling
+    const renderer = new THREE.WebGLRenderer({ 
+      antialias: true, 
+      powerPreference: "high-performance",
+      preserveDrawingBuffer: true // Important for context loss
+    });
+    
     renderer.setSize(width, height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.shadowMap.enabled = true;
     container.appendChild(renderer.domElement);
     rendererRef.current = renderer;
 
-    // Controls - essential only
+    // Handle context loss
+    renderer.domElement.addEventListener('webglcontextlost', (event) => {
+      event.preventDefault();
+      console.log('WebGL context lost');
+      contextLostRef.current = true;
+    });
+
+    renderer.domElement.addEventListener('webglcontextrestored', () => {
+      console.log('WebGL context restored');
+      contextLostRef.current = false;
+      // Re-initialize everything
+      if (sceneRef.current && cameraRef.current && rendererRef.current) {
+        setupScene();
+      }
+    });
+
+    // Controls
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
     controls.dampingFactor = 0.05;
-    controls.target.set(0, 1, 0);
     controls.autoRotate = true;
-    controls.autoRotateSpeed = 1.5;
+    controls.autoRotateSpeed = 2.0;
     controls.enableZoom = true;
     controls.enablePan = false;
-    controls.maxPolarAngle = Math.PI / 2;
+    controls.target.set(0, 1.2, 0);
     controlsRef.current = controls;
 
-    // Lights - minimal but effective
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
+    setupScene();
+  };
+
+  const setupScene = () => {
+    if (!sceneRef.current || !cameraRef.current || !rendererRef.current) return;
+
+    const scene = sceneRef.current;
+    
+    // Clear scene
+    while(scene.children.length > 0) {
+      scene.remove(scene.children[0]);
+    }
+
+    // Lights
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
     scene.add(ambientLight);
 
     const mainLight = new THREE.DirectionalLight(0xffffff, 1.2);
-    mainLight.position.set(2, 3, 3);
+    mainLight.position.set(3, 4, 3);
+    mainLight.castShadow = true;
+    mainLight.receiveShadow = true;
     scene.add(mainLight);
 
-    const backLight = new THREE.DirectionalLight(0xffffff, 0.5);
-    backLight.position.set(-2, 1, -2);
+    const fillLight = new THREE.DirectionalLight(0xffeedd, 0.5);
+    fillLight.position.set(-2, 1, 2);
+    scene.add(fillLight);
+
+    const backLight = new THREE.DirectionalLight(0xffffff, 0.4);
+    backLight.position.set(0, 1, -3);
     scene.add(backLight);
 
     // Load model
@@ -75,38 +122,59 @@ export default function ClothViewer({
     loader.load(
       modelPath,
       (gltf) => {
+        console.log('✅ Model loaded successfully');
         const model = gltf.scene;
+        modelRef.current = model;
         
-        // Center model
+        // Center and scale model
         const box = new THREE.Box3().setFromObject(model);
         const center = box.getCenter(new THREE.Vector3());
         const size = box.getSize(new THREE.Vector3());
         
-        const scale = 2.0 / size.y;
+        const scale = 2.2 / size.y;
         model.scale.set(scale, scale, scale);
-        model.position.set(-center.x * scale, 1 - center.y * scale, -center.z * scale);
+        model.position.set(-center.x * scale, 1.2 - center.y * scale, -center.z * scale);
         
         scene.add(model);
       },
       undefined,
-      (error) => console.error('Error loading model:', error)
+      (error) => {
+        console.error('❌ Error loading model:', error);
+        // Add a fallback cube
+        const geometry = new THREE.BoxGeometry(1, 1.2, 0.3);
+        const material = new THREE.MeshStandardMaterial({ color: 0xe3b34c, wireframe: true });
+        const fallback = new THREE.Mesh(geometry, material);
+        fallback.position.set(0, 1.2, 0);
+        scene.add(fallback);
+      }
     );
+  };
 
-    // Animation
+  // Animation loop
+  useEffect(() => {
+    if (!containerRef.current) return;
+
+    initScene();
+
     const animate = () => {
-      controls.update();
-      renderer.render(scene, camera);
+      if (rendererRef.current && sceneRef.current && cameraRef.current && !contextLostRef.current) {
+        if (controlsRef.current) {
+          controlsRef.current.update();
+        }
+        rendererRef.current.render(sceneRef.current, cameraRef.current);
+      }
       animationFrameRef.current = requestAnimationFrame(animate);
     };
     animate();
 
-    // Resize
+    // Handle resize
     const handleResize = () => {
-      if (!containerRef.current || !camera || !renderer) return;
-      const newWidth = containerRef.current.clientWidth;
-      camera.aspect = newWidth / height;
-      camera.updateProjectionMatrix();
-      renderer.setSize(newWidth, height);
+      if (!containerRef.current || !cameraRef.current || !rendererRef.current || contextLostRef.current) return;
+      
+      const width = containerRef.current.clientWidth;
+      cameraRef.current.aspect = width / height;
+      cameraRef.current.updateProjectionMatrix();
+      rendererRef.current.setSize(width, height);
     };
     window.addEventListener('resize', handleResize);
 
@@ -115,12 +183,12 @@ export default function ClothViewer({
       window.removeEventListener('resize', handleResize);
       cancelAnimationFrame(animationFrameRef.current);
       
-      if (renderer && container.contains(renderer.domElement)) {
-        container.removeChild(renderer.domElement);
-        renderer.dispose();
+      if (rendererRef.current) {
+        rendererRef.current.dispose();
+        if (containerRef.current && rendererRef.current.domElement) {
+          containerRef.current.removeChild(rendererRef.current.domElement);
+        }
       }
-      
-      controls.dispose();
     };
   }, [modelPath, height]);
 
@@ -130,8 +198,9 @@ export default function ClothViewer({
       style={{ 
         width: '100%', 
         height: `${height}px`,
-        background: '#2a2a3a'
+        background: '#1a1f2a',
+        position: 'relative'
       }} 
     />
   );
-}
+          }
