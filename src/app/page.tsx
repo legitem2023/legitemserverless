@@ -223,7 +223,7 @@ export default function DeluxeAnimeGallery() {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
-
+/*
   // Prevent body scroll when modal is open
   useEffect(() => {
     if (showClothViewer || showInstructions) {
@@ -236,7 +236,7 @@ export default function DeluxeAnimeGallery() {
       document.body.style.overflow = 'unset';
     };
   }, [showClothViewer, showInstructions]);
-
+*/
   const isMobile = windowWidth < 768;
   const isTablet = windowWidth >= 768 && windowWidth < 1024;
 
