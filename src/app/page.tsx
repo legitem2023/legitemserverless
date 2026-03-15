@@ -1,9 +1,6 @@
 "use client";
 import ClothViewer from '../components/ClothViewer';
 import React, { useEffect, useState } from 'react';
-import * as THREE from 'three';
-import { GLTFLoader } from 'three/examples/jsm/Addons.js';
-import { OrbitControls } from 'three/examples/jsm/Addons.js';
 
 interface DeluxeProduct {
   id: number;
