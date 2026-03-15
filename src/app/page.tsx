@@ -76,7 +76,7 @@ const deluxeProducts: DeluxeProduct[] = [
     fabrics: ["Cotton", "Developer"],
     finish: ["Matte", "Classic", "Soft-hand"],
     limited: false,
-    imageUrl: "https://www.kali.org/images/kali-logo.svg"
+    imageUrl: "https://wallpapers.com/images/hd/kali-linux-silver-blue-dragon-bd8cm465iy0yxczn.jpg"
   },
   {
     id: 20,
