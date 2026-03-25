@@ -24,6 +24,23 @@ interface DeluxeProduct {
 const deluxeProducts: DeluxeProduct[] = [
   // ========== OPERATING SYSTEMS ==========
    {
+    id: 9,
+    name: "SWAG",
+    category: "BRAND",
+    description: "BRAND",
+    technique: "1 Color",
+    colors: 1,
+    area: "Full Chest",
+    turnaround: "4-6 business days",
+    minOrder: 15,
+    price: "₱24.00 - ₱38.00",
+    artwork: "Vector • Windows style",
+    fabrics: ["Cotton", "Tech Wear"],
+    finish: ["Modern"],
+    limited: false,
+    imageUrl: "/SWAGLOGO.png"
+  },
+  {
     id: 10,
     name: "SAN BEDA",
     category: "BRAND",
