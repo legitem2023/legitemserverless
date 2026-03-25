@@ -23,7 +23,41 @@ interface DeluxeProduct {
 
 const deluxeProducts: DeluxeProduct[] = [
   // ========== OPERATING SYSTEMS ==========
-   {
+  {
+    id: 13,
+    name: "KAMASA",
+    category: "Society",
+    description: "Society",
+    technique: "2-Color black and white",
+    colors: 2,
+    area: "Full Chest",
+    turnaround: "4-6 business days",
+    minOrder: 15,
+    price: "₱24.00 - ₱38.00",
+    artwork: "Vector • Windows style",
+    fabrics: ["Cotton", "Tech Wear"],
+    finish: ["Modern"],
+    limited: false,
+    imageUrl: "/KAMASA.png"
+  }, 
+  {
+    id: 14,
+    name: "Malaysian Society for Occupational Safety Health",
+    category: "Society",
+    description: "Society",
+    technique: "2-Color black and white",
+    colors: 2,
+    area: "Full Chest",
+    turnaround: "4-6 business days",
+    minOrder: 15,
+    price: "₱24.00 - ₱38.00",
+    artwork: "Vector • Windows style",
+    fabrics: ["Cotton", "Tech Wear"],
+    finish: ["Modern"],
+    limited: false,
+    imageUrl: "/MSOSH.png"
+  }, 
+  {
     id: 15,
     name: "Word of Wisdom",
     category: "Biblical",
