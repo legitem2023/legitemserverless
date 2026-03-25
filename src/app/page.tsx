@@ -25,7 +25,7 @@ const deluxeProducts: DeluxeProduct[] = [
   // ========== OPERATING SYSTEMS ==========
    {
     id: 11,
-    name: "BEST TEACHER EVER",
+    name: "MAKE DIFFERENCE",
     category: "Complimentary",
     description: "Complimentary",
     technique: "Multiple Colors",
