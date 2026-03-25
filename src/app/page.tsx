@@ -255,11 +255,11 @@ const DeluxeThumbnail = ({ imageUrl, name, goldLabel }: { imageUrl: string; name
   return (
     <div className="relative">
       <div className="p-1.5 bg-gradient-to-br from-[#bf9530] via-[#fcf6ba] to-[#b38728] rounded-xl shadow-lg">
-        <div className="relative w-full aspect-square bg-[#0a121c] rounded-lg overflow-hidden">
+        <div className="relative w-full aspect-ratio-[4/5] bg-[#0a121c] rounded-lg overflow-hidden items-center">
           <img 
             src={imageUrl} 
             alt={name}
-            className="w-full h-auto object-contain p-2 aspect-ratio-[9/16]"
+            className="w-full h-auto object-contain p-2 aspect-ratio-[4/5]"
             loading="lazy"
           />
         </div>
