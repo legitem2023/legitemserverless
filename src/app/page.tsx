@@ -24,6 +24,22 @@ interface DeluxeProduct {
 const deluxeProducts: DeluxeProduct[] = [
   // ========== OPERATING SYSTEMS ==========
    {
+    id: 10,
+    name: "SAN BEDA",
+    category: "BRAND",
+    description: "Complimentary",
+    technique: "Multiple Colors",
+    colors: 2,
+    area: "Full Chest",
+    turnaround: "4-6 business days",
+    minOrder: 15,
+    price: "₱24.00 - ₱38.00",
+    artwork: "Vector • Windows style",
+    fabrics: ["Cotton", "Tech Wear"],
+    finish: ["Modern"],
+    limited: false,
+    imageUrl: "/SBD.png"
+  },{
     id: 11,
     name: "MAKE DIFFERENCE",
     category: "Complimentary",
