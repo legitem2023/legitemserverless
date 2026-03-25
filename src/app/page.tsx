@@ -38,7 +38,7 @@ const deluxeProducts: DeluxeProduct[] = [
     fabrics: ["Cotton", "Tech Wear"],
     finish: ["Modern"],
     limited: false,
-    imageUrl: "/SWAGLOGO.png"
+    imageUrl: "/SWAG.png"
   },
   {
     id: 10,
@@ -144,7 +144,7 @@ const deluxeProducts: DeluxeProduct[] = [
    {
     id: 16,
     name: "Code of Darkness",
-    category: "Programing",
+    category: "Programming",
     description: "Programing Meme",
     technique: "2-Color black and white",
     colors: 2,
@@ -157,110 +157,7 @@ const deluxeProducts: DeluxeProduct[] = [
     finish: ["Modern"],
     limited: false,
     imageUrl: "/file_000000003a5872069ca631e1ff62d022.png"
-  }, 
-  {
-    id: 17,
-    name: "Windows 11",
-    category: "Operating Systems",
-    description: "Modern Windows logo with gradient - blue window design",
-    technique: "4-Color with Blue Metallic",
-    colors: 4,
-    area: "Full Chest",
-    turnaround: "4-6 business days",
-    minOrder: 15,
-    price: "₱24.00 - ₱38.00",
-    artwork: "Vector • Windows style",
-    fabrics: ["Cotton", "Tech Wear"],
-    finish: ["Metallic", "Glossy", "Modern"],
-    limited: false,
-    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/e/e2/Windows_logo_and_wordmark_-_2021.svg"
-  },
-  {
-    id: 18,
-    name: "macOS",
-    category: "Operating Systems",
-    description: "Apple macOS logo - sleek silver design",
-    technique: "3-Color with Silver Foil",
-    colors: 3,
-    area: "Front Center",
-    turnaround: "4-6 business days",
-    minOrder: 12,
-    price: "₱28.00 - ₱42.00",
-    artwork: "Vector • Apple style",
-    fabrics: ["Premium Cotton", "Tech"],
-    finish: ["Foil", "Matte", "Premium"],
-    limited: true,
-    goldLabel: true,
-    imageUrl: "https://camranger.com/wp-content/uploads/2018/08/macOS.jpg"
-  },
-  {
-    id: 19,
-    name: "Kali Linux",
-    category: "Operating Systems",
-    description: "Kali Linux dragon logo - security and penetration testing",
-    technique: "4-Color with Black & White",
-    colors: 4,
-    area: "Full Front",
-    turnaround: "5-7 business days",
-    minOrder: 10,
-    price: "₱26.00 - ₱40.00",
-    artwork: "Vector • Dragon design",
-    fabrics: ["Cotton", "Developer"],
-    finish: ["Matte", "Classic", "Soft-hand"],
-    limited: false,
-    imageUrl: "https://wallpapers.com/images/hd/kali-linux-silver-blue-dragon-bd8cm465iy0yxczn.jpg"
-  },
-  {
-    id: 20,
-    name: "Ubuntu",
-    category: "Operating Systems",
-    description: "Ubuntu logo with orange and white - circle of friends",
-    technique: "4-Color with Orange Metallic",
-    colors: 4,
-    area: "Full Front",
-    turnaround: "5-7 business days",
-    minOrder: 12,
-    price: "₱25.00 - ₱38.00",
-    artwork: "Vector • Ubuntu style",
-    fabrics: ["Cotton", "Developer"],
-    finish: ["Metallic", "Matte", "Modern"],
-    limited: true,
-    imageUrl: "https://assets.ubuntu.com/v1/29985a98-ubuntu-logo32.png"
-  },
-  {
-    id: 21,
-    name: "Android",
-    category: "Operating Systems",
-    description: "Android robot logo - green with modern design",
-    technique: "4-Color with Green Glow",
-    colors: 4,
-    area: "Full Front",
-    turnaround: "4-6 business days",
-    minOrder: 15,
-    price: "₱23.00 - ₱36.00",
-    artwork: "Vector • Android robot",
-    fabrics: ["Cotton", "Tech"],
-    finish: ["Glow", "Matte", "Fun"],
-    limited: false,
-    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/d/d7/Android_robot.svg"
-  },
-  {
-    id: 22,
-    name: "iOS",
-    category: "Operating Systems",
-    description: "Apple iOS logo - sleek design",
-    technique: "3-Color with Silver Foil",
-    colors: 3,
-    area: "Front Center",
-    turnaround: "4-6 business days",
-    minOrder: 12,
-    price: "₱27.00 - ₱41.00",
-    artwork: "Vector • Apple style",
-    fabrics: ["Premium Cotton", "Tech"],
-    finish: ["Foil", "Matte", "Premium"],
-    limited: true,
-    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg"
-  }
+  } 
 ];
 
 // Mobile Menu Component
@@ -472,12 +369,12 @@ export default function DeluxeAnimeGallery() {
                   >
                     {isMobile ? 'Consult' : 'Request Consultation'}
                   </button>
-                  <button 
+                  {/* <button 
                     onClick={() => setShowClothViewer(true)}
                     className="bg-transparent border-2 border-[#e3b34c] text-[#e3b34c] px-4 md:px-8 py-3 rounded-full font-semibold text-sm md:text-base hover:bg-[#e3b34c]/10 transition-all w-full md:w-auto"
                   >
                     {isMobile ? 'View' : 'View Lookbook'}
-                  </button>
+                  </button>*/}
                 </div>
               </div>
             </div>
