@@ -23,6 +23,40 @@ interface DeluxeProduct {
 
 const deluxeProducts: DeluxeProduct[] = [
   // ========== OPERATING SYSTEMS ==========
+   {
+    id: 11,
+    name: "BEST TEACHER EVER",
+    category: "Complimentary",
+    description: "Complimentary",
+    technique: "Multiple Colors",
+    colors: 2,
+    area: "Full Chest",
+    turnaround: "4-6 business days",
+    minOrder: 15,
+    price: "₱24.00 - ₱38.00",
+    artwork: "Vector • Windows style",
+    fabrics: ["Cotton", "Tech Wear"],
+    finish: ["Modern"],
+    limited: false,
+    imageUrl: "/file_00000000b98c71faa3fabe01639910c8.png"
+  },
+  {
+    id: 12,
+    name: "BEST TEACHER EVER",
+    category: "Complimentary",
+    description: "Complimentary",
+    technique: "Multiple Colors",
+    colors: 2,
+    area: "Full Chest",
+    turnaround: "4-6 business days",
+    minOrder: 15,
+    price: "₱24.00 - ₱38.00",
+    artwork: "Vector • Windows style",
+    fabrics: ["Cotton", "Tech Wear"],
+    finish: ["Modern"],
+    limited: false,
+    imageUrl: "/file_0000000049587208b5ab969b4ed098db.png"
+  },
   {
     id: 13,
     name: "KAMASA",
