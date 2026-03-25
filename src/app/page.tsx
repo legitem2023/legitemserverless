@@ -259,7 +259,7 @@ const DeluxeThumbnail = ({ imageUrl, name, goldLabel }: { imageUrl: string; name
           <img 
             src={imageUrl} 
             alt={name}
-            className="w-full h-full object-contain p-2"
+            className="w-full h-auto object-contain p-2 aspect-ratio-[9/16]"
             loading="lazy"
           />
         </div>
