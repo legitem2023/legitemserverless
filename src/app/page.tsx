@@ -23,7 +23,24 @@ interface DeluxeProduct {
 
 const deluxeProducts: DeluxeProduct[] = [
   // ========== OPERATING SYSTEMS ==========
-   {
+    {
+    id: 7,
+    name: "Corteiz",
+    category: "Brand",
+    description: "Brand",
+    technique: "1 Color",
+    colors: 1,
+    area: "Full Chest",
+    turnaround: "4-6 business days",
+    minOrder: 15,
+    price: "₱24.00 - ₱38.00",
+    artwork: "Vector • Windows style",
+    fabrics: ["Cotton", "Tech Wear"],
+    finish: ["Modern"],
+    limited: false,
+    imageUrl: "/Cartaz.png"
+  },
+  {
     id: 8,
     name: "Batang 90's",
     category: "Sentimental",
