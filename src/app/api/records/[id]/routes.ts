@@ -16,7 +16,7 @@ async function writeRecords(records: any[]) {
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: { id: string } }
 ) {
   try {
     const { id } = await params;
@@ -28,18 +28,27 @@ export async function PUT(
       return NextResponse.json({ error: 'Record not found' }, { status: 404 });
     }
     
-    records[index] = { ...records[index], ...body, id };
+    records[index] = { 
+      ...records[index], 
+      pangalan: body.pangalan,
+      callSign: body.callSign,
+      petsaUnangTupad: body.petsaUnangTupad,
+      petsaIkalawangTupad: body.petsaIkalawangTupad,
+      id: id 
+    };
+    
     await writeRecords(records);
     
     return NextResponse.json(records[index]);
   } catch (error) {
+    console.error('PUT Error:', error);
     return NextResponse.json({ error: 'Failed to update record' }, { status: 500 });
   }
 }
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: { id: string } }
 ) {
   try {
     const { id } = await params;
@@ -50,6 +59,7 @@ export async function DELETE(
     
     return NextResponse.json({ success: true });
   } catch (error) {
+    console.error('DELETE Error:', error);
     return NextResponse.json({ error: 'Failed to delete record' }, { status: 500 });
   }
 }
