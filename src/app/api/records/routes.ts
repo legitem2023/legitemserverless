@@ -3,32 +3,21 @@ import { NextRequest, NextResponse } from 'next/server';
 import fs from 'fs/promises';
 import path from 'path';
 
+// Use absolute path to ensure it works in all environments
 const dataFilePath = path.join(process.cwd(), 'data', 'records.json');
 
-// Ensure data directory and file exist
-async function ensureDataFile() {
-  const dataDir = path.join(process.cwd(), 'data');
-  try {
-    await fs.access(dataDir);
-  } catch {
-    await fs.mkdir(dataDir, { recursive: true });
-  }
-  
-  try {
-    await fs.access(dataFilePath);
-  } catch {
-    await fs.writeFile(dataFilePath, JSON.stringify([], null, 2));
-  }
-}
-
 async function readRecords() {
-  await ensureDataFile();
-  const data = await fs.readFile(dataFilePath, 'utf-8');
-  return JSON.parse(data);
+  try {
+    const data = await fs.readFile(dataFilePath, 'utf-8');
+    return JSON.parse(data);
+  } catch (error) {
+    // If file doesn't exist, create it
+    await fs.writeFile(dataFilePath, JSON.stringify([], null, 2));
+    return [];
+  }
 }
 
 async function writeRecords(records: any[]) {
-  await ensureDataFile();
   await fs.writeFile(dataFilePath, JSON.stringify(records, null, 2));
 }
 
@@ -37,6 +26,7 @@ export async function GET() {
     const records = await readRecords();
     return NextResponse.json(records);
   } catch (error) {
+    console.error('GET Error:', error);
     return NextResponse.json({ error: 'Failed to read records' }, { status: 500 });
   }
 }
@@ -48,7 +38,10 @@ export async function POST(request: NextRequest) {
     
     const newRecord = {
       id: Date.now().toString(),
-      ...body,
+      pangalan: body.pangalan,
+      callSign: body.callSign,
+      petsaUnangTupad: body.petsaUnangTupad,
+      petsaIkalawangTupad: body.petsaIkalawangTupad,
     };
     
     records.push(newRecord);
@@ -56,6 +49,7 @@ export async function POST(request: NextRequest) {
     
     return NextResponse.json(newRecord, { status: 201 });
   } catch (error) {
+    console.error('POST Error:', error);
     return NextResponse.json({ error: 'Failed to create record' }, { status: 500 });
   }
 }
