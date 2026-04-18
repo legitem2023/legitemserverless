@@ -23,20 +23,26 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
 
-  // Fetch records on component mount
   useEffect(() => {
     fetchRecords();
   }, []);
 
   const fetchRecords = async () => {
     try {
-      const response = await fetch('../api/records');
-      if (!response.ok) throw new Error('Failed to fetch records');
+      setIsLoading(true);
+      const response = await fetch('/api/records');
+      
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to fetch');
+      }
+      
       const data = await response.json();
       setRecords(data);
+      setError('');
     } catch (err) {
-      setError('Error loading records');
-      console.error(err);
+      console.error('Fetch error:', err);
+      setError('Failed to load records. Please check if the server is running.');
     } finally {
       setIsLoading(false);
     }
@@ -53,7 +59,6 @@ export default function Home() {
     e.preventDefault();
     setError('');
 
-    // Validation
     if (!formData.pangalan || !formData.callSign || !formData.petsaUnangTupad || !formData.petsaIkalawangTupad) {
       setError('All fields are required');
       return;
@@ -71,13 +76,16 @@ export default function Home() {
         body: JSON.stringify(formData),
       });
 
-      if (!response.ok) throw new Error('Failed to save record');
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to save');
+      }
 
       await fetchRecords();
       resetForm();
     } catch (err) {
-      setError('Error saving record');
-      console.error(err);
+      console.error('Save error:', err);
+      setError('Error saving record. Please try again.');
     }
   };
 
@@ -99,13 +107,15 @@ export default function Home() {
         method: 'DELETE',
       });
 
-      if (!response.ok) throw new Error('Failed to delete record');
+      if (!response.ok) {
+        throw new Error('Failed to delete');
+      }
 
       await fetchRecords();
       if (editingId === id) resetForm();
     } catch (err) {
+      console.error('Delete error:', err);
       setError('Error deleting record');
-      console.error(err);
     }
   };
 
@@ -133,16 +143,23 @@ export default function Home() {
       <div className="max-w-4xl mx-auto">
         <h1 className="text-3xl font-bold text-center mb-8">Record Management System</h1>
 
+        {error && (
+          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+            {error}
+            <button 
+              onClick={fetchRecords}
+              className="ml-4 bg-red-600 text-white px-2 py-1 rounded text-sm"
+            >
+              Retry
+            </button>
+          </div>
+        )}
+
         {/* Form Section */}
         <div className="bg-white rounded-lg shadow-md p-6 mb-8">
           <h2 className="text-xl font-semibold mb-4">
             {editingId ? 'Edit Record' : 'Add New Record'}
           </h2>
-          {error && (
-            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-              {error}
-            </div>
-          )}
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
