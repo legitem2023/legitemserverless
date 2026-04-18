@@ -30,7 +30,7 @@ export default function Home() {
 
   const fetchRecords = async () => {
     try {
-      const response = await fetch('/api/records');
+      const response = await fetch('../api/records');
       if (!response.ok) throw new Error('Failed to fetch records');
       const data = await response.json();
       setRecords(data);
