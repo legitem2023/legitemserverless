@@ -135,7 +135,7 @@ export default function Home() {
                           colSpan={2}
                           className="border border-black px-2 py-1 text-left"
                         >
-                          PETSA:{' '}
+                          Petsa:{' '}
                           {new Date(schedule.date).toLocaleDateString('en-US', {
                             month: 'long',
                             day: 'numeric',
@@ -147,14 +147,14 @@ export default function Home() {
                           colSpan={2}
                           className="border border-black px-2 py-1 text-left"
                         >
-                          ARAW: {schedule.day}
+                          Araw: {schedule.day}
                         </th>
 
                         <th
                           colSpan={2}
                           className="border border-black px-2 py-1 text-left"
                         >
-                          ORAS: {schedule.time}
+                          Oras: {schedule.time}
                         </th>
                       </tr>
 
