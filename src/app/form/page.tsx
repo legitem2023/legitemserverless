@@ -111,7 +111,7 @@ export default function Home() {
   const [newMember, setNewMember] = useState<Member>({
     name: '',
     callSign: '',
-    schedules: [{ date: '', day: '', time: '', service: 'Worship' }]
+    schedules: [{ date: '', day: '', time: '', service: 'worship' }]
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
