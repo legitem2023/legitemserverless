@@ -348,8 +348,8 @@ export default function Home() {
                   <Image
                     src="/images.png"
                     alt="Logo"
-                    width={60}
-                    height={60}
+                    width={120}
+                    height={120}
                     className="object-contain"
                   />
                 </div>
