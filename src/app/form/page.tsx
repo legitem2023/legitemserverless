@@ -113,6 +113,7 @@ export default function Home() {
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
 
   // Load data from API on mount
   useEffect(() => {
@@ -134,60 +135,85 @@ export default function Home() {
     }
   };
 
+  // Clear messages after 3 seconds
+  useEffect(() => {
+    if (success || error) {
+      const timer = setTimeout(() => {
+        setSuccess(null);
+        setError(null);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [success, error]);
+
   // CRUD Operations with API
   const addMember = async () => {
-    if (newMember.name && newMember.callSign) {
-      const memberToAdd = {
-        ...newMember,
-        schedules: newMember.schedules.filter(s => s.day && s.time)
-      };
+    if (!newMember.name || !newMember.callSign) {
+      setError('Please fill in name and call sign');
+      return;
+    }
+    
+    const memberToAdd = {
+      ...newMember,
+      schedules: newMember.schedules.filter(s => s.day && s.time)
+    };
+    
+    try {
+      const response = await fetch('/api/members', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(memberToAdd)
+      });
       
-      try {
-        const response = await fetch('/api/members', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(memberToAdd)
+      const result = await response.json();
+      
+      if (response.ok) {
+        setData({ members: result.members });
+        setNewMember({
+          name: '',
+          callSign: '',
+          schedules: [{ date: '', day: '', time: '' }]
         });
-        
-        if (response.ok) {
-          await fetchData(); // Reload data
-          setNewMember({
-            name: '',
-            callSign: '',
-            schedules: [{ date: '', day: '', time: '' }]
-          });
-        } else {
-          setError('Failed to add member');
-        }
-      } catch (err) {
-        setError('Error adding member');
-        console.error(err);
+        setSuccess('Member added successfully!');
+      } else {
+        setError(result.error || 'Failed to add member');
       }
+    } catch (err) {
+      setError('Error adding member');
+      console.error(err);
     }
   };
 
   const updateMember = async () => {
-    if (editingMember) {
-      try {
-        const response = await fetch('/api/members', {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            index: editingMember.index,
-            member: editingMember.member
-          })
-        });
-        
-        if (response.ok) {
-          await fetchData(); // Reload data
-          setEditingMember(null);
-        } else {
-          setError('Failed to update member');
-        }
-      } catch (err) {
-        setError('Error updating member');
-        console.error(err);
+    if (!editingMember) return;
+    
+    if (!editingMember.member.name || !editingMember.member.callSign) {
+      setError('Please fill in name and call sign');
+      return;
+    }
+    
+    try {
+      const response = await fetch('/api/members', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          index: editingMember.index,
+          member: editingMember.member
+        })
+      });
+      
+      const result = await response.json();
+      
+      if (response.ok) {
+        setData({ members: result.members });
+        setEditingMember(null);
+        setSuccess('Member updated successfully!');
+      } else {
+        setError(result.error || 'Failed to update member');
       }
+    } catch (err) {
+      setError('Error updating member');
+      console.error(err);
     }
   };
 
@@ -200,34 +226,19 @@ export default function Home() {
           body: JSON.stringify({ index })
         });
         
+        const result = await response.json();
+        
         if (response.ok) {
-          await fetchData(); // Reload data
+          setData({ members: result.members });
+          setSuccess('Member deleted successfully!');
         } else {
-          setError('Failed to delete member');
+          setError(result.error || 'Failed to delete member');
         }
       } catch (err) {
         setError('Error deleting member');
         console.error(err);
       }
     }
-  };
-
-  const addScheduleToMember = (memberIndex: number) => {
-    const updatedMembers = [...data.members];
-    updatedMembers[memberIndex].schedules.push({ date: '', day: '', time: '' });
-    setData({ members: updatedMembers });
-  };
-
-  const updateSchedule = (memberIndex: number, scheduleIndex: number, field: keyof Schedule, value: string) => {
-    const updatedMembers = [...data.members];
-    updatedMembers[memberIndex].schedules[scheduleIndex][field] = value;
-    setData({ members: updatedMembers });
-  };
-
-  const deleteSchedule = (memberIndex: number, scheduleIndex: number) => {
-    const updatedMembers = [...data.members];
-    updatedMembers[memberIndex].schedules.splice(scheduleIndex, 1);
-    setData({ members: updatedMembers });
   };
 
   // Group and sort schedules for printing
@@ -292,6 +303,14 @@ export default function Home() {
 
   return (
     <div className="bg-gray-300 min-h-screen py-10 print:bg-white">
+      {/* Success Message */}
+      {success && (
+        <div className="fixed top-20 left-1/2 transform -translate-x-1/2 z-50 bg-green-500 text-white px-4 py-2 rounded shadow-lg">
+          {success}
+          <button onClick={() => setSuccess(null)} className="ml-4 font-bold">×</button>
+        </div>
+      )}
+
       {/* Error Message */}
       {error && (
         <div className="fixed top-20 left-1/2 transform -translate-x-1/2 z-50 bg-red-500 text-white px-4 py-2 rounded shadow-lg">
@@ -525,7 +544,7 @@ export default function Home() {
                     value={schedule.date}
                     onChange={(e) => {
                       const updated = [...newMember.schedules];
-                      updated[idx].date = e.target.value;
+                      updated[idx] = { ...updated[idx], date: e.target.value };
                       setNewMember({ ...newMember, schedules: updated });
                     }}
                     className="border p-2 rounded text-sm"
@@ -534,7 +553,7 @@ export default function Home() {
                     value={schedule.day}
                     onChange={(e) => {
                       const updated = [...newMember.schedules];
-                      updated[idx].day = e.target.value;
+                      updated[idx] = { ...updated[idx], day: e.target.value };
                       setNewMember({ ...newMember, schedules: updated });
                     }}
                     className="border p-2 rounded text-sm"
@@ -548,17 +567,30 @@ export default function Home() {
                     <option value="Saturday">Saturday</option>
                     <option value="Sunday">Sunday</option>
                   </select>
-                  <input
-                    type="text"
-                    placeholder="Time (e.g., 8:00 AM)"
-                    value={schedule.time}
-                    onChange={(e) => {
-                      const updated = [...newMember.schedules];
-                      updated[idx].time = e.target.value;
-                      setNewMember({ ...newMember, schedules: updated });
-                    }}
-                    className="border p-2 rounded text-sm"
-                  />
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      placeholder="Time (e.g., 8:00 AM)"
+                      value={schedule.time}
+                      onChange={(e) => {
+                        const updated = [...newMember.schedules];
+                        updated[idx] = { ...updated[idx], time: e.target.value };
+                        setNewMember({ ...newMember, schedules: updated });
+                      }}
+                      className="border p-2 rounded text-sm flex-1"
+                    />
+                    {newMember.schedules.length > 1 && (
+                      <button
+                        onClick={() => {
+                          const updated = newMember.schedules.filter((_, i) => i !== idx);
+                          setNewMember({ ...newMember, schedules: updated });
+                        }}
+                        className="bg-red-500 text-white px-2 rounded text-xs"
+                      >
+                        Remove
+                      </button>
+                    )}
+                  </div>
                 </div>
               ))}
               <button
@@ -581,167 +613,178 @@ export default function Home() {
 
           {/* Members List */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold">Members List</h3>
-            {data.members.map((member, idx) => (
-              <div key={idx} className="border rounded-lg p-4">
-                {editingMember?.index === idx ? (
-                  // Edit Mode
-                  <div>
-                    <div className="grid grid-cols-2 gap-4 mb-3">
-                      <input
-                        type="text"
-                        value={editingMember.member.name}
-                        onChange={(e) => setEditingMember({
-                          index: idx,
-                          member: { ...editingMember.member, name: e.target.value }
-                        })}
-                        className="border p-2 rounded"
-                      />
-                      <input
-                        type="text"
-                        value={editingMember.member.callSign}
-                        onChange={(e) => setEditingMember({
-                          index: idx,
-                          member: { ...editingMember.member, callSign: e.target.value }
-                        })}
-                        className="border p-2 rounded"
-                      />
-                    </div>
-                    <div className="mb-3">
-                      <label className="block text-sm font-medium mb-1">Schedules</label>
-                      {editingMember.member.schedules.map((schedule, sIdx) => (
-                        <div key={sIdx} className="grid grid-cols-3 gap-2 mb-2">
-                          <input
-                            type="text"
-                            placeholder="Date"
-                            value={schedule.date}
-                            onChange={(e) => {
-                              const updated = [...editingMember.member.schedules];
-                              updated[sIdx].date = e.target.value;
-                              setEditingMember({
-                                index: idx,
-                                member: { ...editingMember.member, schedules: updated }
-                              });
-                            }}
-                            className="border p-2 rounded text-sm"
-                          />
-                          <select
-                            value={schedule.day}
-                            onChange={(e) => {
-                              const updated = [...editingMember.member.schedules];
-                              updated[sIdx].day = e.target.value;
-                              setEditingMember({
-                                index: idx,
-                                member: { ...editingMember.member, schedules: updated }
-                              });
-                            }}
-                            className="border p-2 rounded text-sm"
-                          >
-                            <option value="">Select Day</option>
-                            <option value="Monday">Monday</option>
-                            <option value="Tuesday">Tuesday</option>
-                            <option value="Wednesday">Wednesday</option>
-                            <option value="Thursday">Thursday</option>
-                            <option value="Friday">Friday</option>
-                            <option value="Saturday">Saturday</option>
-                            <option value="Sunday">Sunday</option>
-                          </select>
-                          <div className="flex gap-2">
+            <h3 className="text-lg font-semibold mb-3">Members List</h3>
+            {data.members.length === 0 ? (
+              <p className="text-gray-500 text-center py-8">No members yet. Add your first member above!</p>
+            ) : (
+              data.members.map((member, idx) => (
+                <div key={idx} className="border rounded-lg p-4 hover:shadow-md transition-shadow">
+                  {editingMember?.index === idx ? (
+                    // Edit Mode
+                    <div>
+                      <div className="grid grid-cols-2 gap-4 mb-3">
+                        <input
+                          type="text"
+                          placeholder="Name"
+                          value={editingMember.member.name}
+                          onChange={(e) => setEditingMember({
+                            index: idx,
+                            member: { ...editingMember.member, name: e.target.value }
+                          })}
+                          className="border p-2 rounded"
+                        />
+                        <input
+                          type="text"
+                          placeholder="Call Sign"
+                          value={editingMember.member.callSign}
+                          onChange={(e) => setEditingMember({
+                            index: idx,
+                            member: { ...editingMember.member, callSign: e.target.value }
+                          })}
+                          className="border p-2 rounded"
+                        />
+                      </div>
+                      <div className="mb-3">
+                        <label className="block text-sm font-medium mb-1">Schedules</label>
+                        {editingMember.member.schedules.map((schedule, sIdx) => (
+                          <div key={sIdx} className="grid grid-cols-3 gap-2 mb-2">
                             <input
                               type="text"
-                              placeholder="Time (e.g., 8:00 AM)"
-                              value={schedule.time}
+                              placeholder="Date"
+                              value={schedule.date}
                               onChange={(e) => {
-                                const updated = [...editingMember.member.schedules];
-                                updated[sIdx].time = e.target.value;
+                                const updatedSchedules = [...editingMember.member.schedules];
+                                updatedSchedules[sIdx] = { ...updatedSchedules[sIdx], date: e.target.value };
                                 setEditingMember({
                                   index: idx,
-                                  member: { ...editingMember.member, schedules: updated }
+                                  member: { ...editingMember.member, schedules: updatedSchedules }
                                 });
                               }}
-                              className="border p-2 rounded text-sm flex-1"
+                              className="border p-2 rounded text-sm"
                             />
-                            <button
-                              onClick={() => {
-                                const updated = [...editingMember.member.schedules];
-                                updated.splice(sIdx, 1);
+                            <select
+                              value={schedule.day}
+                              onChange={(e) => {
+                                const updatedSchedules = [...editingMember.member.schedules];
+                                updatedSchedules[sIdx] = { ...updatedSchedules[sIdx], day: e.target.value };
                                 setEditingMember({
                                   index: idx,
-                                  member: { ...editingMember.member, schedules: updated }
+                                  member: { ...editingMember.member, schedules: updatedSchedules }
                                 });
                               }}
-                              className="bg-red-500 text-white px-2 rounded text-xs"
+                              className="border p-2 rounded text-sm"
                             >
-                              Delete
-                            </button>
+                              <option value="">Select Day</option>
+                              <option value="Monday">Monday</option>
+                              <option value="Tuesday">Tuesday</option>
+                              <option value="Wednesday">Wednesday</option>
+                              <option value="Thursday">Thursday</option>
+                              <option value="Friday">Friday</option>
+                              <option value="Saturday">Saturday</option>
+                              <option value="Sunday">Sunday</option>
+                            </select>
+                            <div className="flex gap-2">
+                              <input
+                                type="text"
+                                placeholder="Time (e.g., 8:00 AM)"
+                                value={schedule.time}
+                                onChange={(e) => {
+                                  const updatedSchedules = [...editingMember.member.schedules];
+                                  updatedSchedules[sIdx] = { ...updatedSchedules[sIdx], time: e.target.value };
+                                  setEditingMember({
+                                    index: idx,
+                                    member: { ...editingMember.member, schedules: updatedSchedules }
+                                  });
+                                }}
+                                className="border p-2 rounded text-sm flex-1"
+                              />
+                              <button
+                                onClick={() => {
+                                  const updatedSchedules = editingMember.member.schedules.filter((_, i) => i !== sIdx);
+                                  setEditingMember({
+                                    index: idx,
+                                    member: { ...editingMember.member, schedules: updatedSchedules }
+                                  });
+                                }}
+                                className="bg-red-500 text-white px-2 rounded text-xs hover:bg-red-600"
+                              >
+                                Delete
+                              </button>
+                            </div>
                           </div>
-                        </div>
-                      ))}
-                      <button
-                        onClick={() => setEditingMember({
-                          index: idx,
-                          member: {
-                            ...editingMember.member,
-                            schedules: [...editingMember.member.schedules, { date: '', day: '', time: '' }]
-                          }
-                        })}
-                        className="text-blue-600 text-sm mt-1"
-                      >
-                        + Add Schedule
-                      </button>
-                    </div>
-                    <div className="flex gap-2">
-                      <button
-                        onClick={updateMember}
-                        className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700"
-                      >
-                        Save Changes
-                      </button>
-                      <button
-                        onClick={() => setEditingMember(null)}
-                        className="bg-gray-500 text-white px-3 py-1 rounded hover:bg-gray-600"
-                      >
-                        Cancel
-                      </button>
-                    </div>
-                  </div>
-                ) : (
-                  // View Mode
-                  <div>
-                    <div className="flex justify-between items-start mb-2">
-                      <div>
-                        <h4 className="font-semibold text-lg">{member.name}</h4>
-                        <p className="text-gray-600">Call Sign: {member.callSign}</p>
+                        ))}
+                        <button
+                          onClick={() => setEditingMember({
+                            index: idx,
+                            member: {
+                              ...editingMember.member,
+                              schedules: [...editingMember.member.schedules, { date: '', day: '', time: '' }]
+                            }
+                          })}
+                          className="text-blue-600 text-sm mt-1 hover:text-blue-800"
+                        >
+                          + Add Schedule
+                        </button>
                       </div>
                       <div className="flex gap-2">
                         <button
-                          onClick={() => setEditingMember({ index: idx, member: { ...member } })}
-                          className="bg-yellow-500 text-white px-3 py-1 rounded text-sm hover:bg-yellow-600"
+                          onClick={updateMember}
+                          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
                         >
-                          Edit
+                          Save Changes
                         </button>
                         <button
-                          onClick={() => deleteMember(idx)}
-                          className="bg-red-500 text-white px-3 py-1 rounded text-sm hover:bg-red-600"
+                          onClick={() => setEditingMember(null)}
+                          className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
                         >
-                          Delete
+                          Cancel
                         </button>
                       </div>
                     </div>
-                    <div className="mt-2">
-                      <p className="text-sm font-medium">Schedules:</p>
-                      <ul className="list-disc list-inside text-sm">
-                        {member.schedules.map((schedule, sIdx) => (
-                          <li key={sIdx}>
-                            {schedule.day && schedule.time ? `${schedule.day} at ${schedule.time}` : 'No schedule set'}
-                          </li>
-                        ))}
-                      </ul>
+                  ) : (
+                    // View Mode
+                    <div>
+                      <div className="flex justify-between items-start mb-2">
+                        <div>
+                          <h4 className="font-semibold text-lg">{member.name}</h4>
+                          <p className="text-gray-600">Call Sign: {member.callSign}</p>
+                        </div>
+                        <div className="flex gap-2">
+                          <button
+                            onClick={() => setEditingMember({ index: idx, member: JSON.parse(JSON.stringify(member)) })}
+                            className="bg-yellow-500 text-white px-3 py-1 rounded text-sm hover:bg-yellow-600"
+                          >
+                            Edit
+                          </button>
+                          <button
+                            onClick={() => deleteMember(idx)}
+                            className="bg-red-500 text-white px-3 py-1 rounded text-sm hover:bg-red-600"
+                          >
+                            Delete
+                          </button>
+                        </div>
+                      </div>
+                      <div className="mt-2">
+                        <p className="text-sm font-medium text-gray-700">Schedules:</p>
+                        {member.schedules.length === 0 || (member.schedules.length === 1 && !member.schedules[0].day && !member.schedules[0].time) ? (
+                          <p className="text-sm text-gray-500 italic">No schedules assigned</p>
+                        ) : (
+                          <ul className="list-disc list-inside text-sm mt-1">
+                            {member.schedules.map((schedule, sIdx) => (
+                              schedule.day && schedule.time && (
+                                <li key={sIdx} className="text-gray-600">
+                                  {schedule.day} at {schedule.time}
+                                </li>
+                              )
+                            ))}
+                          </ul>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                )}
-              </div>
-            ))}
+                  )}
+                </div>
+              ))
+            )}
           </div>
         </div>
       )}
@@ -757,8 +800,16 @@ export default function Home() {
           body {
             background: white !important;
           }
+          
+          .print\\:shadow-none {
+            box-shadow: none !important;
+          }
+          
+          .print\\:page-break-after-always {
+            page-break-after: always;
+          }
         }
       `}</style>
     </div>
   );
-                        }
+}
