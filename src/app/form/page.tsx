@@ -389,7 +389,7 @@ export default function Home() {
               "
             >
               {/* HEADER - Using pt-4 for top spacing since no margins allowed */}
-              <div className="flex items-start justify-between mb-4 pt-4 pl-4 pr-4">
+              <div className="flex items-center justify-between mb-4 pt-4 pl-4 pr-4">
                 <div className="w-[70px] flex justify-start">
                   <Image
                     src="/images.png"
@@ -448,15 +448,15 @@ export default function Home() {
                             </th>
                           </tr>
                           
-                          {/* Second row - Column headers */}
+                          {/* Second row - Column headers with Blg at 1/4 width (5%) */}
                           <tr>
-                            <th className="border px-1 py-1">Blg</th>
-                            <th className="border px-2 py-1 text-left">Pangalan</th>
-                            <th className="border px-1 py-1">Call-Sign</th>
-                            <th className="border px-1 py-1">Lagda Pagtanggap</th>
-                            <th className="border px-1 py-1">Lagda Pagtupad</th>
-                            <th className="border px-1 py-1">Gampanin</th>
-                          </tr>
+                            <th className="border px-1 py-1" style={{ width: '5%' }}>Blg</th>
+                            <th className="border px-2 py-1 text-left" style={{ width: '28.33%' }}>Pangalan</th>
+                            <th className="border px-1 py-1" style={{ width: '12%' }}>Call-Sign</th>
+                            <th className="border px-1 py-1" style={{ width: '20%' }}>Lagda Pagtanggap</th>
+                            <th className="border px-1 py-1" style={{ width: '20%' }}>Lagda Pagtupad</th>
+                            <th className="border px-1 py-1" style={{ width: '14.67%' }}>Gampanin</th>
+                          <tr>
                         </thead>
                         <tbody>
                           {schedule.members.map((member, i) => (
@@ -865,4 +865,4 @@ export default function Home() {
       `}</style>
     </div>
   );
-          }
+                            }
