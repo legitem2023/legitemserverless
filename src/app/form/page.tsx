@@ -369,7 +369,7 @@ export default function Home() {
 
       {/* PRINT VIEW TAB */}
       {activeTab === 'print' && (
-        <div className="flex flex-col items-center gap-10 mt-16">
+        <div className="flex flex-col items-start gap-10 mt-16">
           {forms.map((formSchedules, formIndex) => (
             <div
               key={formIndex}
