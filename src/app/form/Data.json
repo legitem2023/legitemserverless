@@ -1,0 +1,209 @@
+{
+  "members": [
+    {
+      "name": "Dan Kevin Balubal",
+      "callSign": "15-26",
+      "schedules": [
+        {
+          "date": "2026-05-06",
+          "day": "Wednesday",
+          "time": "6:45 PM"
+        },
+        {
+          "date": "2026-05-09",
+          "day": "Saturday",
+          "time": "6:00 PM"
+        }
+      ]
+    },
+    {
+      "name": "Maricris Ramirez",
+      "callSign": "15-34",
+      "schedules": [
+        {
+          "date": "2026-05-06",
+          "day": "Wednesday",
+          "time": "6:45 PM"
+        },
+        {
+          "date": "2026-05-09",
+          "day": "Saturday",
+          "time": "6:00 PM"
+        }
+      ]
+    },
+    {
+      "name": "Lorenzo Balisi",
+      "callSign": "15-35",
+      "schedules": [
+        {
+          "date": "2026-05-06",
+          "day": "Wednesday",
+          "time": "6:45 PM"
+        },
+        {
+          "date": "2026-05-09",
+          "day": "Saturday",
+          "time": "6:00 PM"
+        }
+      ]
+    },
+    {
+      "name": "Reynaldo Flores",
+      "callSign": "15-2",
+      "schedules": [
+        {
+          "date": "2026-05-06",
+          "day": "Wednesday",
+          "time": "6:45 PM"
+        },
+        {
+          "date": "2026-05-10",
+          "day": "Sunday",
+          "time": "10:00 AM"
+        }
+      ]
+    },
+    {
+      "name": "Christian Bulalacao",
+      "callSign": "15-29",
+      "schedules": [
+        {
+          "date": "2026-05-06",
+          "day": "Wednesday",
+          "time": "6:45 PM"
+        },
+        {
+          "date": "2026-05-09",
+          "day": "Saturday",
+          "time": "6:00 PM"
+        }
+      ]
+    },
+    {
+      "name": "Nelson Mendoza",
+      "callSign": "15-23",
+      "schedules": [
+        {
+          "date": "2026-05-07",
+          "day": "Thursday",
+          "time": "5:45 AM"
+        },
+        {
+          "date": "2026-05-10",
+          "day": "Sunday",
+          "time": "6:00 AM"
+        }
+      ]
+    },
+    {
+      "name": "Robert Marquez",
+      "callSign": "15-37",
+      "schedules": [
+        {
+          "date": "2026-05-07",
+          "day": "Thursday",
+          "time": "5:45 AM"
+        },
+        {
+          "date": "2026-05-10",
+          "day": "Sunday",
+          "time": "6:00 AM"
+        }
+      ]
+    },
+    {
+      "name": "Lance Kenneth Feliciano",
+      "callSign": "15-40",
+      "schedules": [
+        {
+          "date": "2026-05-07",
+          "day": "Thursday",
+          "time": "5:45 AM"
+        }
+      ]
+    },
+    {
+      "name": "Benerico Villaluz",
+      "callSign": "15-25",
+      "schedules": [
+        {
+          "date": "2026-05-07",
+          "day": "Thursday",
+          "time": "5:45 AM"
+        }
+      ]
+    },
+    {
+      "name": "Justine Jacob Rodriguez",
+      "callSign": "15-38",
+      "schedules": [
+        {
+          "date": "2026-05-07",
+          "day": "Thursday",
+          "time": "6:45 PM"
+        },
+        {
+          "date": "2026-05-10",
+          "day": "Sunday",
+          "time": "10:00 AM"
+        }
+      ]
+    },
+    {
+      "name": "Alfredo Lebradores",
+      "callSign": "15-22",
+      "schedules": [
+        {
+          "date": "2026-05-07",
+          "day": "Thursday",
+          "time": "6:45 PM"
+        }
+      ]
+    },
+    {
+      "name": "Alvin Lebradores",
+      "callSign": "15-22",
+      "schedules": [
+        {
+          "date": "2026-05-07",
+          "day": "Thursday",
+          "time": "6:45 PM"
+        }
+      ]
+    },
+    {
+      "name": "Federico Hernandez",
+      "callSign": "15-24",
+      "schedules": [
+        {
+          "date": "2026-05-07",
+          "day": "Thursday",
+          "time": "6:45 PM"
+        }
+      ]
+    },
+    {
+      "name": "Eddie Rosales",
+      "callSign": "15-36",
+      "schedules": [
+        {
+          "date": "2026-05-09",
+          "day": "Saturday",
+          "time": "6:00 PM"
+        }
+      ]
+    },
+    {
+      "name": "Alvin Bancat",
+      "callSign": "15-28",
+      "schedules": [
+        {
+          "date": "2026-05-10",
+          "day": "Sunday",
+          "time": "6:00 AM"
+        }
+      ]
+    }
+  ]
+}
