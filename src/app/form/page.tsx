@@ -314,19 +314,8 @@ export default function Home() {
   }
 
   return (
-    <div className="bg-gray-300 min-h-screen py-10 print:bg-white">
+    <div className="bg-gray-300 min-h-screen py-4 md:py-10 print:bg-white">
       {/* Success Message */}
-      <div className="flex items-start justify-between mb-4 w-full">
-                <div className="w-[100px] flex justify-start">
-                  <Image
-                    src="/images.png"
-                    alt="Logo"
-                    width={100}
-                    height={100}
-                    className="object-contain"
-                  />
-                </div>
-      </div>
       {success && (
         <div className="fixed top-20 left-1/2 transform -translate-x-1/2 z-50 bg-green-500 text-white px-4 py-2 rounded shadow-lg">
           {success}
@@ -368,7 +357,7 @@ export default function Home() {
 
       {/* PRINT BUTTON */}
       {activeTab === 'print' && (
-        <div className="fixed top-5 right-5 print:hidden z-50">
+        <div className="fixed bottom-4 right-4 md:top-5 md:right-5 print:hidden z-50">
           <button
             onClick={() => window.print()}
             className="bg-black text-white px-4 py-2 text-sm rounded shadow"
@@ -380,53 +369,56 @@ export default function Home() {
 
       {/* PRINT VIEW TAB */}
       {activeTab === 'print' && (
-        <div className="flex flex-col items-center gap-10 mt-16">
+        <div className="flex flex-col items-center gap-6 md:gap-10 mt-16 md:mt-16 px-4 md:px-0">
           {forms.map((formSchedules, formIndex) => (
             <div
               key={formIndex}
               className="
                 bg-white
-                w-[210mm]
+                w-full
+                max-w-[210mm]
                 min-h-[297mm]
-                p-[12mm]
+                p-[8mm] md:p-[12mm]
                 shadow-lg
                 text-black
                 print:shadow-none
                 print:page-break-after-always
+                mx-auto
               "
+              style={{ aspectRatio: '210 / 297' }}
             >
               {/* HEADER */}
               <div className="flex items-start justify-between mb-4">
-                <div className="w-[70px] flex justify-start">
+                <div className="w-[50px] md:w-[70px] flex justify-start">
                   <Image
                     src="/images.png"
                     alt="Logo"
                     width={60}
                     height={60}
-                    className="object-contain"
+                    className="object-contain w-full h-auto"
                   />
                 </div>
 
-                <div className="text-center flex-1">
-                  <h1 className="font-bold text-[13px] uppercase">
+                <div className="text-center flex-1 px-2">
+                  <h1 className="font-bold text-[11px] md:text-[13px] uppercase">
                     SCAN INTERNATIONAL
                   </h1>
-                  <h2 className="font-semibold text-[12px] uppercase">
+                  <h2 className="font-semibold text-[10px] md:text-[12px] uppercase">
                     DISTRITO NG RIZAL
                   </h2>
-                  <h3 className="text-[11px] uppercase">
+                  <h3 className="text-[9px] md:text-[11px] uppercase">
                     LOKAL NG KADALAGAHAN
                   </h3>
-                  <p className="text-[10px] uppercase">
+                  <p className="text-[8px] md:text-[10px] uppercase">
                     {formIndex === 2 ? 'SUGUAN NG SCAN SA PNK' : 'SUGUAN NG SCAN SA PAGSAMBA'}
                   </p>
                 </div>
 
-                <div className="w-[70px]" />
+                <div className="w-[50px] md:w-[70px]" />
               </div>
 
               {/* TABLES */}
-              <div className="space-y-6">
+              <div className="space-y-4 md:space-y-6">
                 {formSchedules.map((schedule, idx) => {
                   const dateObj = new Date(schedule.date);
                   const filipinoDay =
@@ -435,96 +427,98 @@ export default function Home() {
 
                   return (
                     <div key={idx} className="break-inside-avoid">
-                      <table className="w-full border border-black text-[10px]">
-                        <thead>
-                          <tr>
-                            <th colSpan={2} className="border px-2 py-1 text-left">
-                              Petsa:{' '}
-                              {dateObj.toLocaleDateString('en-US', {
-                                month: 'long',
-                                day: 'numeric',
-                                year: 'numeric',
-                              })}
-                            </th>
-                            <th colSpan={2} className="border px-2 py-1 text-left">
-                              Araw: {filipinoDay}
-                            </th>
-                            <th colSpan={2} className="border px-2 py-1 text-left">
-                              Oras: {schedule.time}
-                            </th>
-                          </tr>
-                          <tr>
-                            <th className="border px-1 py-1 w-[35px]">Blg</th>
-                            <th className="border px-2 py-1 text-left">
-                              Pangalan
-                            </th>
-                            <th className="border px-1 py-1 w-[75px]">
-                              Call-Sign
-                            </th>
-                            <th className="border px-1 py-1 w-[95px]">
-                              Lagda Pagtanggap
-                            </th>
-                            <th className="border px-1 py-1 w-[95px]">
-                              Lagda Pagtupad
-                            </th>
-                            <th className="border px-1 py-1 w-[70px]">
-                              Gampanin
-                            </th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {schedule.members.map((member, i) => (
-                            <tr key={i}>
-                              <td className="border text-center py-1">
-                                {i + 1}
-                              </td>
-                              <td className="border px-2 py-1">
-                                {member.name}
-                              </td>
-                              <td className="border text-center py-1">
-                                {member.callSign}
-                              </td>
-                              <td className="border h-[24px]" />
-                              <td className="border h-[24px]" />
-                              <td className="border" />
+                      <div className="overflow-x-auto">
+                        <table className="w-full border border-black text-[8px] md:text-[10px] min-w-[280px]">
+                          <thead>
+                            <tr>
+                              <th colSpan={2} className="border px-1 md:px-2 py-1 text-left">
+                                Petsa:{' '}
+                                {dateObj.toLocaleDateString('en-US', {
+                                  month: 'long',
+                                  day: 'numeric',
+                                  year: 'numeric',
+                                })}
+                              </th>
+                              <th colSpan={2} className="border px-1 md:px-2 py-1 text-left">
+                                Araw: {filipinoDay}
+                              </th>
+                              <th colSpan={2} className="border px-1 md:px-2 py-1 text-left">
+                                Oras: {schedule.time}
+                              </th>
                             </tr>
-                          ))}
-                        </tbody>
-                      </table>
+                            <tr>
+                              <th className="border px-1 py-1 w-[30px] md:w-[35px]">Blg</th>
+                              <th className="border px-2 py-1 text-left">
+                                Pangalan
+                              </th>
+                              <th className="border px-1 py-1 w-[65px] md:w-[75px]">
+                                Call-Sign
+                              </th>
+                              <th className="border px-1 py-1 w-[85px] md:w-[95px]">
+                                Lagda Pagtanggap
+                              </th>
+                              <th className="border px-1 py-1 w-[85px] md:w-[95px]">
+                                Lagda Pagtupad
+                              </th>
+                              <th className="border px-1 py-1 w-[60px] md:w-[70px]">
+                                Gampanin
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {schedule.members.map((member, i) => (
+                              <tr key={i}>
+                                <td className="border text-center py-1">
+                                  {i + 1}
+                                </td>
+                                <td className="border px-2 py-1 whitespace-normal break-words">
+                                  {member.name}
+                                </td>
+                                <td className="border text-center py-1">
+                                  {member.callSign}
+                                </td>
+                                <td className="border h-[24px]" />
+                                <td className="border h-[24px]" />
+                                <td className="border" />
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
                     </div>
                   );
                 })}
               </div>
 
               {/* SIGNATORIES */}
-              <div className="mt-14 text-[11px]">
-                <p className="mb-6">Naghanda:</p>
+              <div className="mt-8 md:mt-14 text-[9px] md:text-[11px]">
+                <p className="mb-4 md:mb-6">Naghanda:</p>
 
-                <div className="grid grid-cols-2 gap-20">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-20">
                   <div className="text-center">
-                    <p className="font-semibold uppercase">
+                    <p className="font-semibold uppercase text-[10px] md:text-[11px]">
                       JUSTINE JACOB RODRIGUEZ
                     </p>
-                    <p>KALIHIM SCAN</p>
+                    <p className="text-[9px] md:text-[11px]">KALIHIM SCAN</p>
                   </div>
                   <div className="text-center">
-                    <p className="font-semibold uppercase"></p>
-                    <p>PANGULO NG SCAN</p>
+                    <p className="font-semibold uppercase text-[10px] md:text-[11px]"></p>
+                    <p className="text-[9px] md:text-[11px]">PANGULO NG SCAN</p>
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-20 mt-12">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-20 mt-8 md:mt-12">
                   <div className="text-center">
-                    <p className="font-semibold uppercase">
+                    <p className="font-semibold uppercase text-[10px] md:text-[11px]">
                       MARIANO M. LEBARDO JR.
                     </p>
-                    <p>PD - TAGASUBAYBAY</p>
+                    <p className="text-[9px] md:text-[11px]">PD - TAGASUBAYBAY</p>
                   </div>
                   <div className="text-center">
-                    <p className="font-semibold uppercase">
+                    <p className="font-semibold uppercase text-[10px] md:text-[11px]">
                       MARLON M. SEVILLA
                     </p>
-                    <p>DESTINADO NG LOKAL</p>
+                    <p className="text-[9px] md:text-[11px]">DESTINADO NG LOKAL</p>
                   </div>
                 </div>
               </div>
@@ -535,13 +529,13 @@ export default function Home() {
 
       {/* CRUD TAB */}
       {activeTab === 'crud' && (
-        <div className="max-w-6xl mx-auto mt-24 p-6 bg-white rounded-lg shadow-lg">
-          <h2 className="text-2xl font-bold mb-6">Manage Members</h2>
+        <div className="max-w-6xl mx-auto mt-24 p-4 md:p-6 bg-white rounded-lg shadow-lg mx-4 md:mx-auto">
+          <h2 className="text-xl md:text-2xl font-bold mb-6">Manage Members</h2>
 
           {/* Add New Member Form */}
           <div className="bg-gray-50 p-4 rounded-lg mb-6">
             <h3 className="text-lg font-semibold mb-3">Add New Member</h3>
-            <div className="grid grid-cols-2 gap-4 mb-3">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
               <input
                 type="text"
                 placeholder="Name"
@@ -560,7 +554,7 @@ export default function Home() {
             <div className="mb-3">
               <label className="block text-sm font-medium mb-1">Schedules</label>
               {newMember.schedules.map((schedule, idx) => (
-                <div key={idx} className="grid grid-cols-4 gap-2 mb-2">
+                <div key={idx} className="grid grid-cols-1 md:grid-cols-4 gap-2 mb-2">
                   <input
                     type="text"
                     placeholder="Date"
@@ -601,29 +595,31 @@ export default function Home() {
                     }}
                     className="border p-2 rounded text-sm"
                   />
-                  <select
-                    value={schedule.service || 'Worship'}
-                    onChange={(e) => {
-                      const updated = [...newMember.schedules];
-                      updated[idx] = { ...updated[idx], service: e.target.value as 'PNK' | 'worship' };
-                      setNewMember({ ...newMember, schedules: updated });
-                    }}
-                    className="border p-2 rounded text-sm"
-                  >
-                    <option value="worship">Worship</option>
-                    <option value="PNK">PNK</option>
-                  </select>
-                  {newMember.schedules.length > 1 && (
-                    <button
-                      onClick={() => {
-                        const updated = newMember.schedules.filter((_, i) => i !== idx);
+                  <div className="flex gap-2">
+                    <select
+                      value={schedule.service || 'Worship'}
+                      onChange={(e) => {
+                        const updated = [...newMember.schedules];
+                        updated[idx] = { ...updated[idx], service: e.target.value as 'PNK' | 'worship' };
                         setNewMember({ ...newMember, schedules: updated });
                       }}
-                      className="bg-red-500 text-white px-2 rounded text-xs"
+                      className="border p-2 rounded text-sm flex-1"
                     >
-                      Remove
-                    </button>
-                  )}
+                      <option value="worship">Worship</option>
+                      <option value="PNK">PNK</option>
+                    </select>
+                    {newMember.schedules.length > 1 && (
+                      <button
+                        onClick={() => {
+                          const updated = newMember.schedules.filter((_, i) => i !== idx);
+                          setNewMember({ ...newMember, schedules: updated });
+                        }}
+                        className="bg-red-500 text-white px-2 rounded text-xs"
+                      >
+                        Remove
+                      </button>
+                    )}
+                  </div>
                 </div>
               ))}
               <button
@@ -655,7 +651,7 @@ export default function Home() {
                   {editingMember?.index === idx ? (
                     // Edit Mode
                     <div>
-                      <div className="grid grid-cols-2 gap-4 mb-3">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
                         <input
                           type="text"
                           placeholder="Name"
@@ -680,7 +676,7 @@ export default function Home() {
                       <div className="mb-3">
                         <label className="block text-sm font-medium mb-1">Schedules</label>
                         {editingMember.member.schedules.map((schedule, sIdx) => (
-                          <div key={sIdx} className="grid grid-cols-4 gap-2 mb-2">
+                          <div key={sIdx} className="grid grid-cols-1 md:grid-cols-4 gap-2 mb-2">
                             <input
                               type="text"
                               placeholder="Date"
@@ -730,35 +726,37 @@ export default function Home() {
                               }}
                               className="border p-2 rounded text-sm"
                             />
-                            <select
-                              value={schedule.service || 'Worship'}
-                              onChange={(e) => {
-                                const updatedSchedules = [...editingMember.member.schedules];
-                                updatedSchedules[sIdx] = { ...updatedSchedules[sIdx], service: e.target.value as 'PNK' | 'worship' };
-                                setEditingMember({
-                                  index: idx,
-                                  member: { ...editingMember.member, schedules: updatedSchedules }
-                                });
-                              }}
-                              className="border p-2 rounded text-sm"
-                            >
-                              <option value="worship">Worship</option>
-                              <option value="PNK">PNK</option>
-                            </select>
-                            {editingMember.member.schedules.length > 1 && (
-                              <button
-                                onClick={() => {
-                                  const updatedSchedules = editingMember.member.schedules.filter((_, i) => i !== sIdx);
+                            <div className="flex gap-2">
+                              <select
+                                value={schedule.service || 'Worship'}
+                                onChange={(e) => {
+                                  const updatedSchedules = [...editingMember.member.schedules];
+                                  updatedSchedules[sIdx] = { ...updatedSchedules[sIdx], service: e.target.value as 'PNK' | 'worship' };
                                   setEditingMember({
                                     index: idx,
                                     member: { ...editingMember.member, schedules: updatedSchedules }
                                   });
                                 }}
-                                className="bg-red-500 text-white px-2 rounded text-xs hover:bg-red-600"
+                                className="border p-2 rounded text-sm flex-1"
                               >
-                                Delete
-                              </button>
-                            )}
+                                <option value="worship">Worship</option>
+                                <option value="PNK">PNK</option>
+                              </select>
+                              {editingMember.member.schedules.length > 1 && (
+                                <button
+                                  onClick={() => {
+                                    const updatedSchedules = editingMember.member.schedules.filter((_, i) => i !== sIdx);
+                                    setEditingMember({
+                                      index: idx,
+                                      member: { ...editingMember.member, schedules: updatedSchedules }
+                                    });
+                                  }}
+                                  className="bg-red-500 text-white px-2 rounded text-xs hover:bg-red-600"
+                                >
+                                  Delete
+                                </button>
+                              )}
+                            </div>
                           </div>
                         ))}
                         <button
@@ -792,7 +790,7 @@ export default function Home() {
                   ) : (
                     // View Mode
                     <div>
-                      <div className="flex justify-between items-start mb-2">
+                      <div className="flex flex-col md:flex-row justify-between items-start mb-2 gap-2">
                         <div>
                           <h4 className="font-semibold text-lg">{member.name}</h4>
                           <p className="text-gray-600">Call Sign: {member.callSign}</p>
@@ -857,7 +855,22 @@ export default function Home() {
             page-break-after: always;
           }
         }
+
+        /* Mobile optimizations */
+        @media (max-width: 640px) {
+          .print-view-container {
+            padding: 0 16px;
+          }
+          
+          table {
+            font-size: 8px;
+          }
+          
+          th, td {
+            padding: 4px 2px;
+          }
+        }
       `}</style>
     </div>
   );
-                                   }
+          }
