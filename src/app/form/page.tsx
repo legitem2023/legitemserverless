@@ -748,7 +748,7 @@ export default function Home() {
         
         @page {
           size: A4;
-          margin: 5mm;
+          margin: 2mm;
         }
 
         @media print {
