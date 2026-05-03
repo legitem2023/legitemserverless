@@ -1,4 +1,3 @@
-//Are the date schedule of this list even it came from Data.json right?
 'use client';
 
 import Image from 'next/image';
@@ -8,6 +7,7 @@ interface Schedule {
   date: string;
   day: string;
   time: string;
+  service?: 'PNK' | 'worship'; // Optional for backward compatibility
 }
 
 interface Member {
@@ -20,6 +20,7 @@ interface GroupedSchedule {
   date: string;
   day: string;
   time: string;
+  service: string;
   members: Member[];
 }
 
@@ -110,7 +111,7 @@ export default function Home() {
   const [newMember, setNewMember] = useState<Member>({
     name: '',
     callSign: '',
-    schedules: [{ date: '', day: '', time: '' }]
+    schedules: [{ date: '', day: '', time: '', service: 'Worship' }]
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -173,7 +174,7 @@ export default function Home() {
         setNewMember({
           name: '',
           callSign: '',
-          schedules: [{ date: '', day: '', time: '' }]
+          schedules: [{ date: '', day: '', time: '', service: 'Worship' }]
         });
         setSuccess('Member added successfully!');
       } else {
@@ -248,14 +249,16 @@ export default function Home() {
   data.members.forEach((member) => {
     member.schedules.forEach((schedule) => {
       if (schedule.day && schedule.time) {
+        const serviceType = schedule.service || 'Worship'; // Default to Worship if not specified
         const computedDate = getAlignedDate(schedule.day);
-        const key = `${computedDate.toISOString().split('T')[0]}-${schedule.time}`;
+        const key = `${computedDate.toISOString().split('T')[0]}-${schedule.time}-${serviceType}`;
 
         if (!groupedSchedules[key]) {
           groupedSchedules[key] = {
             date: computedDate.toISOString(),
             day: schedule.day,
             time: schedule.time,
+            service: serviceType,
             members: [],
           };
         }
@@ -279,18 +282,26 @@ export default function Home() {
     return timeA - timeB;
   });
 
-  const forms = [
-    sortedSchedules.filter(
-      (s) =>
-        s.day.toLowerCase() === 'wednesday' ||
-        s.day.toLowerCase() === 'thursday'
-    ),
-    sortedSchedules.filter(
-      (s) =>
-        s.day.toLowerCase() === 'saturday' ||
-        s.day.toLowerCase() === 'sunday'
-    ),
-  ];
+  // FORM 1: Wednesday & Thursday - WORSHIP SERVICE
+  const form1 = sortedSchedules.filter(
+    (s) =>
+      (s.day.toLowerCase() === 'wednesday' || s.day.toLowerCase() === 'thursday') &&
+      s.service === 'worship'
+  );
+
+  // FORM 2: Saturday & Sunday - WORSHIP SERVICE
+  const form2 = sortedSchedules.filter(
+    (s) =>
+      (s.day.toLowerCase() === 'saturday' || s.day.toLowerCase() === 'sunday') &&
+      s.service === 'worship'
+  );
+
+  // FORM 3: PNK SERVICE - All days
+  const form3 = sortedSchedules.filter(
+    (s) => s.service === 'PNK'
+  );
+
+  const forms = [form1, form2, form3];
 
   if (loading) {
     return (
@@ -396,7 +407,7 @@ export default function Home() {
                     LOKAL NG KADALAGAHAN
                   </h3>
                   <p className="text-[10px] uppercase">
-                    SUGUAN NG SCAN SA PAGSAMBA
+                    {formIndex === 2 ? 'PNK SA PAGSAMBA' : 'SUGUAN NG SCAN SA PAGSAMBA'}
                   </p>
                 </div>
 
@@ -538,7 +549,7 @@ export default function Home() {
             <div className="mb-3">
               <label className="block text-sm font-medium mb-1">Schedules</label>
               {newMember.schedules.map((schedule, idx) => (
-                <div key={idx} className="grid grid-cols-3 gap-2 mb-2">
+                <div key={idx} className="grid grid-cols-4 gap-2 mb-2">
                   <input
                     type="text"
                     placeholder="Date"
@@ -568,36 +579,46 @@ export default function Home() {
                     <option value="Saturday">Saturday</option>
                     <option value="Sunday">Sunday</option>
                   </select>
-                  <div className="flex gap-2">
-                    <input
-                      type="text"
-                      placeholder="Time (e.g., 8:00 AM)"
-                      value={schedule.time}
-                      onChange={(e) => {
-                        const updated = [...newMember.schedules];
-                        updated[idx] = { ...updated[idx], time: e.target.value };
+                  <input
+                    type="text"
+                    placeholder="Time (e.g., 8:00 AM)"
+                    value={schedule.time}
+                    onChange={(e) => {
+                      const updated = [...newMember.schedules];
+                      updated[idx] = { ...updated[idx], time: e.target.value };
+                      setNewMember({ ...newMember, schedules: updated });
+                    }}
+                    className="border p-2 rounded text-sm"
+                  />
+                  <select
+                    value={schedule.service || 'Worship'}
+                    onChange={(e) => {
+                      const updated = [...newMember.schedules];
+                      updated[idx] = { ...updated[idx], service: e.target.value as 'PNK' | 'Worship' };
+                      setNewMember({ ...newMember, schedules: updated });
+                    }}
+                    className="border p-2 rounded text-sm"
+                  >
+                    <option value="worship">Worship</option>
+                    <option value="PNK">PNK</option>
+                  </select>
+                  {newMember.schedules.length > 1 && (
+                    <button
+                      onClick={() => {
+                        const updated = newMember.schedules.filter((_, i) => i !== idx);
                         setNewMember({ ...newMember, schedules: updated });
                       }}
-                      className="border p-2 rounded text-sm flex-1"
-                    />
-                    {newMember.schedules.length > 1 && (
-                      <button
-                        onClick={() => {
-                          const updated = newMember.schedules.filter((_, i) => i !== idx);
-                          setNewMember({ ...newMember, schedules: updated });
-                        }}
-                        className="bg-red-500 text-white px-2 rounded text-xs"
-                      >
-                        Remove
-                      </button>
-                    )}
-                  </div>
+                      className="bg-red-500 text-white px-2 rounded text-xs"
+                    >
+                      Remove
+                    </button>
+                  )}
                 </div>
               ))}
               <button
                 onClick={() => setNewMember({
                   ...newMember,
-                  schedules: [...newMember.schedules, { date: '', day: '', time: '' }]
+                  schedules: [...newMember.schedules, { date: '', day: '', time: '', service: 'Worship' }]
                 })}
                 className="text-blue-600 text-sm mt-1"
               >
@@ -648,7 +669,7 @@ export default function Home() {
                       <div className="mb-3">
                         <label className="block text-sm font-medium mb-1">Schedules</label>
                         {editingMember.member.schedules.map((schedule, sIdx) => (
-                          <div key={sIdx} className="grid grid-cols-3 gap-2 mb-2">
+                          <div key={sIdx} className="grid grid-cols-4 gap-2 mb-2">
                             <input
                               type="text"
                               placeholder="Date"
@@ -684,21 +705,36 @@ export default function Home() {
                               <option value="Saturday">Saturday</option>
                               <option value="Sunday">Sunday</option>
                             </select>
-                            <div className="flex gap-2">
-                              <input
-                                type="text"
-                                placeholder="Time (e.g., 8:00 AM)"
-                                value={schedule.time}
-                                onChange={(e) => {
-                                  const updatedSchedules = [...editingMember.member.schedules];
-                                  updatedSchedules[sIdx] = { ...updatedSchedules[sIdx], time: e.target.value };
-                                  setEditingMember({
-                                    index: idx,
-                                    member: { ...editingMember.member, schedules: updatedSchedules }
-                                  });
-                                }}
-                                className="border p-2 rounded text-sm flex-1"
-                              />
+                            <input
+                              type="text"
+                              placeholder="Time (e.g., 8:00 AM)"
+                              value={schedule.time}
+                              onChange={(e) => {
+                                const updatedSchedules = [...editingMember.member.schedules];
+                                updatedSchedules[sIdx] = { ...updatedSchedules[sIdx], time: e.target.value };
+                                setEditingMember({
+                                  index: idx,
+                                  member: { ...editingMember.member, schedules: updatedSchedules }
+                                });
+                              }}
+                              className="border p-2 rounded text-sm"
+                            />
+                            <select
+                              value={schedule.service || 'Worship'}
+                              onChange={(e) => {
+                                const updatedSchedules = [...editingMember.member.schedules];
+                                updatedSchedules[sIdx] = { ...updatedSchedules[sIdx], service: e.target.value as 'PNK' | 'Worship' };
+                                setEditingMember({
+                                  index: idx,
+                                  member: { ...editingMember.member, schedules: updatedSchedules }
+                                });
+                              }}
+                              className="border p-2 rounded text-sm"
+                            >
+                              <option value="worship">Worship</option>
+                              <option value="PNK">PNK</option>
+                            </select>
+                            {editingMember.member.schedules.length > 1 && (
                               <button
                                 onClick={() => {
                                   const updatedSchedules = editingMember.member.schedules.filter((_, i) => i !== sIdx);
@@ -711,7 +747,7 @@ export default function Home() {
                               >
                                 Delete
                               </button>
-                            </div>
+                            )}
                           </div>
                         ))}
                         <button
@@ -719,7 +755,7 @@ export default function Home() {
                             index: idx,
                             member: {
                               ...editingMember.member,
-                              schedules: [...editingMember.member.schedules, { date: '', day: '', time: '' }]
+                              schedules: [...editingMember.member.schedules, { date: '', day: '', time: '', service: 'Worship' }]
                             }
                           })}
                           className="text-blue-600 text-sm mt-1 hover:text-blue-800"
@@ -774,7 +810,7 @@ export default function Home() {
                             {member.schedules.map((schedule, sIdx) => (
                               schedule.day && schedule.time && (
                                 <li key={sIdx} className="text-gray-600">
-                                  {schedule.day} at {schedule.time}
+                                  {schedule.day} at {schedule.time} ({schedule.service || 'Worship'})
                                 </li>
                               )
                             ))}
@@ -813,4 +849,4 @@ export default function Home() {
       `}</style>
     </div>
   );
-                                              }
+                                   }
