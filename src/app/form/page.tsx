@@ -55,7 +55,7 @@ export default function Home() {
     return dateA - dateB;
   });
 
-  // Compress into 2 forms
+  // Compress schedules into 2 forms
   const forms = [
     sortedSchedules.filter(
       (s) =>
@@ -87,9 +87,7 @@ export default function Home() {
           >
             {/* Header */}
             <div className="flex items-start justify-between mb-4">
-              <div className="w-[70px] h-[40px] border border-gray-400 flex items-center justify-center text-[10px]">
-                SCAN
-              </div>
+              <div className="w-[70px]" />
 
               <div className="text-center flex-1">
                 <h1 className="font-bold text-[13px] uppercase">
@@ -112,29 +110,44 @@ export default function Home() {
               <div className="w-[70px]" />
             </div>
 
-            {/* All schedules in one form */}
-            <div className="space-y-5">
+            {/* Schedules */}
+            <div className="space-y-6">
               {formSchedules.map((schedule, scheduleIndex) => (
                 <div key={scheduleIndex}>
-                  {/* Schedule Info */}
-                  <div className="flex justify-between text-[11px] font-semibold mb-1">
-                    <p>
-                      Petsa:{' '}
-                      {new Date(schedule.date).toLocaleDateString('en-US', {
-                        month: 'long',
-                        day: 'numeric',
-                        year: 'numeric',
-                      })}
-                    </p>
-
-                    <p>Araw: {schedule.day}</p>
-
-                    <p>Oras: {schedule.time}</p>
-                  </div>
-
-                  {/* Table */}
                   <table className="w-full border-collapse border border-black text-[10px]">
                     <thead>
+                      {/* Date Day Time inside cells */}
+                      <tr>
+                        <th
+                          colSpan={2}
+                          className="border border-black px-2 py-1 text-left"
+                        >
+                          PETSA:{" "}
+                          {new Date(schedule.date).toLocaleDateString(
+                            'en-US',
+                            {
+                              month: 'long',
+                              day: 'numeric',
+                              year: 'numeric',
+                            }
+                          )}
+                        </th>
+
+                        <th
+                          colSpan={2}
+                          className="border border-black px-2 py-1 text-left"
+                        >
+                          ARAW: {schedule.day}
+                        </th>
+
+                        <th
+                          colSpan={2}
+                          className="border border-black px-2 py-1 text-left"
+                        >
+                          ORAS: {schedule.time}
+                        </th>
+                      </tr>
+
                       <tr>
                         <th className="border border-black px-1 py-1 w-[35px]">
                           Blg
@@ -215,7 +228,7 @@ export default function Home() {
               <div className="grid grid-cols-2 gap-20 mt-12">
                 <div className="text-center">
                   <p className="font-semibold uppercase">
-                    MARIANO M. LEBARDO JR.
+                    MARIANO M. LEBRADO JR.
                   </p>
 
                   <p>PD - TAGASUBAYBAY</p>
@@ -234,7 +247,7 @@ export default function Home() {
         ))}
       </div>
 
-      {/* PRINT STYLE */}
+      {/* Print Styles */}
       <style jsx global>{`
         @page {
           size: A4;
