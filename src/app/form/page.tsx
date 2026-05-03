@@ -263,7 +263,7 @@ export default function Home() {
 
                 <div className="text-center">
                   <p className="font-semibold uppercase">
-                    ______________________
+                    
                   </p>
                   <p>PANGULO NG SCAN</p>
                 </div>
@@ -272,7 +272,7 @@ export default function Home() {
               <div className="grid grid-cols-2 gap-20 mt-12">
                 <div className="text-center">
                   <p className="font-semibold uppercase">
-                    MARIANO M. LEBRADO JR.
+                    MARIANO M. LEBARDO JR.
                   </p>
                   <p>PD - TAGASUBAYBAY</p>
                 </div>
