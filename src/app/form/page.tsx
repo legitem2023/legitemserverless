@@ -418,7 +418,7 @@ export default function Home() {
                 <div className="w-[70px]" />
               </div>
 
-              {/* TABLES - Content spacing for readability only */}
+              {/* TABLES - Fixed layout with equal column widths */}
               <div className="space-y-6 pl-4 pr-4">
                 {formSchedules.map((schedule, idx) => {
                   const dateObj = new Date(schedule.date);
@@ -428,10 +428,11 @@ export default function Home() {
 
                   return (
                     <div key={idx} className="break-inside-avoid">
-                      <table className="w-full border border-black text-[10px]">
+                      <table className="w-full border border-black text-[10px] table-fixed">
                         <thead>
+                          {/* First row - Three equal columns, each spanning 2 columns */}
                           <tr>
-                            <th colSpan={2} className="border px-2 py-1 text-left">
+                            <th colSpan={2} className="border px-2 py-1 text-left" style={{ width: '33.33%' }}>
                               Petsa:{' '}
                               {dateObj.toLocaleDateString('en-US', {
                                 month: 'long',
@@ -439,44 +440,30 @@ export default function Home() {
                                 year: 'numeric',
                               })}
                             </th>
-                            <th colSpan={2} className="border px-2 py-1 text-left">
+                            <th colSpan={2} className="border px-2 py-1 text-left" style={{ width: '33.33%' }}>
                               Araw: {filipinoDay}
                             </th>
-                            <th colSpan={2} className="border px-2 py-1 text-left">
+                            <th colSpan={2} className="border px-2 py-1 text-left" style={{ width: '33.33%' }}>
                               Oras: {schedule.time}
                             </th>
                           </tr>
+                          
+                          {/* Second row - Column headers */}
                           <tr>
-                            <th className="border px-1 py-1 w-[35px]">Blg</th>
-                            <th className="border px-2 py-1 text-left">
-                              Pangalan
-                            </th>
-                            <th className="border px-1 py-1 w-[75px]">
-                              Call-Sign
-                            </th>
-                            <th className="border px-1 py-1 w-[95px]">
-                              Lagda Pagtanggap
-                            </th>
-                            <th className="border px-1 py-1 w-[95px]">
-                              Lagda Pagtupad
-                            </th>
-                            <th className="border px-1 py-1 w-[70px]">
-                              Gampanin
-                            </th>
+                            <th className="border px-1 py-1">Blg</th>
+                            <th className="border px-2 py-1 text-left">Pangalan</th>
+                            <th className="border px-1 py-1">Call-Sign</th>
+                            <th className="border px-1 py-1">Lagda Pagtanggap</th>
+                            <th className="border px-1 py-1">Lagda Pagtupad</th>
+                            <th className="border px-1 py-1">Gampanin</th>
                           </tr>
                         </thead>
                         <tbody>
                           {schedule.members.map((member, i) => (
                             <tr key={i}>
-                              <td className="border text-center py-1">
-                                {i + 1}
-                              </td>
-                              <td className="border px-2 py-1">
-                                {member.name}
-                              </td>
-                              <td className="border text-center py-1">
-                                {member.callSign}
-                              </td>
+                              <td className="border text-center py-1">{i + 1}</td>
+                              <td className="border px-2 py-1">{member.name}</td>
+                              <td className="border text-center py-1">{member.callSign}</td>
                               <td className="border h-[24px]" />
                               <td className="border h-[24px]" />
                               <td className="border" />
@@ -839,7 +826,7 @@ export default function Home() {
         
         @page {
           size: A4;
-          padding: 5px;
+          margin: 5mm;
         }
 
         @media print {
@@ -870,8 +857,12 @@ export default function Home() {
           .print\\:bg-white {
             background: white !important;
           }
+          
+          table {
+            page-break-inside: avoid;
+          }
         }
       `}</style>
     </div>
   );
-              }
+          }
