@@ -23,28 +23,50 @@ interface GroupedSchedule {
 }
 
 /**
- * Get next occurrence of a weekday
+ * Start of week (Monday-based)
  */
-function getNextDateByDay(dayName: string) {
-  const days = [
-    'sunday',
-    'monday',
-    'tuesday',
-    'wednesday',
-    'thursday',
-    'friday',
-    'saturday',
-  ];
+function getWeekStart(date = new Date()) {
+  const d = new Date(date);
+  const day = d.getDay(); // 0 Sunday
+  const diff = d.getDate() - day + 1;
+  return new Date(d.setDate(diff));
+}
 
-  const today = new Date();
-  const targetIndex = days.indexOf(dayName.toLowerCase());
-  const todayIndex = today.getDay();
+/**
+ * Filipino day mapping
+ */
+const filipinoDays: Record<string, string> = {
+  sunday: 'Linggo',
+  monday: 'Lunes',
+  tuesday: 'Martes',
+  wednesday: 'Miyerkules',
+  thursday: 'Huwebes',
+  friday: 'Biyernes',
+  saturday: 'Sabado',
+};
 
-  let diff = targetIndex - todayIndex;
-  if (diff < 0) diff += 7;
+/**
+ * Day offset inside a fixed week
+ */
+const dayOffsets: Record<string, number> = {
+  sunday: 6,
+  monday: 0,
+  tuesday: 1,
+  wednesday: 2,
+  thursday: 3,
+  friday: 4,
+  saturday: 5,
+};
 
-  const result = new Date();
-  result.setDate(today.getDate() + diff);
+/**
+ * Get aligned date inside SAME week
+ */
+function getAlignedDate(dayName: string) {
+  const weekStart = getWeekStart(new Date());
+  const offset = dayOffsets[dayName.toLowerCase()] ?? 0;
+
+  const result = new Date(weekStart);
+  result.setDate(weekStart.getDate() + offset);
 
   return result;
 }
@@ -56,10 +78,8 @@ export default function Home() {
 
   data.members.forEach((member) => {
     member.schedules.forEach((schedule) => {
-      const computedDate = getNextDateByDay(schedule.day);
-      const dateKey = computedDate.toISOString().split('T')[0];
-
-      const key = `${dateKey}-${schedule.time}`;
+      const computedDate = getAlignedDate(schedule.day);
+      const key = `${computedDate.toISOString().split('T')[0]}-${schedule.time}`;
 
       if (!groupedSchedules[key]) {
         groupedSchedules[key] = {
@@ -74,11 +94,9 @@ export default function Home() {
     });
   });
 
-  const sortedSchedules = Object.values(groupedSchedules).sort((a, b) => {
-    return (
-      new Date(a.date).getTime() - new Date(b.date).getTime()
-    );
-  });
+  const sortedSchedules = Object.values(groupedSchedules).sort(
+    (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+  );
 
   const forms = [
     sortedSchedules.filter(
@@ -154,22 +172,22 @@ export default function Home() {
 
             {/* TABLES */}
             <div className="space-y-6">
-              {formSchedules.map((schedule, scheduleIndex) => {
+              {formSchedules.map((schedule, idx) => {
                 const dateObj = new Date(schedule.date);
+                const filipinoDay =
+                  filipinoDays[schedule.day.toLowerCase()] ||
+                  schedule.day;
 
                 return (
-                  <div key={scheduleIndex} className="break-inside-avoid">
+                  <div key={idx} className="break-inside-avoid">
 
                     <table className="w-full border border-black text-[10px]">
 
                       {/* HEADER ROW */}
                       <thead>
                         <tr>
-                          <th
-                            colSpan={2}
-                            className="border border-black px-2 py-1 text-left"
-                          >
-                            Petsa:{" "}
+                          <th colSpan={2} className="border px-2 py-1 text-left">
+                            Petsa:{' '}
                             {dateObj.toLocaleDateString('en-US', {
                               month: 'long',
                               day: 'numeric',
@@ -177,61 +195,54 @@ export default function Home() {
                             })}
                           </th>
 
-                          <th
-                            colSpan={2}
-                            className="border border-black px-2 py-1 text-left"
-                          >
-                            Araw: {schedule.day}
+                          <th colSpan={2} className="border px-2 py-1 text-left">
+                            Araw: {filipinoDay}
                           </th>
 
-                          <th
-                            colSpan={2}
-                            className="border border-black px-2 py-1 text-left"
-                          >
+                          <th colSpan={2} className="border px-2 py-1 text-left">
                             Oras: {schedule.time}
                           </th>
                         </tr>
 
                         <tr>
-                          <th className="border border-black px-1 py-1 w-[35px]">
-                            Blg
-                          </th>
-                          <th className="border border-black px-2 py-1 text-left">
+                          <th className="border px-1 py-1 w-[35px]">Blg</th>
+                          <th className="border px-2 py-1 text-left">
                             Pangalan
                           </th>
-                          <th className="border border-black px-1 py-1 w-[75px]">
+                          <th className="border px-1 py-1 w-[75px]">
                             Call-Sign
                           </th>
-                          <th className="border border-black px-1 py-1 w-[95px]">
+                          <th className="border px-1 py-1 w-[95px]">
                             Lagda Pagtanggap
                           </th>
-                          <th className="border border-black px-1 py-1 w-[95px]">
+                          <th className="border px-1 py-1 w-[95px]">
                             Lagda Pagtupad
                           </th>
-                          <th className="border border-black px-1 py-1 w-[70px]">
+                          <th className="border px-1 py-1 w-[70px]">
                             Gampanin
                           </th>
                         </tr>
                       </thead>
 
                       <tbody>
-                        {schedule.members.map((member, idx) => (
-                          <tr key={idx}>
-                            <td className="border border-black text-center py-1">
-                              {idx + 1}
+                        {schedule.members.map((member, i) => (
+                          <tr key={i}>
+                            <td className="border text-center py-1">
+                              {i + 1}
                             </td>
-                            <td className="border border-black px-2 py-1">
+                            <td className="border px-2 py-1">
                               {member.name}
                             </td>
-                            <td className="border border-black text-center py-1">
+                            <td className="border text-center py-1">
                               {member.callSign}
                             </td>
-                            <td className="border border-black h-[24px]" />
-                            <td className="border border-black h-[24px]" />
-                            <td className="border border-black" />
+                            <td className="border h-[24px]" />
+                            <td className="border h-[24px]" />
+                            <td className="border" />
                           </tr>
                         ))}
                       </tbody>
+
                     </table>
                   </div>
                 );
@@ -279,7 +290,7 @@ export default function Home() {
         ))}
       </div>
 
-      {/* PRINT CSS */}
+      {/* PRINT STYLES */}
       <style jsx global>{`
         @page {
           size: A4;
