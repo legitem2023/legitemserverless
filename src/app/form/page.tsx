@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { useState, useEffect } from 'react';
 
 interface Schedule {
+  service: string;
   date: string;
   day: string;
   time: string;
@@ -19,7 +20,7 @@ interface GroupedSchedule {
   date: string;
   day: string;
   time: string;
-  members: Member[];
+  members: Array<{ member: Member; service: string }>;
 }
 
 /**
@@ -109,7 +110,7 @@ export default function Home() {
   const [newMember, setNewMember] = useState<Member>({
     name: '',
     callSign: '',
-    schedules: [{ date: '', day: '', time: '' }]
+    schedules: [{ service: 'worship', date: '', day: '', time: '' }]
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -172,7 +173,7 @@ export default function Home() {
         setNewMember({
           name: '',
           callSign: '',
-          schedules: [{ date: '', day: '', time: '' }]
+          schedules: [{ service: 'worship', date: '', day: '', time: '' }]
         });
         setSuccess('Member added successfully!');
       } else {
@@ -245,6 +246,8 @@ export default function Home() {
   const groupedSchedules: { [key: string]: GroupedSchedule } = {};
 
   data.members.forEach((member) => {
+    if (!member.schedules || member.schedules.length === 0) return; // Skip members with no schedules
+    
     member.schedules.forEach((schedule) => {
       if (schedule.day && schedule.time) {
         const computedDate = getAlignedDate(schedule.day);
@@ -259,7 +262,7 @@ export default function Home() {
           };
         }
 
-        groupedSchedules[key].members.push(member);
+        groupedSchedules[key].members.push({ member, service: schedule.service });
       }
     });
   });
@@ -372,139 +375,167 @@ export default function Home() {
                 print:page-break-after-always
               "
             >
-              {/* HEADER */}
-              <div className="flex items-start justify-between mb-4">
-                <div className="w-[70px] flex justify-start">
-                  <Image
-                    src="/images.png"
-                    alt="Logo"
-                    width={60}
-                    height={60}
-                    className="object-contain"
-                  />
-                </div>
+              {/* Determine if this form/page has any PNK schedule */}
+              {(() => {
+                const hasAnyPNK = formSchedules.some(schedule =>
+                  schedule.members.some(m => m.service === 'PNK')
+                );
+                const headerText = hasAnyPNK 
+                  ? "SUGUAN NG SCAN SA PNK"
+                  : "SUGUAN NG SCAN SA PAGSAMBA";
 
-                <div className="text-center flex-1">
-                  <h1 className="font-bold text-[13px] uppercase">
-                    SCAN INTERNATIONAL
-                  </h1>
-                  <h2 className="font-semibold text-[12px] uppercase">
-                    DISTRITO NG RIZAL
-                  </h2>
-                  <h3 className="text-[11px] uppercase">
-                    LOKAL NG KADALAGAHAN
-                  </h3>
-                  <p className="text-[10px] uppercase">
-                    SUGUAN NG SCAN SA PAGSAMBA
-                  </p>
-                </div>
+                return (
+                  <>
+                    {/* HEADER */}
+                    <div className="flex items-start justify-between mb-4">
+                      <div className="w-[70px] flex justify-start">
+                        <Image
+                          src="/images.png"
+                          alt="Logo"
+                          width={60}
+                          height={60}
+                          className="object-contain"
+                        />
+                      </div>
 
-                <div className="w-[70px]" />
-              </div>
+                      <div className="text-center flex-1">
+                        <h1 className="font-bold text-[13px] uppercase">
+                          SCAN INTERNATIONAL
+                        </h1>
+                        <h2 className="font-semibold text-[12px] uppercase">
+                          DISTRITO NG RIZAL
+                        </h2>
+                        <h3 className="text-[11px] uppercase">
+                          LOKAL NG KADALAGAHAN
+                        </h3>
+                        <p className="text-[10px] uppercase">
+                          {headerText}
+                        </p>
+                      </div>
 
-              {/* TABLES */}
-              <div className="space-y-6">
-                {formSchedules.map((schedule, idx) => {
-                  const dateObj = new Date(schedule.date);
-                  const filipinoDay =
-                    filipinoDays[schedule.day.toLowerCase()] ||
-                    schedule.day;
-
-                  return (
-                    <div key={idx} className="break-inside-avoid">
-                      <table className="w-full border border-black text-[10px]">
-                        <thead>
-                          <tr>
-                            <th colSpan={2} className="border px-2 py-1 text-left">
-                              Petsa:{' '}
-                              {dateObj.toLocaleDateString('en-US', {
-                                month: 'long',
-                                day: 'numeric',
-                                year: 'numeric',
-                              })}
-                            </th>
-                            <th colSpan={2} className="border px-2 py-1 text-left">
-                              Araw: {filipinoDay}
-                            </th>
-                            <th colSpan={2} className="border px-2 py-1 text-left">
-                              Oras: {schedule.time}
-                            </th>
-                          </tr>
-                          <tr>
-                            <th className="border px-1 py-1 w-[35px]">Blg</th>
-                            <th className="border px-2 py-1 text-left">
-                              Pangalan
-                            </th>
-                            <th className="border px-1 py-1 w-[75px]">
-                              Call-Sign
-                            </th>
-                            <th className="border px-1 py-1 w-[95px]">
-                              Lagda Pagtanggap
-                            </th>
-                            <th className="border px-1 py-1 w-[95px]">
-                              Lagda Pagtupad
-                            </th>
-                            <th className="border px-1 py-1 w-[70px]">
-                              Gampanin
-                            </th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {schedule.members.map((member, i) => (
-                            <tr key={i}>
-                              <td className="border text-center py-1">
-                                {i + 1}
-                              </td>
-                              <td className="border px-2 py-1">
-                                {member.name}
-                              </td>
-                              <td className="border text-center py-1">
-                                {member.callSign}
-                              </td>
-                              <td className="border h-[24px]" />
-                              <td className="border h-[24px]" />
-                              <td className="border" />
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
+                      <div className="w-[70px]" />
                     </div>
-                  );
-                })}
-              </div>
 
-              {/* SIGNATORIES */}
-              <div className="mt-14 text-[11px]">
-                <p className="mb-6">Naghanda:</p>
+                    {/* TABLES */}
+                    <div className="space-y-6">
+                      {formSchedules.map((schedule, idx) => {
+                        const dateObj = new Date(schedule.date);
+                        const filipinoDay =
+                          filipinoDays[schedule.day.toLowerCase()] ||
+                          schedule.day;
 
-                <div className="grid grid-cols-2 gap-20">
-                  <div className="text-center">
-                    <p className="font-semibold uppercase">
-                      JUSTINE JACOB RODRIGUEZ
-                    </p>
-                    <p>KALIHIM SCAN</p>
-                  </div>
-                  <div className="text-center">
-                    <p className="font-semibold uppercase"></p>
-                    <p>PANGULO NG SCAN</p>
-                  </div>
-                </div>
+                        // Check if any member in this schedule has PNK service
+                        const hasPNK = schedule.members.some(m => m.service === 'PNK');
 
-                <div className="grid grid-cols-2 gap-20 mt-12">
-                  <div className="text-center">
-                    <p className="font-semibold uppercase">
-                      MARIANO M. LEBARDO JR.
-                    </p>
-                    <p>PD - TAGASUBAYBAY</p>
-                  </div>
-                  <div className="text-center">
-                    <p className="font-semibold uppercase">
-                      MARLON M. SEVILLA
-                    </p>
-                    <p>DESTINADO NG LOKAL</p>
-                  </div>
-                </div>
-              </div>
+                        return (
+                          <div key={idx} className="break-inside-avoid">
+                            <table className="w-full border border-black text-[10px]">
+                              <thead>
+                                <tr>
+                                  <th colSpan={2} className="border px-2 py-1 text-left">
+                                    Petsa:{' '}
+                                    {dateObj.toLocaleDateString('en-US', {
+                                      month: 'long',
+                                      day: 'numeric',
+                                      year: 'numeric',
+                                    })}
+                                  </th>
+                                  <th colSpan={2} className="border px-2 py-1 text-left">
+                                    Araw: {filipinoDay}
+                                  </th>
+                                  <th colSpan={2} className="border px-2 py-1 text-left">
+                                    Oras: {schedule.time}
+                                  </th>
+                                </tr>
+                                <tr>
+                                  <th className="border px-1 py-1 w-[35px]">Blg</th>
+                                  <th className="border px-2 py-1 text-left">
+                                    Pangalan
+                                  </th>
+                                  <th className="border px-1 py-1 w-[75px]">
+                                    Call-Sign
+                                  </th>
+                                  <th className="border px-1 py-1 w-[95px]">
+                                    Lagda Pagtanggap
+                                  </th>
+                                  <th className="border px-1 py-1 w-[95px]">
+                                    Lagda Pagtupad
+                                  </th>
+                                  <th className="border px-1 py-1 w-[70px]">
+                                    <div className="flex flex-col">
+                                      {hasPNK && (
+                                        <p className="text-[10px] uppercase leading-tight">
+                                          SUGUAN NG SCAN SA PNK
+                                        </p>
+                                      )}
+                                      <p className="text-[10px] uppercase leading-tight mt-0.5">
+                                        Gampanin
+                                      </p>
+                                    </div>
+                                  </th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {schedule.members.map((memberItem, i) => (
+                                  <tr key={i}>
+                                    <td className="border text-center py-1">
+                                      {i + 1}
+                                    </td>
+                                    <td className="border px-2 py-1">
+                                      {memberItem.member.name}
+                                    </td>
+                                    <td className="border text-center py-1">
+                                      {memberItem.member.callSign}
+                                    </td>
+                                    <td className="border h-[24px]" />
+                                    <td className="border h-[24px]" />
+                                    <td className="border text-center py-1">
+                                      {memberItem.service === 'PNK' ? 'PNK' : 'Worship'}
+                                    </td>
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
+                          </div>
+                        );
+                      })}
+                    </div>
+
+                    {/* SIGNATORIES */}
+                    <div className="mt-14 text-[11px]">
+                      <p className="mb-6">Naghanda:</p>
+
+                      <div className="grid grid-cols-2 gap-20">
+                        <div className="text-center">
+                          <p className="font-semibold uppercase">
+                            JUSTINE JACOB RODRIGUEZ
+                          </p>
+                          <p>KALIHIM SCAN</p>
+                        </div>
+                        <div className="text-center">
+                          <p className="font-semibold uppercase"></p>
+                          <p>PANGULO NG SCAN</p>
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-20 mt-12">
+                        <div className="text-center">
+                          <p className="font-semibold uppercase">
+                            MARIANO M. LEBARDO JR.
+                          </p>
+                          <p>PD - TAGASUBAYBAY</p>
+                        </div>
+                        <div className="text-center">
+                          <p className="font-semibold uppercase">
+                            MARLON M. SEVILLA
+                          </p>
+                          <p>DESTINADO NG LOKAL</p>
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                );
+              })()}
             </div>
           ))}
         </div>
@@ -537,10 +568,22 @@ export default function Home() {
             <div className="mb-3">
               <label className="block text-sm font-medium mb-1">Schedules</label>
               {newMember.schedules.map((schedule, idx) => (
-                <div key={idx} className="grid grid-cols-3 gap-2 mb-2">
+                <div key={idx} className="grid grid-cols-4 gap-2 mb-2">
+                  <select
+                    value={schedule.service}
+                    onChange={(e) => {
+                      const updated = [...newMember.schedules];
+                      updated[idx] = { ...updated[idx], service: e.target.value };
+                      setNewMember({ ...newMember, schedules: updated });
+                    }}
+                    className="border p-2 rounded text-sm"
+                  >
+                    <option value="worship">Worship</option>
+                    <option value="PNK">PNK</option>
+                  </select>
                   <input
                     type="text"
-                    placeholder="Date"
+                    placeholder="Date (YYYY-MM-DD)"
                     value={schedule.date}
                     onChange={(e) => {
                       const updated = [...newMember.schedules];
@@ -596,7 +639,7 @@ export default function Home() {
               <button
                 onClick={() => setNewMember({
                   ...newMember,
-                  schedules: [...newMember.schedules, { date: '', day: '', time: '' }]
+                  schedules: [...newMember.schedules, { service: 'worship', date: '', day: '', time: '' }]
                 })}
                 className="text-blue-600 text-sm mt-1"
               >
@@ -647,10 +690,25 @@ export default function Home() {
                       <div className="mb-3">
                         <label className="block text-sm font-medium mb-1">Schedules</label>
                         {editingMember.member.schedules.map((schedule, sIdx) => (
-                          <div key={sIdx} className="grid grid-cols-3 gap-2 mb-2">
+                          <div key={sIdx} className="grid grid-cols-4 gap-2 mb-2">
+                            <select
+                              value={schedule.service}
+                              onChange={(e) => {
+                                const updatedSchedules = [...editingMember.member.schedules];
+                                updatedSchedules[sIdx] = { ...updatedSchedules[sIdx], service: e.target.value };
+                                setEditingMember({
+                                  index: idx,
+                                  member: { ...editingMember.member, schedules: updatedSchedules }
+                                });
+                              }}
+                              className="border p-2 rounded text-sm"
+                            >
+                              <option value="worship">Worship</option>
+                              <option value="PNK">PNK</option>
+                            </select>
                             <input
                               type="text"
-                              placeholder="Date"
+                              placeholder="Date (YYYY-MM-DD)"
                               value={schedule.date}
                               onChange={(e) => {
                                 const updatedSchedules = [...editingMember.member.schedules];
@@ -718,7 +776,7 @@ export default function Home() {
                             index: idx,
                             member: {
                               ...editingMember.member,
-                              schedules: [...editingMember.member.schedules, { date: '', day: '', time: '' }]
+                              schedules: [...editingMember.member.schedules, { service: 'worship', date: '', day: '', time: '' }]
                             }
                           })}
                           className="text-blue-600 text-sm mt-1 hover:text-blue-800"
@@ -773,7 +831,7 @@ export default function Home() {
                             {member.schedules.map((schedule, sIdx) => (
                               schedule.day && schedule.time && (
                                 <li key={sIdx} className="text-gray-600">
-                                  {schedule.day} at {schedule.time}
+                                  {schedule.service} - {schedule.day} at {schedule.time} ({schedule.date})
                                 </li>
                               )
                             ))}
