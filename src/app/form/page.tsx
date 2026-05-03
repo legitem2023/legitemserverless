@@ -1,4 +1,3 @@
-// app/page.tsx
 'use client';
 
 import Image from 'next/image';
@@ -67,6 +66,17 @@ export default function Home() {
 
   return (
     <div className="bg-gray-300 min-h-screen py-10 print:bg-white">
+
+      {/* PRINT BUTTON */}
+      <div className="fixed top-5 right-5 print:hidden z-50">
+        <button
+          onClick={() => window.print()}
+          className="bg-black text-white px-4 py-2 text-sm rounded shadow hover:bg-gray-800"
+        >
+          Print
+        </button>
+      </div>
+
       <div className="flex flex-col items-center gap-10">
         {forms.map((formSchedules, formIndex) => (
           <div
@@ -114,7 +124,7 @@ export default function Home() {
               <div className="w-[70px]" />
             </div>
 
-            {/* TABLES */}
+            {/* SCHEDULES */}
             <div className="space-y-6">
               {formSchedules.map((schedule, scheduleIndex) => (
                 <div key={scheduleIndex} className="break-inside-avoid">
@@ -233,7 +243,7 @@ export default function Home() {
         ))}
       </div>
 
-      {/* PRINT FIXES */}
+      {/* PRINT STYLES */}
       <style jsx global>{`
         @page {
           size: A4;
@@ -249,12 +259,12 @@ export default function Home() {
             box-shadow: none !important;
           }
 
-          .print\\:bg-white {
-            background: white !important;
-          }
-
           .print\\:page-break-after-always {
             page-break-after: always;
+          }
+
+          .print\\:mt-10 {
+            margin-top: 2.5rem !important;
           }
         }
       `}</style>
