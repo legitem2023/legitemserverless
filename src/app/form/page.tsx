@@ -7,7 +7,7 @@ interface Schedule {
   date: string;
   day: string;
   time: string;
-  service?: 'PNK' | 'worship'; // Optional for backward compatibility
+  service?: 'PNK' | 'worship';
 }
 
 interface Member {
@@ -24,19 +24,13 @@ interface GroupedSchedule {
   members: Member[];
 }
 
-/**
- * Start of week (Monday-based)
- */
 function getWeekStart(date = new Date()) {
   const d = new Date(date);
-  const day = d.getDay(); // 0 Sunday
+  const day = d.getDay();
   const diff = d.getDate() - day + 1;
   return new Date(d.setDate(diff));
 }
 
-/**
- * Filipino day mapping
- */
 const filipinoDays: Record<string, string> = {
   sunday: 'Linggo',
   monday: 'Lunes',
@@ -47,9 +41,6 @@ const filipinoDays: Record<string, string> = {
   saturday: 'Sabado',
 };
 
-/**
- * Day order for sorting (Monday = 0, Sunday = 6)
- */
 const dayOrder: Record<string, number> = {
   monday: 0,
   tuesday: 1,
@@ -60,27 +51,19 @@ const dayOrder: Record<string, number> = {
   sunday: 6,
 };
 
-/**
- * Time to minutes for sorting
- */
 function timeToMinutes(time: string): number {
   const match = time.match(/(\d+):(\d+)\s*(AM|PM)/i);
   if (match) {
     let hours = parseInt(match[1]);
     const minutes = parseInt(match[2]);
     const period = match[3].toUpperCase();
-    
     if (period === 'PM' && hours !== 12) hours += 12;
     if (period === 'AM' && hours === 12) hours = 0;
-    
     return hours * 60 + minutes;
   }
   return 0;
 }
 
-/**
- * Day offset inside a fixed week
- */
 const dayOffsets: Record<string, number> = {
   sunday: 6,
   monday: 0,
@@ -91,16 +74,11 @@ const dayOffsets: Record<string, number> = {
   saturday: 5,
 };
 
-/**
- * Get aligned date inside SAME week
- */
 function getAlignedDate(dayName: string) {
   const weekStart = getWeekStart(new Date());
   const offset = dayOffsets[dayName.toLowerCase()] ?? 0;
-
   const result = new Date(weekStart);
   result.setDate(weekStart.getDate() + offset);
-
   return result;
 }
 
@@ -117,7 +95,6 @@ export default function Home() {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
 
-  // Load data from API on mount
   useEffect(() => {
     fetchData();
   }, []);
@@ -137,7 +114,6 @@ export default function Home() {
     }
   };
 
-  // Clear messages after 3 seconds
   useEffect(() => {
     if (success || error) {
       const timer = setTimeout(() => {
@@ -148,27 +124,22 @@ export default function Home() {
     }
   }, [success, error]);
 
-  // CRUD Operations with API
   const addMember = async () => {
     if (!newMember.name || !newMember.callSign) {
       setError('Please fill in name and call sign');
       return;
     }
-    
     const memberToAdd = {
       ...newMember,
       schedules: newMember.schedules.filter(s => s.day && s.time)
     };
-    
     try {
       const response = await fetch('/api/members', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(memberToAdd)
       });
-      
       const result = await response.json();
-      
       if (response.ok) {
         setData({ members: result.members });
         setNewMember({
@@ -188,12 +159,10 @@ export default function Home() {
 
   const updateMember = async () => {
     if (!editingMember) return;
-    
     if (!editingMember.member.name || !editingMember.member.callSign) {
       setError('Please fill in name and call sign');
       return;
     }
-    
     try {
       const response = await fetch('/api/members', {
         method: 'PUT',
@@ -203,9 +172,7 @@ export default function Home() {
           member: editingMember.member
         })
       });
-      
       const result = await response.json();
-      
       if (response.ok) {
         setData({ members: result.members });
         setEditingMember(null);
@@ -227,9 +194,7 @@ export default function Home() {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ index })
         });
-        
         const result = await response.json();
-        
         if (response.ok) {
           setData({ members: result.members });
           setSuccess('Member deleted successfully!');
@@ -243,16 +208,14 @@ export default function Home() {
     }
   };
 
-  // Group and sort schedules for printing
   const groupedSchedules: { [key: string]: GroupedSchedule } = {};
 
   data.members.forEach((member) => {
     member.schedules.forEach((schedule) => {
       if (schedule.day && schedule.time) {
-        const serviceType = schedule.service || 'Worship'; // Default to Worship if not specified
+        const serviceType = schedule.service || 'worship';
         const computedDate = getAlignedDate(schedule.day);
         const key = `${computedDate.toISOString().split('T')[0]}-${schedule.time}-${serviceType}`;
-
         if (!groupedSchedules[key]) {
           groupedSchedules[key] = {
             date: computedDate.toISOString(),
@@ -262,7 +225,6 @@ export default function Home() {
             members: [],
           };
         }
-
         groupedSchedules[key].members.push(member);
       }
     });
@@ -271,36 +233,23 @@ export default function Home() {
   const sortedSchedules = Object.values(groupedSchedules).sort((a, b) => {
     const dayA = dayOrder[a.day.toLowerCase()] ?? 999;
     const dayB = dayOrder[b.day.toLowerCase()] ?? 999;
-    
-    if (dayA !== dayB) {
-      return dayA - dayB;
-    }
-    
+    if (dayA !== dayB) return dayA - dayB;
     const timeA = timeToMinutes(a.time);
     const timeB = timeToMinutes(b.time);
-    
     return timeA - timeB;
   });
 
-  // FORM 1: Wednesday & Thursday - WORSHIP SERVICE
   const form1 = sortedSchedules.filter(
     (s) =>
       (s.day.toLowerCase() === 'wednesday' || s.day.toLowerCase() === 'thursday') &&
       s.service === 'worship'
   );
-
-  // FORM 2: Saturday & Sunday - WORSHIP SERVICE
   const form2 = sortedSchedules.filter(
     (s) =>
       (s.day.toLowerCase() === 'saturday' || s.day.toLowerCase() === 'sunday') &&
       s.service === 'worship'
   );
-
-  // FORM 3: PNK SERVICE - All days
-  const form3 = sortedSchedules.filter(
-    (s) => s.service === 'PNK'
-  );
-
+  const form3 = sortedSchedules.filter((s) => s.service === 'PNK');
   const forms = [form1, form2, form3];
 
   if (loading) {
@@ -314,16 +263,13 @@ export default function Home() {
   }
 
   return (
-    <div className="bg-gray-300 min-h-screen py-4 md:py-10 print:bg-white">
-      {/* Success Message */}
+    <div className="bg-gray-300 min-h-screen print:bg-white">
       {success && (
         <div className="fixed top-20 left-1/2 transform -translate-x-1/2 z-50 bg-green-500 text-white px-4 py-2 rounded shadow-lg">
           {success}
           <button onClick={() => setSuccess(null)} className="ml-4 font-bold">×</button>
         </div>
       )}
-
-      {/* Error Message */}
       {error && (
         <div className="fixed top-20 left-1/2 transform -translate-x-1/2 z-50 bg-red-500 text-white px-4 py-2 rounded shadow-lg">
           {error}
@@ -331,194 +277,111 @@ export default function Home() {
         </div>
       )}
 
-      {/* TABS */}
-      <div className="fixed top-5 left-5 right-5 z-50 print:hidden bg-white rounded-lg shadow-md flex gap-2 p-2 max-w-md mx-auto">
+      <div className="fixed top-5 left-1/2 transform -translate-x-1/2 z-50 print:hidden bg-white rounded-lg shadow-md flex gap-2 p-2 w-auto min-w-[200px]">
         <button
           onClick={() => setActiveTab('print')}
-          className={`flex-1 px-4 py-2 rounded-md transition-colors ${
-            activeTab === 'print'
-              ? 'bg-black text-white'
-              : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+          className={`px-4 py-2 rounded-md transition-colors ${
+            activeTab === 'print' ? 'bg-black text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
           }`}
         >
           Print View
         </button>
         <button
           onClick={() => setActiveTab('crud')}
-          className={`flex-1 px-4 py-2 rounded-md transition-colors ${
-            activeTab === 'crud'
-              ? 'bg-black text-white'
-              : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+          className={`px-4 py-2 rounded-md transition-colors ${
+            activeTab === 'crud' ? 'bg-black text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
           }`}
         >
           Manage Members
         </button>
       </div>
 
-      {/* PRINT BUTTON */}
       {activeTab === 'print' && (
-        <div className="fixed bottom-4 right-4 md:top-5 md:right-5 print:hidden z-50">
-          <button
-            onClick={() => window.print()}
-            className="bg-black text-white px-4 py-2 text-sm rounded shadow"
-          >
+        <div className="fixed bottom-4 right-4 print:hidden z-50">
+          <button onClick={() => window.print()} className="bg-black text-white px-4 py-2 text-sm rounded shadow">
             Print
           </button>
         </div>
       )}
 
-      {/* PRINT VIEW TAB */}
       {activeTab === 'print' && (
-        <div className="flex flex-col items-center gap-6 md:gap-10 mt-16 md:mt-16 px-4 md:px-0">
+        <div className="print-view-container">
           {forms.map((formSchedules, formIndex) => (
-            <div
-              key={formIndex}
-              className="
-                bg-white
-                w-full
-                max-w-[210mm]
-                min-h-[297mm]
-                p-[8mm] md:p-[12mm]
-                shadow-lg
-                text-black
-                print:shadow-none
-                print:page-break-after-always
-                mx-auto
-              "
-              style={{ aspectRatio: '210 / 297' }}
-            >
+            <div key={formIndex} className="a4-page">
               {/* HEADER */}
-              <div className="flex items-start justify-between mb-4">
-                <div className="w-[50px] md:w-[70px] flex justify-start">
-                  <Image
-                    src="/images.png"
-                    alt="Logo"
-                    width={60}
-                    height={60}
-                    className="object-contain w-full h-auto"
-                  />
+              <div className="header">
+                <div className="logo-left">
+                  <Image src="/images.png" alt="Logo" width={60} height={60} className="object-contain" />
                 </div>
-
-                <div className="text-center flex-1 px-2">
-                  <h1 className="font-bold text-[11px] md:text-[13px] uppercase">
-                    SCAN INTERNATIONAL
-                  </h1>
-                  <h2 className="font-semibold text-[10px] md:text-[12px] uppercase">
-                    DISTRITO NG RIZAL
-                  </h2>
-                  <h3 className="text-[9px] md:text-[11px] uppercase">
-                    LOKAL NG KADALAGAHAN
-                  </h3>
-                  <p className="text-[8px] md:text-[10px] uppercase">
-                    {formIndex === 2 ? 'SUGUAN NG SCAN SA PNK' : 'SUGUAN NG SCAN SA PAGSAMBA'}
-                  </p>
+                <div className="title-section">
+                  <h1>SCAN INTERNATIONAL</h1>
+                  <h2>DISTRITO NG RIZAL</h2>
+                  <h3>LOKAL NG KADALAGAHAN</h3>
+                  <p>{formIndex === 2 ? 'SUGUAN NG SCAN SA PNK' : 'SUGUAN NG SCAN SA PAGSAMBA'}</p>
                 </div>
-
-                <div className="w-[50px] md:w-[70px]" />
+                <div className="logo-right"></div>
               </div>
 
               {/* TABLES */}
-              <div className="space-y-4 md:space-y-6">
+              <div className="schedules-list">
                 {formSchedules.map((schedule, idx) => {
                   const dateObj = new Date(schedule.date);
-                  const filipinoDay =
-                    filipinoDays[schedule.day.toLowerCase()] ||
-                    schedule.day;
-
+                  const filipinoDay = filipinoDays[schedule.day.toLowerCase()] || schedule.day;
                   return (
-                    <div key={idx} className="break-inside-avoid">
-                      <div className="overflow-x-auto">
-                        <table className="w-full border border-black text-[8px] md:text-[10px] min-w-[280px]">
-                          <thead>
-                            <tr>
-                              <th colSpan={2} className="border px-1 md:px-2 py-1 text-left">
-                                Petsa:{' '}
-                                {dateObj.toLocaleDateString('en-US', {
-                                  month: 'long',
-                                  day: 'numeric',
-                                  year: 'numeric',
-                                })}
-                              </th>
-                              <th colSpan={2} className="border px-1 md:px-2 py-1 text-left">
-                                Araw: {filipinoDay}
-                              </th>
-                              <th colSpan={2} className="border px-1 md:px-2 py-1 text-left">
-                                Oras: {schedule.time}
-                              </th>
+                    <div key={idx} className="schedule-table-wrapper">
+                      <table className="schedule-table">
+                        <thead>
+                          <tr>
+                            <th colSpan={2}>Petsa: {dateObj.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</th>
+                            <th colSpan={2}>Araw: {filipinoDay}</th>
+                            <th colSpan={2}>Oras: {schedule.time}</th>
+                          </tr>
+                          <tr>
+                            <th className="col-blg">Blg</th>
+                            <th className="col-name">Pangalan</th>
+                            <th className="col-callsign">Call-Sign</th>
+                            <th className="col-sign-receive">Lagda Pagtanggap</th>
+                            <th className="col-sign-fulfill">Lagda Pagtupad</th>
+                            <th className="col-role">Gampanin</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {schedule.members.map((member, i) => (
+                            <tr key={i}>
+                              <td className="text-center">{i + 1}</td>
+                              <td>{member.name}</td>
+                              <td className="text-center">{member.callSign}</td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
                             </tr>
-                            <tr>
-                              <th className="border px-1 py-1 w-[30px] md:w-[35px]">Blg</th>
-                              <th className="border px-2 py-1 text-left">
-                                Pangalan
-                              </th>
-                              <th className="border px-1 py-1 w-[65px] md:w-[75px]">
-                                Call-Sign
-                              </th>
-                              <th className="border px-1 py-1 w-[85px] md:w-[95px]">
-                                Lagda Pagtanggap
-                              </th>
-                              <th className="border px-1 py-1 w-[85px] md:w-[95px]">
-                                Lagda Pagtupad
-                              </th>
-                              <th className="border px-1 py-1 w-[60px] md:w-[70px]">
-                                Gampanin
-                              </th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {schedule.members.map((member, i) => (
-                              <tr key={i}>
-                                <td className="border text-center py-1">
-                                  {i + 1}
-                                </td>
-                                <td className="border px-2 py-1 whitespace-normal break-words">
-                                  {member.name}
-                                </td>
-                                <td className="border text-center py-1">
-                                  {member.callSign}
-                                </td>
-                                <td className="border h-[24px]" />
-                                <td className="border h-[24px]" />
-                                <td className="border" />
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
-                      </div>
+                          ))}
+                        </tbody>
+                      </table>
                     </div>
                   );
                 })}
               </div>
 
-              {/* SIGNATORIES */}
-              <div className="mt-8 md:mt-14 text-[9px] md:text-[11px]">
-                <p className="mb-4 md:mb-6">Naghanda:</p>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-20">
-                  <div className="text-center">
-                    <p className="font-semibold uppercase text-[10px] md:text-[11px]">
-                      JUSTINE JACOB RODRIGUEZ
-                    </p>
-                    <p className="text-[9px] md:text-[11px]">KALIHIM SCAN</p>
+              {/* SIGNATORIES -始终保持水平排列 */}
+              <div className="signatures">
+                <p className="naghanda-label">Naghanda:</p>
+                <div className="signature-row">
+                  <div className="signature-item">
+                    <p className="signature-name">JUSTINE JACOB RODRIGUEZ</p>
+                    <p>KALIHIM SCAN</p>
                   </div>
-                  <div className="text-center">
-                    <p className="font-semibold uppercase text-[10px] md:text-[11px]"></p>
-                    <p className="text-[9px] md:text-[11px]">PANGULO NG SCAN</p>
+                  <div className="signature-item">
+                    <p className="signature-name"></p>
+                    <p>PANGULO NG SCAN</p>
                   </div>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-20 mt-8 md:mt-12">
-                  <div className="text-center">
-                    <p className="font-semibold uppercase text-[10px] md:text-[11px]">
-                      MARIANO M. LEBARDO JR.
-                    </p>
-                    <p className="text-[9px] md:text-[11px]">PD - TAGASUBAYBAY</p>
+                  <div className="signature-item">
+                    <p className="signature-name">MARIANO M. LEBARDO JR.</p>
+                    <p>PD - TAGASUBAYBAY</p>
                   </div>
-                  <div className="text-center">
-                    <p className="font-semibold uppercase text-[10px] md:text-[11px]">
-                      MARLON M. SEVILLA
-                    </p>
-                    <p className="text-[9px] md:text-[11px]">DESTINADO NG LOKAL</p>
+                  <div className="signature-item">
+                    <p className="signature-name">MARLON M. SEVILLA</p>
+                    <p>DESTINADO NG LOKAL</p>
                   </div>
                 </div>
               </div>
@@ -527,54 +390,29 @@ export default function Home() {
         </div>
       )}
 
-      {/* CRUD TAB */}
       {activeTab === 'crud' && (
-        <div className="max-w-6xl mx-auto mt-24 p-4 md:p-6 bg-white rounded-lg shadow-lg mx-4 md:mx-auto">
-          <h2 className="text-xl md:text-2xl font-bold mb-6">Manage Members</h2>
-
-          {/* Add New Member Form */}
-          <div className="bg-gray-50 p-4 rounded-lg mb-6">
-            <h3 className="text-lg font-semibold mb-3">Add New Member</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
-              <input
-                type="text"
-                placeholder="Name"
-                value={newMember.name}
-                onChange={(e) => setNewMember({ ...newMember, name: e.target.value })}
-                className="border p-2 rounded"
-              />
-              <input
-                type="text"
-                placeholder="Call Sign"
-                value={newMember.callSign}
-                onChange={(e) => setNewMember({ ...newMember, callSign: e.target.value })}
-                className="border p-2 rounded"
-              />
+        <div className="crud-container">
+          <h2>Manage Members</h2>
+          <div className="add-member-form">
+            <h3>Add New Member</h3>
+            <div className="form-row">
+              <input type="text" placeholder="Name" value={newMember.name} onChange={(e) => setNewMember({ ...newMember, name: e.target.value })} />
+              <input type="text" placeholder="Call Sign" value={newMember.callSign} onChange={(e) => setNewMember({ ...newMember, callSign: e.target.value })} />
             </div>
-            <div className="mb-3">
-              <label className="block text-sm font-medium mb-1">Schedules</label>
+            <div className="schedules-section">
+              <label>Schedules</label>
               {newMember.schedules.map((schedule, idx) => (
-                <div key={idx} className="grid grid-cols-1 md:grid-cols-4 gap-2 mb-2">
-                  <input
-                    type="text"
-                    placeholder="Date"
-                    value={schedule.date}
-                    onChange={(e) => {
-                      const updated = [...newMember.schedules];
-                      updated[idx] = { ...updated[idx], date: e.target.value };
-                      setNewMember({ ...newMember, schedules: updated });
-                    }}
-                    className="border p-2 rounded text-sm"
-                  />
-                  <select
-                    value={schedule.day}
-                    onChange={(e) => {
-                      const updated = [...newMember.schedules];
-                      updated[idx] = { ...updated[idx], day: e.target.value };
-                      setNewMember({ ...newMember, schedules: updated });
-                    }}
-                    className="border p-2 rounded text-sm"
-                  >
+                <div key={idx} className="schedule-row">
+                  <input type="text" placeholder="Date" value={schedule.date} onChange={(e) => {
+                    const updated = [...newMember.schedules];
+                    updated[idx] = { ...updated[idx], date: e.target.value };
+                    setNewMember({ ...newMember, schedules: updated });
+                  }} />
+                  <select value={schedule.day} onChange={(e) => {
+                    const updated = [...newMember.schedules];
+                    updated[idx] = { ...updated[idx], day: e.target.value };
+                    setNewMember({ ...newMember, schedules: updated });
+                  }}>
                     <option value="">Select Day</option>
                     <option value="Monday">Monday</option>
                     <option value="Tuesday">Tuesday</option>
@@ -584,125 +422,62 @@ export default function Home() {
                     <option value="Saturday">Saturday</option>
                     <option value="Sunday">Sunday</option>
                   </select>
-                  <input
-                    type="text"
-                    placeholder="Time (e.g., 8:00 AM)"
-                    value={schedule.time}
-                    onChange={(e) => {
-                      const updated = [...newMember.schedules];
-                      updated[idx] = { ...updated[idx], time: e.target.value };
+                  <input type="text" placeholder="Time (e.g., 8:00 AM)" value={schedule.time} onChange={(e) => {
+                    const updated = [...newMember.schedules];
+                    updated[idx] = { ...updated[idx], time: e.target.value };
+                    setNewMember({ ...newMember, schedules: updated });
+                  }} />
+                  <select value={schedule.service || 'worship'} onChange={(e) => {
+                    const updated = [...newMember.schedules];
+                    updated[idx] = { ...updated[idx], service: e.target.value as 'PNK' | 'worship' };
+                    setNewMember({ ...newMember, schedules: updated });
+                  }}>
+                    <option value="worship">Worship</option>
+                    <option value="PNK">PNK</option>
+                  </select>
+                  {newMember.schedules.length > 1 && (
+                    <button onClick={() => {
+                      const updated = newMember.schedules.filter((_, i) => i !== idx);
                       setNewMember({ ...newMember, schedules: updated });
-                    }}
-                    className="border p-2 rounded text-sm"
-                  />
-                  <div className="flex gap-2">
-                    <select
-                      value={schedule.service || 'Worship'}
-                      onChange={(e) => {
-                        const updated = [...newMember.schedules];
-                        updated[idx] = { ...updated[idx], service: e.target.value as 'PNK' | 'worship' };
-                        setNewMember({ ...newMember, schedules: updated });
-                      }}
-                      className="border p-2 rounded text-sm flex-1"
-                    >
-                      <option value="worship">Worship</option>
-                      <option value="PNK">PNK</option>
-                    </select>
-                    {newMember.schedules.length > 1 && (
-                      <button
-                        onClick={() => {
-                          const updated = newMember.schedules.filter((_, i) => i !== idx);
-                          setNewMember({ ...newMember, schedules: updated });
-                        }}
-                        className="bg-red-500 text-white px-2 rounded text-xs"
-                      >
-                        Remove
-                      </button>
-                    )}
-                  </div>
+                    }}>Remove</button>
+                  )}
                 </div>
               ))}
-              <button
-                onClick={() => setNewMember({
-                  ...newMember,
-                  schedules: [...newMember.schedules, { date: '', day: '', time: '', service: 'worship' }]
-                })}
-                className="text-blue-600 text-sm mt-1"
-              >
-                + Add Schedule
-              </button>
+              <button onClick={() => setNewMember({
+                ...newMember,
+                schedules: [...newMember.schedules, { date: '', day: '', time: '', service: 'worship' }]
+              })}>+ Add Schedule</button>
             </div>
-            <button
-              onClick={addMember}
-              className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
-            >
-              Add Member
-            </button>
+            <button onClick={addMember}>Add Member</button>
           </div>
 
-          {/* Members List */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-semibold mb-3">Members List</h3>
+          <div className="members-list">
+            <h3>Members List</h3>
             {data.members.length === 0 ? (
-              <p className="text-gray-500 text-center py-8">No members yet. Add your first member above!</p>
+              <p>No members yet. Add your first member above!</p>
             ) : (
               data.members.map((member, idx) => (
-                <div key={idx} className="border rounded-lg p-4 hover:shadow-md transition-shadow">
+                <div key={idx} className="member-card">
                   {editingMember?.index === idx ? (
-                    // Edit Mode
                     <div>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
-                        <input
-                          type="text"
-                          placeholder="Name"
-                          value={editingMember.member.name}
-                          onChange={(e) => setEditingMember({
-                            index: idx,
-                            member: { ...editingMember.member, name: e.target.value }
-                          })}
-                          className="border p-2 rounded"
-                        />
-                        <input
-                          type="text"
-                          placeholder="Call Sign"
-                          value={editingMember.member.callSign}
-                          onChange={(e) => setEditingMember({
-                            index: idx,
-                            member: { ...editingMember.member, callSign: e.target.value }
-                          })}
-                          className="border p-2 rounded"
-                        />
+                      <div className="form-row">
+                        <input type="text" placeholder="Name" value={editingMember.member.name} onChange={(e) => setEditingMember({ index: idx, member: { ...editingMember.member, name: e.target.value } })} />
+                        <input type="text" placeholder="Call Sign" value={editingMember.member.callSign} onChange={(e) => setEditingMember({ index: idx, member: { ...editingMember.member, callSign: e.target.value } })} />
                       </div>
-                      <div className="mb-3">
-                        <label className="block text-sm font-medium mb-1">Schedules</label>
+                      <div className="schedules-section">
+                        <label>Schedules</label>
                         {editingMember.member.schedules.map((schedule, sIdx) => (
-                          <div key={sIdx} className="grid grid-cols-1 md:grid-cols-4 gap-2 mb-2">
-                            <input
-                              type="text"
-                              placeholder="Date"
-                              value={schedule.date}
-                              onChange={(e) => {
-                                const updatedSchedules = [...editingMember.member.schedules];
-                                updatedSchedules[sIdx] = { ...updatedSchedules[sIdx], date: e.target.value };
-                                setEditingMember({
-                                  index: idx,
-                                  member: { ...editingMember.member, schedules: updatedSchedules }
-                                });
-                              }}
-                              className="border p-2 rounded text-sm"
-                            />
-                            <select
-                              value={schedule.day}
-                              onChange={(e) => {
-                                const updatedSchedules = [...editingMember.member.schedules];
-                                updatedSchedules[sIdx] = { ...updatedSchedules[sIdx], day: e.target.value };
-                                setEditingMember({
-                                  index: idx,
-                                  member: { ...editingMember.member, schedules: updatedSchedules }
-                                });
-                              }}
-                              className="border p-2 rounded text-sm"
-                            >
+                          <div key={sIdx} className="schedule-row">
+                            <input type="text" placeholder="Date" value={schedule.date} onChange={(e) => {
+                              const updated = [...editingMember.member.schedules];
+                              updated[sIdx] = { ...updated[sIdx], date: e.target.value };
+                              setEditingMember({ index: idx, member: { ...editingMember.member, schedules: updated } });
+                            }} />
+                            <select value={schedule.day} onChange={(e) => {
+                              const updated = [...editingMember.member.schedules];
+                              updated[sIdx] = { ...updated[sIdx], day: e.target.value };
+                              setEditingMember({ index: idx, member: { ...editingMember.member, schedules: updated } });
+                            }}>
                               <option value="">Select Day</option>
                               <option value="Monday">Monday</option>
                               <option value="Tuesday">Tuesday</option>
@@ -712,115 +487,58 @@ export default function Home() {
                               <option value="Saturday">Saturday</option>
                               <option value="Sunday">Sunday</option>
                             </select>
-                            <input
-                              type="text"
-                              placeholder="Time (e.g., 8:00 AM)"
-                              value={schedule.time}
-                              onChange={(e) => {
-                                const updatedSchedules = [...editingMember.member.schedules];
-                                updatedSchedules[sIdx] = { ...updatedSchedules[sIdx], time: e.target.value };
-                                setEditingMember({
-                                  index: idx,
-                                  member: { ...editingMember.member, schedules: updatedSchedules }
-                                });
-                              }}
-                              className="border p-2 rounded text-sm"
-                            />
-                            <div className="flex gap-2">
-                              <select
-                                value={schedule.service || 'Worship'}
-                                onChange={(e) => {
-                                  const updatedSchedules = [...editingMember.member.schedules];
-                                  updatedSchedules[sIdx] = { ...updatedSchedules[sIdx], service: e.target.value as 'PNK' | 'worship' };
-                                  setEditingMember({
-                                    index: idx,
-                                    member: { ...editingMember.member, schedules: updatedSchedules }
-                                  });
-                                }}
-                                className="border p-2 rounded text-sm flex-1"
-                              >
-                                <option value="worship">Worship</option>
-                                <option value="PNK">PNK</option>
-                              </select>
-                              {editingMember.member.schedules.length > 1 && (
-                                <button
-                                  onClick={() => {
-                                    const updatedSchedules = editingMember.member.schedules.filter((_, i) => i !== sIdx);
-                                    setEditingMember({
-                                      index: idx,
-                                      member: { ...editingMember.member, schedules: updatedSchedules }
-                                    });
-                                  }}
-                                  className="bg-red-500 text-white px-2 rounded text-xs hover:bg-red-600"
-                                >
-                                  Delete
-                                </button>
-                              )}
-                            </div>
+                            <input type="text" placeholder="Time" value={schedule.time} onChange={(e) => {
+                              const updated = [...editingMember.member.schedules];
+                              updated[sIdx] = { ...updated[sIdx], time: e.target.value };
+                              setEditingMember({ index: idx, member: { ...editingMember.member, schedules: updated } });
+                            }} />
+                            <select value={schedule.service || 'worship'} onChange={(e) => {
+                              const updated = [...editingMember.member.schedules];
+                              updated[sIdx] = { ...updated[sIdx], service: e.target.value as 'PNK' | 'worship' };
+                              setEditingMember({ index: idx, member: { ...editingMember.member, schedules: updated } });
+                            }}>
+                              <option value="worship">Worship</option>
+                              <option value="PNK">PNK</option>
+                            </select>
+                            {editingMember.member.schedules.length > 1 && (
+                              <button onClick={() => {
+                                const updated = editingMember.member.schedules.filter((_, i) => i !== sIdx);
+                                setEditingMember({ index: idx, member: { ...editingMember.member, schedules: updated } });
+                              }}>Delete</button>
+                            )}
                           </div>
                         ))}
-                        <button
-                          onClick={() => setEditingMember({
-                            index: idx,
-                            member: {
-                              ...editingMember.member,
-                              schedules: [...editingMember.member.schedules, { date: '', day: '', time: '', service: 'worship' }]
-                            }
-                          })}
-                          className="text-blue-600 text-sm mt-1 hover:text-blue-800"
-                        >
-                          + Add Schedule
-                        </button>
+                        <button onClick={() => setEditingMember({
+                          index: idx,
+                          member: { ...editingMember.member, schedules: [...editingMember.member.schedules, { date: '', day: '', time: '', service: 'worship' }] }
+                        })}>+ Add Schedule</button>
                       </div>
-                      <div className="flex gap-2">
-                        <button
-                          onClick={updateMember}
-                          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-                        >
-                          Save Changes
-                        </button>
-                        <button
-                          onClick={() => setEditingMember(null)}
-                          className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
-                        >
-                          Cancel
-                        </button>
+                      <div className="action-buttons">
+                        <button onClick={updateMember}>Save Changes</button>
+                        <button onClick={() => setEditingMember(null)}>Cancel</button>
                       </div>
                     </div>
                   ) : (
-                    // View Mode
                     <div>
-                      <div className="flex flex-col md:flex-row justify-between items-start mb-2 gap-2">
+                      <div className="member-header">
                         <div>
-                          <h4 className="font-semibold text-lg">{member.name}</h4>
-                          <p className="text-gray-600">Call Sign: {member.callSign}</p>
+                          <h4>{member.name}</h4>
+                          <p>Call Sign: {member.callSign}</p>
                         </div>
-                        <div className="flex gap-2">
-                          <button
-                            onClick={() => setEditingMember({ index: idx, member: JSON.parse(JSON.stringify(member)) })}
-                            className="bg-yellow-500 text-white px-3 py-1 rounded text-sm hover:bg-yellow-600"
-                          >
-                            Edit
-                          </button>
-                          <button
-                            onClick={() => deleteMember(idx)}
-                            className="bg-red-500 text-white px-3 py-1 rounded text-sm hover:bg-red-600"
-                          >
-                            Delete
-                          </button>
+                        <div className="action-buttons">
+                          <button onClick={() => setEditingMember({ index: idx, member: JSON.parse(JSON.stringify(member)) })}>Edit</button>
+                          <button onClick={() => deleteMember(idx)}>Delete</button>
                         </div>
                       </div>
-                      <div className="mt-2">
-                        <p className="text-sm font-medium text-gray-700">Schedules:</p>
+                      <div className="member-schedules">
+                        <p>Schedules:</p>
                         {member.schedules.length === 0 || (member.schedules.length === 1 && !member.schedules[0].day && !member.schedules[0].time) ? (
-                          <p className="text-sm text-gray-500 italic">No schedules assigned</p>
+                          <p>No schedules assigned</p>
                         ) : (
-                          <ul className="list-disc list-inside text-sm mt-1">
+                          <ul>
                             {member.schedules.map((schedule, sIdx) => (
                               schedule.day && schedule.time && (
-                                <li key={sIdx} className="text-gray-600">
-                                  {schedule.day} at {schedule.time} ({schedule.service || 'worship'})
-                                </li>
+                                <li key={sIdx}>{schedule.day} at {schedule.time} ({schedule.service || 'worship'})</li>
                               )
                             ))}
                           </ul>
@@ -835,7 +553,6 @@ export default function Home() {
         </div>
       )}
 
-      {/* PRINT STYLES */}
       <style jsx global>{`
         @page {
           size: A4;
@@ -845,32 +562,393 @@ export default function Home() {
         @media print {
           body {
             background: white !important;
+            margin: 0;
+            padding: 0;
           }
-          
-          .print\\:shadow-none {
-            box-shadow: none !important;
+          .print-view-container {
+            margin: 0;
+            padding: 0;
           }
-          
-          .print\\:page-break-after-always {
+          .a4-page {
+            margin: 0;
+            box-shadow: none;
             page-break-after: always;
           }
         }
 
-        /* Mobile optimizations */
-        @media (max-width: 640px) {
+        /* Print view styles - 保持与桌面完全相同 */
+        .print-view-container {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          background: #e5e7eb;
+          padding: 20px 0;
+        }
+
+        .a4-page {
+          width: 210mm;
+          min-height: 297mm;
+          background: white;
+          padding: 12mm;
+          margin: 0 auto 20px auto;
+          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+          position: relative;
+          box-sizing: border-box;
+        }
+
+        /* Header */
+        .header {
+          display: flex;
+          align-items: flex-start;
+          justify-content: space-between;
+          margin-bottom: 8mm;
+        }
+
+        .logo-left {
+          width: 70px;
+          flex-shrink: 0;
+        }
+
+        .logo-right {
+          width: 70px;
+          flex-shrink: 0;
+        }
+
+        .title-section {
+          text-align: center;
+          flex: 1;
+          padding: 0 10px;
+        }
+
+        .title-section h1 {
+          font-size: 13px;
+          font-weight: bold;
+          text-transform: uppercase;
+          margin: 0;
+          letter-spacing: 0.5px;
+        }
+
+        .title-section h2 {
+          font-size: 12px;
+          font-weight: 600;
+          text-transform: uppercase;
+          margin: 2px 0 0 0;
+        }
+
+        .title-section h3 {
+          font-size: 11px;
+          text-transform: uppercase;
+          margin: 2px 0 0 0;
+        }
+
+        .title-section p {
+          font-size: 10px;
+          text-transform: uppercase;
+          margin: 2px 0 0 0;
+        }
+
+        /* Schedule tables */
+        .schedules-list {
+          display: flex;
+          flex-direction: column;
+          gap: 6mm;
+        }
+
+        .schedule-table-wrapper {
+          width: 100%;
+        }
+
+        .schedule-table {
+          width: 100%;
+          border-collapse: collapse;
+          font-size: 10px;
+          border: 1px solid black;
+        }
+
+        .schedule-table th,
+        .schedule-table td {
+          border: 1px solid black;
+          padding: 4px 6px;
+          vertical-align: top;
+        }
+
+        .schedule-table th {
+          font-weight: bold;
+          text-align: left;
+          background-color: #f9fafb;
+        }
+
+        .col-blg {
+          width: 35px;
+          text-align: center;
+        }
+
+        .col-name {
+          text-align: left;
+        }
+
+        .col-callsign {
+          width: 75px;
+          text-align: center;
+        }
+
+        .col-sign-receive {
+          width: 95px;
+        }
+
+        .col-sign-fulfill {
+          width: 95px;
+        }
+
+        .col-role {
+          width: 70px;
+        }
+
+        /* Signatures - 始终保持水平排列，永不堆叠 */
+        .signatures {
+          margin-top: 14mm;
+        }
+
+        .naghanda-label {
+          font-size: 11px;
+          margin-bottom: 6mm;
+        }
+
+        .signature-row {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          gap: 20mm;
+          flex-wrap: nowrap;
+        }
+
+        .signature-item {
+          text-align: center;
+          flex: 1;
+          min-width: 0;
+        }
+
+        .signature-name {
+          font-weight: 600;
+          text-transform: uppercase;
+          font-size: 11px;
+          margin-bottom: 2px;
+          white-space: nowrap;
+        }
+
+        .signature-item p {
+          margin: 2px 0;
+          font-size: 11px;
+        }
+
+        /* CRUD styles */
+        .crud-container {
+          max-width: 1200px;
+          margin: 80px auto 40px auto;
+          padding: 24px;
+          background: white;
+          border-radius: 8px;
+          box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .crud-container h2 {
+          font-size: 24px;
+          font-weight: bold;
+          margin-bottom: 24px;
+        }
+
+        .add-member-form {
+          background: #f9fafb;
+          padding: 16px;
+          border-radius: 8px;
+          margin-bottom: 24px;
+        }
+
+        .add-member-form h3 {
+          font-size: 18px;
+          font-weight: 600;
+          margin-bottom: 12px;
+        }
+
+        .form-row {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 16px;
+          margin-bottom: 12px;
+        }
+
+        .form-row input {
+          border: 1px solid #d1d5db;
+          padding: 8px;
+          border-radius: 4px;
+        }
+
+        .schedules-section {
+          margin-bottom: 12px;
+        }
+
+        .schedules-section label {
+          display: block;
+          font-size: 14px;
+          font-weight: 500;
+          margin-bottom: 4px;
+        }
+
+        .schedule-row {
+          display: grid;
+          grid-template-columns: 1fr 1fr 1fr 1fr auto;
+          gap: 8px;
+          margin-bottom: 8px;
+        }
+
+        .schedule-row input,
+        .schedule-row select {
+          border: 1px solid #d1d5db;
+          padding: 8px;
+          border-radius: 4px;
+          font-size: 14px;
+        }
+
+        .schedule-row button {
+          background: #ef4444;
+          color: white;
+          padding: 8px 12px;
+          border-radius: 4px;
+          font-size: 12px;
+        }
+
+        .members-list h3 {
+          font-size: 18px;
+          font-weight: 600;
+          margin-bottom: 12px;
+        }
+
+        .member-card {
+          border: 1px solid #e5e7eb;
+          border-radius: 8px;
+          padding: 16px;
+          margin-bottom: 16px;
+        }
+
+        .member-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-start;
+          margin-bottom: 8px;
+          flex-wrap: wrap;
+          gap: 10px;
+        }
+
+        .member-header h4 {
+          font-size: 18px;
+          font-weight: 600;
+        }
+
+        .member-header p {
+          color: #4b5563;
+        }
+
+        .action-buttons {
+          display: flex;
+          gap: 8px;
+        }
+
+        .action-buttons button {
+          padding: 6px 12px;
+          border-radius: 4px;
+          font-size: 14px;
+        }
+
+        .action-buttons button:first-child {
+          background: #eab308;
+          color: white;
+        }
+
+        .action-buttons button:last-child {
+          background: #ef4444;
+          color: white;
+        }
+
+        .member-schedules {
+          margin-top: 8px;
+        }
+
+        .member-schedules p {
+          font-size: 14px;
+          font-weight: 500;
+          margin-bottom: 4px;
+        }
+
+        .member-schedules ul {
+          list-style: disc;
+          list-style-position: inside;
+          font-size: 14px;
+          color: #4b5563;
+        }
+
+        button {
+          cursor: pointer;
+          border: none;
+          transition: opacity 0.2s;
+        }
+
+        button:hover {
+          opacity: 0.9;
+        }
+
+        /* Mobile - 保持相同布局，允许水平滚动 */
+        @media (max-width: 220mm) {
+          body {
+            overflow-x: auto;
+          }
+          
           .print-view-container {
-            padding: 0 16px;
+            display: block;
+            width: fit-content;
+            min-width: 100%;
+            padding: 20px;
           }
           
-          table {
-            font-size: 8px;
+          .a4-page {
+            margin: 0 auto 20px auto;
           }
           
-          th, td {
-            padding: 4px 2px;
+          /* 签名在手机上依然水平排列，绝不堆叠 */
+          .signature-row {
+            flex-wrap: nowrap;
+            gap: 10mm;
+          }
+          
+          .signature-name {
+            white-space: nowrap;
+            font-size: 10px;
+          }
+          
+          .signature-item p {
+            font-size: 10px;
+            white-space: nowrap;
+          }
+        }
+
+        /* 桌面和移动设备保持完全相同的布局 */
+        @media screen and (max-width: 1000px) {
+          .print-view-container {
+            justify-content: flex-start;
+            overflow-x: auto;
+          }
+          
+          .a4-page {
+            flex-shrink: 0;
+          }
+          
+          /* 强制签名保持水平 */
+          .signature-row {
+            display: flex !important;
+            flex-direction: row !important;
+            flex-wrap: nowrap !important;
           }
         }
       `}</style>
     </div>
   );
-          }
+}
