@@ -158,7 +158,7 @@
     },
     {
       "name": "Justine Jacob Rodriguez",
-      "callSign": "15-38",
+      "callSign": "15-5",
       "schedules": [
         {
           "service": "worship",
@@ -188,7 +188,7 @@
     },
     {
       "name": "Alvin Lebradores",
-      "callSign": "15-22",
+      "callSign": "15-21",
       "schedules": [
         {
           "service": "worship",
@@ -248,12 +248,12 @@
     },
     {
       "name": "Alexander Gagarin",
-      "callSign": "15-3",
+      "callSign": "",
       "schedules": []
     },
     {
       "name": "Julian Ramirez",
-      "callSign": "",
+      "callSign": "15-3",
       "schedules": [
         {
           "service": "PNK",
