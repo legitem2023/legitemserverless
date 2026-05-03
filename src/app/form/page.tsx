@@ -1,3 +1,4 @@
+//Are the date schedule of this list even it came from Data.json right?
 'use client';
 
 import Image from 'next/image';
@@ -812,4 +813,4 @@ export default function Home() {
       `}</style>
     </div>
   );
-                }
+                                              }
