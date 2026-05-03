@@ -337,7 +337,7 @@ export default function Home() {
       )}
 
       {activeTab === 'print' && (
-        <div className="print:m-0 print:p-0 flex items-center flex-col mb-3">
+        <div className="print:m-0 print:p-0 flex p-3 items-center flex-col gap-3">
           {forms.map((formSchedules, formIndex) => (
             <div
               key={formIndex}
