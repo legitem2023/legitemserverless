@@ -105,7 +105,7 @@ function getAlignedDate(dayName: string) {
 }
 
 export default function Home() {
-  const [activeTab, setActiveTab] = useState<'print' | 'crud'>('print');
+  const [activeTab, setActiveTab] = useState<'print' | 'crud'>('crud');
   const [data, setData] = useState<{ members: Member[] }>({ members: [] });
   const [editingMember, setEditingMember] = useState<{ index: number; member: Member } | null>(null);
   const [newMember, setNewMember] = useState<Member>({
