@@ -839,13 +839,13 @@ export default function Home() {
         
         @page {
           size: A4;
-          margin: 5px;
+          padding: 5px;
         }
 
         @media print {
           html, body {
             margin: 0 !important;
-            padding: 0 !important;
+            padding: 5px!important;
             background: white !important;
             width: 100%;
             height: 100%;
