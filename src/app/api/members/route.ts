@@ -3,7 +3,7 @@ import fs from 'fs';
 import path from 'path';
 
 // Path to your Data.json file
-const dataFilePath = path.join(process.cwd(), 'app', 'Data.json');
+const dataFilePath = path.join(process.cwd(), 'public', 'Data.json');
 
 // Helper function to read data from file
 function readData() {
