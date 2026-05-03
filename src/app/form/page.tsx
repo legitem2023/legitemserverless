@@ -382,7 +382,6 @@ export default function Home() {
                 text-black
                 print:shadow-none
                 print:page-break-after-always
-                flex flex-col
               "
             >
               {/* HEADER */}
@@ -486,10 +485,8 @@ export default function Home() {
                 })}
               </div>
 
-              {/* SIGNATORIES - Now aligned to bottom */}
-              <div className="flex-1"></div>
-              
-              <div className="text-[11px]">
+              {/* SIGNATORIES */}
+              <div className="mt-14 text-[11px]">
                 <p className="mb-6">Naghanda:</p>
 
                 <div className="grid grid-cols-2 gap-20">
@@ -852,4 +849,4 @@ export default function Home() {
       `}</style>
     </div>
   );
-                    }
+      }
