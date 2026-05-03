@@ -2,12 +2,18 @@ import { NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
 
-// Path to your Data.json file
+// Path to your Data.json file (change this based on where your file is)
 const dataFilePath = path.join(process.cwd(), 'public', 'Data.json');
 
 // Helper function to read data from file
 function readData() {
   try {
+    if (!fs.existsSync(dataFilePath)) {
+      // If file doesn't exist, create it with default data
+      const defaultData = { members: [] };
+      fs.writeFileSync(dataFilePath, JSON.stringify(defaultData, null, 2), 'utf8');
+      return defaultData;
+    }
     const fileContents = fs.readFileSync(dataFilePath, 'utf8');
     return JSON.parse(fileContents);
   } catch (error) {
@@ -42,11 +48,12 @@ export async function POST(request: Request) {
     data.members.push(newMember);
     
     if (writeData(data)) {
-      return NextResponse.json({ success: true, member: newMember });
+      return NextResponse.json({ success: true, member: newMember, members: data.members });
     } else {
       return NextResponse.json({ success: false, error: 'Failed to write file' }, { status: 500 });
     }
   } catch (error) {
+    console.error('Error in POST:', error);
     return NextResponse.json({ success: false, error: 'Invalid data' }, { status: 400 });
   }
 }
@@ -58,10 +65,11 @@ export async function PUT(request: Request) {
     const data = readData();
     
     if (index >= 0 && index < data.members.length) {
+      // Update the member at the specified index
       data.members[index] = member;
       
       if (writeData(data)) {
-        return NextResponse.json({ success: true, member });
+        return NextResponse.json({ success: true, member, members: data.members });
       } else {
         return NextResponse.json({ success: false, error: 'Failed to write file' }, { status: 500 });
       }
@@ -69,6 +77,7 @@ export async function PUT(request: Request) {
       return NextResponse.json({ success: false, error: 'Invalid index' }, { status: 400 });
     }
   } catch (error) {
+    console.error('Error in PUT:', error);
     return NextResponse.json({ success: false, error: 'Invalid data' }, { status: 400 });
   }
 }
@@ -83,7 +92,7 @@ export async function DELETE(request: Request) {
       const deletedMember = data.members.splice(index, 1);
       
       if (writeData(data)) {
-        return NextResponse.json({ success: true, member: deletedMember[0] });
+        return NextResponse.json({ success: true, member: deletedMember[0], members: data.members });
       } else {
         return NextResponse.json({ success: false, error: 'Failed to write file' }, { status: 500 });
       }
@@ -91,6 +100,7 @@ export async function DELETE(request: Request) {
       return NextResponse.json({ success: false, error: 'Invalid index' }, { status: 400 });
     }
   } catch (error) {
+    console.error('Error in DELETE:', error);
     return NextResponse.json({ success: false, error: 'Invalid data' }, { status: 400 });
   }
 }
