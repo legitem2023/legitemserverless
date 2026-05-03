@@ -376,7 +376,7 @@ export default function Home() {
                       <table className="w-full border border-black text-[10px] table-fixed">
                         <thead>
                           <tr>
-                            <th colSpan={2} className="border px-2 py-1 text-left" style={{ width: '33.33%' }}>
+                            <th colSpan={5} className="border px-2 py-1 text-left" style={{ width: '33.33%' }}>
                               Petsa: {dateObj.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
                             </th>
                             <th colSpan={2} className="border px-2 py-1 text-left" style={{ width: '33.33%' }}>
@@ -388,7 +388,7 @@ export default function Home() {
                           </tr>
                           <tr>
                             <th className="border px-1 py-1" style={{ width: '5%' }}>Blg</th>
-                            <th className="border px-2 py-1 text-left" style={{ width: '28.33%' }}>Pangalan</th>
+                            <th colSpan={3} className="border px-2 py-1 text-left" style={{ width: '28.33%' }}>Pangalan</th>
                             <th className="border px-1 py-1" style={{ width: '12%' }}>Call-Sign</th>
                             <th className="border px-1 py-1" style={{ width: '20%' }}>Lagda Pagtanggap</th>
                             <th className="border px-1 py-1" style={{ width: '20%' }}>Lagda Pagtupad</th>
