@@ -845,7 +845,7 @@ export default function Home() {
         @media print {
           html, body {
             margin: 0 !important;
-            padding: 5px!important;
+            padding: 0 !important;
             background: white !important;
             width: 100%;
             height: 100%;
