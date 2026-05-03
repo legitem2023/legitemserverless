@@ -3,87 +3,164 @@
 
 import records from './Data.json';
 
-interface RecordItem {
+interface Schedule {
+  date: string;
+  day: string;
+  time: string;
+}
+
+interface Member {
   name: string;
   callSign: string;
-  schedules: {
-    date: string;
-    day: string;
-    time: string;
-  }[];
+  schedules: Schedule[];
 }
 
 export default function Home() {
-  const data = records as { members: RecordItem[] };
+  const data = records as { members: Member[] };
+
+  // Group schedules by date + time
+  const groupedSchedules: {
+    [key: string]: {
+      date: string;
+      day: string;
+      time: string;
+      members: Member[];
+    };
+  } = {};
+
+  data.members.forEach((member) => {
+    member.schedules.forEach((schedule) => {
+      const key = `${schedule.date}-${schedule.time}`;
+
+      if (!groupedSchedules[key]) {
+        groupedSchedules[key] = {
+          date: schedule.date,
+          day: schedule.day,
+          time: schedule.time,
+          members: [],
+        };
+      }
+
+      groupedSchedules[key].members.push(member);
+    });
+  });
+
+  const schedules = Object.values(groupedSchedules);
 
   return (
-    <div className="min-h-screen bg-gray-100 py-8 px-4">
-      <div className="max-w-6xl mx-auto">
-        <h1 className="text-3xl font-bold text-center mb-8">
-          SCAN Schedule Records
-        </h1>
+    <div className="min-h-screen bg-gray-200 py-10 px-4">
+      <div className="max-w-4xl mx-auto space-y-10">
+        {schedules.map((schedule, index) => (
+          <div
+            key={index}
+            className="bg-white border border-gray-400 p-6 shadow-sm"
+          >
+            {/* Header */}
+            <div className="text-center mb-6">
+              <h1 className="font-bold text-sm uppercase">
+                SCAN INTERNATIONAL
+              </h1>
 
-        <div className="bg-white rounded-lg shadow-md overflow-hidden">
-          <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
+              <h2 className="font-semibold text-sm uppercase">
+                DISTRITO NG RIZAL
+              </h2>
+
+              <h3 className="text-sm uppercase">
+                LOKAL NG KALADLAGAHAN
+              </h3>
+
+              <p className="text-xs uppercase">
+                SUGUAN NG SCAN SA PAGSAMBA
+              </p>
+            </div>
+
+            {/* Schedule Info */}
+            <div className="flex justify-between text-sm font-semibold mb-2">
+              <p>
+                Petsa:{' '}
+                {new Date(schedule.date).toLocaleDateString('en-US', {
+                  month: 'long',
+                  day: 'numeric',
+                  year: 'numeric',
+                })}
+              </p>
+
+              <p>Araw: {schedule.day}</p>
+
+              <p>Oras: {schedule.time}</p>
+            </div>
+
+            {/* Table */}
+            <table className="w-full border-collapse border border-black text-sm">
+              <thead>
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                  <th className="border border-black px-2 py-1 w-14">Blg</th>
+
+                  <th className="border border-black px-2 py-1 text-left">
                     Pangalan
                   </th>
 
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                    Call Sign
+                  <th className="border border-black px-2 py-1">
+                    Call-Sign
                   </th>
 
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                    Mga Schedule
+                  <th className="border border-black px-2 py-1">
+                    Lagda Pagtanggap
+                  </th>
+
+                  <th className="border border-black px-2 py-1">
+                    Lagda Pagtupad
+                  </th>
+
+                  <th className="border border-black px-2 py-1">
+                    Gampanin
                   </th>
                 </tr>
               </thead>
 
-              <tbody className="bg-white divide-y divide-gray-200">
-                {data.members.map((member, index) => (
-                  <tr key={index} className="hover:bg-gray-50">
-                    <td className="px-6 py-4 whitespace-nowrap font-medium">
+              <tbody>
+                {schedule.members.map((member, idx) => (
+                  <tr key={idx}>
+                    <td className="border border-black px-2 py-1 text-center">
+                      {idx + 1}
+                    </td>
+
+                    <td className="border border-black px-2 py-1">
                       {member.name}
                     </td>
 
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    <td className="border border-black px-2 py-1 text-center">
                       {member.callSign}
                     </td>
 
-                    <td className="px-6 py-4">
-                      <div className="space-y-2">
-                        {member.schedules.map((schedule, idx) => (
-                          <div
-                            key={idx}
-                            className="border rounded-md p-2 bg-gray-50"
-                          >
-                            <p>
-                              <span className="font-semibold">Date:</span>{' '}
-                              {schedule.date}
-                            </p>
+                    <td className="border border-black px-2 py-1"></td>
 
-                            <p>
-                              <span className="font-semibold">Day:</span>{' '}
-                              {schedule.day}
-                            </p>
+                    <td className="border border-black px-2 py-1"></td>
 
-                            <p>
-                              <span className="font-semibold">Time:</span>{' '}
-                              {schedule.time}
-                            </p>
-                          </div>
-                        ))}
-                      </div>
-                    </td>
+                    <td className="border border-black px-2 py-1"></td>
                   </tr>
                 ))}
               </tbody>
             </table>
+
+            {/* Footer */}
+            <div className="mt-10 grid grid-cols-2 gap-10 text-center text-sm">
+              <div>
+                <p className="font-semibold uppercase">
+                  JUSTINE JACOB RODRIGUEZ
+                </p>
+                <p>KALIHIM SCAN</p>
+              </div>
+
+              <div>
+                <p className="font-semibold uppercase">
+                  MARLON M. SEVILLA
+                </p>
+                <p>DESTINADO NG LOKAL</p>
+              </div>
+            </div>
           </div>
-        </div>
+        ))}
       </div>
     </div>
   );
