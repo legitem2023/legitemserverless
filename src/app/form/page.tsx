@@ -387,12 +387,12 @@ export default function Home() {
                             </th>
                           </tr>
                           <tr>
-                            <th className="border px-1 py-1" style={{ width: '5%' }}>Blg</th>
-                            <th colSpan={3} className="border px-2 py-1 text-left" style={{ width: '28.33%' }}>Pangalan</th>
-                            <th className="border px-1 py-1" style={{ width: '12%' }}>Call-Sign</th>
-                            <th className="border px-1 py-1" style={{ width: '20%' }}>Lagda Pagtanggap</th>
-                            <th className="border px-1 py-1" style={{ width: '20%' }}>Lagda Pagtupad</th>
-                            <th className="border px-1 py-1" style={{ width: '14.67%' }}>Gampanin</th>
+                            <th className="border px-1 py-1" >Blg</th>
+                            <th colSpan={4} className="border px-2 py-1 text-left">Pangalan</th>
+                            <th className="border px-1 py-1">Call-Sign</th>
+                            <th className="border px-1 py-1">Lagda Pagtanggap</th>
+                            <th className="border px-1 py-1">Lagda Pagtupad</th>
+                            <th className="border px-1 py-1">Gampanin</th>
                           </tr>
                         </thead>
                         <tbody>
