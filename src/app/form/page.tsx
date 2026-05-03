@@ -314,7 +314,7 @@ export default function Home() {
   }
 
   return (
-    <div className="bg-gray-300 min-h-screen py-10 print:bg-white">
+    <div className="bg-gray-300 min-h-screen py-10 print:bg-white print:p-0 print:m-0">
       {/* Success Message */}
       {success && (
         <div className="fixed top-20 left-1/2 transform -translate-x-1/2 z-50 bg-green-500 text-white px-4 py-2 rounded shadow-lg">
@@ -367,9 +367,9 @@ export default function Home() {
         </div>
       )}
 
-      {/* PRINT VIEW TAB */}
+      {/* PRINT VIEW TAB - NO MARGINS/PADDING */}
       {activeTab === 'print' && (
-        <div className="flex flex-col items-start gap-10 mt-16">
+        <div className="print:m-0 print:p-0 m-0 p-0">
           {forms.map((formSchedules, formIndex) => (
             <div
               key={formIndex}
@@ -377,15 +377,19 @@ export default function Home() {
                 bg-white
                 w-[210mm]
                 min-h-[297mm]
-                p-[12mm]
                 shadow-lg
                 text-black
                 print:shadow-none
                 print:page-break-after-always
+                print:m-0
+                print:p-0
+                m-0
+                p-0
+                overflow-hidden
               "
             >
-              {/* HEADER */}
-              <div className="flex items-start justify-between mb-4">
+              {/* HEADER - Using pt-4 for top spacing since no margins allowed */}
+              <div className="flex items-start justify-between mb-4 pt-4 pl-4 pr-4">
                 <div className="w-[70px] flex justify-start">
                   <Image
                     src="/images.png"
@@ -414,8 +418,8 @@ export default function Home() {
                 <div className="w-[70px]" />
               </div>
 
-              {/* TABLES */}
-              <div className="space-y-6">
+              {/* TABLES - Content spacing for readability only */}
+              <div className="space-y-6 pl-4 pr-4">
                 {formSchedules.map((schedule, idx) => {
                   const dateObj = new Date(schedule.date);
                   const filipinoDay =
@@ -485,8 +489,8 @@ export default function Home() {
                 })}
               </div>
 
-              {/* SIGNATORIES */}
-              <div className="mt-14 text-[11px]">
+              {/* SIGNATORIES - Bottom spacing for readability */}
+              <div className="mt-14 text-[11px] pl-4 pr-4 pb-4">
                 <p className="mb-6">Naghanda:</p>
 
                 <div className="grid grid-cols-2 gap-20">
@@ -826,16 +830,25 @@ export default function Home() {
         </div>
       )}
 
-      {/* PRINT STYLES */}
+      {/* PRINT STYLES - Zero margins */}
       <style jsx global>{`
+        * {
+          print-color-adjust: exact;
+          -webkit-print-color-adjust: exact;
+        }
+        
         @page {
           size: A4;
           margin: 0;
         }
 
         @media print {
-          body {
+          html, body {
+            margin: 0 !important;
+            padding: 0 !important;
             background: white !important;
+            width: 100%;
+            height: 100%;
           }
           
           .print\\:shadow-none {
@@ -845,8 +858,20 @@ export default function Home() {
           .print\\:page-break-after-always {
             page-break-after: always;
           }
+          
+          .print\\:m-0 {
+            margin: 0 !important;
+          }
+          
+          .print\\:p-0 {
+            padding: 0 !important;
+          }
+          
+          .print\\:bg-white {
+            background: white !important;
+          }
         }
       `}</style>
     </div>
   );
-      }
+              }
