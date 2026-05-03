@@ -305,88 +305,90 @@ export default function Home() {
       )}
 
       {activeTab === 'print' && (
-        <div className="print-view-container">
-          {forms.map((formSchedules, formIndex) => (
-            <div key={formIndex} className="a4-page">
-              {/* HEADER */}
-              <div className="header">
-                <div className="logo-left">
-                  <Image src="/images.png" alt="Logo" width={60} height={60} className="object-contain" />
+        <div className="print-view-wrapper">
+          <div className="print-view-container">
+            {forms.map((formSchedules, formIndex) => (
+              <div key={formIndex} className="a4-page">
+                {/* HEADER */}
+                <div className="header">
+                  <div className="logo-left">
+                    <Image src="/images.png" alt="Logo" width={60} height={60} className="object-contain" />
+                  </div>
+                  <div className="title-section">
+                    <h1>SCAN INTERNATIONAL</h1>
+                    <h2>DISTRITO NG RIZAL</h2>
+                    <h3>LOKAL NG KADALAGAHAN</h3>
+                    <p>{formIndex === 2 ? 'SUGUAN NG SCAN SA PNK' : 'SUGUAN NG SCAN SA PAGSAMBA'}</p>
+                  </div>
+                  <div className="logo-right"></div>
                 </div>
-                <div className="title-section">
-                  <h1>SCAN INTERNATIONAL</h1>
-                  <h2>DISTRITO NG RIZAL</h2>
-                  <h3>LOKAL NG KADALAGAHAN</h3>
-                  <p>{formIndex === 2 ? 'SUGUAN NG SCAN SA PNK' : 'SUGUAN NG SCAN SA PAGSAMBA'}</p>
-                </div>
-                <div className="logo-right"></div>
-              </div>
 
-              {/* TABLES */}
-              <div className="schedules-list">
-                {formSchedules.map((schedule, idx) => {
-                  const dateObj = new Date(schedule.date);
-                  const filipinoDay = filipinoDays[schedule.day.toLowerCase()] || schedule.day;
-                  return (
-                    <div key={idx} className="schedule-table-wrapper">
-                      <table className="schedule-table">
-                        <thead>
-                          <tr>
-                            <th colSpan={2}>Petsa: {dateObj.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</th>
-                            <th colSpan={2}>Araw: {filipinoDay}</th>
-                            <th colSpan={2}>Oras: {schedule.time}</th>
-                          </tr>
-                          <tr>
-                            <th className="col-blg">Blg</th>
-                            <th className="col-name">Pangalan</th>
-                            <th className="col-callsign">Call-Sign</th>
-                            <th className="col-sign-receive">Lagda Pagtanggap</th>
-                            <th className="col-sign-fulfill">Lagda Pagtupad</th>
-                            <th className="col-role">Gampanin</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {schedule.members.map((member, i) => (
-                            <tr key={i}>
-                              <td className="text-center">{i + 1}</td>
-                              <td>{member.name}</td>
-                              <td className="text-center">{member.callSign}</td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
+                {/* TABLES */}
+                <div className="schedules-list">
+                  {formSchedules.map((schedule, idx) => {
+                    const dateObj = new Date(schedule.date);
+                    const filipinoDay = filipinoDays[schedule.day.toLowerCase()] || schedule.day;
+                    return (
+                      <div key={idx} className="schedule-table-wrapper">
+                        <table className="schedule-table">
+                          <thead>
+                            <tr>
+                              <th colSpan={2}>Petsa: {dateObj.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</th>
+                              <th colSpan={2}>Araw: {filipinoDay}</th>
+                              <th colSpan={2}>Oras: {schedule.time}</th>
                             </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-                  );
-                })}
-              </div>
+                            <tr>
+                              <th className="col-blg">Blg</th>
+                              <th className="col-name">Pangalan</th>
+                              <th className="col-callsign">Call-Sign</th>
+                              <th className="col-sign-receive">Lagda Pagtanggap</th>
+                              <th className="col-sign-fulfill">Lagda Pagtupad</th>
+                              <th className="col-role">Gampanin</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {schedule.members.map((member, i) => (
+                              <tr key={i}>
+                                <td className="text-center">{i + 1}</td>
+                                <td>{member.name}</td>
+                                <td className="text-center">{member.callSign}</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    );
+                  })}
+                </div>
 
-              {/* SIGNATORIES -始终保持水平排列 */}
-              <div className="signatures">
-                <p className="naghanda-label">Naghanda:</p>
-                <div className="signature-row">
-                  <div className="signature-item">
-                    <p className="signature-name">JUSTINE JACOB RODRIGUEZ</p>
-                    <p>KALIHIM SCAN</p>
-                  </div>
-                  <div className="signature-item">
-                    <p className="signature-name"></p>
-                    <p>PANGULO NG SCAN</p>
-                  </div>
-                  <div className="signature-item">
-                    <p className="signature-name">MARIANO M. LEBARDO JR.</p>
-                    <p>PD - TAGASUBAYBAY</p>
-                  </div>
-                  <div className="signature-item">
-                    <p className="signature-name">MARLON M. SEVILLA</p>
-                    <p>DESTINADO NG LOKAL</p>
+                {/* SIGNATORIES - 2x2 grid */}
+                <div className="signatures">
+                  <p className="naghanda-label">Naghanda:</p>
+                  <div className="signature-grid-2x2">
+                    <div className="signature-item">
+                      <p className="signature-name">JUSTINE JACOB RODRIGUEZ</p>
+                      <p>KALIHIM SCAN</p>
+                    </div>
+                    <div className="signature-item">
+                      <p className="signature-name"></p>
+                      <p>PANGULO NG SCAN</p>
+                    </div>
+                    <div className="signature-item">
+                      <p className="signature-name">MARIANO M. LEBARDO JR.</p>
+                      <p>PD - TAGASUBAYBAY</p>
+                    </div>
+                    <div className="signature-item">
+                      <p className="signature-name">MARLON M. SEVILLA</p>
+                      <p>DESTINADO NG LOKAL</p>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       )}
 
@@ -565,9 +567,11 @@ export default function Home() {
             margin: 0;
             padding: 0;
           }
+          .print-view-wrapper {
+            display: block;
+          }
           .print-view-container {
-            margin: 0;
-            padding: 0;
+            transform: none !important;
           }
           .a4-page {
             margin: 0;
@@ -576,15 +580,24 @@ export default function Home() {
           }
         }
 
-        /* Print view styles - 保持与桌面完全相同 */
+        /* Wrapper that enables scaling on mobile while preserving layout */
+        .print-view-wrapper {
+          overflow-x: auto;
+          overflow-y: visible;
+          -webkit-overflow-scrolling: touch;
+        }
+
         .print-view-container {
           display: flex;
           flex-direction: column;
           align-items: center;
           background: #e5e7eb;
           padding: 20px 0;
+          width: fit-content;
+          min-width: 100%;
         }
 
+        /* A4 page - exact dimensions, never changes */
         .a4-page {
           width: 210mm;
           min-height: 297mm;
@@ -594,6 +607,7 @@ export default function Home() {
           box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
           position: relative;
           box-sizing: border-box;
+          flex-shrink: 0;
         }
 
         /* Header */
@@ -704,7 +718,7 @@ export default function Home() {
           width: 70px;
         }
 
-        /* Signatures - 始终保持水平排列，永不堆叠 */
+        /* Signatures - 2x2 grid */
         .signatures {
           margin-top: 14mm;
         }
@@ -714,18 +728,14 @@ export default function Home() {
           margin-bottom: 6mm;
         }
 
-        .signature-row {
-          display: flex;
-          flex-direction: row;
-          justify-content: space-between;
-          gap: 20mm;
-          flex-wrap: nowrap;
+        .signature-grid-2x2 {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 12mm 20mm;
         }
 
         .signature-item {
           text-align: center;
-          flex: 1;
-          min-width: 0;
         }
 
         .signature-name {
@@ -733,7 +743,6 @@ export default function Home() {
           text-transform: uppercase;
           font-size: 11px;
           margin-bottom: 2px;
-          white-space: nowrap;
         }
 
         .signature-item p {
@@ -857,6 +866,8 @@ export default function Home() {
           padding: 6px 12px;
           border-radius: 4px;
           font-size: 14px;
+          cursor: pointer;
+          border: none;
         }
 
         .action-buttons button:first-child {
@@ -888,7 +899,6 @@ export default function Home() {
 
         button {
           cursor: pointer;
-          border: none;
           transition: opacity 0.2s;
         }
 
@@ -896,59 +906,38 @@ export default function Home() {
           opacity: 0.9;
         }
 
-        /* Mobile - 保持相同布局，允许水平滚动 */
+        /* Mobile: the container scrolls, but the A4 page stays exactly the same */
         @media (max-width: 220mm) {
-          body {
+          .print-view-wrapper {
             overflow-x: auto;
           }
           
           .print-view-container {
-            display: block;
             width: fit-content;
             min-width: 100%;
-            padding: 20px;
           }
           
           .a4-page {
             margin: 0 auto 20px auto;
-          }
-          
-          /* 签名在手机上依然水平排列，绝不堆叠 */
-          .signature-row {
-            flex-wrap: nowrap;
-            gap: 10mm;
-          }
-          
-          .signature-name {
-            white-space: nowrap;
-            font-size: 10px;
-          }
-          
-          .signature-item p {
-            font-size: 10px;
-            white-space: nowrap;
+            transform: scale(1);
           }
         }
 
-        /* 桌面和移动设备保持完全相同的布局 */
+        /* On smaller screens, the user can scroll horizontally to see the full A4 page */
         @media screen and (max-width: 1000px) {
-          .print-view-container {
-            justify-content: flex-start;
+          .print-view-wrapper {
             overflow-x: auto;
+          }
+          
+          .print-view-container {
+            width: fit-content;
           }
           
           .a4-page {
             flex-shrink: 0;
           }
-          
-          /* 强制签名保持水平 */
-          .signature-row {
-            display: flex !important;
-            flex-direction: row !important;
-            flex-wrap: nowrap !important;
-          }
         }
       `}</style>
     </div>
   );
-}
+                                }
