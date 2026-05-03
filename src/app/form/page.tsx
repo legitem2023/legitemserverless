@@ -399,7 +399,7 @@ export default function Home() {
                           {schedule.members.map((member, i) => (
                             <tr key={i}>
                               <td className="border text-center py-1">{i + 1}</td>
-                              <td className="border px-2 py-1">{member.name}</td>
+                              <td colSpan={4} className="border px-2 py-1">{member.name}</td>
                               <td className="border text-center py-1">{member.callSign}</td>
                               <td className="border h-[24px]" />
                               <td className="border h-[24px]" />
