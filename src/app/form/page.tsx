@@ -337,14 +337,14 @@ export default function Home() {
       )}
 
       {activeTab === 'print' && (
-        <div className="print:m-0 print:p-0 flex p-3 items-center flex-col gap-3">
+        <div className="flex p-3 items-center flex-col gap-3">
           {forms.map((formSchedules, formIndex) => (
             <div
               key={formIndex}
               className="bg-white w-[210mm] min-h-[297mm] shadow-lg text-black print:shadow-none print:page-break-after-always print:m-0 print:p-0 m-0 p-0 overflow-hidden"
             >
               <div className="flex items-center justify-between mb-4 pt-4 pl-4 pr-4">
-                <div className="w-[140px] flex justify-start">
+                <div className="w-[120px] flex justify-start">
                   <Image
                     src="/images.png"
                     alt="Logo"
