@@ -305,90 +305,88 @@ export default function Home() {
       )}
 
       {activeTab === 'print' && (
-        <div className="print-view-wrapper">
-          <div className="print-view-container">
-            {forms.map((formSchedules, formIndex) => (
-              <div key={formIndex} className="a4-page">
-                {/* HEADER */}
-                <div className="header">
-                  <div className="logo-left">
-                    <Image src="/images.png" alt="Logo" width={60} height={60} className="object-contain" />
-                  </div>
-                  <div className="title-section">
-                    <h1>SCAN INTERNATIONAL</h1>
-                    <h2>DISTRITO NG RIZAL</h2>
-                    <h3>LOKAL NG KADALAGAHAN</h3>
-                    <p>{formIndex === 2 ? 'SUGUAN NG SCAN SA PNK' : 'SUGUAN NG SCAN SA PAGSAMBA'}</p>
-                  </div>
-                  <div className="logo-right"></div>
+        <div className="print-container">
+          {forms.map((formSchedules, formIndex) => (
+            <div key={formIndex} className="print-page">
+              {/* HEADER */}
+              <div className="print-header">
+                <div className="logo-left">
+                  <Image src="/images.png" alt="Logo" width={60} height={60} className="object-contain" />
                 </div>
-
-                {/* TABLES */}
-                <div className="schedules-list">
-                  {formSchedules.map((schedule, idx) => {
-                    const dateObj = new Date(schedule.date);
-                    const filipinoDay = filipinoDays[schedule.day.toLowerCase()] || schedule.day;
-                    return (
-                      <div key={idx} className="schedule-table-wrapper">
-                        <table className="schedule-table">
-                          <thead>
-                            <tr>
-                              <th colSpan={2}>Petsa: {dateObj.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</th>
-                              <th colSpan={2}>Araw: {filipinoDay}</th>
-                              <th colSpan={2}>Oras: {schedule.time}</th>
-                            </tr>
-                            <tr>
-                              <th className="col-blg">Blg</th>
-                              <th className="col-name">Pangalan</th>
-                              <th className="col-callsign">Call-Sign</th>
-                              <th className="col-sign-receive">Lagda Pagtanggap</th>
-                              <th className="col-sign-fulfill">Lagda Pagtupad</th>
-                              <th className="col-role">Gampanin</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {schedule.members.map((member, i) => (
-                              <tr key={i}>
-                                <td className="text-center">{i + 1}</td>
-                                <td>{member.name}</td>
-                                <td className="text-center">{member.callSign}</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
-                      </div>
-                    );
-                  })}
+                <div className="title-section">
+                  <h1>SCAN INTERNATIONAL</h1>
+                  <h2>DISTRITO NG RIZAL</h2>
+                  <h3>LOKAL NG KADALAGAHAN</h3>
+                  <p>{formIndex === 2 ? 'SUGUAN NG SCAN SA PNK' : 'SUGUAN NG SCAN SA PAGSAMBA'}</p>
                 </div>
+                <div className="logo-right"></div>
+              </div>
 
-                {/* SIGNATORIES - 2x2 grid */}
-                <div className="signatures">
-                  <p className="naghanda-label">Naghanda:</p>
-                  <div className="signature-grid-2x2">
-                    <div className="signature-item">
-                      <p className="signature-name">JUSTINE JACOB RODRIGUEZ</p>
-                      <p>KALIHIM SCAN</p>
+              {/* TABLES - exact same structure, never changes */}
+              <div className="schedules-list">
+                {formSchedules.map((schedule, idx) => {
+                  const dateObj = new Date(schedule.date);
+                  const filipinoDay = filipinoDays[schedule.day.toLowerCase()] || schedule.day;
+                  return (
+                    <div key={idx} className="schedule-wrapper">
+                      <table className="print-table">
+                        <thead>
+                          <tr>
+                            <th colSpan={2}>Petsa: {dateObj.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</th>
+                            <th colSpan={2}>Araw: {filipinoDay}</th>
+                            <th colSpan={2}>Oras: {schedule.time}</th>
+                          </tr>
+                          <tr>
+                            <th className="col-blg">Blg</th>
+                            <th className="col-name">Pangalan</th>
+                            <th className="col-callsign">Call-Sign</th>
+                            <th className="col-sign-receive">Lagda Pagtanggap</th>
+                            <th className="col-sign-fulfill">Lagda Pagtupad</th>
+                            <th className="col-role">Gampanin</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {schedule.members.map((member, i) => (
+                            <tr key={i}>
+                              <td className="text-center">{i + 1}</td>
+                              <td>{member.name}</td>
+                              <td className="text-center">{member.callSign}</td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                            </tr>
+                          ))}
+                        </tbody>
+                       </table>
                     </div>
-                    <div className="signature-item">
-                      <p className="signature-name"></p>
-                      <p>PANGULO NG SCAN</p>
-                    </div>
-                    <div className="signature-item">
-                      <p className="signature-name">MARIANO M. LEBARDO JR.</p>
-                      <p>PD - TAGASUBAYBAY</p>
-                    </div>
-                    <div className="signature-item">
-                      <p className="signature-name">MARLON M. SEVILLA</p>
-                      <p>DESTINADO NG LOKAL</p>
-                    </div>
+                  );
+                })}
+              </div>
+
+              {/* SIGNATORIES - 2x2 grid */}
+              <div className="signatures">
+                <p className="naghanda-label">Naghanda:</p>
+                <div className="signature-2x2">
+                  <div className="signature-item">
+                    <p className="signature-name">JUSTINE JACOB RODRIGUEZ</p>
+                    <p>KALIHIM SCAN</p>
+                  </div>
+                  <div className="signature-item">
+                    <p className="signature-name"></p>
+                    <p>PANGULO NG SCAN</p>
+                  </div>
+                  <div className="signature-item">
+                    <p className="signature-name">MARIANO M. LEBARDO JR.</p>
+                    <p>PD - TAGASUBAYBAY</p>
+                  </div>
+                  <div className="signature-item">
+                    <p className="signature-name">MARLON M. SEVILLA</p>
+                    <p>DESTINADO NG LOKAL</p>
                   </div>
                 </div>
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
       )}
 
@@ -424,7 +422,7 @@ export default function Home() {
                     <option value="Saturday">Saturday</option>
                     <option value="Sunday">Sunday</option>
                   </select>
-                  <input type="text" placeholder="Time (e.g., 8:00 AM)" value={schedule.time} onChange={(e) => {
+                  <input type="text" placeholder="Time" value={schedule.time} onChange={(e) => {
                     const updated = [...newMember.schedules];
                     updated[idx] = { ...updated[idx], time: e.target.value };
                     setNewMember({ ...newMember, schedules: updated });
@@ -567,51 +565,57 @@ export default function Home() {
             margin: 0;
             padding: 0;
           }
-          .print-view-wrapper {
-            display: block;
+          .print-container {
+            background: white;
           }
-          .print-view-container {
-            transform: none !important;
-          }
-          .a4-page {
+          .print-page {
             margin: 0;
             box-shadow: none;
             page-break-after: always;
+            page-break-inside: avoid;
           }
         }
 
-        /* Wrapper that enables scaling on mobile while preserving layout */
-        .print-view-wrapper {
-          overflow-x: auto;
-          overflow-y: visible;
-          -webkit-overflow-scrolling: touch;
-        }
-
-        .print-view-container {
+        /* Print container - fluid width on mobile, fixed on desktop */
+        .print-container {
           display: flex;
           flex-direction: column;
           align-items: center;
           background: #e5e7eb;
-          padding: 20px 0;
-          width: fit-content;
-          min-width: 100%;
+          padding: 20px;
         }
 
-        /* A4 page - exact dimensions, never changes */
-        .a4-page {
-          width: 210mm;
-          min-height: 297mm;
+        /* Each page - uses viewport width on mobile, fixed A4 on desktop */
+        .print-page {
           background: white;
-          padding: 12mm;
-          margin: 0 auto 20px auto;
           box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-          position: relative;
           box-sizing: border-box;
-          flex-shrink: 0;
+          margin-bottom: 20px;
         }
 
-        /* Header */
-        .header {
+        /* Desktop: exact A4 size */
+        @media (min-width: 641px) {
+          .print-page {
+            width: 210mm;
+            min-height: 297mm;
+            padding: 12mm;
+          }
+        }
+
+        /* Mobile: 100% width, proportional scaling - table structure stays identical */
+        @media (max-width: 640px) {
+          .print-container {
+            padding: 10px;
+          }
+          
+          .print-page {
+            width: 100%;
+            padding: 5%;
+          }
+        }
+
+        /* HEADER - same structure on all devices */
+        .print-header {
           display: flex;
           align-items: flex-start;
           justify-content: space-between;
@@ -661,64 +665,91 @@ export default function Home() {
           margin: 2px 0 0 0;
         }
 
-        /* Schedule tables */
+        /* TABLES - exact same column widths proportionally */
         .schedules-list {
           display: flex;
           flex-direction: column;
           gap: 6mm;
         }
 
-        .schedule-table-wrapper {
+        .schedule-wrapper {
           width: 100%;
+          overflow-x: auto;
         }
 
-        .schedule-table {
+        .print-table {
           width: 100%;
           border-collapse: collapse;
-          font-size: 10px;
           border: 1px solid black;
+          /* Font size scales with viewport on mobile, fixed on desktop */
+          font-size: 10px;
         }
 
-        .schedule-table th,
-        .schedule-table td {
+        /* Responsive font sizing - scales proportionally */
+        @media (max-width: 640px) {
+          .print-table {
+            font-size: clamp(6px, 3vw, 10px);
+          }
+          .title-section h1 {
+            font-size: clamp(8px, 3vw, 13px);
+          }
+          .title-section h2 {
+            font-size: clamp(7px, 2.8vw, 12px);
+          }
+          .title-section h3 {
+            font-size: clamp(6px, 2.5vw, 11px);
+          }
+          .title-section p {
+            font-size: clamp(5px, 2.2vw, 10px);
+          }
+          .signature-name, .signature-item p {
+            font-size: clamp(6px, 2.5vw, 11px);
+          }
+          .logo-left, .logo-right {
+            width: clamp(35px, 15vw, 70px);
+          }
+        }
+
+        .print-table th,
+        .print-table td {
           border: 1px solid black;
           padding: 4px 6px;
           vertical-align: top;
         }
 
-        .schedule-table th {
+        .print-table th {
           font-weight: bold;
           text-align: left;
           background-color: #f9fafb;
         }
 
+        /* Column widths - proportional */
         .col-blg {
-          width: 35px;
+          width: 8%;
           text-align: center;
         }
-
         .col-name {
-          text-align: left;
+          width: 32%;
+        }
+        .col-callsign {
+          width: 12%;
+          text-align: center;
+        }
+        .col-sign-receive {
+          width: 18%;
+        }
+        .col-sign-fulfill {
+          width: 18%;
+        }
+        .col-role {
+          width: 12%;
         }
 
-        .col-callsign {
-          width: 75px;
+        .text-center {
           text-align: center;
         }
 
-        .col-sign-receive {
-          width: 95px;
-        }
-
-        .col-sign-fulfill {
-          width: 95px;
-        }
-
-        .col-role {
-          width: 70px;
-        }
-
-        /* Signatures - 2x2 grid */
+        /* Signatures - 2x2 grid, same on all devices */
         .signatures {
           margin-top: 14mm;
         }
@@ -728,7 +759,7 @@ export default function Home() {
           margin-bottom: 6mm;
         }
 
-        .signature-grid-2x2 {
+        .signature-2x2 {
           display: grid;
           grid-template-columns: 1fr 1fr;
           gap: 12mm 20mm;
@@ -750,7 +781,13 @@ export default function Home() {
           font-size: 11px;
         }
 
-        /* CRUD styles */
+        @media (max-width: 640px) {
+          .signature-2x2 {
+            gap: 8mm 10mm;
+          }
+        }
+
+        /* CRUD styles (unchanged) */
         .crud-container {
           max-width: 1200px;
           margin: 80px auto 40px auto;
@@ -905,39 +942,7 @@ export default function Home() {
         button:hover {
           opacity: 0.9;
         }
-
-        /* Mobile: the container scrolls, but the A4 page stays exactly the same */
-        @media (max-width: 220mm) {
-          .print-view-wrapper {
-            overflow-x: auto;
-          }
-          
-          .print-view-container {
-            width: fit-content;
-            min-width: 100%;
-          }
-          
-          .a4-page {
-            margin: 0 auto 20px auto;
-            transform: scale(1);
-          }
-        }
-
-        /* On smaller screens, the user can scroll horizontally to see the full A4 page */
-        @media screen and (max-width: 1000px) {
-          .print-view-wrapper {
-            overflow-x: auto;
-          }
-          
-          .print-view-container {
-            width: fit-content;
-          }
-          
-          .a4-page {
-            flex-shrink: 0;
-          }
-        }
       `}</style>
     </div>
   );
-                                }
+                                   }
