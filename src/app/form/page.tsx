@@ -160,7 +160,7 @@ export default function Home() {
                   DISTRITO NG RIZAL
                 </h2>
                 <h3 className="text-[11px] uppercase">
-                  LOKAL NG KALADLAGAHAN
+                  LOKAL NG KADALAGAHAN
                 </h3>
                 <p className="text-[10px] uppercase">
                   SUGUAN NG SCAN SA PAGSAMBA
