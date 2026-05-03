@@ -46,9 +46,10 @@ export default function Home() {
   });
 
   const sortedSchedules = Object.values(groupedSchedules).sort((a, b) => {
-    const dateA = new Date(`${a.date} ${a.time}`).getTime();
-    const dateB = new Date(`${b.date} ${b.time}`).getTime();
-    return dateA - dateB;
+    return (
+      new Date(`${a.date} ${a.time}`).getTime() -
+      new Date(`${b.date} ${b.time}`).getTime()
+    );
   });
 
   const forms = [
@@ -65,16 +66,25 @@ export default function Home() {
   ];
 
   return (
-    <div className="bg-gray-300 min-h-screen py-10">
+    <div className="bg-gray-300 min-h-screen py-10 print:bg-white">
       <div className="flex flex-col items-center gap-10">
         {forms.map((formSchedules, formIndex) => (
           <div
             key={formIndex}
-            className="bg-white w-[210mm] min-h-[297mm] p-[12mm] shadow-lg text-black"
+            className="
+              bg-white
+              w-[210mm]
+              min-h-[297mm]
+              p-[12mm]
+              shadow-lg
+              text-black
+              print:shadow-none
+              print:page-break-after-always
+            "
           >
             {/* HEADER */}
             <div className="flex items-start justify-between mb-4">
-              {/* LEFT LOGO */}
+              {/* LOGO */}
               <div className="w-[70px] flex justify-start">
                 <Image
                   src="/images.png"
@@ -85,34 +95,30 @@ export default function Home() {
                 />
               </div>
 
-              {/* CENTER TEXT */}
+              {/* TITLE */}
               <div className="text-center flex-1">
                 <h1 className="font-bold text-[13px] uppercase">
                   SCAN INTERNATIONAL
                 </h1>
-
                 <h2 className="font-semibold text-[12px] uppercase">
                   DISTRITO NG RIZAL
                 </h2>
-
                 <h3 className="text-[11px] uppercase">
                   LOKAL NG KALADLAGAHAN
                 </h3>
-
                 <p className="text-[10px] uppercase">
                   SUGUAN NG SCAN SA PAGSAMBA
                 </p>
               </div>
 
-              {/* RIGHT SPACER */}
               <div className="w-[70px]" />
             </div>
 
-            {/* SCHEDULES */}
+            {/* TABLES */}
             <div className="space-y-6">
               {formSchedules.map((schedule, scheduleIndex) => (
-                <div key={scheduleIndex}>
-                  <table className="w-full border-collapse border border-black text-[10px]">
+                <div key={scheduleIndex} className="break-inside-avoid">
+                  <table className="w-full border border-black text-[10px]">
                     <thead>
                       <tr>
                         <th
@@ -188,7 +194,7 @@ export default function Home() {
             </div>
 
             {/* SIGNATORIES */}
-            <div className="mt-14 text-[11px]">
+            <div className="mt-14 text-[11px] print:mt-10">
               <p className="mb-6">Naghanda:</p>
 
               <div className="grid grid-cols-2 gap-20">
@@ -227,7 +233,7 @@ export default function Home() {
         ))}
       </div>
 
-      {/* PRINT STYLES */}
+      {/* PRINT FIXES */}
       <style jsx global>{`
         @page {
           size: A4;
@@ -236,7 +242,19 @@ export default function Home() {
 
         @media print {
           body {
-            background: white;
+            background: white !important;
+          }
+
+          .print\\:shadow-none {
+            box-shadow: none !important;
+          }
+
+          .print\\:bg-white {
+            background: white !important;
+          }
+
+          .print\\:page-break-after-always {
+            page-break-after: always;
           }
         }
       `}</style>
