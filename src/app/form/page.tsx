@@ -7,7 +7,7 @@ interface Schedule {
   date: string;
   day: string;
   time: string;
-  service?: 'PNK' | 'worship'; // Optional for backward compatibility
+  service?: 'PNK' | 'worship';
 }
 
 interface Member {
@@ -24,19 +24,13 @@ interface GroupedSchedule {
   members: Member[];
 }
 
-/**
- * Start of week (Monday-based)
- */
 function getWeekStart(date = new Date()) {
   const d = new Date(date);
-  const day = d.getDay(); // 0 Sunday
+  const day = d.getDay();
   const diff = d.getDate() - day + 1;
   return new Date(d.setDate(diff));
 }
 
-/**
- * Filipino day mapping
- */
 const filipinoDays: Record<string, string> = {
   sunday: 'Linggo',
   monday: 'Lunes',
@@ -47,9 +41,6 @@ const filipinoDays: Record<string, string> = {
   saturday: 'Sabado',
 };
 
-/**
- * Day order for sorting (Monday = 0, Sunday = 6)
- */
 const dayOrder: Record<string, number> = {
   monday: 0,
   tuesday: 1,
@@ -60,9 +51,6 @@ const dayOrder: Record<string, number> = {
   sunday: 6,
 };
 
-/**
- * Time to minutes for sorting
- */
 function timeToMinutes(time: string): number {
   const match = time.match(/(\d+):(\d+)\s*(AM|PM)/i);
   if (match) {
@@ -78,9 +66,6 @@ function timeToMinutes(time: string): number {
   return 0;
 }
 
-/**
- * Day offset inside a fixed week
- */
 const dayOffsets: Record<string, number> = {
   sunday: 6,
   monday: 0,
@@ -91,16 +76,11 @@ const dayOffsets: Record<string, number> = {
   saturday: 5,
 };
 
-/**
- * Get aligned date inside SAME week
- */
 function getAlignedDate(dayName: string) {
   const weekStart = getWeekStart(new Date());
   const offset = dayOffsets[dayName.toLowerCase()] ?? 0;
-
   const result = new Date(weekStart);
   result.setDate(weekStart.getDate() + offset);
-
   return result;
 }
 
@@ -117,7 +97,6 @@ export default function Home() {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
 
-  // Load data from API on mount
   useEffect(() => {
     fetchData();
   }, []);
@@ -137,7 +116,6 @@ export default function Home() {
     }
   };
 
-  // Clear messages after 3 seconds
   useEffect(() => {
     if (success || error) {
       const timer = setTimeout(() => {
@@ -148,7 +126,6 @@ export default function Home() {
     }
   }, [success, error]);
 
-  // CRUD Operations with API
   const addMember = async () => {
     if (!newMember.name || !newMember.callSign) {
       setError('Please fill in name and call sign');
@@ -243,13 +220,12 @@ export default function Home() {
     }
   };
 
-  // Group and sort schedules for printing
   const groupedSchedules: { [key: string]: GroupedSchedule } = {};
 
   data.members.forEach((member) => {
     member.schedules.forEach((schedule) => {
       if (schedule.day && schedule.time) {
-        const serviceType = schedule.service || 'Worship'; // Default to Worship if not specified
+        const serviceType = schedule.service || 'Worship';
         const computedDate = getAlignedDate(schedule.day);
         const key = `${computedDate.toISOString().split('T')[0]}-${schedule.time}-${serviceType}`;
 
@@ -282,21 +258,18 @@ export default function Home() {
     return timeA - timeB;
   });
 
-  // FORM 1: Wednesday & Thursday - WORSHIP SERVICE
   const form1 = sortedSchedules.filter(
     (s) =>
       (s.day.toLowerCase() === 'wednesday' || s.day.toLowerCase() === 'thursday') &&
       s.service === 'worship'
   );
 
-  // FORM 2: Saturday & Sunday - WORSHIP SERVICE
   const form2 = sortedSchedules.filter(
     (s) =>
       (s.day.toLowerCase() === 'saturday' || s.day.toLowerCase() === 'sunday') &&
       s.service === 'worship'
   );
 
-  // FORM 3: PNK SERVICE - All days
   const form3 = sortedSchedules.filter(
     (s) => s.service === 'PNK'
   );
@@ -315,7 +288,6 @@ export default function Home() {
 
   return (
     <div className="bg-gray-300 min-h-screen py-10 print:bg-white print:p-0 print:m-0">
-      {/* Success Message */}
       {success && (
         <div className="fixed top-20 left-1/2 transform -translate-x-1/2 z-50 bg-green-500 text-white px-4 py-2 rounded shadow-lg">
           {success}
@@ -323,7 +295,6 @@ export default function Home() {
         </div>
       )}
 
-      {/* Error Message */}
       {error && (
         <div className="fixed top-20 left-1/2 transform -translate-x-1/2 z-50 bg-red-500 text-white px-4 py-2 rounded shadow-lg">
           {error}
@@ -331,7 +302,6 @@ export default function Home() {
         </div>
       )}
 
-      {/* TABS */}
       <div className="fixed top-5 left-5 right-5 z-50 print:hidden bg-white rounded-lg shadow-md flex gap-2 p-2 max-w-md mx-auto">
         <button
           onClick={() => setActiveTab('print')}
@@ -355,7 +325,6 @@ export default function Home() {
         </button>
       </div>
 
-      {/* PRINT BUTTON */}
       {activeTab === 'print' && (
         <div className="fixed top-5 right-5 print:hidden z-50">
           <button
@@ -367,28 +336,13 @@ export default function Home() {
         </div>
       )}
 
-      {/* PRINT VIEW TAB - NO MARGINS/PADDING */}
       {activeTab === 'print' && (
         <div className="print:m-0 print:p-0 m-0 p-0">
           {forms.map((formSchedules, formIndex) => (
             <div
               key={formIndex}
-              className="
-                bg-white
-                w-[210mm]
-                min-h-[297mm]
-                shadow-lg
-                text-black
-                print:shadow-none
-                print:page-break-after-always
-                print:m-0
-                print:p-0
-                m-0
-                p-0
-                overflow-hidden
-              "
+              className="bg-white w-[210mm] min-h-[297mm] shadow-lg text-black print:shadow-none print:page-break-after-always print:m-0 print:p-0 m-0 p-0 overflow-hidden"
             >
-              {/* HEADER - Using pt-4 for top spacing since no margins allowed */}
               <div className="flex items-center justify-between mb-4 pt-4 pl-4 pr-4">
                 <div className="w-[70px] flex justify-start">
                   <Image
@@ -401,15 +355,9 @@ export default function Home() {
                 </div>
 
                 <div className="text-center flex-1">
-                  <h1 className="font-bold text-[13px] uppercase">
-                    SCAN INTERNATIONAL
-                  </h1>
-                  <h2 className="font-semibold text-[12px] uppercase">
-                    DISTRITO NG RIZAL
-                  </h2>
-                  <h3 className="text-[11px] uppercase">
-                    LOKAL NG KADALAGAHAN
-                  </h3>
+                  <h1 className="font-bold text-[13px] uppercase">SCAN INTERNATIONAL</h1>
+                  <h2 className="font-semibold text-[12px] uppercase">DISTRITO NG RIZAL</h2>
+                  <h3 className="text-[11px] uppercase">LOKAL NG KADALAGAHAN</h3>
                   <p className="text-[10px] uppercase">
                     {formIndex === 2 ? 'SUGUAN NG SCAN SA PNK' : 'SUGUAN NG SCAN SA PAGSAMBA'}
                   </p>
@@ -418,27 +366,18 @@ export default function Home() {
                 <div className="w-[70px]" />
               </div>
 
-              {/* TABLES - Fixed layout with equal column widths */}
               <div className="space-y-6 pl-4 pr-4">
                 {formSchedules.map((schedule, idx) => {
                   const dateObj = new Date(schedule.date);
-                  const filipinoDay =
-                    filipinoDays[schedule.day.toLowerCase()] ||
-                    schedule.day;
+                  const filipinoDay = filipinoDays[schedule.day.toLowerCase()] || schedule.day;
 
                   return (
                     <div key={idx} className="break-inside-avoid">
                       <table className="w-full border border-black text-[10px] table-fixed">
                         <thead>
-                          {/* First row - Three equal columns, each spanning 2 columns */}
                           <tr>
                             <th colSpan={2} className="border px-2 py-1 text-left" style={{ width: '33.33%' }}>
-                              Petsa:{' '}
-                              {dateObj.toLocaleDateString('en-US', {
-                                month: 'long',
-                                day: 'numeric',
-                                year: 'numeric',
-                              })}
+                              Petsa: {dateObj.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
                             </th>
                             <th colSpan={2} className="border px-2 py-1 text-left" style={{ width: '33.33%' }}>
                               Araw: {filipinoDay}
@@ -447,8 +386,6 @@ export default function Home() {
                               Oras: {schedule.time}
                             </th>
                           </tr>
-                          
-                          {/* Second row - Column headers with Blg at 1/4 width (5%) */}
                           <tr>
                             <th className="border px-1 py-1" style={{ width: '5%' }}>Blg</th>
                             <th className="border px-2 py-1 text-left" style={{ width: '28.33%' }}>Pangalan</th>
@@ -456,7 +393,7 @@ export default function Home() {
                             <th className="border px-1 py-1" style={{ width: '20%' }}>Lagda Pagtanggap</th>
                             <th className="border px-1 py-1" style={{ width: '20%' }}>Lagda Pagtupad</th>
                             <th className="border px-1 py-1" style={{ width: '14.67%' }}>Gampanin</th>
-                          <tr>
+                          </tr>
                         </thead>
                         <tbody>
                           {schedule.members.map((member, i) => (
@@ -476,15 +413,11 @@ export default function Home() {
                 })}
               </div>
 
-              {/* SIGNATORIES - Bottom spacing for readability */}
               <div className="mt-14 text-[11px] pl-4 pr-4 pb-4">
                 <p className="mb-6">Naghanda:</p>
-
                 <div className="grid grid-cols-2 gap-20">
                   <div className="text-center">
-                    <p className="font-semibold uppercase">
-                      JUSTINE JACOB RODRIGUEZ
-                    </p>
+                    <p className="font-semibold uppercase">JUSTINE JACOB RODRIGUEZ</p>
                     <p>KALIHIM SCAN</p>
                   </div>
                   <div className="text-center">
@@ -492,18 +425,13 @@ export default function Home() {
                     <p>PANGULO NG SCAN</p>
                   </div>
                 </div>
-
                 <div className="grid grid-cols-2 gap-20 mt-12">
                   <div className="text-center">
-                    <p className="font-semibold uppercase">
-                      MARIANO M. LEBARDO JR.
-                    </p>
+                    <p className="font-semibold uppercase">MARIANO M. LEBARDO JR.</p>
                     <p>PD - TAGASUBAYBAY</p>
                   </div>
                   <div className="text-center">
-                    <p className="font-semibold uppercase">
-                      MARLON M. SEVILLA
-                    </p>
+                    <p className="font-semibold uppercase">MARLON M. SEVILLA</p>
                     <p>DESTINADO NG LOKAL</p>
                   </div>
                 </div>
@@ -513,12 +441,10 @@ export default function Home() {
         </div>
       )}
 
-      {/* CRUD TAB */}
       {activeTab === 'crud' && (
         <div className="max-w-6xl mx-auto mt-24 p-6 bg-white rounded-lg shadow-lg">
           <h2 className="text-2xl font-bold mb-6">Manage Members</h2>
 
-          {/* Add New Member Form */}
           <div className="bg-gray-50 p-4 rounded-lg mb-6">
             <h3 className="text-lg font-semibold mb-3">Add New Member</h3>
             <div className="grid grid-cols-2 gap-4 mb-3">
@@ -624,7 +550,6 @@ export default function Home() {
             </button>
           </div>
 
-          {/* Members List */}
           <div className="space-y-4">
             <h3 className="text-lg font-semibold mb-3">Members List</h3>
             {data.members.length === 0 ? (
@@ -633,7 +558,6 @@ export default function Home() {
               data.members.map((member, idx) => (
                 <div key={idx} className="border rounded-lg p-4 hover:shadow-md transition-shadow">
                   {editingMember?.index === idx ? (
-                    // Edit Mode
                     <div>
                       <div className="grid grid-cols-2 gap-4 mb-3">
                         <input
@@ -770,7 +694,6 @@ export default function Home() {
                       </div>
                     </div>
                   ) : (
-                    // View Mode
                     <div>
                       <div className="flex justify-between items-start mb-2">
                         <div>
@@ -817,7 +740,6 @@ export default function Home() {
         </div>
       )}
 
-      {/* PRINT STYLES - Zero margins */}
       <style jsx global>{`
         * {
           print-color-adjust: exact;
@@ -865,4 +787,4 @@ export default function Home() {
       `}</style>
     </div>
   );
-                            }
+                        }
