@@ -18,7 +18,7 @@ interface Member {
 export default function Home() {
   const data = records as { members: Member[] };
 
-  // Group schedules by date + time
+  // Group schedules
   const groupedSchedules: {
     [key: string]: {
       date: string;
@@ -45,37 +45,50 @@ export default function Home() {
     });
   });
 
-  const schedules = Object.values(groupedSchedules);
+  // Sort by schedule
+  const schedules = Object.values(groupedSchedules).sort((a, b) => {
+    const dateA = new Date(`${a.date} ${a.time}`).getTime();
+    const dateB = new Date(`${b.date} ${b.time}`).getTime();
+
+    return dateA - dateB;
+  });
 
   return (
-    <div className="min-h-screen bg-gray-200 py-10 px-4">
-      <div className="max-w-4xl mx-auto space-y-10">
+    <div className="bg-gray-300 min-h-screen py-10">
+      <div className="flex flex-col items-center gap-10">
         {schedules.map((schedule, index) => (
           <div
             key={index}
-            className="bg-white border border-gray-400 p-6 shadow-sm"
+            className="
+              bg-white
+              w-[210mm]
+              min-h-[297mm]
+              p-[15mm]
+              shadow-lg
+              text-black
+            "
           >
             {/* Header */}
             <div className="text-center mb-6">
-              <h1 className="font-bold text-sm uppercase">
+              <h1 className="font-bold text-[14px] uppercase">
                 SCAN INTERNATIONAL
               </h1>
 
-              <h2 className="font-semibold text-sm uppercase">
+              <h2 className="font-semibold text-[13px] uppercase">
                 DISTRITO NG RIZAL
               </h2>
 
-              <h3 className="text-sm uppercase">
-                LOKAL NG KALADLAGAHAN
+              <h3 className="text-[12px] uppercase">
+                LOKAL NG KADALAGAHAN
               </h3>
 
-              <p className="text-xs uppercase">
+              <p className="text-[11px] uppercase">
                 SUGUAN NG SCAN SA PAGSAMBA
               </p>
             </div>
 
             {/* Schedule Info */}
-            <div className="flex justify-between text-sm font-semibold mb-2">
+            <div className="flex justify-between text-[12px] font-semibold mb-3">
               <p>
                 Petsa:{' '}
                 {new Date(schedule.date).toLocaleDateString('en-US', {
@@ -91,28 +104,30 @@ export default function Home() {
             </div>
 
             {/* Table */}
-            <table className="w-full border-collapse border border-black text-sm">
+            <table className="w-full border-collapse border border-black text-[11px]">
               <thead>
                 <tr>
-                  <th className="border border-black px-2 py-1 w-14">Blg</th>
+                  <th className="border border-black px-2 py-1 w-[40px]">
+                    Blg
+                  </th>
 
                   <th className="border border-black px-2 py-1 text-left">
                     Pangalan
                   </th>
 
-                  <th className="border border-black px-2 py-1">
+                  <th className="border border-black px-2 py-1 w-[90px]">
                     Call-Sign
                   </th>
 
-                  <th className="border border-black px-2 py-1">
+                  <th className="border border-black px-2 py-1 w-[120px]">
                     Lagda Pagtanggap
                   </th>
 
-                  <th className="border border-black px-2 py-1">
+                  <th className="border border-black px-2 py-1 w-[120px]">
                     Lagda Pagtupad
                   </th>
 
-                  <th className="border border-black px-2 py-1">
+                  <th className="border border-black px-2 py-1 w-[100px]">
                     Gampanin
                   </th>
                 </tr>
@@ -133,9 +148,9 @@ export default function Home() {
                       {member.callSign}
                     </td>
 
-                    <td className="border border-black px-2 py-1"></td>
+                    <td className="border border-black px-2 py-1 h-[32px]"></td>
 
-                    <td className="border border-black px-2 py-1"></td>
+                    <td className="border border-black px-2 py-1 h-[32px]"></td>
 
                     <td className="border border-black px-2 py-1"></td>
                   </tr>
@@ -143,12 +158,13 @@ export default function Home() {
               </tbody>
             </table>
 
-            {/* Footer */}
-            <div className="mt-10 grid grid-cols-2 gap-10 text-center text-sm">
+            {/* Signatories */}
+            <div className="mt-20 grid grid-cols-2 gap-20 text-center text-[12px]">
               <div>
                 <p className="font-semibold uppercase">
                   JUSTINE JACOB RODRIGUEZ
                 </p>
+
                 <p>KALIHIM SCAN</p>
               </div>
 
@@ -156,12 +172,27 @@ export default function Home() {
                 <p className="font-semibold uppercase">
                   MARLON M. SEVILLA
                 </p>
+
                 <p>DESTINADO NG LOKAL</p>
               </div>
             </div>
           </div>
         ))}
       </div>
+
+      {/* Print Style */}
+      <style jsx global>{`
+        @media print {
+          body {
+            background: white;
+          }
+
+          @page {
+            size: A4;
+            margin: 0;
+          }
+        }
+      `}</style>
     </div>
   );
 }
