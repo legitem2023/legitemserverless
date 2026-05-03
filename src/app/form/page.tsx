@@ -174,7 +174,7 @@ export default function Home() {
         setNewMember({
           name: '',
           callSign: '',
-          schedules: [{ date: '', day: '', time: '', service: 'Worship' }]
+          schedules: [{ date: '', day: '', time: '', service: 'worship' }]
         });
         setSuccess('Member added successfully!');
       } else {
@@ -407,7 +407,7 @@ export default function Home() {
                     LOKAL NG KADALAGAHAN
                   </h3>
                   <p className="text-[10px] uppercase">
-                    {formIndex === 2 ? 'PNK SA PAGSAMBA' : 'SUGUAN NG SCAN SA PAGSAMBA'}
+                    {formIndex === 2 ? 'SUGUAN NG SCAN SA PNK' : 'SUGUAN NG SCAN SA PAGSAMBA'}
                   </p>
                 </div>
 
