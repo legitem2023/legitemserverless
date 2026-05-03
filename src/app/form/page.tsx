@@ -594,7 +594,7 @@ export default function Home() {
                     value={schedule.service || 'Worship'}
                     onChange={(e) => {
                       const updated = [...newMember.schedules];
-                      updated[idx] = { ...updated[idx], service: e.target.value as 'PNK' | 'Worship' };
+                      updated[idx] = { ...updated[idx], service: e.target.value as 'PNK' | 'worship' };
                       setNewMember({ ...newMember, schedules: updated });
                     }}
                     className="border p-2 rounded text-sm"
@@ -618,7 +618,7 @@ export default function Home() {
               <button
                 onClick={() => setNewMember({
                   ...newMember,
-                  schedules: [...newMember.schedules, { date: '', day: '', time: '', service: 'Worship' }]
+                  schedules: [...newMember.schedules, { date: '', day: '', time: '', service: 'worship' }]
                 })}
                 className="text-blue-600 text-sm mt-1"
               >
@@ -723,7 +723,7 @@ export default function Home() {
                               value={schedule.service || 'Worship'}
                               onChange={(e) => {
                                 const updatedSchedules = [...editingMember.member.schedules];
-                                updatedSchedules[sIdx] = { ...updatedSchedules[sIdx], service: e.target.value as 'PNK' | 'Worship' };
+                                updatedSchedules[sIdx] = { ...updatedSchedules[sIdx], service: e.target.value as 'PNK' | 'worship' };
                                 setEditingMember({
                                   index: idx,
                                   member: { ...editingMember.member, schedules: updatedSchedules }
@@ -755,7 +755,7 @@ export default function Home() {
                             index: idx,
                             member: {
                               ...editingMember.member,
-                              schedules: [...editingMember.member.schedules, { date: '', day: '', time: '', service: 'Worship' }]
+                              schedules: [...editingMember.member.schedules, { date: '', day: '', time: '', service: 'worship' }]
                             }
                           })}
                           className="text-blue-600 text-sm mt-1 hover:text-blue-800"
@@ -810,7 +810,7 @@ export default function Home() {
                             {member.schedules.map((schedule, sIdx) => (
                               schedule.day && schedule.time && (
                                 <li key={sIdx} className="text-gray-600">
-                                  {schedule.day} at {schedule.time} ({schedule.service || 'Worship'})
+                                  {schedule.day} at {schedule.time} ({schedule.service || 'worship'})
                                 </li>
                               )
                             ))}
