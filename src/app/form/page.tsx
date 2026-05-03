@@ -246,7 +246,7 @@ export default function Home() {
   const groupedSchedules: { [key: string]: GroupedSchedule } = {};
 
   data.members.forEach((member) => {
-    if (!member.schedules || member.schedules.length === 0) return; // Skip members with no schedules
+    if (!member.schedules || member.schedules.length === 0) return;
     
     member.schedules.forEach((schedule) => {
       if (schedule.day && schedule.time) {
@@ -361,183 +361,179 @@ export default function Home() {
       {/* PRINT VIEW TAB */}
       {activeTab === 'print' && (
         <div className="flex flex-col items-center gap-10 mt-16">
-          {forms.map((formSchedules, formIndex) => (
-            <div
-              key={formIndex}
-              className="
-                bg-white
-                w-[210mm]
-                min-h-[297mm]
-                p-[12mm]
-                shadow-lg
-                text-black
-                print:shadow-none
-                print:page-break-after-always
-              "
-            >
-              {/* Determine if this form/page has any PNK schedule */}
-              {(() => {
-                const hasAnyPNK = formSchedules.some(schedule =>
-                  schedule.members.some(m => m.service === 'PNK')
-                );
-                const headerText = hasAnyPNK 
-                  ? "SUGUAN NG SCAN SA PNK"
-                  : "SUGUAN NG SCAN SA PAGSAMBA";
+          {forms.map((formSchedules, formIndex) => {
+            // Determine if this form/page has any PNK schedule
+            const hasAnyPNK = formSchedules.some(schedule =>
+              schedule.members.some(m => m.service === 'PNK')
+            );
+            const headerText = hasAnyPNK 
+              ? "SUGUAN NG SCAN SA PNK"
+              : "SUGUAN NG SCAN SA PAGSAMBA";
 
-                return (
-                  <>
-                    {/* HEADER */}
-                    <div className="flex items-start justify-between mb-4">
-                      <div className="w-[70px] flex justify-start">
-                        <Image
-                          src="/images.png"
-                          alt="Logo"
-                          width={60}
-                          height={60}
-                          className="object-contain"
-                        />
+            return (
+              <div
+                key={formIndex}
+                className="
+                  bg-white
+                  w-[210mm]
+                  min-h-[297mm]
+                  p-[12mm]
+                  shadow-lg
+                  text-black
+                  print:shadow-none
+                  print:page-break-after-always
+                "
+              >
+                {/* HEADER */}
+                <div className="flex items-start justify-between mb-4">
+                  <div className="w-[70px] flex justify-start">
+                    <Image
+                      src="/images.png"
+                      alt="Logo"
+                      width={60}
+                      height={60}
+                      className="object-contain"
+                    />
+                  </div>
+
+                  <div className="text-center flex-1">
+                    <h1 className="font-bold text-[13px] uppercase">
+                      SCAN INTERNATIONAL
+                    </h1>
+                    <h2 className="font-semibold text-[12px] uppercase">
+                      DISTRITO NG RIZAL
+                    </h2>
+                    <h3 className="text-[11px] uppercase">
+                      LOKAL NG KADALAGAHAN
+                    </h3>
+                    <p className="text-[10px] uppercase">
+                      {headerText}
+                    </p>
+                  </div>
+
+                  <div className="w-[70px]" />
+                </div>
+
+                {/* TABLES */}
+                <div className="space-y-6">
+                  {formSchedules.map((schedule, idx) => {
+                    const dateObj = new Date(schedule.date);
+                    const filipinoDay =
+                      filipinoDays[schedule.day.toLowerCase()] ||
+                      schedule.day;
+
+                    // Check if any member in this schedule has PNK service
+                    const hasPNK = schedule.members.some(m => m.service === 'PNK');
+
+                    return (
+                      <div key={idx} className="break-inside-avoid">
+                        <table className="w-full border border-black text-[10px]">
+                          <thead>
+                            <tr>
+                              <th colSpan={2} className="border px-2 py-1 text-left">
+                                Petsa:{' '}
+                                {dateObj.toLocaleDateString('en-US', {
+                                  month: 'long',
+                                  day: 'numeric',
+                                  year: 'numeric',
+                                })}
+                              </th>
+                              <th colSpan={2} className="border px-2 py-1 text-left">
+                                Araw: {filipinoDay}
+                              </th>
+                              <th colSpan={2} className="border px-2 py-1 text-left">
+                                Oras: {schedule.time}
+                              </th>
+                            </tr>
+                            <tr>
+                              <th className="border px-1 py-1 w-[35px]">Blg</th>
+                              <th className="border px-2 py-1 text-left">
+                                Pangalan
+                              </th>
+                              <th className="border px-1 py-1 w-[75px]">
+                                Call-Sign
+                              </th>
+                              <th className="border px-1 py-1 w-[95px]">
+                                Lagda Pagtanggap
+                              </th>
+                              <th className="border px-1 py-1 w-[95px]">
+                                Lagda Pagtupad
+                              </th>
+                              <th className="border px-1 py-1 w-[70px]">
+                                <div className="flex flex-col">
+                                  {hasPNK && (
+                                    <p className="text-[10px] uppercase leading-tight">
+                                      SUGUAN NG SCAN SA PNK
+                                    </p>
+                                  )}
+                                  <p className="text-[10px] uppercase leading-tight mt-0.5">
+                                    Gampanin
+                                  </p>
+                                </div>
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {schedule.members.map((memberItem, i) => (
+                              <tr key={i}>
+                                <td className="border text-center py-1">
+                                  {i + 1}
+                                </td>
+                                <td className="border px-2 py-1">
+                                  {memberItem.member.name}
+                                </td>
+                                <td className="border text-center py-1">
+                                  {memberItem.member.callSign}
+                                </td>
+                                <td className="border h-[24px]" />
+                                <td className="border h-[24px]" />
+                                <td className="border text-center py-1">
+                                  {memberItem.service === 'PNK' ? 'PNK' : 'Worship'}
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
                       </div>
+                    );
+                  })}
+                </div>
 
-                      <div className="text-center flex-1">
-                        <h1 className="font-bold text-[13px] uppercase">
-                          SCAN INTERNATIONAL
-                        </h1>
-                        <h2 className="font-semibold text-[12px] uppercase">
-                          DISTRITO NG RIZAL
-                        </h2>
-                        <h3 className="text-[11px] uppercase">
-                          LOKAL NG KADALAGAHAN
-                        </h3>
-                        <p className="text-[10px] uppercase">
-                          {headerText}
-                        </p>
-                      </div>
+                {/* SIGNATORIES */}
+                <div className="mt-14 text-[11px]">
+                  <p className="mb-6">Naghanda:</p>
 
-                      <div className="w-[70px]" />
+                  <div className="grid grid-cols-2 gap-20">
+                    <div className="text-center">
+                      <p className="font-semibold uppercase">
+                        JUSTINE JACOB RODRIGUEZ
+                      </p>
+                      <p>KALIHIM SCAN</p>
                     </div>
-
-                    {/* TABLES */}
-                    <div className="space-y-6">
-                      {formSchedules.map((schedule, idx) => {
-                        const dateObj = new Date(schedule.date);
-                        const filipinoDay =
-                          filipinoDays[schedule.day.toLowerCase()] ||
-                          schedule.day;
-
-                        // Check if any member in this schedule has PNK service
-                        const hasPNK = schedule.members.some(m => m.service === 'PNK');
-
-                        return (
-                          <div key={idx} className="break-inside-avoid">
-                            <table className="w-full border border-black text-[10px]">
-                              <thead>
-                                <tr>
-                                  <th colSpan={2} className="border px-2 py-1 text-left">
-                                    Petsa:{' '}
-                                    {dateObj.toLocaleDateString('en-US', {
-                                      month: 'long',
-                                      day: 'numeric',
-                                      year: 'numeric',
-                                    })}
-                                  </th>
-                                  <th colSpan={2} className="border px-2 py-1 text-left">
-                                    Araw: {filipinoDay}
-                                  </th>
-                                  <th colSpan={2} className="border px-2 py-1 text-left">
-                                    Oras: {schedule.time}
-                                  </th>
-                                </tr>
-                                <tr>
-                                  <th className="border px-1 py-1 w-[35px]">Blg</th>
-                                  <th className="border px-2 py-1 text-left">
-                                    Pangalan
-                                  </th>
-                                  <th className="border px-1 py-1 w-[75px]">
-                                    Call-Sign
-                                  </th>
-                                  <th className="border px-1 py-1 w-[95px]">
-                                    Lagda Pagtanggap
-                                  </th>
-                                  <th className="border px-1 py-1 w-[95px]">
-                                    Lagda Pagtupad
-                                  </th>
-                                  <th className="border px-1 py-1 w-[70px]">
-                                    <div className="flex flex-col">
-                                      {hasPNK && (
-                                        <p className="text-[10px] uppercase leading-tight">
-                                          SUGUAN NG SCAN SA PNK
-                                        </p>
-                                      )}
-                                      <p className="text-[10px] uppercase leading-tight mt-0.5">
-                                        Gampanin
-                                      </p>
-                                    </div>
-                                  </th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                {schedule.members.map((memberItem, i) => (
-                                  <tr key={i}>
-                                    <td className="border text-center py-1">
-                                      {i + 1}
-                                    </td>
-                                    <td className="border px-2 py-1">
-                                      {memberItem.member.name}
-                                    </td>
-                                    <td className="border text-center py-1">
-                                      {memberItem.member.callSign}
-                                    </td>
-                                    <td className="border h-[24px]" />
-                                    <td className="border h-[24px]" />
-                                    <td className="border text-center py-1">
-                                      {memberItem.service === 'PNK' ? 'PNK' : 'Worship'}
-                                    </td>
-                                  </tr>
-                                ))}
-                              </tbody>
-                            </table>
-                          </div>
-                        );
-                      })}
+                    <div className="text-center">
+                      <p className="font-semibold uppercase"></p>
+                      <p>PANGULO NG SCAN</p>
                     </div>
+                  </div>
 
-                    {/* SIGNATORIES */}
-                    <div className="mt-14 text-[11px]">
-                      <p className="mb-6">Naghanda:</p>
-
-                      <div className="grid grid-cols-2 gap-20">
-                        <div className="text-center">
-                          <p className="font-semibold uppercase">
-                            JUSTINE JACOB RODRIGUEZ
-                          </p>
-                          <p>KALIHIM SCAN</p>
-                        </div>
-                        <div className="text-center">
-                          <p className="font-semibold uppercase"></p>
-                          <p>PANGULO NG SCAN</p>
-                        </div>
-                      </div>
-
-                      <div className="grid grid-cols-2 gap-20 mt-12">
-                        <div className="text-center">
-                          <p className="font-semibold uppercase">
-                            MARIANO M. LEBARDO JR.
-                          </p>
-                          <p>PD - TAGASUBAYBAY</p>
-                        </div>
-                        <div className="text-center">
-                          <p className="font-semibold uppercase">
-                            MARLON M. SEVILLA
-                          </p>
-                          <p>DESTINADO NG LOKAL</p>
-                        </div>
-                      </div>
+                  <div className="grid grid-cols-2 gap-20 mt-12">
+                    <div className="text-center">
+                      <p className="font-semibold uppercase">
+                        MARIANO M. LEBARDO JR.
+                      </p>
+                      <p>PD - TAGASUBAYBAY</p>
                     </div>
-                  </>
-                );
-              })()}
-            </div>
-          ))}
+                    <div className="text-center">
+                      <p className="font-semibold uppercase">
+                        MARLON M. SEVILLA
+                      </p>
+                      <p>DESTINADO NG LOKAL</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
         </div>
       )}
 
@@ -870,4 +866,4 @@ export default function Home() {
       `}</style>
     </div>
   );
-}
+            }
