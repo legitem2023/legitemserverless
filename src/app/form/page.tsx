@@ -22,6 +22,33 @@ interface GroupedSchedule {
   members: Member[];
 }
 
+/**
+ * Get next occurrence of a weekday
+ */
+function getNextDateByDay(dayName: string) {
+  const days = [
+    'sunday',
+    'monday',
+    'tuesday',
+    'wednesday',
+    'thursday',
+    'friday',
+    'saturday',
+  ];
+
+  const today = new Date();
+  const targetIndex = days.indexOf(dayName.toLowerCase());
+  const todayIndex = today.getDay();
+
+  let diff = targetIndex - todayIndex;
+  if (diff < 0) diff += 7;
+
+  const result = new Date();
+  result.setDate(today.getDate() + diff);
+
+  return result;
+}
+
 export default function Home() {
   const data = records as { members: Member[] };
 
@@ -29,11 +56,14 @@ export default function Home() {
 
   data.members.forEach((member) => {
     member.schedules.forEach((schedule) => {
-      const key = `${schedule.date}-${schedule.time}`;
+      const computedDate = getNextDateByDay(schedule.day);
+      const dateKey = computedDate.toISOString().split('T')[0];
+
+      const key = `${dateKey}-${schedule.time}`;
 
       if (!groupedSchedules[key]) {
         groupedSchedules[key] = {
-          date: schedule.date,
+          date: computedDate.toISOString(),
           day: schedule.day,
           time: schedule.time,
           members: [],
@@ -46,8 +76,7 @@ export default function Home() {
 
   const sortedSchedules = Object.values(groupedSchedules).sort((a, b) => {
     return (
-      new Date(`${a.date} ${a.time}`).getTime() -
-      new Date(`${b.date} ${b.time}`).getTime()
+      new Date(a.date).getTime() - new Date(b.date).getTime()
     );
   });
 
@@ -71,7 +100,7 @@ export default function Home() {
       <div className="fixed top-5 right-5 print:hidden z-50">
         <button
           onClick={() => window.print()}
-          className="bg-black text-white px-4 py-2 text-sm rounded shadow hover:bg-gray-800"
+          className="bg-black text-white px-4 py-2 text-sm rounded shadow"
         >
           Print
         </button>
@@ -92,9 +121,9 @@ export default function Home() {
               print:page-break-after-always
             "
           >
+
             {/* HEADER */}
             <div className="flex items-start justify-between mb-4">
-              {/* LOGO */}
               <div className="w-[70px] flex justify-start">
                 <Image
                   src="/images.png"
@@ -105,7 +134,6 @@ export default function Home() {
                 />
               </div>
 
-              {/* TITLE */}
               <div className="text-center flex-1">
                 <h1 className="font-bold text-[13px] uppercase">
                   SCAN INTERNATIONAL
@@ -114,7 +142,7 @@ export default function Home() {
                   DISTRITO NG RIZAL
                 </h2>
                 <h3 className="text-[11px] uppercase">
-                  LOKAL NG KADALAGAHAN
+                  LOKAL NG KALADLAGAHAN
                 </h3>
                 <p className="text-[10px] uppercase">
                   SUGUAN NG SCAN SA PAGSAMBA
@@ -124,87 +152,94 @@ export default function Home() {
               <div className="w-[70px]" />
             </div>
 
-            {/* SCHEDULES */}
+            {/* TABLES */}
             <div className="space-y-6">
-              {formSchedules.map((schedule, scheduleIndex) => (
-                <div key={scheduleIndex} className="break-inside-avoid">
-                  <table className="w-full border border-black text-[10px]">
-                    <thead>
-                      <tr>
-                        <th
-                          colSpan={2}
-                          className="border border-black px-2 py-1 text-left"
-                        >
-                          Petsa:{' '}
-                          {new Date(schedule.date).toLocaleDateString('en-US', {
-                            month: 'long',
-                            day: 'numeric',
-                            year: 'numeric',
-                          })}
-                        </th>
+              {formSchedules.map((schedule, scheduleIndex) => {
+                const dateObj = new Date(schedule.date);
 
-                        <th
-                          colSpan={2}
-                          className="border border-black px-2 py-1 text-left"
-                        >
-                          Araw: {schedule.day}
-                        </th>
+                return (
+                  <div key={scheduleIndex} className="break-inside-avoid">
 
-                        <th
-                          colSpan={2}
-                          className="border border-black px-2 py-1 text-left"
-                        >
-                          Oras: {schedule.time}
-                        </th>
-                      </tr>
+                    <table className="w-full border border-black text-[10px]">
 
-                      <tr>
-                        <th className="border border-black px-1 py-1 w-[35px]">
-                          Blg
-                        </th>
-                        <th className="border border-black px-2 py-1 text-left">
-                          Pangalan
-                        </th>
-                        <th className="border border-black px-1 py-1 w-[75px]">
-                          Call-Sign
-                        </th>
-                        <th className="border border-black px-1 py-1 w-[95px]">
-                          Lagda Pagtanggap
-                        </th>
-                        <th className="border border-black px-1 py-1 w-[95px]">
-                          Lagda Pagtupad
-                        </th>
-                        <th className="border border-black px-1 py-1 w-[70px]">
-                          Gampanin
-                        </th>
-                      </tr>
-                    </thead>
+                      {/* HEADER ROW */}
+                      <thead>
+                        <tr>
+                          <th
+                            colSpan={2}
+                            className="border border-black px-2 py-1 text-left"
+                          >
+                            Petsa:{" "}
+                            {dateObj.toLocaleDateString('en-US', {
+                              month: 'long',
+                              day: 'numeric',
+                              year: 'numeric',
+                            })}
+                          </th>
 
-                    <tbody>
-                      {schedule.members.map((member, idx) => (
-                        <tr key={idx}>
-                          <td className="border border-black text-center py-1">
-                            {idx + 1}
-                          </td>
-                          <td className="border border-black px-2 py-1">
-                            {member.name}
-                          </td>
-                          <td className="border border-black text-center py-1">
-                            {member.callSign}
-                          </td>
-                          <td className="border border-black h-[24px]" />
-                          <td className="border border-black h-[24px]" />
-                          <td className="border border-black" />
+                          <th
+                            colSpan={2}
+                            className="border border-black px-2 py-1 text-left"
+                          >
+                            Araw: {schedule.day}
+                          </th>
+
+                          <th
+                            colSpan={2}
+                            className="border border-black px-2 py-1 text-left"
+                          >
+                            Oras: {schedule.time}
+                          </th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              ))}
+
+                        <tr>
+                          <th className="border border-black px-1 py-1 w-[35px]">
+                            Blg
+                          </th>
+                          <th className="border border-black px-2 py-1 text-left">
+                            Pangalan
+                          </th>
+                          <th className="border border-black px-1 py-1 w-[75px]">
+                            Call-Sign
+                          </th>
+                          <th className="border border-black px-1 py-1 w-[95px]">
+                            Lagda Pagtanggap
+                          </th>
+                          <th className="border border-black px-1 py-1 w-[95px]">
+                            Lagda Pagtupad
+                          </th>
+                          <th className="border border-black px-1 py-1 w-[70px]">
+                            Gampanin
+                          </th>
+                        </tr>
+                      </thead>
+
+                      <tbody>
+                        {schedule.members.map((member, idx) => (
+                          <tr key={idx}>
+                            <td className="border border-black text-center py-1">
+                              {idx + 1}
+                            </td>
+                            <td className="border border-black px-2 py-1">
+                              {member.name}
+                            </td>
+                            <td className="border border-black text-center py-1">
+                              {member.callSign}
+                            </td>
+                            <td className="border border-black h-[24px]" />
+                            <td className="border border-black h-[24px]" />
+                            <td className="border border-black" />
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                );
+              })}
             </div>
 
             {/* SIGNATORIES */}
-            <div className="mt-14 text-[11px] print:mt-10">
+            <div className="mt-14 text-[11px]">
               <p className="mb-6">Naghanda:</p>
 
               <div className="grid grid-cols-2 gap-20">
@@ -239,11 +274,12 @@ export default function Home() {
                 </div>
               </div>
             </div>
+
           </div>
         ))}
       </div>
 
-      {/* PRINT STYLES */}
+      {/* PRINT CSS */}
       <style jsx global>{`
         @page {
           size: A4;
@@ -253,18 +289,6 @@ export default function Home() {
         @media print {
           body {
             background: white !important;
-          }
-
-          .print\\:shadow-none {
-            box-shadow: none !important;
-          }
-
-          .print\\:page-break-after-always {
-            page-break-after: always;
-          }
-
-          .print\\:mt-10 {
-            margin-top: 2.5rem !important;
           }
         }
       `}</style>
