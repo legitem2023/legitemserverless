@@ -135,14 +135,7 @@
     {
       "name": "Lance Kenneth Feliciano",
       "callSign": "15-40",
-      "schedules": [
-        {
-          "service": "worship",
-          "date": "2026-05-07",
-          "day": "Thursday",
-          "time": "5:45 AM"
-        }
-      ]
+      "schedules": []
     },
     {
       "name": "Benerico Villaluz",
@@ -266,56 +259,17 @@
     {
       "name": "Althea Balubal",
       "callSign": "OJT",
-      "schedules": [
-        {
-        "service": "worship",
-          "date": "2026-05-07",
-          "day": "Thursday",
-          "time": "6:45 PM"
-        },
-        {
-          "service": "worship",
-          "date": "2026-05-10",
-          "day": "Sunday",
-          "time": "10:00 AM"
-        }
-      ]
+      "schedules": []
     },
     {
       "name": "Ma. Elaine Garcia",
       "callSign": "OJT",
-      "schedules": [
-        {
-        "service": "worship",
-          "date": "2026-05-07",
-          "day": "Thursday",
-          "time": "6:45 PM"
-        },
-        {
-          "service": "worship",
-          "date": "2026-05-10",
-          "day": "Sunday",
-          "time": "10:00 AM"
-        }
-      ]
+      "schedules": []
     },
         {
       "name": "Yna Carla Kennedy",
       "callSign": "OJT",
-      "schedules": [
-        {
-        "service": "worship",
-          "date": "2026-05-07",
-          "day": "Thursday",
-          "time": "6:45 PM"
-        },
-        {
-          "service": "worship",
-          "date": "2026-05-10",
-          "day": "Sunday",
-          "time": "10:00 AM"
-        }
-      ]
+      "schedules": []
         }
   ]
 }
