@@ -75,20 +75,7 @@
     {
       "name": "Christian Bulalacao",
       "callSign": "15-29",
-      "schedules": [
-        {
-          "service": "worship",
-          "date": "2026-05-06",
-          "day": "Wednesday",
-          "time": "6:45 PM"
-        },
-        {
-          "service": "worship",
-          "date": "2026-05-09",
-          "day": "Saturday",
-          "time": "6:00 PM"
-        }
-      ]
+      "schedules": []
     },
     {
       "name": "Nelson Mendoza",
@@ -194,14 +181,7 @@
     {
       "name": "Federico Hernandez",
       "callSign": "15-24",
-      "schedules": [
-        {
-          "service": "worship",
-          "date": "2026-05-07",
-          "day": "Thursday",
-          "time": "6:45 PM"
-        }
-      ]
+      "schedules": []
     },
     {
       "name": "Eduardo Rosales",
@@ -266,10 +246,10 @@
       "callSign": "OJT",
       "schedules": []
     },
-        {
+    {
       "name": "Yna Carla Kennedy",
       "callSign": "OJT",
       "schedules": []
-        }
+    }
   ]
 }
