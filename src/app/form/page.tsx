@@ -275,7 +275,7 @@ export default function Home() {
   );
 
   const form4 = sortedSchedules.filter(
-    (s) => s.service === 'distrito'
+    (s) => s.service === 'Distrito'
   );
 
   const forms = [form1, form2, form3, form4];
