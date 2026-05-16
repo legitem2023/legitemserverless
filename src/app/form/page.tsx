@@ -7,7 +7,7 @@ interface Schedule {
   date: string;
   day: string;
   time: string;
-  service?: 'PNK' | 'worship' | 'distrito';
+  service?: 'PNK' | 'worship' | 'Distrito';
 }
 
 interface Member {
