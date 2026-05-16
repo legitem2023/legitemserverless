@@ -551,7 +551,7 @@ data.members.forEach((member) => {
                     value={schedule.service || 'worship'}
                     onChange={(e) => {
                       const updated = [...newMember.schedules];
-                      updated[idx] = { ...updated[idx], service: e.target.value as 'PNK' | 'worship' | 'distrito' };
+                      updated[idx] = { ...updated[idx], service: e.target.value as 'PNK' | 'worship' | 'Distrito' };
                       setNewMember({ ...newMember, schedules: updated });
                     }}
                     className="border p-2 rounded text-sm"
@@ -679,7 +679,7 @@ data.members.forEach((member) => {
                               value={schedule.service || 'worship'}
                               onChange={(e) => {
                                 const updatedSchedules = [...editingMember.member.schedules];
-                                updatedSchedules[sIdx] = { ...updatedSchedules[sIdx], service: e.target.value as 'PNK' | 'worship' | 'distrito' };
+                                updatedSchedules[sIdx] = { ...updatedSchedules[sIdx], service: e.target.value as 'PNK' | 'worship' | 'Distrito' };
                                 setEditingMember({
                                   index: idx,
                                   member: { ...editingMember.member, schedules: updatedSchedules }
