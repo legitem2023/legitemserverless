@@ -7,7 +7,7 @@ interface Schedule {
   date: string;
   day: string;
   time: string;
-  service?: 'PNK' | 'worship';
+  service?: 'PNK' | 'worship' | 'distrito';
 }
 
 interface Member {
@@ -225,7 +225,7 @@ export default function Home() {
   data.members.forEach((member) => {
     member.schedules.forEach((schedule) => {
       if (schedule.day && schedule.time) {
-        const serviceType = schedule.service || 'Worship';
+        const serviceType = schedule.service || 'worship';
         const computedDate = getAlignedDate(schedule.day);
         const key = `${computedDate.toISOString().split('T')[0]}-${schedule.time}-${serviceType}`;
 
@@ -274,7 +274,11 @@ export default function Home() {
     (s) => s.service === 'PNK'
   );
 
-  const forms = [form1, form2, form3];
+  const form4 = sortedSchedules.filter(
+    (s) => s.service === 'distrito'
+  );
+
+  const forms = [form1, form2, form3, form4];
 
   if (loading) {
     return (
@@ -359,7 +363,9 @@ export default function Home() {
                   <h2 className="font-semibold text-[12px] uppercase">DISTRITO NG RIZAL</h2>
                   <h3 className="text-[11px] uppercase">LOKAL NG KADALAGAHAN</h3>
                   <p className="text-[10px] uppercase">
-                    {formIndex === 2 ? 'SUGUAN NG SCAN SA PNK' : 'SUGUAN NG SCAN SA PAGSAMBA'}
+                    {formIndex === 2 ? 'SUGUAN NG SCAN SA PNK' : 
+                     formIndex === 3 ? 'SUGUAN NG SCAN SA DISTRITO' : 
+                     'SUGUAN NG SCAN SA PAGSAMBA'}
                   </p>
                 </div>
 
@@ -508,16 +514,17 @@ export default function Home() {
                     className="border p-2 rounded text-sm"
                   />
                   <select
-                    value={schedule.service || 'Worship'}
+                    value={schedule.service || 'worship'}
                     onChange={(e) => {
                       const updated = [...newMember.schedules];
-                      updated[idx] = { ...updated[idx], service: e.target.value as 'PNK' | 'worship' };
+                      updated[idx] = { ...updated[idx], service: e.target.value as 'PNK' | 'worship' | 'distrito' };
                       setNewMember({ ...newMember, schedules: updated });
                     }}
                     className="border p-2 rounded text-sm"
                   >
                     <option value="worship">Worship</option>
                     <option value="PNK">PNK</option>
+                    <option value="distrito">Distrito</option>
                   </select>
                   {newMember.schedules.length > 1 && (
                     <button
@@ -635,10 +642,10 @@ export default function Home() {
                               className="border p-2 rounded text-sm"
                             />
                             <select
-                              value={schedule.service || 'Worship'}
+                              value={schedule.service || 'worship'}
                               onChange={(e) => {
                                 const updatedSchedules = [...editingMember.member.schedules];
-                                updatedSchedules[sIdx] = { ...updatedSchedules[sIdx], service: e.target.value as 'PNK' | 'worship' };
+                                updatedSchedules[sIdx] = { ...updatedSchedules[sIdx], service: e.target.value as 'PNK' | 'worship' | 'distrito' };
                                 setEditingMember({
                                   index: idx,
                                   member: { ...editingMember.member, schedules: updatedSchedules }
@@ -648,6 +655,7 @@ export default function Home() {
                             >
                               <option value="worship">Worship</option>
                               <option value="PNK">PNK</option>
+                              <option value="distrito">Distrito</option>
                             </select>
                             {editingMember.member.schedules.length > 1 && (
                               <button
@@ -787,4 +795,4 @@ export default function Home() {
       `}</style>
     </div>
   );
-                        }
+                    }
