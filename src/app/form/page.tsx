@@ -255,7 +255,7 @@ data.members.forEach((member) => {
       // If the service is 'distrito', add 3 days to the calculated date
       if (serviceType === 'Distrito') {
         const newDate = new Date(computedDate);
-        newDate.setDate(computedDate.getDate() + 8);
+        newDate.setDate(computedDate.getDate() + 7);
         computedDate = newDate;
       }
       // --- MODIFICATION END ---
