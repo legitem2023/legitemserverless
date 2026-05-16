@@ -220,7 +220,7 @@ export default function Home() {
     }
   };
 
-  const groupedSchedules: { [key: string]: GroupedSchedule } = {};
+ /* const groupedSchedules: { [key: string]: GroupedSchedule } = {};
 
   data.members.forEach((member) => {
     member.schedules.forEach((schedule) => {
@@ -242,8 +242,42 @@ export default function Home() {
         groupedSchedules[key].members.push(member);
       }
     });
-  });
+  });*/
+const groupedSchedules: { [key: string]: GroupedSchedule } = {};
 
+data.members.forEach((member) => {
+  member.schedules.forEach((schedule) => {
+    if (schedule.day && schedule.time) {
+      const serviceType = schedule.service || 'worship';
+      let computedDate = getAlignedDate(schedule.day);
+      
+      // --- MODIFICATION START ---
+      // If the service is 'distrito', add 3 days to the calculated date
+      if (serviceType === 'Distrito') {
+        const newDate = new Date(computedDate);
+        newDate.setDate(computedDate.getDate() + 3);
+        computedDate = newDate;
+      }
+      // --- MODIFICATION END ---
+
+      const key = `${computedDate.toISOString().split('T')[0]}-${schedule.time}-${serviceType}`;
+
+      if (!groupedSchedules[key]) {
+        groupedSchedules[key] = {
+          date: computedDate.toISOString(),
+          day: schedule.day,
+          time: schedule.time,
+          service: serviceType,
+          members: [],
+        };
+      }
+
+      groupedSchedules[key].members.push(member);
+    }
+  });
+});
+
+  
   const sortedSchedules = Object.values(groupedSchedules).sort((a, b) => {
     const dayA = dayOrder[a.day.toLowerCase()] ?? 999;
     const dayB = dayOrder[b.day.toLowerCase()] ?? 999;
