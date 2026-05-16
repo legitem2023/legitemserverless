@@ -118,6 +118,12 @@
           "time": "6:00 AM"
         },
         {
+          "service": "PNK",
+          "date": "2026-05-10",
+          "day": "Sunday",
+          "time": "8:00 AM"
+        },
+        {
           "service": "Distrito",
           "date": "2026-05-13",
           "day": "Wednesday",
