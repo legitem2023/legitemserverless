@@ -364,7 +364,7 @@ export default function Home() {
                   <h3 className="text-[11px] uppercase">LOKAL NG KADALAGAHAN</h3>
                   <p className="text-[10px] uppercase">
                     {formIndex === 2 ? 'SUGUAN NG SCAN SA PNK' : 
-                     formIndex === 3 ? 'SUGUAN NG SCAN SA DISTRITO' : 
+                     formIndex === 3 ? 'SUGUAN NG PAGBABANTAY SA DISTRITO' : 
                      'SUGUAN NG SCAN SA PAGSAMBA'}
                   </p>
                 </div>
