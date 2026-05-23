@@ -3,20 +3,7 @@
     {
       "name": "Dan Kevin Balubal",
       "callSign": "15-26",
-      "schedules": [
-        {
-          "service": "worship",
-          "date": "2026-05-06",
-          "day": "Wednesday",
-          "time": "6:45 PM"
-        },
-        {
-          "service": "worship",
-          "date": "2026-05-09",
-          "day": "Saturday",
-          "time": "6:00 PM"
-        }
-      ]
+      "schedules": []
     },
     {
       "name": "Maricris Ramirez",
@@ -134,7 +121,19 @@
     {
       "name": "Lance Kenneth Feliciano",
       "callSign": "15-40",
-      "schedules": []
+      "schedules": [{
+          "service": "worship",
+          "date": "2026-05-07",
+          "day": "Thursday",
+          "time": "5:45 AM"
+        },
+        {
+          "service": "worship",
+          "date": "2026-05-10",
+          "day": "Sunday",
+          "time": "6:00 AM"
+        }
+      ]
     },
     {
       "name": "Benerico Villaluz",
@@ -175,26 +174,12 @@
     {
       "name": "Alfredo Lebradores",
       "callSign": "15-22",
-      "schedules": [
-        {
-          "service": "worship",
-          "date": "2026-05-07",
-          "day": "Thursday",
-          "time": "6:45 PM"
-        }
-      ]
+      "schedules": []
     },
     {
       "name": "Alvin Lebradores",
       "callSign": "15-21",
-      "schedules": [
-        {
-          "service": "worship",
-          "date": "2026-05-07",
-          "day": "Thursday",
-          "time": "6:45 PM"
-        }
-      ]
+      "schedules": []
     },
     {
       "name": "Federico Hernandez",
