@@ -472,16 +472,16 @@ export default function Home() {
       {activeTab === 'letter' && (
         <div className="flex p-5 items-center justify-center">
           <ScanRecommendationLetter 
-            date=""
-            districtMinister=""
-            local=""
-            district=""
-            members={data.members.map(member => ({
-              name: member.name,
-              kapisanan: "",
-              recruitedBy: ""
-            }))}
-          />
+  date={new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}
+  districtMinister="Alfonso O. Rico"
+  local="Kadalagahan"
+  district="Rizal"
+  members={data.members.map(member => ({
+    name: member.name,
+    kapisanan: "",
+    recruitedBy: ""
+  }))}
+/>
         </div>
       )}
 
