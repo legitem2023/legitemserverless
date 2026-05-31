@@ -53,10 +53,10 @@ export default function AttendanceSheet({
           shadow-lg
           print:shadow-none
           w-[8.5in]
-          h-[14in]
-          p-4
-          text-[10pt]
-          leading-tight
+          min-h-[14in]
+          p-6
+          text-[11pt]
+          leading-normal
           font-sans
         "
         style={{
@@ -67,15 +67,15 @@ export default function AttendanceSheet({
           top: 0,
         }}
       >
-        {/* Header - Compact */}
+        {/* Header */}
         <div className="text-center">
-          <p className="text-base font-bold uppercase">Attendance</p>
-          <p className="text-sm font-semibold">Orientation Seminar</p>
-          <p className="text-sm font-semibold">Associate Membership</p>
+          <p className="text-xl font-bold uppercase">Attendance</p>
+          <p className="text-lg font-semibold">Orientation Seminar</p>
+          <p className="text-lg font-semibold">Associate Membership</p>
         </div>
 
-        {/* Details - Compact */}
-        <div className="mt-2 text-[9pt]">
+        {/* Details */}
+        <div className="mt-4">
           <p>Lokal ng {local.toUpperCase()}</p>
           <p>Distrito ng {district.toUpperCase()}</p>
           <p>Dako: {venue}</p>
@@ -83,39 +83,39 @@ export default function AttendanceSheet({
           <p>Oras: {time}</p>
         </div>
 
-        {/* Description - Compact */}
-        <div className="mt-2">
-          <p className="text-justify text-[9pt] leading-tight">
+        {/* Description */}
+        <div className="mt-3">
+          <p className="text-justify">
             Ang lahat ng mga pangalan na nakatala sa ibaba ay ang mga nakatapos
             ng preliminary screening process. Sila din ang naka-kumpleto ng mga
             requirements bago ang deliberasyon ng lokal:
           </p>
         </div>
 
-        {/* Table - Very Compact for 30 rows */}
-        <table className="mt-2 w-full border-collapse border border-black text-[8pt]">
+        {/* Table - 30 rows with original spacing */}
+        <table className="mt-3 w-full border-collapse border border-black text-[10pt]">
           <thead>
             <tr className="bg-gray-50">
-              <th className="border border-black p-0.5 text-left w-[8%] text-[8pt]">Blg</th>
-              <th className="border border-black p-0.5 text-left w-[47%] text-[8pt]">Pangalan</th>
-              <th className="border border-black p-0.5 text-left w-[25%] text-[8pt]">Lagda</th>
-              <th className="border border-black p-0.5 text-left w-[20%] text-[8pt]">Pansin</th>
+              <th className="border border-black p-2 text-left w-[10%]">Blg</th>
+              <th className="border border-black p-2 text-left w-[45%]">Pangalan</th>
+              <th className="border border-black p-2 text-left w-[25%]">Lagda</th>
+              <th className="border border-black p-2 text-left w-[20%]">Pansin</th>
             </tr>
           </thead>
 
           <tbody>
             {paddedAttendees.map((attendee, index) => (
               <tr key={index}>
-                <td className="border border-black px-1 py-0 align-top text-[8pt]">
+                <td className="border border-black px-2 py-1 align-top">
                   {index + 1}
                 </td>
-                <td className="border border-black px-1 py-0 align-top text-[8pt]">
+                <td className="border border-black px-2 py-1 align-top">
                   {attendee.name}
                 </td>
-                <td className="border border-black px-1 py-0 align-top text-[8pt]">
+                <td className="border border-black px-2 py-1 align-top">
                   {attendee.signature || ''}
                 </td>
-                <td className="border border-black px-1 py-0 align-top text-[8pt]">
+                <td className="border border-black px-2 py-1 align-top">
                   {attendee.remarks || ''}
                 </td>
               </tr>
@@ -123,39 +123,39 @@ export default function AttendanceSheet({
           </tbody>
         </table>
 
-        {/* Note - Compact */}
-        <div className="mt-2">
-          <p className="text-[8pt] italic leading-tight">
+        {/* Note */}
+        <div className="mt-3">
+          <p className="text-sm italic">
             <span className="font-semibold">Nota:</span> Lahat lamang ng mga
             naka-kumpleto sa Orientation Seminar ang maaring hilingin ng lokal
             para pagtibayin ng Distrito.
           </p>
         </div>
 
-        {/* Signatories - Compact */}
-        <div className="mt-3">
-          <p className="mb-1 font-semibold text-[9pt]">Mga Nangasiwa ng Seminar:</p>
+        {/* Signatories - Reduced top margin */}
+        <div className="mt-4">
+          <p className="mb-3 font-semibold">Mga Nangasiwa ng Seminar:</p>
 
-          <div className="grid grid-cols-3 gap-x-4 gap-y-1">
+          <div className="grid grid-cols-3 gap-x-8 gap-y-4">
             <div className="text-center">
-              <p className="font-semibold uppercase text-[8pt]">
+              <p className="font-semibold uppercase">
                 {seminarLeaders.secretary}
               </p>
-              <p className="text-[7pt]">Kalihim ng SCAN</p>
+              <p>Kalihim ng SCAN</p>
             </div>
 
             <div className="text-center">
-              <p className="font-semibold uppercase text-[8pt]">
+              <p className="font-semibold uppercase">
                 {seminarLeaders.president}
               </p>
-              <p className="text-[7pt]">Pangulo ng SCAN</p>
+              <p>Pangulo ng SCAN</p>
             </div>
 
             <div className="text-center">
-              <p className="font-semibold uppercase text-[8pt]">
+              <p className="font-semibold uppercase">
                 {seminarLeaders.overseer}
               </p>
-              <p className="text-[7pt]">PD Tagasubaybay</p>
+              <p>PD Tagasubaybay</p>
             </div>
           </div>
         </div>
