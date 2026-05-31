@@ -135,9 +135,9 @@ export default function ScanRecommendationLetter({
           Ang inyo pong mga kapatid sa Panginoon,
         </p>
 
-        {/* Signatories - Professional 2x3 grid layout */}
+        {/* Signatories - 3 columns */}
         <div className="mt-8">
-          <div className="grid grid-cols-2 gap-x-12 gap-y-6">
+          <div className="grid grid-cols-3 gap-x-8 gap-y-6">
             <div className="text-center">
               <p className="font-semibold uppercase">BONNARD JOSE ARAULLO</p>
               <p>V-Pangulong Diakono</p>
@@ -149,12 +149,12 @@ export default function ScanRecommendationLetter({
             </div>
 
             <div className="text-center">
-              <p className="font-semibold uppercase">NORMAN</p>
+              <p className="font-semibold uppercase">NORMAN ARAULLO</p>
               <p>III-Pangulong Diakono</p>
             </div>
 
             <div className="text-center">
-              <p className="font-semibold uppercase">ALVI ADAME</p>
+              <p className="font-semibold uppercase">ALVIN ADAME</p>
               <p>II-Pangulong Diakono</p>
             </div>
 
