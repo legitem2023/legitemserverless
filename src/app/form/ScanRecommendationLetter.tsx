@@ -139,7 +139,7 @@ export default function ScanRecommendationLetter({
         <div className="mt-8">
           <div className="grid grid-cols-3 gap-x-8 gap-y-6">
             <div className="text-center">
-              <p className="font-semibold uppercase">BONNARD JOSE ARAULLO</p>
+              <p className="font-semibold uppercase">BONNARD JOSE</p>
               <p>V-Pangulong Diakono</p>
             </div>
 
