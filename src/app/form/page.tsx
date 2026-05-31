@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import ScanRecommendationLetter from './ScanRecommendationLetter';
 import AttendanceSheet from './AttendanceSheet';
+
 interface Schedule {
   date: string;
   day: string;
@@ -88,7 +89,7 @@ function getAlignedDate(dayName: string) {
 }
 
 export default function Home() {
-  const [activeTab, setActiveTab] = useState<'print' | 'crud' | 'letter'>('crud');
+  const [activeTab, setActiveTab] = useState<'print' | 'crud' | 'letter' | 'attendance'>('crud');
   const [data, setData] = useState<{ members: Member[] }>({ members: [] });
   const [editingMember, setEditingMember] = useState<{ index: number; member: Member } | null>(null);
   const [newMember, setNewMember] = useState<Member>({
@@ -298,6 +299,15 @@ export default function Home() {
 
   const forms = [form1, form2, form3, form4];
 
+  // Prepare attendees for AttendanceSheet
+  const attendees = data.members
+    .filter(member => member.kahilingan === "true")
+    .map(member => ({
+      name: member.name,
+      signature: '',
+      remarks: ''
+    }));
+
   if (loading) {
     return (
       <div className="bg-gray-300 min-h-screen flex items-center justify-center">
@@ -354,6 +364,16 @@ export default function Home() {
           }`}
         >
           Recommendation Letter
+        </button>
+        <button
+          onClick={() => setActiveTab('attendance')}
+          className={`flex-1 px-4 py-2 rounded-md transition-colors ${
+            activeTab === 'attendance'
+              ? 'bg-black text-white'
+              : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+          }`}
+        >
+          Attendance Sheet
         </button>
       </div>
 
@@ -478,16 +498,35 @@ export default function Home() {
       {activeTab === 'letter' && (
         <div className="flex p-5 items-center justify-center">
           <ScanRecommendationLetter 
-  date={new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}
-  districtMinister="Alfonso O. Rico"
-  local="Kadalagahan"
-  district="Rizal"
-  members={data.members.filter((data)=> data.kahilingan ==="true").map(member => ({
-    name: member.name,
-    kapisanan: member.kapisanan,
-    recruitedBy: ""
-  }))}
-/>
+            date={new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}
+            districtMinister="Alfonso O. Rico"
+            local="Kadalagahan"
+            district="Rizal"
+            members={data.members.filter((data)=> data.kahilingan ==="true").map(member => ({
+              name: member.name,
+              kapisanan: member.kapisanan,
+              recruitedBy: ""
+            }))}
+          />
+        </div>
+      )}
+
+      {activeTab === 'attendance' && (
+        <div className="flex p-5 items-center justify-center">
+          <AttendanceSheet
+            local="Kadalagahan"
+            district="Rizal"
+            venue="CFO Office (Lokal)"
+            date={new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}
+            time="8:00 PM"
+            attendees={attendees}
+            seminarLeaders={{
+              secretary: "Justine Jacob Rodriguez",
+              president: "Julian Ramirez",
+              overseer: "MARIANO M. LEBARDO JR."
+            }}
+            maxAttendees={30}
+          />
         </div>
       )}
 
@@ -512,6 +551,24 @@ export default function Home() {
                 onChange={(e) => setNewMember({ ...newMember, callSign: e.target.value })}
                 className="border p-2 rounded"
               />
+            </div>
+            <div className="grid grid-cols-2 gap-4 mb-3">
+              <input
+                type="text"
+                placeholder="Kapisanan"
+                value={newMember.kapisanan}
+                onChange={(e) => setNewMember({ ...newMember, kapisanan: e.target.value })}
+                className="border p-2 rounded"
+              />
+              <select
+                value={newMember.kahilingan}
+                onChange={(e) => setNewMember({ ...newMember, kahilingan: e.target.value })}
+                className="border p-2 rounded"
+              >
+                <option value="">Select Status</option>
+                <option value="true">For Recommendation</option>
+                <option value="false">Not for Recommendation</option>
+              </select>
             </div>
             <div className="mb-3">
               <label className="block text-sm font-medium mb-1">Schedules</label>
@@ -568,7 +625,7 @@ export default function Home() {
                   >
                     <option value="worship">Worship</option>
                     <option value="PNK">PNK</option>
-                    <option value="distrito">Distrito</option>
+                    <option value="Distrito">Distrito</option>
                   </select>
                   {newMember.schedules.length > 1 && (
                     <button
@@ -631,6 +688,30 @@ export default function Home() {
                           })}
                           className="border p-2 rounded"
                         />
+                      </div>
+                      <div className="grid grid-cols-2 gap-4 mb-3">
+                        <input
+                          type="text"
+                          placeholder="Kapisanan"
+                          value={editingMember.member.kapisanan}
+                          onChange={(e) => setEditingMember({
+                            index: idx,
+                            member: { ...editingMember.member, kapisanan: e.target.value }
+                          })}
+                          className="border p-2 rounded"
+                        />
+                        <select
+                          value={editingMember.member.kahilingan}
+                          onChange={(e) => setEditingMember({
+                            index: idx,
+                            member: { ...editingMember.member, kahilingan: e.target.value }
+                          })}
+                          className="border p-2 rounded"
+                        >
+                          <option value="">Select Status</option>
+                          <option value="true">For Recommendation</option>
+                          <option value="false">Not for Recommendation</option>
+                        </select>
                       </div>
                       <div className="mb-3">
                         <label className="block text-sm font-medium mb-1">Schedules</label>
@@ -699,7 +780,7 @@ export default function Home() {
                             >
                               <option value="worship">Worship</option>
                               <option value="PNK">PNK</option>
-                              <option value="distrito">Distrito</option>
+                              <option value="Distrito">Distrito</option>
                             </select>
                             {editingMember.member.schedules.length > 1 && (
                               <button
@@ -751,6 +832,10 @@ export default function Home() {
                         <div>
                           <h4 className="font-semibold text-lg">{member.name}</h4>
                           <p className="text-gray-600">Call Sign: {member.callSign}</p>
+                          <p className="text-gray-600 text-sm">Kapisanan: {member.kapisanan || 'N/A'}</p>
+                          <p className="text-gray-600 text-sm">
+                            Status: {member.kahilingan === "true" ? "For Recommendation" : "Not for Recommendation"}
+                          </p>
                         </div>
                         <div className="flex gap-2">
                           <button
@@ -839,4 +924,4 @@ export default function Home() {
       `}</style>
     </div>
   );
-                    }
+      }
