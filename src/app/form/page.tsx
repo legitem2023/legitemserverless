@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import ScanRecommendationLetter from './ScanRecommendationLetter';
-
+import AttendanceSheet from './AttendanceSheet';
 interface Schedule {
   date: string;
   day: string;
