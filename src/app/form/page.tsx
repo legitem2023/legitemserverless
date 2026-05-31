@@ -155,6 +155,8 @@ export default function Home() {
         setData({ members: result.members });
         setNewMember({
           name: '',
+          kapisanan:'',
+          kahilingan:'',
           callSign: '',
           schedules: [{ date: '', day: '', time: '', service: 'worship' }]
         });
