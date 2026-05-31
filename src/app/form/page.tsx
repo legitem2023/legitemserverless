@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
+import ScanRecommendationLetter from './ScanRecommendationLetter';
 
 interface Schedule {
   date: string;
