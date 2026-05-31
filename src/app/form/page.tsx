@@ -13,6 +13,8 @@ interface Schedule {
 
 interface Member {
   name: string;
+  kapisanan: string;
+  kahilingan: string;
   callSign: string;
   schedules: Schedule[];
 }
