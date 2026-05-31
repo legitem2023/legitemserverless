@@ -478,9 +478,9 @@ export default function Home() {
   districtMinister="Alfonso O. Rico"
   local="Kadalagahan"
   district="Rizal"
-  members={data.members.map(member => ({
+  members={data.members.filter((data)=> data.kahilingan ==="true").map(member => ({
     name: member.name,
-    kapisanan: "",
+    kapisanan: member.kapisanan,
     recruitedBy: ""
   }))}
 />
