@@ -37,12 +37,18 @@ export default function ScanRecommendationLetter({
           shadow-lg
           print:shadow-none
           w-[8.5in]
-          h-[14in]
+          min-h-[14in]
           p-6
           text-[11pt]
           leading-normal
         "
-        style={{ boxSizing: 'border-box' }}
+        style={{ 
+          boxSizing: 'border-box',
+          margin: 0,
+          marginTop: 0,
+          position: 'relative',
+          top: 0,
+        }}
       >
         {/* Header - Left aligned */}
         <div className="leading-tight">
@@ -164,6 +170,24 @@ export default function ScanRecommendationLetter({
           </div>
         </div>
       </div>
+
+      <style jsx global>{`
+        @media print {
+          @page {
+            size: legal;
+            margin: 0;
+          }
+          body {
+            margin: 0;
+            padding: 0;
+          }
+          html, body {
+            height: auto;
+            margin: 0;
+            padding: 0;
+          }
+        }
+      `}</style>
     </div>
   );
 }
