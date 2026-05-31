@@ -37,55 +37,59 @@ export default function ScanRecommendationLetter({
           shadow-lg
           print:shadow-none
           w-[8.5in]
-          min-h-[14in]
-          p-[0.75in]
-          text-[12pt]
-          leading-normal
+          h-[14in]
+          p-4
+          text-[11pt]
+          leading-tight
         "
+        style={{ boxSizing: 'border-box' }}
       >
-        {/* Header */}
-        <div className="leading-tight">
-          <p className="font-bold">IGLESIA NI CRISTO</p>
-          <p>LOKAL NG {local.toUpperCase()}</p>
-          <p>DISTRITO EKLESIASTIKO NG {district.toUpperCase()}</p>
+        {/* Header - Tighter */}
+        <div className="text-center leading-tight">
+          <p className="font-bold text-[10pt]">IGLESIA NI CRISTO</p>
+          <p className="text-[10pt]">LOKAL NG {local.toUpperCase()}</p>
+          <p className="text-[10pt]">DISTRITO EKLESIASTIKO NG {district.toUpperCase()}</p>
         </div>
 
-        <div className="mt-8">
-          <p>{date}</p>
+        {/* Date - Minimal spacing */}
+        <div className="mt-2">
+          <p className="text-[10pt]">{date}</p>
         </div>
 
-        <div className="mt-8">
-          <p>Kapatid na {districtMinister}</p>
-          <p>Tagapangasiwa ng Distrito</p>
+        {/* Recipient - Minimal spacing */}
+        <div className="mt-3">
+          <p className="text-[10pt]">Kapatid na {districtMinister}</p>
+          <p className="text-[10pt]">Tagapangasiwa ng Distrito</p>
         </div>
 
-        <div className="mt-8">
-          <p>Mahal na kapatid,</p>
+        {/* Body - Compact */}
+        <div className="mt-3">
+          <p className="text-[10pt]">Mahal na kapatid,</p>
 
-          <p className="mt-4 text-justify indent-10">
+          <p className="mt-2 text-justify indent-6 text-[10pt] leading-tight">
             Magalang po naming hinihiling na inyong mapagtibay ang mga kapatid
             na nagnanais na tumanggap ng gampanin sa Iglesia bilang Associate
             Member ng samahang SCAN sa aming lokal.
           </p>
 
-          <p className="mt-4">
+          <p className="mt-2 text-[10pt]">
             Sila po ay ang mga sumusunod:
           </p>
         </div>
 
-        {/* Table */}
-        <table className="mt-4 w-full border-collapse border border-black">
+        {/* Table - Compact rows */}
+        <table className="mt-2 w-full border-collapse border border-black text-[9pt]">
           <thead>
             <tr>
-              <th className="border border-black p-1 text-left">Blg.</th>
-              <th className="border border-black p-1 text-left">
+              <th className="border border-black px-1 py-0.5 text-left w-[8%]">Blg.</th>
+              <th className="border border-black px-1 py-0.5 text-left w-[37%]">
                 Pangalan
               </th>
-              <th className="border border-black p-1 text-left">
+              <th className="border border-black px-1 py-0.5 text-left w-[25%]">
                 Kapisanan
               </th>
-              <th className="border border-black p-1 text-left">
-                Nag recruit na Ministro/Manggagawa
+              <th className="border border-black px-1 py-0.5 text-left w-[30%]">
+                Nag recruit
               </th>
             </tr>
           </thead>
@@ -96,78 +100,68 @@ export default function ScanRecommendationLetter({
 
               return (
                 <tr key={index}>
-                  <td className="h-8 border border-black px-2">
+                  <td className="border border-black px-1 py-0.5 text-center align-top">
                     {index + 1}
-                  </td>
+                   </td>
 
-                  <td className="border border-black px-2">
+                  <td className="border border-black px-1 py-0.5 align-top">
                     {member?.name || ''}
-                  </td>
+                   </td>
 
-                  <td className="border border-black px-2">
+                  <td className="border border-black px-1 py-0.5 align-top">
                     {member?.kapisanan || ''}
-                  </td>
+                   </td>
 
-                  <td className="border border-black px-2">
+                  <td className="border border-black px-1 py-0.5 align-top">
                     {member?.recruitedBy || ''}
-                  </td>
+                   </td>
                 </tr>
               );
             })}
           </tbody>
         </table>
 
-        <p className="mt-4">
+        {/* Closing statement */}
+        <p className="mt-2 text-[10pt]">
           Anuman po ang inyong magiging pasya ay lubos po naming susundin at
           igagalang.
         </p>
 
-        <p className="mt-8">
+        {/* Closing remark */}
+        <p className="mt-3 text-[10pt]">
           Ang inyo pong mga kapatid sa Panginoon,
         </p>
 
-        {/* Signatories */}
-        <div className="mt-12 grid grid-cols-3 gap-y-12 text-center">
+        {/* Signatories - 2 columns, compact */}
+        <div className="mt-4 grid grid-cols-2 gap-x-6 gap-y-2 text-center">
           <div>
-            <p className="font-semibold uppercase">
-              BONNARD JOSE ARAULLO
-            </p>
-            <p>V-Pangulong Diakono</p>
+            <p className="font-semibold uppercase text-[9pt] leading-tight">BONNARD JOSE ARAULLO</p>
+            <p className="text-[9pt]">V-Pangulong Diakono</p>
           </div>
 
           <div>
-            <p className="font-semibold uppercase">
-              MARIANO LEBARDO JR
-            </p>
-            <p>IV-Pangulong Diakono</p>
+            <p className="font-semibold uppercase text-[9pt] leading-tight">MARIANO LEBARDO JR</p>
+            <p className="text-[9pt]">IV-Pangulong Diakono</p>
           </div>
 
           <div>
-            <p className="font-semibold uppercase">
-              NORMAN
-            </p>
-            <p>III-Pangulong Diakono</p>
+            <p className="font-semibold uppercase text-[9pt] leading-tight">NORMAN</p>
+            <p className="text-[9pt]">III-Pangulong Diakono</p>
           </div>
 
           <div>
-            <p className="font-semibold uppercase">
-              ALVI ADAME
-            </p>
-            <p>II-Pangulong Diakono</p>
+            <p className="font-semibold uppercase text-[9pt] leading-tight">ALVI ADAME</p>
+            <p className="text-[9pt]">II-Pangulong Diakono</p>
           </div>
 
           <div>
-            <p className="font-semibold uppercase">
-              RODELLO DELA PAZ
-            </p>
-            <p>Pangulong Diakono</p>
+            <p className="font-semibold uppercase text-[9pt] leading-tight">RODELLO DELA PAZ</p>
+            <p className="text-[9pt]">Pangulong Diakono</p>
           </div>
 
           <div>
-            <p className="font-semibold uppercase">
-              MARLON SEVILLA
-            </p>
-            <p>Pastor</p>
+            <p className="font-semibold uppercase text-[9pt] leading-tight">MARLON SEVILLA</p>
+            <p className="text-[9pt]">Pastor</p>
           </div>
         </div>
       </div>
