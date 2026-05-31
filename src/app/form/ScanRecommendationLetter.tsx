@@ -170,41 +170,6 @@ export default function ScanRecommendationLetter({
             <p>Pastor</p>
           </div>
         </div>
-
-        {/* Approval */}
-        <div className="mt-16">
-          <div className="border border-black py-2 text-center font-bold">
-            PAGPAPATIBAY NG DISTRITO
-          </div>
-
-          <table className="w-full border-collapse border-x border-b border-black">
-            <tbody>
-              <tr>
-                <td className="border border-black p-2 text-center">
-                  NAGSIYASAT SA DISTRITO
-                </td>
-                <td className="border border-black p-2 text-center">
-                  PINAGTIBAY
-                </td>
-              </tr>
-
-              <tr>
-                <td className="h-24 border border-black" />
-                <td className="border border-black" />
-              </tr>
-
-              <tr>
-                <td className="border border-black p-2 text-center">
-                  PETSA
-                </td>
-
-                <td className="border border-black p-2 text-center">
-                  PETSA
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
       </div>
     </div>
   );
