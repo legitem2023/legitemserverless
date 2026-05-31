@@ -93,6 +93,8 @@ export default function Home() {
   const [editingMember, setEditingMember] = useState<{ index: number; member: Member } | null>(null);
   const [newMember, setNewMember] = useState<Member>({
     name: '',
+    kapisanan:'',
+    kahilingan:'',
     callSign: '',
     schedules: [{ date: '', day: '', time: '', service: 'worship' }]
   });
