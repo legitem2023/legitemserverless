@@ -55,7 +55,7 @@ export default function AttendanceSheet({
           w-[8.5in]
           min-h-[14in]
           p-6
-          text-[11pt]
+          text-[10pt]
           leading-normal
           font-sans
         "
