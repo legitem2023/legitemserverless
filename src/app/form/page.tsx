@@ -86,7 +86,7 @@ function getAlignedDate(dayName: string) {
 }
 
 export default function Home() {
-  const [activeTab, setActiveTab] = useState<'print' | 'crud'>('crud');
+  const [activeTab, setActiveTab] = useState<'print' | 'crud' | 'letter'>('crud');
   const [data, setData] = useState<{ members: Member[] }>({ members: [] });
   const [editingMember, setEditingMember] = useState<{ index: number; member: Member } | null>(null);
   const [newMember, setNewMember] = useState<Member>({
@@ -221,13 +221,23 @@ export default function Home() {
     }
   };
 
- /* const groupedSchedules: { [key: string]: GroupedSchedule } = {};
+  const groupedSchedules: { [key: string]: GroupedSchedule } = {};
 
   data.members.forEach((member) => {
     member.schedules.forEach((schedule) => {
       if (schedule.day && schedule.time) {
         const serviceType = schedule.service || 'worship';
-        const computedDate = getAlignedDate(schedule.day);
+        let computedDate = getAlignedDate(schedule.day);
+        
+        // --- MODIFICATION START ---
+        // If the service is 'distrito', add 3 days to the calculated date
+        if (serviceType === 'Distrito') {
+          const newDate = new Date(computedDate);
+          newDate.setDate(computedDate.getDate() + 7);
+          computedDate = newDate;
+        }
+        // --- MODIFICATION END ---
+
         const key = `${computedDate.toISOString().split('T')[0]}-${schedule.time}-${serviceType}`;
 
         if (!groupedSchedules[key]) {
@@ -243,40 +253,7 @@ export default function Home() {
         groupedSchedules[key].members.push(member);
       }
     });
-  });*/
-const groupedSchedules: { [key: string]: GroupedSchedule } = {};
-
-data.members.forEach((member) => {
-  member.schedules.forEach((schedule) => {
-    if (schedule.day && schedule.time) {
-      const serviceType = schedule.service || 'worship';
-      let computedDate = getAlignedDate(schedule.day);
-      
-      // --- MODIFICATION START ---
-      // If the service is 'distrito', add 3 days to the calculated date
-      if (serviceType === 'Distrito') {
-        const newDate = new Date(computedDate);
-        newDate.setDate(computedDate.getDate() + 7);
-        computedDate = newDate;
-      }
-      // --- MODIFICATION END ---
-
-      const key = `${computedDate.toISOString().split('T')[0]}-${schedule.time}-${serviceType}`;
-
-      if (!groupedSchedules[key]) {
-        groupedSchedules[key] = {
-          date: computedDate.toISOString(),
-          day: schedule.day,
-          time: schedule.time,
-          service: serviceType,
-          members: [],
-        };
-      }
-
-      groupedSchedules[key].members.push(member);
-    }
   });
-});
 
   
   const sortedSchedules = Object.values(groupedSchedules).sort((a, b) => {
@@ -361,6 +338,16 @@ data.members.forEach((member) => {
           }`}
         >
           Manage Members
+        </button>
+        <button
+          onClick={() => setActiveTab('letter')}
+          className={`flex-1 px-4 py-2 rounded-md transition-colors ${
+            activeTab === 'letter'
+              ? 'bg-black text-white'
+              : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+          }`}
+        >
+          Recommendation Letter
         </button>
       </div>
 
@@ -479,6 +466,22 @@ data.members.forEach((member) => {
               </div>
             </div>
           ))}
+        </div>
+      )}
+
+      {activeTab === 'letter' && (
+        <div className="flex p-5 items-center justify-center">
+          <ScanRecommendationLetter 
+            date=""
+            districtMinister=""
+            local=""
+            district=""
+            members={data.members.map(member => ({
+              name: member.name,
+              kapisanan: "",
+              recruitedBy: ""
+            }))}
+          />
         </div>
       )}
 
