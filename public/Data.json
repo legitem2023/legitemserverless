@@ -2,6 +2,8 @@
   "members": [
     {
       "name": "Dan Kevin Balubal",
+      "kapisanan","Kadiwa",
+      "kahilingan","true",
       "callSign": "15-26",
       "schedules": [
         {
@@ -20,6 +22,8 @@
     },
     {
       "name": "Maricris Ramirez",
+      "kapisanan","Buklod",
+      "kahilingan","true",
       "callSign": "15-34",
       "schedules": [
         {
@@ -38,6 +42,8 @@
     },
     {
       "name": "Lorenzo Balisi",
+      "kapisanan","Buklod",
+      "kahilingan","true",
       "callSign": "15-39",
       "schedules": [
         {
@@ -56,6 +62,8 @@
     },
     {
       "name": "Reynaldo Flores",
+      "kapisanan","Buklod",
+      "kahilingan","true",
       "callSign": "15-37",
       "schedules": [
         {
@@ -74,11 +82,15 @@
     },
     {
       "name": "Christian Bulalacao",
+      "kapisanan","Binhi",
+      "kahilingan","false",
       "callSign": "15-29",
       "schedules": []
     },
     {
       "name": "Nelson Mendoza",
+      "kapisanan","Kadiwa",
+      "kahilingan","false",
       "callSign": "15-23",
       "schedules": [
         {
@@ -103,6 +115,8 @@
     },
     {
       "name": "Robert Marquez",
+      "kapisanan","Kadiwa",
+      "kahilingan","true",
       "callSign": "15-4",
       "schedules": [
         {
@@ -133,6 +147,8 @@
     },
     {
       "name": "Lance Kenneth Feliciano",
+      "kapisanan","Kadiwa",
+      "kahilingan","true",
       "callSign": "15-40",
       "schedules": [{
           "service": "worship",
@@ -150,6 +166,8 @@
     },
     {
       "name": "Benerico Villaluz",
+      "kapisanan","Buklod",
+      "kahilingan","true",
       "callSign": "15-25",
       "schedules": [
         {
@@ -168,6 +186,8 @@
     },
     {
       "name": "Justine Jacob Rodriguez",
+      "kapisanan","Kadiwa",
+      "kahilingan","true",
       "callSign": "15-5",
       "schedules": [
         {
@@ -186,21 +206,29 @@
     },
     {
       "name": "Alfredo Lebradores",
+      "kapisanan","Buklod",
+      "kahilingan","false",
       "callSign": "15-22",
       "schedules": []
     },
     {
       "name": "Alvin Lebradores",
+      "kapisanan","Buklod",
+      "kahilingan","false",
       "callSign": "15-21",
       "schedules": []
     },
     {
       "name": "Federico Hernandez",
+      "kapisanan","Buklod",
+      "kahilingan","false",
       "callSign": "15-24",
       "schedules": []
     },
     {
       "name": "Eduardo Rosales",
+      "kapisanan","Buklod",
+      "kahilingan","false",
       "callSign": "15-36",
       "schedules": [
         {
@@ -231,6 +259,8 @@
     },
     {
       "name": "Alvin Bancat",
+      "kapisanan","Kadiwa",
+      "kahilingan","false",
       "callSign": "15-28",
       "schedules": [
         {
@@ -243,11 +273,15 @@
     },
     {
       "name": "Alexander Gagarin",
+      "kapisanan","Buklod",
+      "kahilingan","false",
       "callSign": "",
       "schedules": []
     },
     {
       "name": "Julian Ramirez",
+      "kapisanan","Buklod",
+      "kahilingan","true",
       "callSign": "15-35",
       "schedules": [
         {
@@ -266,16 +300,22 @@
     },
     {
       "name": "Althea Balubal",
+      "kapisanan","Kadiwa",
+      "kahilingan","false",
       "callSign": "OJT",
       "schedules": []
     },
     {
       "name": "Ma. Elaine Garcia",
+      "kapisanan","Kadiwa",
+      "kahilingan","false",
       "callSign": "OJT",
       "schedules": []
     },
     {
       "name": "Yna Carla Kennedy",
+      "kapisanan","Kadiwa",
+      "kahilingan","false",
       "callSign": "OJT",
       "schedules": []
     }
