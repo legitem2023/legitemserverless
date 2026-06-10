@@ -23,6 +23,7 @@ interface Props {
   category:
     | 'Communicators'
     | 'Emergency First Responder (EFR)'
+    | 'Associate Members (Not Approved)'
     | 'Associate Members (Approved)';
   members: ScanMember[];
 }
