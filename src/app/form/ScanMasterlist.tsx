@@ -15,6 +15,10 @@ interface ScanMember {
   function: string | string[];
   schedules: Schedule[];
   picture?: string;
+  Petsa_ng_maging_scan?: string;  // New field
+  Pagpapatibay?: string;          // New field
+  AssociateCategory?: string;     // New field
+  AmatureCallsign?: string;       // New field
 }
 
 interface Props {
@@ -47,12 +51,11 @@ export default function ScanMasterlist({
       middleName: parts.length > 2 ? parts.slice(1, -1).join(' ') : '',
       lastName: parts.length > 1 ? parts[parts.length - 1] : '',
       local: 'KADALAGAHAN',
-      scanDate: member.schedules?.[0]?.date
-        ? new Date(member.schedules[0].date).toLocaleDateString('en-US')
-        : '',
-      amateurCallsign: member.callSign,
+      scanDate: member.Petsa_ng_maging_scan,
+      amateurCallsign: member.AmatureCallsign,
       internalCallsign: member.callSign,
-      associateCategory: member.kapisanan,
+      associateCategory: member.AssociateCategory,
+      pagpapatibay: member.Pagpapatibay || '',
       functions: functionValue,
       picture: member.picture || '',
       certificateNumber: '',
@@ -281,4 +284,4 @@ export default function ScanMasterlist({
       })}
     </div>
   );
-}
+                    }
