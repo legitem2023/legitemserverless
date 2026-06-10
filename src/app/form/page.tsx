@@ -101,6 +101,7 @@ export default function Home() {
     kahilingan:'',
     callSign: '',
     function: '',
+    picture: '',
     schedules: [{ date: '', day: '', time: '', service: 'worship' }]
   });
   const [loading, setLoading] = useState(true);
@@ -164,6 +165,7 @@ export default function Home() {
           kahilingan:'',
           callSign: '',
           function: '',
+          picture: '',
           schedules: [{ date: '', day: '', time: '', service: 'worship' }]
         });
         setSuccess('Member added successfully!');
