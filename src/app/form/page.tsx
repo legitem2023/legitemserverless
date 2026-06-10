@@ -547,7 +547,7 @@ export default function Home() {
           <ScanMasterlist
             district="Rizal"
             category="Emergency First Responder(EFR)"
-            members={data.members.filter((data:any) => data.function==="Emergency First Responder(EFR)")}
+            members={data.members.filter((data:any) => data.function==="Emergency First Responder (EFR)")}
           />
           <ScanMasterlist
             district="Rizal"
@@ -557,12 +557,12 @@ export default function Home() {
           <ScanMasterlist
             district="Rizal"
             category="Associate(Approved)"
-            members={data.members.filter((data:any) => data.function==="Associate(Approved)")}
+            members={data.members.filter((data:any) => data.function==="Associate (Approved)")}
           />
           <ScanMasterlist
             district="Rizal"
             category="Associate(Not Approved)"
-            members={data.members.filter((data:any) => data.function==="Associate(Not Approved)")}
+            members={data.members.filter((data:any) => data.function==="Associate (Not Approved)")}
           />
         </div>
       )}
