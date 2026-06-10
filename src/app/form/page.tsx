@@ -560,7 +560,7 @@ const categories: Array<"Communicators" | "Emergency First Responder (EFR)" | "A
       key={category}
       district="Rizal"
       category={category}
-      members={filteredMembers.filter((data:any) => data.schedules !== [])}
+      members={filteredMembers.filter((data:any) => data.schedules && data.schedules.length > 0)}
     />
   ) : null;
 })}
