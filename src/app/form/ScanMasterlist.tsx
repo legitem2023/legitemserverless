@@ -119,7 +119,7 @@ export default function ScanMasterlist({
               <div className="border-b border-black flex-1" />
             </div>
 
-            <table className="w-full border-collapse text-[10px]">
+            <table className="w-full border-collapse text-[10px] table-fixed">
               <thead>
                 <tr>
                   <th rowSpan={2} className="border border-black w-[90px]">
@@ -158,65 +158,76 @@ export default function ScanMasterlist({
               </thead>
 
               <tbody>
-                {Array.from({ length: rowsPerPage }).map((_, rowIndex) => {
-                  const member = pageMembers[rowIndex];
-
-                  return (
-                    <tr key={rowIndex}>
-                      <td className="border border-black h-[105px] w-[90px] p-0 m-0 align-middle text-center">
-                        {member?.picture ? (
-                          // eslint-disable-next-line @next/next/no-img-element
+                {pageMembers.map((member, rowIndex) => (
+                  <tr key={rowIndex}>
+                    <td className="border border-black h-[105px] w-[90px] p-1 align-middle text-center">
+                      {member?.picture && member.picture.length > 0 ? (
+                        <div className="flex justify-center items-center h-full w-full">
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
                           <img
                             src={member.picture}
                             alt="ID"
-                            className="w-full h-full object-cover"
-                            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                            className="max-w-full max-h-full object-contain"
                           />
+                        </div>
+                      ) : (
+                        <div className="text-gray-400 text-[8px]">
+                          No Photo
+                        </div>
+                      )}
+                    </td>
+                    <td className="border border-black px-1 align-top">
+                      {member?.firstName || ''}
+                    </td>
+                    <td className="border border-black px-1 align-top">
+                      {member?.middleName || ''}
+                    </td>
+                    <td className="border border-black px-1 align-top">
+                      {member?.lastName || ''}
+                    </td>
+                    <td className="border border-black px-1 align-top">
+                      {member?.local || ''}
+                    </td>
+                    <td className="border border-black px-1 align-top">
+                      {member?.scanDate || ''}
+                    </td>
+                    <td className="border border-black px-1 align-top">
+                      {getSpecialColumnValue(member)}
+                    </td>
+                    <td className="border border-black px-1 align-top">
+                      {member?.internalCallsign || ''}
+                    </td>
+                    <td className="border border-black px-1 align-top">
+                      {member?.functions && member.functions.length > 0 ? (
+                        member.functions.length === 1 ? (
+                          member.functions[0]
                         ) : (
-                          <div className="w-full h-full flex items-center justify-center text-gray-400 text-[8px]">
-                            No Photo
-                          </div>
-                        )}
-                      </td>
-                      <td className="border border-black px-1 align-top">
-                        {member?.firstName || ''}
-                      </td>
-                      <td className="border border-black px-1 align-top">
-                        {member?.middleName || ''}
-                      </td>
-                      <td className="border border-black px-1 align-top">
-                        {member?.lastName || ''}
-                      </td>
-                      <td className="border border-black px-1 align-top">
-                        {member?.local || ''}
-                      </td>
-                      <td className="border border-black px-1 align-top">
-                        {member?.scanDate || ''}
-                      </td>
-                      <td className="border border-black px-1 align-top">
-                        {getSpecialColumnValue(member)}
-                      </td>
-                      <td className="border border-black px-1 align-top">
-                        {member?.internalCallsign || ''}
-                      </td>
-                      <td className="border border-black px-1 align-top">
-                        {member?.functions && member.functions.length > 0 ? (
-                          member.functions.length === 1 ? (
-                            member.functions[0]
-                          ) : (
-                            <ul className="list-disc pl-4 m-0">
-                              {member.functions.map((fn, idx) => (
-                                <li key={idx}>{fn}</li>
-                              ))}
-                            </ul>
-                          )
-                        ) : (
-                          ''
-                        )}
-                      </td>
-                    </tr>
-                  );
-                })}
+                          <ul className="list-disc pl-4 m-0">
+                            {member.functions.map((fn, idx) => (
+                              <li key={idx}>{fn}</li>
+                            ))}
+                          </ul>
+                        )
+                      ) : (
+                        ''
+                      )}
+                    </td>
+                  </tr>
+                ))}
+                {/* Fill empty rows to maintain 5 rows per page */}
+                {Array.from({ length: rowsPerPage - pageMembers.length }).map((_, emptyIndex) => (
+                  <tr key={`empty-${emptyIndex}`}>
+                    <td className="border border-black h-[105px]">&nbsp;</td>
+                    <td className="border border-black">&nbsp;</td>
+                    <td className="border border-black">&nbsp;</td>
+                    <td className="border border-black">&nbsp;</td>
+                    <td className="border border-black">&nbsp;</td>
+                    <td className="border border-black">&nbsp;</td>
+                    <td className="border border-black">&nbsp;</td>
+                    <td className="border border-black">&nbsp;</td>
+                    <td className="border border-black">&nbsp;</td>
+                  </tr>
+                ))}
               </tbody>
             </table>
 
@@ -228,4 +239,4 @@ export default function ScanMasterlist({
       })}
     </>
   );
-}
+                }
