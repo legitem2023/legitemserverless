@@ -485,7 +485,7 @@ export default function Home() {
                     <p>PD - TAGASUBAYBAY</p>
                   </div>
                   <div className="text-center">
-                    <p className="font-semibold uppercase">DE GUZMAN</p>
+                    <p className="font-semibold uppercase">RODOLFO DE GUZMAN</p>
                     <p>DESTINADO NG LOKAL</p>
                   </div>
                 </div>
