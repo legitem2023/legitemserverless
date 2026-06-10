@@ -33,7 +33,7 @@ export default function ScanMasterlist({
   category,
   members,
 }: Props) {
-  const rowsPerPage = 8; // Increased for landscape
+  const rowsPerPage = 100; // Increased for landscape
 
   const transformedMembers = members.map((member) => {
     const parts = member.name.trim().split(' ');
