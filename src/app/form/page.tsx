@@ -550,13 +550,13 @@ export default function Home() {
   "Associate Members (Approved)",
   "Associate Members (Not Approved)"
 ].map((category) => {
-  const filteredMembers = data.members.filter((m: any) => m.function === category && m.schedules!==[]);
+  const filteredMembers = data.members.filter((m: any) => m.function === category);
   return filteredMembers.length > 0 ? (
     <ScanMasterlist
       key={category}
       district="Rizal"
       category={category}
-      members={filteredMembers}
+      members={filteredMembers.filter((data:any) => data.schedules !== [])}
     />
   ) : null;
 })}
