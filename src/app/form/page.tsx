@@ -546,7 +546,7 @@ export default function Home() {
         <div className="flex p-5 items-center justify-center">
           <ScanMasterlist
             district="Rizal"
-            category="Emergency First Responder(EFR)"
+            category="Emergency First Responder (EFR)"
             members={data.members.filter((data:any) => data.function==="Emergency First Responder (EFR)")}
           />
           <ScanMasterlist
@@ -556,12 +556,12 @@ export default function Home() {
           />
           <ScanMasterlist
             district="Rizal"
-            category="Associate(Approved)"
+            category="Associate (Approved)"
             members={data.members.filter((data:any) => data.function==="Associate (Approved)")}
           />
           <ScanMasterlist
             district="Rizal"
-            category="Associate(Not Approved)"
+            category="Associate (Not Approved)"
             members={data.members.filter((data:any) => data.function==="Associate (Not Approved)")}
           />
         </div>
