@@ -185,9 +185,9 @@ export default function ScanMasterlist({
                     <br />
                     CALLSIGN
                   </th>
-                  <th rowSpan={2} className="border border-black w-[140px]">
+                  {/*<th rowSpan={2} className="border border-black w-[140px]">
                     FUNCTION/S
-                  </th>
+                  </th>*/}
                 </tr>
                 <tr>
                   <th className="border border-black">FIRST NAME</th>
@@ -236,7 +236,7 @@ export default function ScanMasterlist({
                     <td className="border border-black px-1 text-[8px]">
                       {member?.internalCallsign || ''}
                     </td>
-                    <td className="border border-black px-1 text-[8px]">
+                    {/*<td className="border border-black px-1 text-[8px]">
                       {member?.functions && member.functions.length > 0 ? (
                         member.functions.length === 1 ? (
                           member.functions[0]
@@ -250,7 +250,7 @@ export default function ScanMasterlist({
                       ) : (
                         ''
                       )}
-                    </td>
+                    </td>*/}
                   </tr>
                 ))}
                 {/* Fill empty rows to maintain rowsPerPage */}
@@ -264,7 +264,7 @@ export default function ScanMasterlist({
                     <td className="border border-black">&nbsp;</td>
                     <td className="border border-black">&nbsp;</td>
                     <td className="border border-black">&nbsp;</td>
-                    <td className="border border-black">&nbsp;</td>
+                    {/* <td className="border border-black">&nbsp;</td>*/}
                   </tr>
                 ))}
               </tbody>
