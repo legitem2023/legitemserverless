@@ -557,12 +557,12 @@ export default function Home() {
           <ScanMasterlist
             district="Rizal"
             category="Associate Members (Approved)"
-            members={data.members.filter((data:any) => data.function==="Associate (Approved)")}
+            members={data.members.filter((data:any) => data.function==="Associate Members (Approved)")}
           />
           <ScanMasterlist
             district="Rizal"
             category="Associate Members (Not Approved)"
-            members={data.members.filter((data:any) => data.function==="Associate (Not Approved)")}
+            members={data.members.filter((data:any) => data.function==="Associate Members (Not Approved)")}
           />
         </div>
       )}
