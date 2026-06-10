@@ -164,7 +164,7 @@ export default function ScanRecommendationLetter({
             </div>
 
             <div className="text-center">
-              <p className="font-semibold uppercase">De Guzman</p>
+              <p className="font-semibold uppercase">RODOLFO DE GUZMAN</p>
               <p>Destinado</p>
             </div>
           </div>
