@@ -153,8 +153,10 @@ export default function ScanMasterlist({
             {/* District Line */}
             <div className="mb-3 text-sm flex items-center gap-2">
               <span>Distrito:</span>
-              <span className="font-bold">{district}</span>
-              <div className="border-b border-black flex-1" />
+              <span className="font-bold relative inline-block min-w-[100px]">
+              {district}
+               <div className="absolute left-0 -bottom-1 w-full border-b border-black" />
+              </span>
             </div>
 
             {/* Table */}
