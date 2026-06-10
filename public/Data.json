@@ -5,7 +5,7 @@
       "kapisanan": "Kadiwa",
       "kahilingan": "false",
       "callSign": "15-26",
-      "function": "Associate (Approved)",
+      "function": "Associate Members (Approved)",
       "picture": "",
       "schedules": [
         {
@@ -27,7 +27,7 @@
       "kapisanan": "Buklod",
       "kahilingan": "true",
       "callSign": "15-34",
-      "function": "Associate (Not Approved)",
+      "function": "Associate Members (Not Approved)",
       "picture": "",
       "schedules": [
         {
@@ -49,7 +49,7 @@
       "kapisanan": "Buklod",
       "kahilingan": "false",
       "callSign": "15-39",
-      "function": "Associate (Not Approved)",
+      "function": "Associate Members (Not Approved)",
       "picture": "",
       "schedules": [
         {
@@ -71,7 +71,7 @@
       "kapisanan": "Buklod",
       "kahilingan": "true",
       "callSign": "15-37",
-      "function": "Associate (Not Approved)",
+      "function": "Associate Members (Not Approved)",
       "picture": "",
       "schedules": [
         {
@@ -93,7 +93,7 @@
       "kapisanan": "Binhi",
       "kahilingan": "false",
       "callSign": "15-29",
-      "function": "Associate (Not Approved)",
+      "function": "Associate Members (Not Approved)",
       "picture": "",
       "schedules": []
     },
@@ -102,7 +102,7 @@
       "kapisanan": "Kadiwa",
       "kahilingan": "false",
       "callSign": "15-23",
-      "function": "Associate (Approved)",
+      "function": "Associate Members (Approved)",
       "picture": "",
       "schedules": [
         {
@@ -130,7 +130,7 @@
       "kapisanan": "Kadiwa",
       "kahilingan": "true",
       "callSign": "15-4",
-      "function": "Associate (Not Approved)",
+      "function": "Associate Members (Not Approved)",
       "picture": "",
       "schedules": [
         {
@@ -164,7 +164,7 @@
       "kapisanan": "Kadiwa",
       "kahilingan": "true",
       "callSign": "15-40",
-      "function": "Associate (Not Approved)",
+      "function": "Associate Members (Not Approved)",
       "picture": "",
       "schedules": [
         {
@@ -208,7 +208,7 @@
       "kapisanan": "Kadiwa",
       "kahilingan": "true",
       "callSign": "15-5",
-      "function": "Associate (Not Approved)",
+      "function": "Associate Members (Not Approved)",
       "picture": "",
       "schedules": [
         {
@@ -230,7 +230,7 @@
       "kapisanan": "Buklod",
       "kahilingan": "false",
       "callSign": "15-22",
-      "function": "Associate (Not Approved)",
+      "function": "Associate Members (Not Approved)",
       "picture": "",
       "schedules": []
     },
@@ -239,7 +239,7 @@
       "kapisanan": "Buklod",
       "kahilingan": "false",
       "callSign": "15-21",
-      "function": "Associate (Not Approved)",
+      "function": "Associate Members (Not Approved)",
       "picture": "",
       "schedules": []
     },
@@ -257,7 +257,7 @@
       "kapisanan": "Buklod",
       "kahilingan": "false",
       "callSign": "15-36",
-      "function": "Associate (Approved)",
+      "function": "Associate Members (Approved)",
       "picture": "",
       "schedules": [
         {
@@ -291,7 +291,7 @@
       "kapisanan": "Kadiwa",
       "kahilingan": "false",
       "callSign": "15-28",
-      "function": "Associate (Approved)",
+      "function": "Associate Members (Approved)",
       "picture": "",
       "schedules": [
         {
@@ -307,7 +307,7 @@
       "kapisanan": "Buklod",
       "kahilingan": "false",
       "callSign": "",
-      "function": "Associate (Not Approved)",
+      "function": "Associate Members (Not Approved)",
       "picture": "",
       "schedules": []
     },
@@ -316,7 +316,7 @@
       "kapisanan": "Buklod",
       "kahilingan": "true",
       "callSign": "15-35",
-      "function": "Associate (Not Approved)",
+      "function": "Associate Members (Not Approved)",
       "picture": "",
       "schedules": [
         {
@@ -338,7 +338,7 @@
       "kapisanan": "Buklod",
       "kahilingan": "true",
       "callSign": "OJT",
-      "function": "Associate (Not Approved)",
+      "function": "Associate Members (Not Approved)",
       "picture": "",
       "schedules": []
     }
