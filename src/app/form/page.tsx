@@ -543,7 +543,7 @@ export default function Home() {
       )}
 
       {activeTab === 'masterlist' && (
-        <div className="flex p-5 items-center justify-center">
+        <div className="flex p-5 flex-col">
           <ScanMasterlist
             district="Rizal"
             category="Emergency First Responder (EFR)"
