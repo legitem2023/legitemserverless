@@ -310,6 +310,15 @@ export default function Home() {
       remarks: ''
     }));
 
+const categories: Array<"Communicators" | "Emergency First Responder (EFR)" | "Associate Members (Approved)" | "Associate Members (Not Approved)"> = [
+  "Emergency First Responder (EFR)",
+  "Communicators",
+  "Associate Members (Approved)",
+  "Associate Members (Not Approved)"
+];
+
+
+  
   if (loading) {
     return (
       <div className="bg-gray-300 min-h-screen flex items-center justify-center">
@@ -544,12 +553,7 @@ export default function Home() {
 
       {activeTab === 'masterlist' && (
         <div className="flex p-5 flex-col">
-          {[
-  "Emergency First Responder (EFR)",
-  "Communicators",
-  "Associate Members (Approved)",
-  "Associate Members (Not Approved)"
-].map((category) => {
+{categories.map((category) => {
   const filteredMembers = data.members.filter((m: any) => m.function === category);
   return filteredMembers.length > 0 ? (
     <ScanMasterlist
