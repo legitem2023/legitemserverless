@@ -23,8 +23,8 @@ interface Props {
   category:
     | 'Communicators'
     | 'Emergency First Responder (EFR)'
-    | 'Associate Members (Not Approved)'
-    | 'Associate Members (Approved)';
+    | 'Associate Members (Approved)'
+    | 'Associate Members (Not Approved)';
   members: ScanMember[];
 }
 
@@ -65,6 +65,8 @@ export default function ScanMasterlist({
         return 'EFR CERTIFICATE SERIAL NUMBER';
       case 'Associate Members (Approved)':
         return 'ASSOCIATE MEMBER CATEGORY';
+      case 'Associate Members (Not Approved)':
+        return 'ASSOCIATE MEMBER CATEGORY';
       case 'Communicators':
       default:
         return 'AMATEUR CALLSIGN';
@@ -77,6 +79,8 @@ export default function ScanMasterlist({
         return member.certificateNumber;
       case 'Associate Members (Approved)':
         return member.associateCategory;
+      case 'Associate Members (Not Approved)':
+        return member.associateCategory;
       case 'Communicators':
       default:
         return member.amateurCallsign;
@@ -84,6 +88,11 @@ export default function ScanMasterlist({
   };
 
   const totalPages = Math.max(1, Math.ceil(transformedMembers.length / rowsPerPage));
+
+  // Don't render if no members
+  if (members.length === 0) {
+    return null;
+  }
 
   return (
     <>
@@ -240,4 +249,4 @@ export default function ScanMasterlist({
       })}
     </>
   );
-                }
+}
