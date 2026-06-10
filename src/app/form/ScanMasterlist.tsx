@@ -1,10 +1,11 @@
 'use client';
+import Image from 'next/image';
 
 interface Schedule {
-  service: string;
   date: string;
   day: string;
   time: string;
+  service?: 'PNK' | 'worship' | 'Distrito';
 }
 
 interface ScanMember {
@@ -12,8 +13,9 @@ interface ScanMember {
   kapisanan: string;
   kahilingan: string;
   callSign: string;
-  function: string | string[]; // Allow both string and array
+  function: string | string[];
   schedules: Schedule[];
+  picture?: string; // Base64 or URL for the member's picture
 }
 
 interface Props {
@@ -54,6 +56,7 @@ export default function ScanMasterlist({
       internalCallsign: member.callSign,
       associateCategory: member.kapisanan,
       functions: functionValue,
+      picture: member.picture || '',
       certificateNumber: '',
     };
   });
@@ -167,7 +170,24 @@ export default function ScanMasterlist({
 
                   return (
                     <tr key={rowIndex}>
-                      <td className="border border-black h-[105px]">{/* picture */}</td>
+                      <td className="border border-black h-[105px] w-[90px] p-1 align-middle text-center">
+                        {member?.picture ? (
+                          <div className="flex justify-center items-center h-full">
+                            <Image
+                              src={member.picture}
+                              alt="ID"
+                              width={80}
+                              height={80}
+                              className="object-cover border border-gray-300"
+                              style={{ width: '80px', height: '80px' }}
+                            />
+                          </div>
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center text-gray-400 text-[8px]">
+                            No Photo
+                          </div>
+                        )}
+                      </td>
                       <td className="border border-black px-1 align-top">
                         {member?.firstName || ''}
                       </td>
