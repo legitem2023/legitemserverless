@@ -148,7 +148,7 @@ export default function ScanMasterlist({
             "
           >
             {/* Header */}
-            <div className="text-center mb-4">
+            <div className="text-center mb-4" style={{ fontFamily: 'Times New Roman, serif' }}>
               <h1 className="font-bold text-[20px]">MASTERLIST NG SCAN SA DISTRITO</h1>
               <p className="italic text-[13px]">{category}</p>
             </div>
