@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import ScanRecommendationLetter from './ScanRecommendationLetter';
 import AttendanceSheet from './AttendanceSheet';
+import ScanMasterlist from './ScanMasterlist';
 
 interface Schedule {
   date: string;
@@ -17,6 +18,8 @@ interface Member {
   kapisanan: string;
   kahilingan: string;
   callSign: string;
+  function: string | string[];
+  picture: string;
   schedules: Schedule[];
 }
 
@@ -89,7 +92,7 @@ function getAlignedDate(dayName: string) {
 }
 
 export default function Home() {
-  const [activeTab, setActiveTab] = useState<'print' | 'crud' | 'letter' | 'attendance'>('crud');
+  const [activeTab, setActiveTab] = useState<'print' | 'crud' | 'letter' | 'attendance' | 'masterlist'>('crud');
   const [data, setData] = useState<{ members: Member[] }>({ members: [] });
   const [editingMember, setEditingMember] = useState<{ index: number; member: Member } | null>(null);
   const [newMember, setNewMember] = useState<Member>({
@@ -97,6 +100,7 @@ export default function Home() {
     kapisanan:'',
     kahilingan:'',
     callSign: '',
+    function: '',
     schedules: [{ date: '', day: '', time: '', service: 'worship' }]
   });
   const [loading, setLoading] = useState(true);
@@ -159,6 +163,7 @@ export default function Home() {
           kapisanan:'',
           kahilingan:'',
           callSign: '',
+          function: '',
           schedules: [{ date: '', day: '', time: '', service: 'worship' }]
         });
         setSuccess('Member added successfully!');
@@ -236,14 +241,11 @@ export default function Home() {
         const serviceType = schedule.service || 'worship';
         let computedDate = getAlignedDate(schedule.day);
         
-        // --- MODIFICATION START ---
-        // If the service is 'distrito', add 3 days to the calculated date
         if (serviceType === 'Distrito') {
           const newDate = new Date(computedDate);
           newDate.setDate(computedDate.getDate() + 7);
           computedDate = newDate;
         }
-        // --- MODIFICATION END ---
 
         const key = `${computedDate.toISOString().split('T')[0]}-${schedule.time}-${serviceType}`;
 
@@ -262,7 +264,6 @@ export default function Home() {
     });
   });
 
-  
   const sortedSchedules = Object.values(groupedSchedules).sort((a, b) => {
     const dayA = dayOrder[a.day.toLowerCase()] ?? 999;
     const dayB = dayOrder[b.day.toLowerCase()] ?? 999;
@@ -299,7 +300,6 @@ export default function Home() {
 
   const forms = [form1, form2, form3, form4];
 
-  // Prepare attendees for AttendanceSheet
   const attendees = data.members
     .filter(member => member.kahilingan === "true")
     .map(member => ({
@@ -374,6 +374,16 @@ export default function Home() {
           }`}
         >
           Attendance Sheet
+        </button>
+        <button
+          onClick={() => setActiveTab('masterlist')}
+          className={`flex-1 px-4 py-2 rounded-md transition-colors ${
+            activeTab === 'masterlist'
+              ? 'bg-black text-white'
+              : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+          }`}
+        >
+          Masterlist
         </button>
       </div>
 
@@ -461,7 +471,7 @@ export default function Home() {
                             </tr>
                           ))}
                         </tbody>
-                      </table>
+                       </table>
                     </div>
                   );
                 })}
@@ -530,6 +540,16 @@ export default function Home() {
         </div>
       )}
 
+      {activeTab === 'masterlist' && (
+        <div className="flex p-5 items-center justify-center">
+          <ScanMasterlist
+            district="Rizal"
+            category="Communicators"
+            members={data.members}
+          />
+        </div>
+      )}
+
       {activeTab === 'crud' && (
         <div className="max-w-6xl mx-auto mt-24 p-6 bg-white rounded-lg shadow-lg">
           <h2 className="text-2xl font-bold mb-6">Manage Members</h2>
@@ -552,7 +572,7 @@ export default function Home() {
                 className="border p-2 rounded"
               />
             </div>
-            <div className="grid grid-cols-2 gap-4 mb-3">
+            <div className="grid grid-cols-3 gap-4 mb-3">
               <input
                 type="text"
                 placeholder="Kapisanan"
@@ -569,6 +589,13 @@ export default function Home() {
                 <option value="true">For Recommendation</option>
                 <option value="false">Not for Recommendation</option>
               </select>
+              <input
+                type="text"
+                placeholder="Function (e.g., Associate (Not Approved))"
+                value={typeof newMember.function === 'string' ? newMember.function : newMember.function.join(', ')}
+                onChange={(e) => setNewMember({ ...newMember, function: e.target.value })}
+                className="border p-2 rounded"
+              />
             </div>
             <div className="mb-3">
               <label className="block text-sm font-medium mb-1">Schedules</label>
@@ -689,7 +716,7 @@ export default function Home() {
                           className="border p-2 rounded"
                         />
                       </div>
-                      <div className="grid grid-cols-2 gap-4 mb-3">
+                      <div className="grid grid-cols-3 gap-4 mb-3">
                         <input
                           type="text"
                           placeholder="Kapisanan"
@@ -712,6 +739,16 @@ export default function Home() {
                           <option value="true">For Recommendation</option>
                           <option value="false">Not for Recommendation</option>
                         </select>
+                        <input
+                          type="text"
+                          placeholder="Function"
+                          value={typeof editingMember.member.function === 'string' ? editingMember.member.function : editingMember.member.function.join(', ')}
+                          onChange={(e) => setEditingMember({
+                            index: idx,
+                            member: { ...editingMember.member, function: e.target.value }
+                          })}
+                          className="border p-2 rounded"
+                        />
                       </div>
                       <div className="mb-3">
                         <label className="block text-sm font-medium mb-1">Schedules</label>
@@ -836,6 +873,9 @@ export default function Home() {
                           <p className="text-gray-600 text-sm">
                             Status: {member.kahilingan === "true" ? "For Recommendation" : "Not for Recommendation"}
                           </p>
+                          <p className="text-gray-600 text-sm">
+                            Function: {typeof member.function === 'string' ? member.function : member.function?.join(', ') || 'N/A'}
+                          </p>
                         </div>
                         <div className="flex gap-2">
                           <button
@@ -924,4 +964,4 @@ export default function Home() {
       `}</style>
     </div>
   );
-      }
+          }
