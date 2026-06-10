@@ -5,6 +5,7 @@
       "kapisanan": "Kadiwa",
       "kahilingan": "false",
       "callSign": "15-26",
+      "function": "Associate (Not Approved)",
       "schedules": [
         {
           "service": "worship",
@@ -25,6 +26,7 @@
       "kapisanan": "Buklod",
       "kahilingan": "true",
       "callSign": "15-34",
+      "function": "Associate (Not Approved)",
       "schedules": [
         {
           "service": "worship",
@@ -45,6 +47,7 @@
       "kapisanan": "Buklod",
       "kahilingan": "false",
       "callSign": "15-39",
+      "function": "Associate (Not Approved)",
       "schedules": [
         {
           "service": "worship",
@@ -65,6 +68,7 @@
       "kapisanan": "Buklod",
       "kahilingan": "true",
       "callSign": "15-37",
+      "function": "Associate (Not Approved)",
       "schedules": [
         {
           "service": "worship",
@@ -85,6 +89,7 @@
       "kapisanan": "Binhi",
       "kahilingan": "false",
       "callSign": "15-29",
+      "function": "Associate (Not Approved)",
       "schedules": []
     },
     {
@@ -92,6 +97,7 @@
       "kapisanan": "Kadiwa",
       "kahilingan": "false",
       "callSign": "15-23",
+      "function": "Associate (Not Approved)",
       "schedules": [
         {
           "service": "worship",
@@ -118,6 +124,7 @@
       "kapisanan": "Kadiwa",
       "kahilingan": "true",
       "callSign": "15-4",
+      "function": "Associate (Not Approved)",
       "schedules": [
         {
           "service": "worship",
@@ -150,6 +157,7 @@
       "kapisanan": "Kadiwa",
       "kahilingan": "true",
       "callSign": "15-40",
+      "function": "Associate (Not Approved)",
       "schedules": [
         {
           "service": "worship",
@@ -170,6 +178,7 @@
       "kapisanan": "Buklod",
       "kahilingan": "false",
       "callSign": "15-25",
+      "function": "Associate (Not Approved)",
       "schedules": [
         {
           "service": "worship",
@@ -190,6 +199,7 @@
       "kapisanan": "Kadiwa",
       "kahilingan": "true",
       "callSign": "15-5",
+      "function": "Associate (Not Approved)",
       "schedules": [
         {
           "service": "worship",
@@ -210,6 +220,7 @@
       "kapisanan": "Buklod",
       "kahilingan": "false",
       "callSign": "15-22",
+      "function": "Associate (Not Approved)",
       "schedules": []
     },
     {
@@ -217,6 +228,7 @@
       "kapisanan": "Buklod",
       "kahilingan": "false",
       "callSign": "15-21",
+      "function": "Associate (Not Approved)",
       "schedules": []
     },
     {
@@ -224,6 +236,7 @@
       "kapisanan": "Buklod",
       "kahilingan": "false",
       "callSign": "15-24",
+      "function": "Associate (Not Approved)",
       "schedules": []
     },
     {
@@ -231,6 +244,7 @@
       "kapisanan": "Buklod",
       "kahilingan": "false",
       "callSign": "15-36",
+      "function": "Associate (Not Approved)",
       "schedules": [
         {
           "service": "worship",
@@ -263,6 +277,7 @@
       "kapisanan": "Kadiwa",
       "kahilingan": "false",
       "callSign": "15-28",
+      "function": "Associate (Not Approved)",
       "schedules": [
         {
           "service": "worship",
@@ -277,6 +292,7 @@
       "kapisanan": "Buklod",
       "kahilingan": "false",
       "callSign": "",
+      "function": "Associate (Not Approved)",
       "schedules": []
     },
     {
@@ -284,6 +300,7 @@
       "kapisanan": "Buklod",
       "kahilingan": "true",
       "callSign": "15-35",
+      "function": "Associate (Not Approved)",
       "schedules": [
         {
           "service": "PNK",
@@ -304,6 +321,7 @@
       "kapisanan": "Buklod",
       "kahilingan": "true",
       "callSign": "OJT",
+      "function": "Associate (Not Approved)",
       "schedules": []
     }
   ]
