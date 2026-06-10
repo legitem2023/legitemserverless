@@ -40,27 +40,39 @@ export default function ScanMasterlist({
   const rowsPerPage = 6; // Increased for landscape
 
   const transformedMembers = members.map((member) => {
-    const parts = member.name.trim().split(' ');
-    
-    const functionValue = Array.isArray(member.function) 
-      ? member.function 
-      : member.function ? [member.function] : [];
+  const parts = member.name.trim().split(' ');
+  
+  const functionValue = Array.isArray(member.function) 
+    ? member.function 
+    : member.function ? [member.function] : [];
 
-    return {
-      firstName: parts[0] || '',
-      middleName: parts.length > 2 ? parts.slice(1, -1).join(' ') : '',
-      lastName: parts.length > 1 ? parts[parts.length - 1] : '',
-      local: 'KADALAGAHAN',
-      scanDate: member.Petsa_ng_maging_scan,
-      amateurCallsign: member.AmatureCallsign,
-      internalCallsign: member.callSign,
-      associateCategory: member.AssociateCategory,
-      pagpapatibay: member.Pagpapatibay || '',
-      functions: functionValue,
-      picture: member.picture || '',
-      certificateNumber: '',
-    };
-  });
+  let firstName, lastName;
+  
+  if (parts.length === 1) {
+    // 1 word - not okay
+    firstName = parts[0];
+    lastName = '';
+  } else {
+    // 2+ words: everything except last = first name, last word = last name
+    const lastNameIndex = parts.length - 1;
+    firstName = parts.slice(0, lastNameIndex).join(' ');
+    lastName = parts[lastNameIndex];
+  }
+
+  return {
+    firstName: firstName,
+    lastName: lastName,
+    local: 'KADALAGAHAN',
+    scanDate: member.Petsa_ng_maging_scan,
+    amateurCallsign: member.AmatureCallsign,
+    internalCallsign: member.callSign,
+    associateCategory: member.AssociateCategory,
+    pagpapatibay: member.Pagpapatibay || '',
+    functions: functionValue,
+    picture: member.picture || '',
+    certificateNumber: '',
+  };
+});
 
   const getSpecialColumnHeader = () => {
     switch (category) {
