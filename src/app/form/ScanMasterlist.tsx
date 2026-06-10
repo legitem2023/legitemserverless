@@ -1,5 +1,4 @@
 'use client';
-import Image from 'next/image';
 
 interface Schedule {
   date: string;
@@ -15,7 +14,7 @@ interface ScanMember {
   callSign: string;
   function: string | string[];
   schedules: Schedule[];
-  picture?: string; // Base64 or URL for the member's picture
+  picture?: string;
 }
 
 interface Props {
@@ -35,11 +34,9 @@ export default function ScanMasterlist({
 }: Props) {
   const rowsPerPage = 5;
 
-  // Transform members dynamically
   const transformedMembers = members.map((member) => {
     const parts = member.name.trim().split(' ');
     
-    // Handle function as string or array
     const functionValue = Array.isArray(member.function) 
       ? member.function 
       : member.function ? [member.function] : [];
@@ -61,7 +58,6 @@ export default function ScanMasterlist({
     };
   });
 
-  // Dynamically determine which column to show based on category
   const getSpecialColumnHeader = () => {
     switch (category) {
       case 'Emergency First Responder (EFR)':
@@ -112,20 +108,17 @@ export default function ScanMasterlist({
               print:break-after-page
             "
           >
-            {/* HEADER */}
             <div className="text-center mb-6">
               <h1 className="font-bold text-[22px]">MASTERLIST NG SCAN SA DISTRITO</h1>
               <p className="italic text-[14px]">{category}</p>
             </div>
 
-            {/* DISTRICT */}
             <div className="mb-3 text-sm flex items-center gap-2">
               <span>Distrito:</span>
               <span className="font-bold">{district}</span>
               <div className="border-b border-black flex-1" />
             </div>
 
-            {/* TABLE */}
             <table className="w-full border-collapse text-[10px]">
               <thead>
                 <tr>
@@ -170,18 +163,15 @@ export default function ScanMasterlist({
 
                   return (
                     <tr key={rowIndex}>
-                      <td className="border border-black h-[105px] w-[90px] p-1 align-middle text-center">
+                      <td className="border border-black h-[105px] w-[90px] p-0 m-0 align-middle text-center">
                         {member?.picture ? (
-                          <div className="flex justify-center items-center h-full">
-                            <Image
-                              src={member.picture}
-                              alt="ID"
-                              width={80}
-                              height={80}
-                              className="object-cover border border-gray-300"
-                              style={{ width: '80px', height: '80px' }}
-                            />
-                          </div>
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img
+                            src={member.picture}
+                            alt="ID"
+                            className="w-full h-full object-cover"
+                            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                          />
                         ) : (
                           <div className="w-full h-full flex items-center justify-center text-gray-400 text-[8px]">
                             No Photo
