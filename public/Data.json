@@ -50,7 +50,7 @@
       "kahilingan": "false",
       "callSign": "15-39",
       "function": "Associate Members (Not Approved)",
-      "picture": "",
+      "picture": "/Enzo.jpg",
       "schedules": [
         {
           "service": "worship",
@@ -103,7 +103,7 @@
       "kahilingan": "false",
       "callSign": "15-23",
       "function": "Associate Members (Approved)",
-      "picture": "",
+      "picture": "/Nelson.jpg",
       "schedules": [
         {
           "service": "worship",
@@ -131,7 +131,7 @@
       "kahilingan": "true",
       "callSign": "15-4",
       "function": "Associate Members (Not Approved)",
-      "picture": "",
+      "picture": "/Robert.jpg",
       "schedules": [
         {
           "service": "worship",
@@ -249,7 +249,7 @@
       "kahilingan": "false",
       "callSign": "15-24",
       "function": "Emergency First Responder (EFR)",
-      "picture": "",
+      "picture": "/Rico.jpg",
       "schedules": []
     },
     {
@@ -292,7 +292,7 @@
       "kahilingan": "false",
       "callSign": "15-28",
       "function": "Associate Members (Approved)",
-      "picture": "",
+      "picture": "/AlvinB.jpg",
       "schedules": [
         {
           "service": "worship",
