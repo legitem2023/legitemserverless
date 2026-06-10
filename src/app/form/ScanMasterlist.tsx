@@ -107,29 +107,80 @@ export default function ScanMasterlist({
   const totalPages = Math.max(1, Math.ceil(transformedMembers.length / rowsPerPage));
 
   const handlePrint = () => {
-    if (printRef.current) {
+    const printContent = printRef.current?.cloneNode(true) as HTMLDivElement;
+    if (printContent) {
+      // Get all styles from the original document
+      const styles = document.querySelectorAll('style, link[rel="stylesheet"]');
+      let styleHTML = '';
+      styles.forEach((style) => {
+        if (style.tagName === 'STYLE') {
+          styleHTML += style.outerHTML;
+        } else if (style.tagName === 'LINK') {
+          styleHTML += style.outerHTML;
+        }
+      });
+
       const printWindow = window.open('', '_blank');
-      const printContent = printRef.current.innerHTML;
       printWindow?.document.write(`
         <!DOCTYPE html>
         <html>
           <head>
             <title>Masterlist ng Scan - ${district}</title>
+            ${styleHTML}
             <style>
-              * { margin: 0; padding: 0; box-sizing: border-box; }
+              * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+              }
               @media print {
-                @page { size: landscape; margin: 0.5in; }
-                body { margin: 0; padding: 0; }
-                .no-break { page-break-inside: avoid; break-inside: avoid; }
-                .page-break { page-break-after: always; break-after: page; }
+                @page {
+                  size: landscape;
+                  margin: 0.5in;
+                }
+                body {
+                  margin: 0;
+                  padding: 0;
+                  background: white;
+                }
+                .print-container {
+                  margin: 0;
+                  padding: 0;
+                }
+                .no-break {
+                  page-break-inside: avoid;
+                  break-inside: avoid;
+                }
+                .page-break {
+                  page-break-after: always;
+                  break-after: page;
+                }
+                .print\\:shadow-none {
+                  box-shadow: none !important;
+                }
+                .print\\:m-0 {
+                  margin: 0 !important;
+                }
+                .print\\:p-4 {
+                  padding: 1rem !important;
+                }
+              }
+              body {
+                margin: 0;
+                padding: 20px;
+                background: white;
+              }
+              .print-button-container {
+                display: none;
               }
             </style>
           </head>
-          <body>${printContent}</body>
+          <body>${printContent.outerHTML}</body>
         </html>
       `);
       printWindow?.document.close();
       printWindow?.print();
+      printWindow?.close();
     }
   };
 
@@ -140,7 +191,7 @@ export default function ScanMasterlist({
   return (
     <>
       {/* Print Button */}
-      <div className="flex justify-end mb-4 print:hidden">
+      <div className="flex justify-end mb-4 print:hidden print-button-container">
         <button
           onClick={handlePrint}
           className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md shadow-md transition-colors flex items-center gap-2"
@@ -324,4 +375,4 @@ export default function ScanMasterlist({
       </div>
     </>
   );
-                    }
+}
