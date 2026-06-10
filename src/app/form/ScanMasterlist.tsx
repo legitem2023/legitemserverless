@@ -33,7 +33,7 @@ export default function ScanMasterlist({
   category,
   members,
 }: Props) {
-  const rowsPerPage = 8; // Increased for landscape
+  const rowsPerPage = 6; // Increased for landscape
 
   const transformedMembers = members.map((member) => {
     const parts = member.name.trim().split(' ');
@@ -215,28 +215,28 @@ export default function ScanMasterlist({
                         </div>
                       )}
                     </td>
-                    <td className="border border-black px-1 align-top text-[8px]">
+                    <td className="border border-black px-1 text-[8px]">
                       {member?.firstName || ''}
                     </td>
-                    <td className="border border-black px-1 align-top text-[8px]">
+                    <td className="border border-black px-1 text-[8px]">
                       {member?.middleName || ''}
                     </td>
-                    <td className="border border-black px-1 align-top text-[8px]">
+                    <td className="border border-black px-1 text-[8px]">
                       {member?.lastName || ''}
                     </td>
-                    <td className="border border-black px-1 align-top text-[8px]">
+                    <td className="border border-black px-1 text-[8px]">
                       {member?.local || ''}
                     </td>
-                    <td className="border border-black px-1 align-top text-[8px]">
+                    <td className="border border-black px-1 text-[8px]">
                       {member?.scanDate || ''}
                     </td>
-                    <td className="border border-black px-1 align-top text-[8px]">
+                    <td className="border border-black px-1 text-[8px]">
                       {getSpecialColumnValue(member)}
                     </td>
-                    <td className="border border-black px-1 align-top text-[8px]">
+                    <td className="border border-black px-1 text-[8px]">
                       {member?.internalCallsign || ''}
                     </td>
-                    <td className="border border-black px-1 align-top text-[8px]">
+                    <td className="border border-black px-1 text-[8px]">
                       {member?.functions && member.functions.length > 0 ? (
                         member.functions.length === 1 ? (
                           member.functions[0]
