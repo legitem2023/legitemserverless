@@ -12,7 +12,7 @@ interface ScanMember {
   kapisanan: string;
   kahilingan: string;
   callSign: string;
-  function: string;
+  function: string | string[]; // Allow both string and array
   schedules: Schedule[];
 }
 
@@ -33,240 +33,189 @@ export default function ScanMasterlist({
 }: Props) {
   const rowsPerPage = 5;
 
+  // Transform members dynamically
   const transformedMembers = members.map((member) => {
     const parts = member.name.trim().split(' ');
+    
+    // Handle function as string or array
+    const functionValue = Array.isArray(member.function) 
+      ? member.function 
+      : member.function ? [member.function] : [];
 
     return {
       firstName: parts[0] || '',
-      middleName:
-        parts.length > 2
-          ? parts.slice(1, -1).join(' ')
-          : '',
-      lastName:
-        parts.length > 1
-          ? parts[parts.length - 1]
-          : '',
+      middleName: parts.length > 2 ? parts.slice(1, -1).join(' ') : '',
+      lastName: parts.length > 1 ? parts[parts.length - 1] : '',
       local: 'KADALAGAHAN',
-      scanDate:
-        member.schedules?.[0]?.date
-          ? new Date(member.schedules[0].date).toLocaleDateString(
-              'en-US'
-            )
-          : '',
+      scanDate: member.schedules?.[0]?.date
+        ? new Date(member.schedules[0].date).toLocaleDateString('en-US')
+        : '',
       amateurCallsign: member.callSign,
       internalCallsign: member.callSign,
       associateCategory: member.kapisanan,
+      functions: functionValue,
       certificateNumber: '',
     };
   });
 
-  const totalPages = Math.max(
-    1,
-    Math.ceil(transformedMembers.length / rowsPerPage)
-  );
+  // Dynamically determine which column to show based on category
+  const getSpecialColumnHeader = () => {
+    switch (category) {
+      case 'Emergency First Responder (EFR)':
+        return 'EFR CERTIFICATE SERIAL NUMBER';
+      case 'Associate Members (Approved)':
+        return 'ASSOCIATE MEMBER CATEGORY';
+      case 'Communicators':
+      default:
+        return 'AMATEUR CALLSIGN';
+    }
+  };
+
+  const getSpecialColumnValue = (member: typeof transformedMembers[0]) => {
+    switch (category) {
+      case 'Emergency First Responder (EFR)':
+        return member.certificateNumber;
+      case 'Associate Members (Approved)':
+        return member.associateCategory;
+      case 'Communicators':
+      default:
+        return member.amateurCallsign;
+    }
+  };
+
+  const totalPages = Math.max(1, Math.ceil(transformedMembers.length / rowsPerPage));
 
   return (
     <>
-      {Array.from({ length: totalPages }).map(
-        (_, pageIndex) => {
-          const pageMembers = transformedMembers.slice(
-            pageIndex * rowsPerPage,
-            (pageIndex + 1) * rowsPerPage
-          );
+      {Array.from({ length: totalPages }).map((_, pageIndex) => {
+        const pageMembers = transformedMembers.slice(
+          pageIndex * rowsPerPage,
+          (pageIndex + 1) * rowsPerPage
+        );
 
-          return (
-            <div
-              key={pageIndex}
-              className="
-                bg-white
-                w-[8.5in]
-                min-h-[14in]
-                mx-auto
-                mb-6
-                p-6
-                text-black
-                print:shadow-none
-                print:m-0
-                print:break-after-page
-              "
-            >
-              {/* HEADER */}
-
-              <div className="text-center mb-6">
-                <h1 className="font-bold text-[22px]">
-                  MASTERLIST NG SCAN SA DISTRITO
-                </h1>
-
-                <p className="italic text-[14px]">
-                  {category}
-                </p>
-              </div>
-
-              {/* DISTRICT */}
-
-              <div className="mb-3 text-sm flex items-center gap-2">
-                <span>Distrito:</span>
-
-                <span className="font-bold">
-                  {district}
-                </span>
-
-                <div className="border-b border-black flex-1" />
-              </div>
-
-              {/* TABLE */}
-
-              <table className="w-full border-collapse text-[10px]">
-                <thead>
-                  <tr>
-                    <th
-                      rowSpan={2}
-                      className="border border-black w-[90px]"
-                    >
-                      ID Picture
-                      <br />
-                      (1x1)
-                    </th>
-
-                    <th
-                      colSpan={3}
-                      className="border border-black"
-                    >
-                      PANGALAN
-                    </th>
-
-                    <th
-                      rowSpan={2}
-                      className="border border-black w-[90px]"
-                    >
-                      LOKAL
-                    </th>
-
-                    <th
-                      rowSpan={2}
-                      className="border border-black w-[90px]"
-                    >
-                      PETSA NG
-                      <br />
-                      MAGING SCAN
-                    </th>
-
-                    {category ===
-                    'Emergency First Responder (EFR)' ? (
-                      <th
-                        rowSpan={2}
-                        className="border border-black w-[120px]"
-                      >
-                        EFR Certificate
-                        <br />
-                        Serial Number
-                      </th>
-                    ) : category ===
-                      'Associate Members (Approved)' ? (
-                      <th
-                        rowSpan={2}
-                        className="border border-black w-[120px]"
-                      >
-                        ASSOCIATE MEMBER
-                        <br />
-                        CATEGORY
-                      </th>
-                    ) : (
-                      <th
-                        rowSpan={2}
-                        className="border border-black w-[100px]"
-                      >
-                        AMATEUR
-                        <br />
-                        CALLSIGN
-                      </th>
-                    )}
-
-                    <th
-                      rowSpan={2}
-                      className="border border-black w-[90px]"
-                    >
-                      INTERNAL
-                      <br />
-                      CALLSIGN
-                    </th>
-                  </tr>
-
-                  <tr>
-                    <th className="border border-black">
-                      FIRST NAME
-                    </th>
-
-                    <th className="border border-black">
-                      MIDDLE NAME
-                    </th>
-
-                    <th className="border border-black">
-                      LAST NAME
-                    </th>
-                  </tr>
-                </thead>
-
-                <tbody>
-                  {Array.from({
-                    length: rowsPerPage,
-                  }).map((_, rowIndex) => {
-                    const member =
-                      pageMembers[rowIndex];
-
-                    return (
-                      <tr key={rowIndex}>
-                        <td className="border border-black h-[105px]">
-                          {/* picture */}
-                        </td>
-
-                        <td className="border border-black px-1 align-top">
-                          {member?.firstName || ''}
-                        </td>
-
-                        <td className="border border-black px-1 align-top">
-                          {member?.middleName || ''}
-                        </td>
-
-                        <td className="border border-black px-1 align-top">
-                          {member?.lastName || ''}
-                        </td>
-
-                        <td className="border border-black px-1 align-top">
-                          {member?.local || ''}
-                        </td>
-
-                        <td className="border border-black px-1 align-top">
-                          {member?.scanDate || ''}
-                        </td>
-
-                        <td className="border border-black px-1 align-top">
-                          {category ===
-                          'Emergency First Responder (EFR)'
-                            ? member?.certificateNumber
-                            : category ===
-                              'Associate Members (Approved)'
-                            ? member?.associateCategory
-                            : member?.amateurCallsign}
-                        </td>
-
-                        <td className="border border-black px-1 align-top">
-                          {member?.internalCallsign ||
-                            ''}
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-
-              <div className="mt-3 text-xs text-right">
-                Page {pageIndex + 1} of {totalPages}
-              </div>
+        return (
+          <div
+            key={pageIndex}
+            className="
+              bg-white
+              w-[8.5in]
+              min-h-[14in]
+              mx-auto
+              mb-6
+              p-6
+              text-black
+              print:shadow-none
+              print:m-0
+              print:break-after-page
+            "
+          >
+            {/* HEADER */}
+            <div className="text-center mb-6">
+              <h1 className="font-bold text-[22px]">MASTERLIST NG SCAN SA DISTRITO</h1>
+              <p className="italic text-[14px]">{category}</p>
             </div>
-          );
-        }
-      )}
+
+            {/* DISTRICT */}
+            <div className="mb-3 text-sm flex items-center gap-2">
+              <span>Distrito:</span>
+              <span className="font-bold">{district}</span>
+              <div className="border-b border-black flex-1" />
+            </div>
+
+            {/* TABLE */}
+            <table className="w-full border-collapse text-[10px]">
+              <thead>
+                <tr>
+                  <th rowSpan={2} className="border border-black w-[90px]">
+                    ID Picture
+                    <br />
+                    (1x1)
+                  </th>
+                  <th colSpan={3} className="border border-black">
+                    PANGALAN
+                  </th>
+                  <th rowSpan={2} className="border border-black w-[90px]">
+                    LOKAL
+                  </th>
+                  <th rowSpan={2} className="border border-black w-[90px]">
+                    PETSA NG
+                    <br />
+                    MAGING SCAN
+                  </th>
+                  <th rowSpan={2} className="border border-black w-[120px]">
+                    {getSpecialColumnHeader()}
+                  </th>
+                  <th rowSpan={2} className="border border-black w-[90px]">
+                    INTERNAL
+                    <br />
+                    CALLSIGN
+                  </th>
+                  <th rowSpan={2} className="border border-black w-[160px]">
+                    FUNCTION/S
+                  </th>
+                </tr>
+                <tr>
+                  <th className="border border-black">FIRST NAME</th>
+                  <th className="border border-black">MIDDLE NAME</th>
+                  <th className="border border-black">LAST NAME</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {Array.from({ length: rowsPerPage }).map((_, rowIndex) => {
+                  const member = pageMembers[rowIndex];
+
+                  return (
+                    <tr key={rowIndex}>
+                      <td className="border border-black h-[105px]">{/* picture */}</td>
+                      <td className="border border-black px-1 align-top">
+                        {member?.firstName || ''}
+                      </td>
+                      <td className="border border-black px-1 align-top">
+                        {member?.middleName || ''}
+                      </td>
+                      <td className="border border-black px-1 align-top">
+                        {member?.lastName || ''}
+                      </td>
+                      <td className="border border-black px-1 align-top">
+                        {member?.local || ''}
+                      </td>
+                      <td className="border border-black px-1 align-top">
+                        {member?.scanDate || ''}
+                      </td>
+                      <td className="border border-black px-1 align-top">
+                        {getSpecialColumnValue(member)}
+                      </td>
+                      <td className="border border-black px-1 align-top">
+                        {member?.internalCallsign || ''}
+                      </td>
+                      <td className="border border-black px-1 align-top">
+                        {member?.functions && member.functions.length > 0 ? (
+                          member.functions.length === 1 ? (
+                            member.functions[0]
+                          ) : (
+                            <ul className="list-disc pl-4 m-0">
+                              {member.functions.map((fn, idx) => (
+                                <li key={idx}>{fn}</li>
+                              ))}
+                            </ul>
+                          )
+                        ) : (
+                          ''
+                        )}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+
+            <div className="mt-3 text-xs text-right">
+              Page {pageIndex + 1} of {totalPages}
+            </div>
+          </div>
+        );
+      })}
     </>
   );
 }
