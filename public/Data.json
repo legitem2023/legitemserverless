@@ -6,6 +6,7 @@
       "kahilingan": "false",
       "callSign": "15-26",
       "function": "Associate (Not Approved)",
+      "picture": "",
       "schedules": [
         {
           "service": "worship",
@@ -27,6 +28,7 @@
       "kahilingan": "true",
       "callSign": "15-34",
       "function": "Associate (Not Approved)",
+      "picture": "",
       "schedules": [
         {
           "service": "worship",
@@ -48,6 +50,7 @@
       "kahilingan": "false",
       "callSign": "15-39",
       "function": "Associate (Not Approved)",
+      "picture": "",
       "schedules": [
         {
           "service": "worship",
@@ -69,6 +72,7 @@
       "kahilingan": "true",
       "callSign": "15-37",
       "function": "Associate (Not Approved)",
+      "picture": "",
       "schedules": [
         {
           "service": "worship",
@@ -90,6 +94,7 @@
       "kahilingan": "false",
       "callSign": "15-29",
       "function": "Associate (Not Approved)",
+      "picture": "",
       "schedules": []
     },
     {
@@ -98,6 +103,7 @@
       "kahilingan": "false",
       "callSign": "15-23",
       "function": "Associate (Not Approved)",
+      "picture": "",
       "schedules": [
         {
           "service": "worship",
@@ -125,6 +131,7 @@
       "kahilingan": "true",
       "callSign": "15-4",
       "function": "Associate (Not Approved)",
+      "picture": "",
       "schedules": [
         {
           "service": "worship",
@@ -158,6 +165,7 @@
       "kahilingan": "true",
       "callSign": "15-40",
       "function": "Associate (Not Approved)",
+      "picture": "",
       "schedules": [
         {
           "service": "worship",
@@ -179,6 +187,7 @@
       "kahilingan": "false",
       "callSign": "15-25",
       "function": "Associate (Not Approved)",
+      "picture": "",
       "schedules": [
         {
           "service": "worship",
@@ -200,6 +209,7 @@
       "kahilingan": "true",
       "callSign": "15-5",
       "function": "Associate (Not Approved)",
+      "picture": "",
       "schedules": [
         {
           "service": "worship",
@@ -221,6 +231,7 @@
       "kahilingan": "false",
       "callSign": "15-22",
       "function": "Associate (Not Approved)",
+      "picture": "",
       "schedules": []
     },
     {
@@ -229,6 +240,7 @@
       "kahilingan": "false",
       "callSign": "15-21",
       "function": "Associate (Not Approved)",
+      "picture": "",
       "schedules": []
     },
     {
@@ -237,6 +249,7 @@
       "kahilingan": "false",
       "callSign": "15-24",
       "function": "Associate (Not Approved)",
+      "picture": "",
       "schedules": []
     },
     {
@@ -245,6 +258,7 @@
       "kahilingan": "false",
       "callSign": "15-36",
       "function": "Associate (Not Approved)",
+      "picture": "",
       "schedules": [
         {
           "service": "worship",
@@ -278,6 +292,7 @@
       "kahilingan": "false",
       "callSign": "15-28",
       "function": "Associate (Not Approved)",
+      "picture": "",
       "schedules": [
         {
           "service": "worship",
@@ -293,6 +308,7 @@
       "kahilingan": "false",
       "callSign": "",
       "function": "Associate (Not Approved)",
+      "picture": "",
       "schedules": []
     },
     {
@@ -301,6 +317,7 @@
       "kahilingan": "true",
       "callSign": "15-35",
       "function": "Associate (Not Approved)",
+      "picture": "",
       "schedules": [
         {
           "service": "PNK",
@@ -322,6 +339,7 @@
       "kahilingan": "true",
       "callSign": "OJT",
       "function": "Associate (Not Approved)",
+      "picture": "",
       "schedules": []
     }
   ]
