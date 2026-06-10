@@ -39,7 +39,7 @@ export default function ScanMasterlist({
 }: Props) {
   const rowsPerPage = 6; // Increased for landscape
 
-  const transformedMembers = members.map((member) => {
+const transformedMembers = members.map((member) => {
   const parts = member.name.trim().split(' ');
   
   const functionValue = Array.isArray(member.function) 
@@ -49,18 +49,16 @@ export default function ScanMasterlist({
   let firstName, lastName;
   
   if (parts.length === 1) {
-    // 1 word - not okay
     firstName = parts[0];
     lastName = '';
   } else {
-    // 2+ words: everything except last = first name, last word = last name
-    const lastNameIndex = parts.length - 1;
-    firstName = parts.slice(0, lastNameIndex).join(' ');
-    lastName = parts[lastNameIndex];
+    firstName = parts.slice(0, -1).join(' ');
+    lastName = parts[parts.length - 1];
   }
 
   return {
     firstName: firstName,
+    middleName: '',
     lastName: lastName,
     local: 'KADALAGAHAN',
     scanDate: member.Petsa_ng_maging_scan,
