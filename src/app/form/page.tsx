@@ -544,26 +544,22 @@ export default function Home() {
 
       {activeTab === 'masterlist' && (
         <div className="flex p-5 flex-col">
-          <ScanMasterlist
-            district="Rizal"
-            category="Emergency First Responder (EFR)"
-            members={data.members.filter((data:any) => data.function==="Emergency First Responder (EFR)")}
-          />
-          <ScanMasterlist
-            district="Rizal"
-            category="Communicators"
-            members={data.members.filter((data:any) => data.function==="Communicators")}
-          />
-          <ScanMasterlist
-            district="Rizal"
-            category="Associate Members (Approved)"
-            members={data.members.filter((data:any) => data.function==="Associate Members (Approved)")}
-          />
-          <ScanMasterlist
-            district="Rizal"
-            category="Associate Members (Not Approved)"
-            members={data.members.filter((data:any) => data.function==="Associate Members (Not Approved)")}
-          />
+          {[
+  "Emergency First Responder (EFR)",
+  "Communicators",
+  "Associate Members (Approved)",
+  "Associate Members (Not Approved)"
+].map((category) => {
+  const filteredMembers = data.members.filter((m: any) => m.function === category && m.schedules!==[]);
+  return filteredMembers.length > 0 ? (
+    <ScanMasterlist
+      key={category}
+      district="Rizal"
+      category={category}
+      members={filteredMembers}
+    />
+  ) : null;
+})}
         </div>
       )}
 
