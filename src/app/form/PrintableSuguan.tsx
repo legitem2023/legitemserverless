@@ -38,7 +38,7 @@ export function PrintableSuguan({ forms, filipinoDays }: PrintableSuguanProps) {
       {forms.map((formSchedules, formIndex) => (
         <div
           key={formIndex}
-          className="bg-white w-[210mm] min-h-[297mm] shadow-lg text-black overflow-hidden"
+          className="bg-white w-[216mm] min-h-[279mm] shadow-lg text-black overflow-hidden"
         >
           {/* Header Section - Logo and text now properly aligned */}
           <div className="flex items-center justify-between mb-4 pt-4 pl-4 pr-4">
