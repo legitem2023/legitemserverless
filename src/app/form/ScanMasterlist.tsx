@@ -220,6 +220,10 @@ export default function ScanMasterlist({
           vertical-align: middle;
           background-color: transparent;
         }
+
+        .masterlist-table tfoot td {
+          border: none;
+        }
         
         @media print {
           .masterlist-table thead:not(:first-child) th {
