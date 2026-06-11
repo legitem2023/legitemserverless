@@ -34,77 +34,77 @@ interface PrintableSuguanProps {
 
 export function PrintableSuguan({ forms, filipinoDays }: PrintableSuguanProps) {
   return (
-    <div className="flex p-3 flex-col gap-3 print:block print:p-0 print:m-0">
+    <div className="print-container">
       {forms.map((formSchedules, formIndex) => (
         <div
           key={formIndex}
-          className="bg-white w-[216mm] min-h-[279mm] shadow-lg text-black overflow-hidden print:shadow-none print:min-h-0 print:mb-0 print:break-after-page"
+          className="print-page"
         >
-          {/* Header Section */}
-          <div className="flex items-center justify-between mb-4 pt-4 pl-4 pr-4">
-            <div className="w-[120px] flex items-center">
+          {/* Header Section - Fixed for printing */}
+          <div className="print-header">
+            <div className="logo-container">
               <Image
                 src="/images.png"
                 alt="Logo"
                 width={120}
                 height={120}
-                className="object-contain"
+                className="logo-image"
               />
             </div>
 
-            <div className="text-center flex-1">
-              <h1 className="font-bold text-[13px] uppercase">SCAN INTERNATIONAL</h1>
-              <h2 className="font-semibold text-[12px] uppercase">DISTRITO NG RIZAL</h2>
-              <h3 className="text-[11px] uppercase">LOKAL NG KADALAGAHAN</h3>
-              <p className="text-[10px] uppercase">
+            <div className="title-container">
+              <h1 className="title-main">SCAN INTERNATIONAL</h1>
+              <h2 className="title-sub">DISTRITO NG RIZAL</h2>
+              <h3 className="title-lokal">LOKAL NG KADALAGAHAN</h3>
+              <p className="title-service">
                 {formIndex === 2 ? 'SUGUAN NG SCAN SA PNK' : 
                  formIndex === 3 ? 'SUGUAN NG PAGBABANTAY SA DISTRITO' : 
                  'SUGUAN NG SCAN SA PAGSAMBA'}
               </p>
             </div>
 
-            <div className="w-[70px]" />
+            <div className="spacer" />
           </div>
 
           {/* Schedules Section */}
-          <div className="space-y-6 pl-4 pr-4">
+          <div className="schedules-container">
             {formSchedules.map((schedule, idx) => {
               const dateObj = new Date(schedule.date);
               const filipinoDay = filipinoDays[schedule.day.toLowerCase()] || schedule.day;
 
               return (
-                <div key={idx} className="break-inside-avoid">
-                  <table className="w-full border border-black text-[10px] table-fixed">
+                <div key={idx} className="schedule-table-wrapper">
+                  <table className="schedule-table">
                     <thead>
                       <tr>
-                        <th colSpan={5} className="border px-2 py-1 text-left" style={{ width: '33.33%' }}>
+                        <th colSpan={5} className="date-cell">
                           Petsa: {dateObj.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
                         </th>
-                        <th colSpan={2} className="border px-2 py-1 text-left" style={{ width: '33.33%' }}>
+                        <th colSpan={2} className="day-cell">
                           Araw: {filipinoDay}
                         </th>
-                        <th colSpan={2} className="border px-2 py-1 text-left" style={{ width: '33.33%' }}>
+                        <th colSpan={2} className="time-cell">
                           Oras: {schedule.time}
                         </th>
                       </tr>
                       <tr>
-                        <th className="border px-1 py-1">Blg</th>
-                        <th colSpan={4} className="border px-2 py-1 text-left">Pangalan</th>
-                        <th className="border px-1 py-1">Call-Sign</th>
-                        <th className="border px-1 py-1">Lagda Pagtanggap</th>
-                        <th className="border px-1 py-1">Lagda Pagtupad</th>
-                        <th className="border px-1 py-1">Gampanan</th>
+                        <th className="col-number">Blg</th>
+                        <th colSpan={4} className="col-name">Pangalan</th>
+                        <th className="col-callsign">Call-Sign</th>
+                        <th className="col-signature">Lagda Pagtanggap</th>
+                        <th className="col-signature">Lagda Pagtupad</th>
+                        <th className="col-role">Gampanan</th>
                       </tr>
                     </thead>
                     <tbody>
                       {schedule.members.map((member, i) => (
                         <tr key={i}>
-                          <td className="border text-center py-1">{i + 1}</td>
-                          <td colSpan={4} className="border px-2 py-1">{member.name}</td>
-                          <td className="border text-center py-1">{member.callSign}</td>
-                          <td className="border h-[24px]" />
-                          <td className="border h-[24px]" />
-                          <td className="border" />
+                          <td className="text-center">{i + 1}</td>
+                          <td colSpan={4}>{member.name}</td>
+                          <td className="text-center">{member.callSign}</td>
+                          <td className="signature-cell"></td>
+                          <td className="signature-cell"></td>
+                          <td className="role-cell"></td>
                         </tr>
                       ))}
                     </tbody>
@@ -115,26 +115,26 @@ export function PrintableSuguan({ forms, filipinoDays }: PrintableSuguanProps) {
           </div>
 
           {/* Footer Signatures Section */}
-          <div className="mt-14 text-[11px] pl-4 pr-4 pb-4">
-            <p className="mb-6">Naghanda:</p>
-            <div className="grid grid-cols-2 gap-20">
-              <div className="text-center">
-                <p className="font-semibold uppercase">JUSTINE JACOB RODRIGUEZ</p>
-                <p>KALIHIM SCAN</p>
+          <div className="footer-signatures">
+            <p className="prepared-by">Naghanda:</p>
+            <div className="signature-row">
+              <div className="signature-item">
+                <p className="signature-name">JUSTINE JACOB RODRIGUEZ</p>
+                <p className="signature-title">KALIHIM SCAN</p>
               </div>
-              <div className="text-center">
-                <p className="font-semibold uppercase"></p>
-                <p>PANGULO NG SCAN</p>
+              <div className="signature-item">
+                <p className="signature-name"></p>
+                <p className="signature-title">PANGULO NG SCAN</p>
               </div>
             </div>
-            <div className="grid grid-cols-2 gap-20 mt-12">
-              <div className="text-center">
-                <p className="font-semibold uppercase">MARIANO M. LEBARDO JR.</p>
-                <p>PD - TAGASUBAYBAY</p>
+            <div className="signature-row">
+              <div className="signature-item">
+                <p className="signature-name">MARIANO M. LEBARDO JR.</p>
+                <p className="signature-title">PD - TAGASUBAYBAY</p>
               </div>
-              <div className="text-center">
-                <p className="font-semibold uppercase">RODOLFO DE GUZMAN</p>
-                <p>DESTINADO NG LOKAL</p>
+              <div className="signature-item">
+                <p className="signature-name">RODOLFO DE GUZMAN</p>
+                <p className="signature-title">DESTINADO NG LOKAL</p>
               </div>
             </div>
           </div>
@@ -142,38 +142,249 @@ export function PrintableSuguan({ forms, filipinoDays }: PrintableSuguanProps) {
       ))}
 
       <style jsx global>{`
+        /* Print styles */
         @media print {
-          /* Remove browser default margins */
+          * {
+            print-color-adjust: exact;
+            -webkit-print-color-adjust: exact;
+          }
+          
           @page {
-            margin: 0;
+            size: portrait;
+            margin: 0.5cm;
           }
           
           body {
             margin: 0;
             padding: 0;
           }
+        }
+        
+        /* Screen styles */
+        .print-container {
+          display: flex;
+          padding: 0.75rem;
+          flex-direction: column;
+          gap: 1rem;
+        }
+        
+        .print-page {
+          background: white;
+          width: 216mm;
+          min-height: 279mm;
+          box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+          color: black;
+          overflow: hidden;
+          page-break-after: always;
+          break-after: page;
+        }
+        
+        /* Fixed Header Layout */
+        .print-header {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 1rem;
+          padding: 1rem 1rem 0 1rem;
+        }
+        
+        .logo-container {
+          width: 120px;
+          flex-shrink: 0;
+        }
+        
+        .logo-image {
+          object-fit: contain;
+          width: 100%;
+          height: auto;
+        }
+        
+        .title-container {
+          flex: 1;
+          text-align: center;
+        }
+        
+        .title-main {
+          font-weight: bold;
+          font-size: 13px;
+          text-transform: uppercase;
+          margin: 0;
+        }
+        
+        .title-sub {
+          font-weight: 600;
+          font-size: 12px;
+          text-transform: uppercase;
+          margin: 0;
+        }
+        
+        .title-lokal {
+          font-size: 11px;
+          text-transform: uppercase;
+          margin: 0;
+        }
+        
+        .title-service {
+          font-size: 10px;
+          text-transform: uppercase;
+          margin: 0;
+        }
+        
+        .spacer {
+          width: 70px;
+          flex-shrink: 0;
+        }
+        
+        /* Schedules */
+        .schedules-container {
+          padding: 0 1rem;
+          space-y: 1.5rem;
+        }
+        
+        .schedule-table-wrapper {
+          break-inside: avoid;
+          page-break-inside: avoid;
+          margin-bottom: 1.5rem;
+        }
+        
+        .schedule-table {
+          width: 100%;
+          border-collapse: collapse;
+          font-size: 10px;
+          border: 1px solid black;
+        }
+        
+        .schedule-table th,
+        .schedule-table td {
+          border: 1px solid black;
+          padding: 0.25rem 0.5rem;
+        }
+        
+        .schedule-table th {
+          background-color: #f3f4f6;
+          font-weight: 600;
+        }
+        
+        .date-cell,
+        .day-cell,
+        .time-cell {
+          text-align: left;
+        }
+        
+        .date-cell {
+          width: 33.33%;
+        }
+        
+        .day-cell {
+          width: 33.33%;
+        }
+        
+        .time-cell {
+          width: 33.33%;
+        }
+        
+        .col-number {
+          width: 5%;
+          text-align: center;
+        }
+        
+        .col-name {
+          width: 35%;
+          text-align: left;
+        }
+        
+        .col-callsign {
+          width: 10%;
+          text-align: center;
+        }
+        
+        .col-signature {
+          width: 15%;
+          text-align: center;
+        }
+        
+        .col-role {
+          width: 10%;
+          text-align: center;
+        }
+        
+        .signature-cell {
+          height: 24px;
+        }
+        
+        .text-center {
+          text-align: center;
+        }
+        
+        /* Footer Signatures */
+        .footer-signatures {
+          margin-top: 3.5rem;
+          padding: 0 1rem 1rem 1rem;
+          font-size: 11px;
+        }
+        
+        .prepared-by {
+          margin-bottom: 1.5rem;
+        }
+        
+        .signature-row {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 5rem;
+          margin-bottom: 2rem;
+        }
+        
+        .signature-item {
+          text-align: center;
+        }
+        
+        .signature-name {
+          font-weight: 600;
+          text-transform: uppercase;
+          margin-bottom: 0.25rem;
+        }
+        
+        .signature-title {
+          margin: 0;
+        }
+        
+        /* Print-specific overrides */
+        @media print {
+          .print-container {
+            display: block;
+            padding: 0;
+            margin: 0;
+          }
           
-          /* Fix table cell spacing */
-          table, 
-          tbody, 
-          tr, 
-          td, 
-          th {
+          .print-page {
+            box-shadow: none;
+            min-height: auto;
+            margin-bottom: 0;
+            width: 100%;
+          }
+          
+          .print-header {
+            padding: 0 0 0 0;
+          }
+          
+          .schedules-container {
+            padding: 0;
+          }
+          
+          .footer-signatures {
+            padding: 0;
+          }
+          
+          .signature-row {
+            gap: 5rem;
+          }
+          
+          .schedule-table {
             break-inside: avoid;
-            page-break-inside: avoid;
           }
           
-          /* Fix signature spacing */
-          .mt-14 {
-            margin-top: 2rem !important;
-          }
-          
-          .mb-6 {
-            margin-bottom: 1.5rem !important;
-          }
-          
-          .mt-12 {
-            margin-top: 2rem !important;
+          .schedule-table th {
+            background-color: #f3f4f6 !important;
           }
         }
       `}</style>
