@@ -382,9 +382,7 @@ export function PrintableSuguan({ forms, filipinoDays }: PrintableSuguanProps) {
             break-inside: avoid;
           }
           
-          .schedule-table th {
-            background-color: #f3f4f6 !important;
-          }
+          
         }
       `}</style>
     </div>
