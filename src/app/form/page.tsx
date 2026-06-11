@@ -391,7 +391,7 @@ export default function Home() {
 
       {/* Print Button */}
       {activeTab === 'print' && (
-        <div className="fixed top-5 right-5 print:hidden z-50">
+        <div className="print:hidden z-50">
           <button
             onClick={() => window.print()}
             className="bg-black text-white px-4 py-2 text-sm rounded shadow"
