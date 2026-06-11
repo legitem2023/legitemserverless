@@ -151,15 +151,10 @@ export function PrintableSuguan({ forms, filipinoDays }: PrintableSuguanProps) {
           
           @page {
             size: portrait;
-            margin: 0;
+            margin: 0.75cm;
           }
           
           body {
-            margin: 0;
-            padding: 0;
-          }
-          
-          html {
             margin: 0;
             padding: 0;
           }
@@ -180,7 +175,8 @@ export function PrintableSuguan({ forms, filipinoDays }: PrintableSuguanProps) {
           box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
           color: black;
           overflow: hidden;
-          position: relative;
+          page-break-after: always;
+          break-after: page;
         }
         
         /* Fixed Header Layout */
@@ -242,6 +238,7 @@ export function PrintableSuguan({ forms, filipinoDays }: PrintableSuguanProps) {
         /* Schedules */
         .schedules-container {
           padding: 0 1rem;
+          space-y: 1.5rem;
         }
         
         .schedule-table-wrapper {
@@ -254,7 +251,7 @@ export function PrintableSuguan({ forms, filipinoDays }: PrintableSuguanProps) {
           width: 100%;
           border-collapse: collapse;
           font-size: 10px;
-          border: 1px solid #c0c0c0;
+          border: 1px solid black;
         }
         
         .schedule-table th,
@@ -264,6 +261,7 @@ export function PrintableSuguan({ forms, filipinoDays }: PrintableSuguanProps) {
         }
         
         .schedule-table th {
+          background-color: #f3f4f6;
           font-weight: 600;
         }
         
@@ -323,8 +321,6 @@ export function PrintableSuguan({ forms, filipinoDays }: PrintableSuguanProps) {
           margin-top: 3.5rem;
           padding: 0 1rem 1rem 1rem;
           font-size: 11px;
-          position: relative;
-          bottom: 0;
         }
         
         .prepared-by {
@@ -362,24 +358,13 @@ export function PrintableSuguan({ forms, filipinoDays }: PrintableSuguanProps) {
           
           .print-page {
             box-shadow: none;
-            min-height: 0;
+            min-height: auto;
             margin-bottom: 0;
             width: 100%;
-            height: auto;
-            page-break-after: always;
-            break-after: page;
-            position: relative;
-          }
-          
-          /* Force first page to start at top */
-          .print-page:first-child {
-            margin-top: 0;
-            padding-top: 0;
           }
           
           .print-header {
             padding: 0 0 0 0;
-            margin-top: 0;
           }
           
           .schedules-container {
@@ -388,8 +373,6 @@ export function PrintableSuguan({ forms, filipinoDays }: PrintableSuguanProps) {
           
           .footer-signatures {
             padding: 0;
-            margin-top: 3.5rem;
-            position: relative;
           }
           
           .signature-row {
