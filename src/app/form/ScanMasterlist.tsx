@@ -267,11 +267,13 @@ export default function ScanMasterlist({
           justify-content: center;
           align-items: center;
           min-height: 80px;
+          height:100px;
+          width:100px;
         }
         
         .picture-container img {
-          max-width: 50px;
-          max-height: 70px;
+          max-width: 100px;
+          max-height: 100px;
           object-fit: contain;
         }
         
