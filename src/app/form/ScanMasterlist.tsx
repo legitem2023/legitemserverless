@@ -1,5 +1,13 @@
 'use client';
 
+interface Schedule {
+  date: string;
+  day: string;
+  time: string;
+  service?: 'PNK' | 'worship' | 'Distrito';
+}
+
+
 interface ScanMember {
   name: string;
   kapisanan: string;
