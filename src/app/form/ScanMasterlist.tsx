@@ -236,8 +236,8 @@ export default function ScanMasterlist({
         .picture-cell {
           text-align: center;
           vertical-align: middle;
-          width: 96px;
-          height: 96px;
+          width: 80px;
+          height: 80px;
         }
         
         .picture-container {
@@ -245,13 +245,13 @@ export default function ScanMasterlist({
           justify-content: center;
           align-items: center;
           min-height: 80px;
-          height: 96px;
-          width: 96px;
+          height: 80px;
+          width: 80px;
         }
         
         .picture-container img {
-          max-width: 90px;
-          max-height: 90px;
+          max-width: 75px;
+          max-height: 75px;
           object-fit: contain;
         }
         
@@ -289,7 +289,7 @@ export default function ScanMasterlist({
         }
         
         /* Fixed column widths */
-        .col-picture { width: 8%; }
+        .col-picture { width: 8%; aspect-ratio:1/1; }
         .col-firstname { width: 14%; }
         .col-middlename { width: 12%; }
         .col-lastname { width: 14%; }
