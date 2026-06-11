@@ -389,6 +389,12 @@ export default function Home() {
         />
       </div>
 
+
+
+      {/* Tab Content */}
+      <div className="pt-24">
+        {/* Print Tab */}
+        <TabPanel activeTab={activeTab} tabId="print">
       {/* Print Button */}
       {activeTab === 'print' && (
         <div className="print:hidden z-50">
@@ -400,11 +406,6 @@ export default function Home() {
           </button>
         </div>
       )}
-
-      {/* Tab Content */}
-      <div className="pt-24">
-        {/* Print Tab */}
-        <TabPanel activeTab={activeTab} tabId="print">
           <PrintableSuguan forms={forms} filipinoDays={filipinoDays} />
         </TabPanel>
 
