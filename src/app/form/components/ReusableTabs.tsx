@@ -97,5 +97,5 @@ interface TabPanelProps {
 
 export function TabPanel({ activeTab, tabId, children }: TabPanelProps) {
   if (activeTab !== tabId) return null;
-  return <div className="flex flex-col justify-center animate-fadeIn">{children}</div>;
+  return <div className="flex flex-col items-center animate-fadeIn">{children}</div>;
 }
