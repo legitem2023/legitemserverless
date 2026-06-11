@@ -35,7 +35,7 @@ interface PrintableSuguanProps {
 
 export function PrintableSuguan({ forms, filipinoDays }: PrintableSuguanProps) {
   return (
-    <div className="flex p-5 items-center flex-col gap-3">
+    <div className="flex p-2 items-center flex-col gap-3">
       {forms.map((formSchedules, formIndex) => (
         <div
           key={formIndex}
