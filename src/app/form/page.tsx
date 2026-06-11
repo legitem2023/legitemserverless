@@ -1,12 +1,11 @@
-//Fix the UI proffessionally look but let it desktop view only
-
+// app/page.tsx (Main Home Component)
 'use client';
 
-import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import ScanRecommendationLetter from './ScanRecommendationLetter';
 import AttendanceSheet from './AttendanceSheet';
 import ScanMasterlist from './ScanMasterlist';
+import { PrintableSuguan } from './PrintableSuguan';
 
 interface Schedule {
   date: string;
@@ -237,6 +236,7 @@ export default function Home() {
     }
   };
 
+  // Group schedules for printing
   const groupedSchedules: { [key: string]: GroupedSchedule } = {};
 
   data.members.forEach((member) => {
@@ -312,14 +312,12 @@ export default function Home() {
       remarks: ''
     }));
 
-const categories: Array<"Communicators" | "Emergency First Responder (EFR)" | "Associate Members (Approved)" | "Associate Members (Not Approved)"> = [
-  "Emergency First Responder (EFR)",
-  "Communicators",
-  "Associate Members (Approved)",
-  "Associate Members (Not Approved)"
-];
-
-
+  const categories: Array<"Communicators" | "Emergency First Responder (EFR)" | "Associate Members (Approved)" | "Associate Members (Not Approved)"> = [
+    "Emergency First Responder (EFR)",
+    "Communicators",
+    "Associate Members (Approved)",
+    "Associate Members (Not Approved)"
+  ];
   
   if (loading) {
     return (
@@ -333,6 +331,7 @@ const categories: Array<"Communicators" | "Emergency First Responder (EFR)" | "A
 
   return (
     <div className="bg-gray-300 min-h-screen py-10 print:bg-white print:p-0 print:m-0">
+      {/* Success/Error Notifications */}
       {success && (
         <div className="fixed top-20 left-1/2 transform -translate-x-1/2 z-50 bg-green-500 text-white px-4 py-2 rounded shadow-lg">
           {success}
@@ -347,6 +346,7 @@ const categories: Array<"Communicators" | "Emergency First Responder (EFR)" | "A
         </div>
       )}
 
+      {/* Tab Navigation */}
       <div className="fixed w-full z-50 print:hidden bg-white rounded-lg shadow-md flex gap-2 p-2 max-w-md mx-auto">
         <button
           onClick={() => setActiveTab('print')}
@@ -400,6 +400,7 @@ const categories: Array<"Communicators" | "Emergency First Responder (EFR)" | "A
         </button>
       </div>
 
+      {/* Print Button */}
       {activeTab === 'print' && (
         <div className="fixed top-5 right-5 print:hidden z-50">
           <button
@@ -411,113 +412,12 @@ const categories: Array<"Communicators" | "Emergency First Responder (EFR)" | "A
         </div>
       )}
 
+      {/* Printable Suguan Component */}
       {activeTab === 'print' && (
-        <div className="flex p-5 items-center flex-col gap-3">
-          {forms.map((formSchedules, formIndex) => (
-            <div
-              key={formIndex}
-              className="bg-white w-[210mm] min-h-[297mm] shadow-lg text-black print:shadow-none print:page-break-after-always print:m-0 print:p-0 m-0 p-0 overflow-hidden"
-            >
-              <div className="flex items-center justify-between mb-4 pt-4 pl-4 pr-4">
-                <div className="w-[120px] flex justify-start">
-                  <Image
-                    src="/images.png"
-                    alt="Logo"
-                    width={120}
-                    height={120}
-                    className="object-contain"
-                  />
-                </div>
-
-                <div className="text-center flex-1">
-                  <h1 className="font-bold text-[13px] uppercase">SCAN INTERNATIONAL</h1>
-                  <h2 className="font-semibold text-[12px] uppercase">DISTRITO NG RIZAL</h2>
-                  <h3 className="text-[11px] uppercase">LOKAL NG KADALAGAHAN</h3>
-                  <p className="text-[10px] uppercase">
-                    {formIndex === 2 ? 'SUGUAN NG SCAN SA PNK' : 
-                     formIndex === 3 ? 'SUGUAN NG PAGBABANTAY SA DISTRITO' : 
-                     'SUGUAN NG SCAN SA PAGSAMBA'}
-                  </p>
-                </div>
-
-                <div className="w-[70px]" />
-              </div>
-
-              <div className="space-y-6 pl-4 pr-4">
-                {formSchedules.map((schedule, idx) => {
-                  const dateObj = new Date(schedule.date);
-                  const filipinoDay = filipinoDays[schedule.day.toLowerCase()] || schedule.day;
-
-                  return (
-                    <div key={idx} className="break-inside-avoid">
-                      <table className="w-full border border-black text-[10px] table-fixed">
-                        <thead>
-                          <tr>
-                            <th colSpan={5} className="border px-2 py-1 text-left" style={{ width: '33.33%' }}>
-                              Petsa: {dateObj.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
-                            </th>
-                            <th colSpan={2} className="border px-2 py-1 text-left" style={{ width: '33.33%' }}>
-                              Araw: {filipinoDay}
-                            </th>
-                            <th colSpan={2} className="border px-2 py-1 text-left" style={{ width: '33.33%' }}>
-                              Oras: {schedule.time}
-                            </th>
-                          </tr>
-                          <tr>
-                            <th className="border px-1 py-1" >Blg</th>
-                            <th colSpan={4} className="border px-2 py-1 text-left">Pangalan</th>
-                            <th className="border px-1 py-1">Call-Sign</th>
-                            <th className="border px-1 py-1">Lagda Pagtanggap</th>
-                            <th className="border px-1 py-1">Lagda Pagtupad</th>
-                            <th className="border px-1 py-1">Gampanin</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {schedule.members.map((member, i) => (
-                            <tr key={i}>
-                              <td className="border text-center py-1">{i + 1}</td>
-                              <td colSpan={4} className="border px-2 py-1">{member.name}</td>
-                              <td className="border text-center py-1">{member.callSign}</td>
-                              <td className="border h-[24px]" />
-                              <td className="border h-[24px]" />
-                              <td className="border" />
-                            </tr>
-                          ))}
-                        </tbody>
-                       </table>
-                    </div>
-                  );
-                })}
-              </div>
-
-              <div className="mt-14 text-[11px] pl-4 pr-4 pb-4">
-                <p className="mb-6">Naghanda:</p>
-                <div className="grid grid-cols-2 gap-20">
-                  <div className="text-center">
-                    <p className="font-semibold uppercase">JUSTINE JACOB RODRIGUEZ</p>
-                    <p>KALIHIM SCAN</p>
-                  </div>
-                  <div className="text-center">
-                    <p className="font-semibold uppercase"></p>
-                    <p>PANGULO NG SCAN</p>
-                  </div>
-                </div>
-                <div className="grid grid-cols-2 gap-20 mt-12">
-                  <div className="text-center">
-                    <p className="font-semibold uppercase">MARIANO M. LEBARDO JR.</p>
-                    <p>PD - TAGASUBAYBAY</p>
-                  </div>
-                  <div className="text-center">
-                    <p className="font-semibold uppercase">RODOLFO DE GUZMAN</p>
-                    <p>DESTINADO NG LOKAL</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
+        <PrintableSuguan forms={forms} filipinoDays={filipinoDays} />
       )}
 
+      {/* Recommendation Letter Tab */}
       {activeTab === 'letter' && (
         <div className="flex p-5 items-center justify-center">
           <ScanRecommendationLetter 
@@ -534,6 +434,7 @@ const categories: Array<"Communicators" | "Emergency First Responder (EFR)" | "A
         </div>
       )}
 
+      {/* Attendance Sheet Tab */}
       {activeTab === 'attendance' && (
         <div className="flex p-5 items-center justify-center">
           <AttendanceSheet
@@ -553,26 +454,29 @@ const categories: Array<"Communicators" | "Emergency First Responder (EFR)" | "A
         </div>
       )}
 
+      {/* Masterlist Tab */}
       {activeTab === 'masterlist' && (
         <div className="flex p-5 flex-col">
-{categories.map((category) => {
-  const filteredMembers = data.members.filter((m: any) => m.function === category);
-  return filteredMembers.length > 0 ? (
-    <ScanMasterlist
-      key={category}
-      district="Rizal"
-      category={category}
-      members={filteredMembers.filter((data:any) => data.schedules && data.schedules.length > 0)}
-    />
-  ) : null;
-})}
+          {categories.map((category) => {
+            const filteredMembers = data.members.filter((m: any) => m.function === category);
+            return filteredMembers.length > 0 ? (
+              <ScanMasterlist
+                key={category}
+                district="Rizal"
+                category={category}
+                members={filteredMembers.filter((data:any) => data.schedules && data.schedules.length > 0)}
+              />
+            ) : null;
+          })}
         </div>
       )}
 
+      {/* CRUD Tab */}
       {activeTab === 'crud' && (
         <div className="max-w-6xl mx-auto mt-24 p-6 bg-white rounded-lg shadow-lg">
           <h2 className="text-2xl font-bold mb-6">Manage Members</h2>
 
+          {/* Add Member Form */}
           <div className="bg-gray-50 p-4 rounded-lg mb-6">
             <h3 className="text-lg font-semibold mb-3">Add New Member</h3>
             <div className="grid grid-cols-2 gap-4 mb-3">
@@ -704,6 +608,7 @@ const categories: Array<"Communicators" | "Emergency First Responder (EFR)" | "A
             </button>
           </div>
 
+          {/* Members List */}
           <div className="space-y-4">
             <h3 className="text-lg font-semibold mb-3">Members List</h3>
             {data.members.length === 0 ? (
@@ -983,4 +888,4 @@ const categories: Array<"Communicators" | "Emergency First Responder (EFR)" | "A
       `}</style>
     </div>
   );
-          }
+            }
