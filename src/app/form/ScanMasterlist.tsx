@@ -30,7 +30,7 @@ export default function ScanMasterlist({
   category,
   members,
 }: Props) {
-  const rowsPerPage = 12; // More rows to fill A4 landscape
+  const rowsPerPage = 10;
 
   const parseName = (fullName: string): { firstName: string; lastName: string } => {
     const parts = fullName.trim().split(/\s+/);
@@ -93,7 +93,7 @@ export default function ScanMasterlist({
 
   return (
     <>
-      <style>{`
+      <style jsx global>{`
         * {
           margin: 0;
           padding: 0;
@@ -101,23 +101,23 @@ export default function ScanMasterlist({
         }
         
         @media print {
-          .no-print { 
-            display: none !important; 
+          .no-print {
+            display: none !important;
           }
           
-          .print-page { 
+          .print-page {
             page-break-after: always;
-            page-break-inside: avoid;
-            height: 100vh;
+            break-after: page;
           }
           
           .print-page:last-child {
             page-break-after: auto;
+            break-after: auto;
           }
           
           @page {
             size: A4 landscape;
-            margin: 1.5cm 1cm;
+            margin: 1cm 0.8cm;
           }
           
           body {
@@ -125,12 +125,20 @@ export default function ScanMasterlist({
             padding: 0;
             background: white;
           }
+          
+          table {
+            break-inside: avoid;
+          }
+          
+          tr {
+            break-inside: avoid;
+          }
         }
         
         /* Screen styles */
         .no-print {
           text-align: center;
-          margin-bottom: 20px;
+          margin: 20px 0;
           position: sticky;
           top: 10px;
           z-index: 100;
@@ -148,6 +156,7 @@ export default function ScanMasterlist({
           align-items: center;
           gap: 8px;
           font-weight: 500;
+          box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
         
         .print-btn:hover {
@@ -157,15 +166,11 @@ export default function ScanMasterlist({
         .print-page {
           background: white;
           width: 100%;
-          max-width: 297mm;
-          min-height: 210mm;
+          max-width: 1200px;
           margin: 0 auto 20px auto;
-          padding: 15mm 10mm;
+          padding: 20px;
           box-shadow: 0 0 10px rgba(0,0,0,0.1);
           font-family: 'Times New Roman', Times, serif;
-          display: flex;
-          flex-direction: column;
-          page-break-after: always;
         }
         
         @media print {
@@ -174,70 +179,65 @@ export default function ScanMasterlist({
             max-width: none;
             margin: 0;
             padding: 0;
-            min-height: 0;
-            height: auto;
           }
         }
         
-        .title {
+        .header {
           text-align: center;
-          margin-bottom: 10px;
+          margin-bottom: 15px;
         }
         
-        .title h1 {
-          font-size: 16px;
+        .header h1 {
+          font-size: 18px;
           font-weight: bold;
           margin: 0;
           letter-spacing: 1px;
         }
         
-        .title p {
-          font-size: 11px;
+        .header p {
+          font-size: 12px;
           font-style: italic;
-          margin-top: 4px;
+          margin-top: 5px;
         }
         
-        .district-info {
-          margin-bottom: 10px;
-          font-size: 11px;
-          display: flex;
-          align-items: baseline;
+        .district-section {
+          margin-bottom: 15px;
+          font-size: 12px;
         }
         
         .district-label {
           font-weight: bold;
-          white-space: nowrap;
         }
         
-        .district-line {
+        .district-underline {
+          display: inline-block;
           border-bottom: 1px solid black;
-          flex: 1;
+          min-width: 200px;
           margin-left: 10px;
-          height: 1px;
         }
         
-        table {
+        .masterlist-table {
           width: 100%;
           border-collapse: collapse;
-          font-size: 9px;
-          flex: 1;
+          font-size: 10px;
         }
         
-        th, td {
+        .masterlist-table th,
+        .masterlist-table td {
           border: 1px solid black;
-          padding: 6px 4px;
+          padding: 8px 5px;
           vertical-align: middle;
         }
         
-        th {
-          background: #f3f4f6;
+        .masterlist-table th {
+          background-color: #f3f4f6;
           text-align: center;
           font-weight: bold;
         }
         
         @media print {
-          th {
-            background: #f3f4f6 !important;
+          .masterlist-table th {
+            background-color: #f3f4f6 !important;
             -webkit-print-color-adjust: exact;
             print-color-adjust: exact;
           }
@@ -247,41 +247,46 @@ export default function ScanMasterlist({
           text-align: center;
         }
         
-        .picture-box {
+        .picture-cell {
           text-align: center;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          min-height: 60px;
+          vertical-align: middle;
+          width: 70px;
         }
         
-        .picture-box img {
-          max-width: 40px;
-          max-height: 55px;
+        .picture-container {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          min-height: 80px;
+        }
+        
+        .picture-container img {
+          max-width: 50px;
+          max-height: 70px;
           object-fit: contain;
         }
         
-        .page-num {
+        .no-photo {
+          color: #9ca3af;
+          font-size: 8px;
+        }
+        
+        .page-number {
           text-align: right;
-          font-size: 9px;
-          margin-top: 10px;
+          font-size: 10px;
+          margin-top: 15px;
         }
         
-        /* Column widths */
-        .col-pic { width: 8%; }
-        .col-first { width: 14%; }
-        .col-middle { width: 12%; }
-        .col-last { width: 14%; }
+        /* Fixed column widths */
+        .col-picture { width: 8%; }
+        .col-firstname { width: 14%; }
+        .col-middlename { width: 12%; }
+        .col-lastname { width: 14%; }
         .col-local { width: 8%; }
-        .col-date { width: 12%; }
+        .col-scandate { width: 12%; }
         .col-special { width: 18%; }
-        .col-call { width: 14%; }
-        
-        td {
-          font-size: 9px;
-          line-height: 1.3;
-        }
-      </style>`
+        .col-callsign { width: 14%; }
+      `}</style>
 
       {/* Print Button */}
       <div className="no-print">
@@ -294,64 +299,64 @@ export default function ScanMasterlist({
       </div>
 
       {/* Print Pages */}
-      {Array.from({ length: totalPages }).map((_, pageIdx) => {
-        const start = pageIdx * rowsPerPage;
+      {Array.from({ length: totalPages }).map((_, pageIndex) => {
+        const start = pageIndex * rowsPerPage;
         const pageMembers = transformedMembers.slice(start, start + rowsPerPage);
         
         return (
-          <div key={pageIdx} className="print-page">
-            {/* Title */}
-            <div className="title">
+          <div key={pageIndex} className="print-page">
+            {/* Header */}
+            <div className="header">
               <h1>MASTERLIST NG SCAN SA DISTRITO</h1>
               <p>{category}</p>
             </div>
 
             {/* District */}
-            <div className="district-info">
+            <div className="district-section">
               <span className="district-label">Distrito:</span>
-              <div className="district-line"></div>
-              <span style={{ marginLeft: '10px', fontWeight: 'bold' }}>{district}</span>
+              <span className="district-underline">{district}</span>
             </div>
 
             {/* Table */}
-            <table>
+            <table className="masterlist-table">
               <thead>
                 <tr>
-                  <th rowSpan="2" className="col-pic">ID Picture<br/>(1x1)</th>
-                  <th colSpan="3">PANGALAN</th>
-                  <th rowSpan="2" className="col-local">LOKAL</th>
-                  <th rowSpan="2" className="col-date">PETSA NG<br/>MAGING SCAN</th>
-                  <th rowSpan="2" className="col-special">{getSpecialColumnHeader()}</th>
-                  <th rowSpan="2" className="col-call">INTERNAL<br/>CALLSIGN</th>
+                  <th rowSpan={2} className="col-picture">ID Picture<br/>(1x1)</th>
+                  <th colSpan={3}>PANGALAN</th>
+                  <th rowSpan={2} className="col-local">LOKAL</th>
+                  <th rowSpan={2} className="col-scandate">PETSA NG<br/>MAGING SCAN</th>
+                  <th rowSpan={2} className="col-special">{getSpecialColumnHeader()}</th>
+                  <th rowSpan={2} className="col-callsign">INTERNAL<br/>CALLSIGN</th>
                 </tr>
                 <tr>
-                  <th className="col-first">FIRST NAME</th>
-                  <th className="col-middle">MIDDLE NAME</th>
-                  <th className="col-last">LAST NAME</th>
+                  <th className="col-firstname">FIRST NAME</th>
+                  <th className="col-middlename">MIDDLE NAME</th>
+                  <th className="col-lastname">LAST NAME</th>
                 </tr>
               </thead>
               <tbody>
-                {pageMembers.map((m, idx) => (
+                {pageMembers.map((member, idx) => (
                   <tr key={idx}>
-                    <td className="text-center">
-                      <div className="picture-box">
-                        {m.picture ? (
-                          <img src={m.picture} alt="ID" />
+                    <td className="picture-cell">
+                      <div className="picture-container">
+                        {member.picture ? (
+                          <img src={member.picture} alt="ID" />
                         ) : (
-                          <span style={{ fontSize: '7px', color: '#999' }}>No Photo</span>
+                          <span className="no-photo">No Photo</span>
                         )}
                       </div>
                     </td>
-                    <td>{m.firstName || '—'}</td>
-                    <td>{m.middleName || '—'}</td>
-                    <td>{m.lastName || '—'}</td>
-                    <td>{m.local || '—'}</td>
-                    <td>{m.scanDate || '—'}</td>
-                    <td>{getSpecialColumnValue(m) || '—'}</td>
-                    <td>{m.internalCallsign || '—'}</td>
+                    <td>{member.firstName || '—'}</td>
+                    <td>{member.middleName || '—'}</td>
+                    <td>{member.lastName || '—'}</td>
+                    <td>{member.local || '—'}</td>
+                    <td>{member.scanDate || '—'}</td>
+                    <td>{getSpecialColumnValue(member) || '—'}</td>
+                    <td>{member.internalCallsign || '—'}</td>
                   </tr>
                 ))}
-                {/* Fill remaining rows to complete the page */}
+                
+                {/* Fill empty rows to complete the page */}
                 {Array.from({ length: rowsPerPage - pageMembers.length }).map((_, idx) => (
                   <tr key={`empty-${idx}`}>
                     <td>&nbsp;</td>
@@ -368,12 +373,12 @@ export default function ScanMasterlist({
             </table>
 
             {/* Page Number */}
-            <div className="page-num">
-              Page {pageIdx + 1} of {totalPages}
+            <div className="page-number">
+              Page {pageIndex + 1} of {totalPages}
             </div>
           </div>
         );
       })}
     </>
   );
-      }
+}
