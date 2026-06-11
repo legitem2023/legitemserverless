@@ -195,21 +195,34 @@ export default function ScanMasterlist({
           font-size: 10px;
         }
         
-        .masterlist-table th,
+        /* Borders for table body cells */
         .masterlist-table td {
           border: 1px solid black;
           padding: 8px 5px;
           vertical-align: middle;
         }
         
-        .masterlist-table th {
+        /* Borders for second thead (main headers only) */
+        .masterlist-table thead:not(:first-child) th {
+          border: 1px solid black;
+          padding: 8px 5px;
+          vertical-align: middle;
           background-color: #f3f4f6;
           text-align: center;
           font-weight: bold;
         }
         
+        /* No borders for first thead (title section) */
+        .masterlist-table thead:first-child th,
+        .masterlist-table thead:first-child td {
+          border: none;
+          padding: 8px 5px;
+          vertical-align: middle;
+          background-color: transparent;
+        }
+        
         @media print {
-          .masterlist-table th {
+          .masterlist-table thead:not(:first-child) th {
             background-color: #f3f4f6 !important;
             -webkit-print-color-adjust: exact;
             print-color-adjust: exact;
@@ -304,26 +317,26 @@ export default function ScanMasterlist({
         return (
           <div key={pageIndex} className="print-page">
             <table className="masterlist-table">
-              {/* Header Section inside table */}
+              {/* Header Section inside table - NO BORDERS */}
               <thead>
                 <tr>
                   <td colSpan={8} className="header-title">
                     MASTERLIST NG SCAN SA DISTRITO
-                  </td>
-                </tr>
-                <tr>
+                   </td>
+                 </tr>
+                 <tr>
                   <td colSpan={8} className="header-category">
                     {category}
-                  </td>
-                </tr>
-                <tr>
+                   </td>
+                 </tr>
+                 <tr>
                   <td colSpan={8} className="district-row">
                     <span className="district-label">Distrito:</span> {district}
-                  </td>
-                </tr>
+                   </td>
+                 </tr>
               </thead>
               
-              {/* Main Table Header */}
+              {/* Main Table Header - WITH BORDERS */}
               <thead>
                 <tr>
                   <th rowSpan={2} className="col-picture">ID Picture<br/>(1x1)</th>
@@ -332,15 +345,15 @@ export default function ScanMasterlist({
                   <th rowSpan={2} className="col-scandate">PETSA NG<br/>MAGING SCAN</th>
                   <th rowSpan={2} className="col-special">{getSpecialColumnHeader()}</th>
                   <th rowSpan={2} className="col-callsign">INTERNAL<br/>CALLSIGN</th>
-                </tr>
-                <tr>
+                 </tr>
+                 <tr>
                   <th className="col-firstname">FIRST NAME</th>
                   <th className="col-middlename">MIDDLE NAME</th>
                   <th className="col-lastname">LAST NAME</th>
-                </tr>
+                 </tr>
               </thead>
               
-              {/* Table Body */}
+              {/* Table Body - WITH BORDERS */}
               <tbody>
                 {pageMembers.map((member, idx) => (
                   <tr key={idx}>
