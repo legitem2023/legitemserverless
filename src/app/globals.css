@@ -22,6 +22,93 @@ body {
   height: 100%;
 }
 
+@media print {
+  html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+    background: white !important;
+    width: 100%;
+    height: auto !important;
+    min-height: auto !important;
+  }
+  
+  body {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  
+  /* Force first page to have same top spacing */
+  body > div:first-child {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+  }
+  
+  .print\:shadow-none {
+    box-shadow: none !important;
+  }
+  
+  .print\:page-break-after-always {
+    page-break-after: always;
+  }
+  
+  .print\:m-0 {
+    margin: 0 !important;
+  }
+  
+  .print\:p-0 {
+    padding: 0 !important;
+  }
+  
+  .print\:pt-\[10mm\] {
+    padding-top: 10mm !important;
+  }
+  
+  .print\:bg-white {
+    background: white !important;
+  }
+  
+  .print\:pt-0 {
+    padding-top: 0 !important;
+  }
+  
+  .print\:mt-0 {
+    margin-top: 0 !important;
+  }
+  
+  .print\:block {
+    display: block !important;
+  }
+  
+  /* Remove any flex centering */
+  .min-h-screen {
+    min-height: auto !important;
+  }
+  
+  .flex, .items-center, .justify-center {
+    display: block !important;
+    align-items: normal !important;
+    justify-content: normal !important;
+  }
+  
+  table {
+    page-break-inside: avoid;
+  }
+  
+  /* Ensure content starts consistently */
+  div, section, article {
+    break-inside: avoid;
+  }
+  
+  @page {
+    size: A4;
+    margin: 0mm;
+  }
+}
+
+
+
+
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;
