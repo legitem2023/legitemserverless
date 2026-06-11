@@ -34,18 +34,13 @@ interface PrintableSuguanProps {
 
 export function PrintableSuguan({ forms, filipinoDays }: PrintableSuguanProps) {
   return (
-    <div className="flex p-3 flex-col gap-3" style={{ printColorAdjust: 'exact' }}>
+    <div className="flex p-3 flex-col gap-3 print:block print:p-0 print:m-0">
       {forms.map((formSchedules, formIndex) => (
         <div
           key={formIndex}
-          className="bg-white w-[216mm] min-h-[279mm] shadow-lg text-black overflow-hidden"
-          style={{
-            breakAfter: 'page',
-            pageBreakAfter: 'always',
-          }}
+          className="bg-white w-[216mm] min-h-[279mm] shadow-lg text-black overflow-hidden print:shadow-none print:min-h-0 print:mb-0 print:break-after-page"
         >
-          {/* Wrapper with inline print padding */}
-          <div style={{ padding: '0.5in' }}>
+          <div className="print:p-[0.5in]">
             {/* Header Section - Logo and text now properly aligned */}
             <div className="flex items-center justify-between mb-4 pt-4 pl-4 pr-4">
               <div className="w-[120px] flex items-center">
@@ -150,10 +145,21 @@ export function PrintableSuguan({ forms, filipinoDays }: PrintableSuguanProps) {
       
       <style jsx>{`
         @media print {
+          .print\\:p-\\[0\\.5in\\] {
+            padding: 0.5in !important;
+          }
+          
+          /* Preserve flexbox layout in print */
           .flex {
-            display: block !important;
-            padding: 0 !important;
-            margin: 0 !important;
+            display: flex !important;
+          }
+          
+          .items-center {
+            align-items: center !important;
+          }
+          
+          .justify-between {
+            justify-content: space-between !important;
           }
         }
       `}</style>
