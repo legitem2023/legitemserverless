@@ -172,14 +172,17 @@ export default function ScanMasterlist({
         }
         
         .print-page {
-          background: white;
-          width: 100%;
-          max-width: 1200px;
-          margin: 0 auto 20px auto;
-          padding: 20px;
-          box-shadow: 0 0 10px rgba(0,0,0,0.1);
-          font-family: 'Times New Roman', Times, serif;
-        }
+  background: white;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto 20px auto;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  font-family: 'Times New Roman', Times, serif;
+  
+  
+  aspect-ratio: 297 / 210;
+}
         
         @media print {
           .print-page {
@@ -187,6 +190,7 @@ export default function ScanMasterlist({
             max-width: none;
             margin: 0;
             padding: 0;
+            aspect-ratio: 297 / 210;
           }
         }
         
