@@ -34,112 +34,372 @@ interface PrintableSuguanProps {
 
 export function PrintableSuguan({ forms, filipinoDays }: PrintableSuguanProps) {
   return (
-    <div className="flex p-3 flex-col gap-3 print:block print:p-0 print:m-0">
+    <div className="print-container">
       {forms.map((formSchedules, formIndex) => (
-        <div
-          key={formIndex}
-          className="bg-white w-[216mm] min-h-[279mm] shadow-lg text-black overflow-hidden"
-        >
-          {/* Header Section - Logo and text now properly aligned */}
-          <div className="flex items-center justify-between mb-4 pt-4 pl-4 pr-4">
-            <div className="w-[120px] flex items-center">
-              <Image
-                src="/images.png"
-                alt="Logo"
-                width={120}
-                height={120}
-                className="object-contain"
-              />
+        <div key={formIndex} className="print-page">
+          <div className="page-content">
+            {/* Header Section */}
+            <div className="header">
+              <div className="logo">
+                <Image
+                  src="/images.png"
+                  alt="Logo"
+                  width={100}
+                  height={100}
+                  className="object-contain"
+                />
+              </div>
+
+              <div className="title-section">
+                <h1>SCAN INTERNATIONAL</h1>
+                <h2>DISTRITO NG RIZAL</h2>
+                <h3>LOKAL NG KADALAGAHAN</h3>
+                <p className="service-type">
+                  {formIndex === 2 
+                    ? 'SUGUAN NG SCAN SA PNK' 
+                    : formIndex === 3 
+                      ? 'SUGUAN NG PAGBABANTAY SA DISTRITO' 
+                      : 'SUGUAN NG SCAN SA PAGSAMBA'}
+                </p>
+              </div>
+
+              <div className="spacer" />
             </div>
 
-            <div className="text-center flex-1">
-              <h1 className="font-bold text-[13px] uppercase">SCAN INTERNATIONAL</h1>
-              <h2 className="font-semibold text-[12px] uppercase">DISTRITO NG RIZAL</h2>
-              <h3 className="text-[11px] uppercase">LOKAL NG KADALAGAHAN</h3>
-              <p className="text-[10px] uppercase">
-                {formIndex === 2 ? 'SUGUAN NG SCAN SA PNK' : 
-                 formIndex === 3 ? 'SUGUAN NG PAGBABANTAY SA DISTRITO' : 
-                 'SUGUAN NG SCAN SA PAGSAMBA'}
-              </p>
-            </div>
+            {/* Schedules Section */}
+            <div className="schedules">
+              {formSchedules.map((schedule, idx) => {
+                const dateObj = new Date(schedule.date);
+                const filipinoDay = filipinoDays[schedule.day.toLowerCase()] || schedule.day;
 
-            <div className="w-[70px]" />
-          </div>
-
-          {/* Schedules Section */}
-          <div className="space-y-6 pl-4 pr-4">
-            {formSchedules.map((schedule, idx) => {
-              const dateObj = new Date(schedule.date);
-              const filipinoDay = filipinoDays[schedule.day.toLowerCase()] || schedule.day;
-
-              return (
-                <div key={idx} className="break-inside-avoid">
-                  <table className="w-full border border-black text-[10px] table-fixed">
-                    <thead>
-                      <tr>
-                        <th colSpan={5} className="border px-2 py-1 text-left" style={{ width: '33.33%' }}>
-                          Petsa: {dateObj.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
-                        </th>
-                        <th colSpan={2} className="border px-2 py-1 text-left" style={{ width: '33.33%' }}>
-                          Araw: {filipinoDay}
-                        </th>
-                        <th colSpan={2} className="border px-2 py-1 text-left" style={{ width: '33.33%' }}>
-                          Oras: {schedule.time}
-                        </th>
-                      </tr>
-                      <tr>
-                        <th className="border px-1 py-1">Blg</th>
-                        <th colSpan={4} className="border px-2 py-1 text-left">Pangalan</th>
-                        <th className="border px-1 py-1">Call-Sign</th>
-                        <th className="border px-1 py-1">Lagda Pagtanggap</th>
-                        <th className="border px-1 py-1">Lagda Pagtupad</th>
-                        <th className="border px-1 py-1">Gampanin</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {schedule.members.map((member, i) => (
-                        <tr key={i}>
-                          <td className="border text-center py-1">{i + 1}</td>
-                          <td colSpan={4} className="border px-2 py-1">{member.name}</td>
-                          <td className="border text-center py-1">{member.callSign}</td>
-                          <td className="border h-[24px]" />
-                          <td className="border h-[24px]" />
-                          <td className="border" />
+                return (
+                  <div key={idx} className="schedule-table-wrapper">
+                    <table className="schedule-table">
+                      <thead>
+                        <tr className="schedule-header-row">
+                          <th colSpan={3} className="header-date">
+                            Petsa: {dateObj.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+                          </th>
+                          <th colSpan={3} className="header-day">
+                            Araw: {filipinoDay}
+                          </th>
+                          <th colSpan={3} className="header-time">
+                            Oras: {schedule.time}
+                          </th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Footer Signatures Section */}
-          <div className="mt-14 text-[11px] pl-4 pr-4 pb-4">
-            <p className="mb-6">Naghanda:</p>
-            <div className="grid grid-cols-2 gap-20">
-              <div className="text-center">
-                <p className="font-semibold uppercase">JUSTINE JACOB RODRIGUEZ</p>
-                <p>KALIHIM SCAN</p>
-              </div>
-              <div className="text-center">
-                <p className="font-semibold uppercase"></p>
-                <p>PANGULO NG SCAN</p>
-              </div>
+                        <tr className="column-headers">
+                          <th className="col-blg">Blg</th>
+                          <th colSpan={3} className="col-name">Pangalan</th>
+                          <th className="col-callsign">Call Sign</th>
+                          <th className="col-sign-receive">Lagda Pagtanggap</th>
+                          <th className="col-sign-fulfill">Lagda Pagtupad</th>
+                          <th className="col-role">Gampanan</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {schedule.members.map((member, i) => (
+                          <tr key={i}>
+                            <td className="text-center">{i + 1}</td>
+                            <td colSpan={3}>{member.name}</td>
+                            <td className="text-center">{member.callSign}</td>
+                            <td className="sign-cell"></td>
+                            <td className="sign-cell"></td>
+                            <td className="role-cell"></td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                );
+              })}
             </div>
-            <div className="grid grid-cols-2 gap-20 mt-12">
-              <div className="text-center">
-                <p className="font-semibold uppercase">MARIANO M. LEBARDO JR.</p>
-                <p>PD - TAGASUBAYBAY</p>
+
+            {/* Footer Signatures Section */}
+            <div className="footer">
+              <p className="prepared-by">Naghanda:</p>
+              <div className="signatures">
+                <div className="signature">
+                  <p className="name">JUSTINE JACOB RODRIGUEZ</p>
+                  <p className="title">KALIHIM SCAN</p>
+                </div>
+                <div className="signature">
+                  <p className="name">________________________</p>
+                  <p className="title">PANGULO NG SCAN</p>
+                </div>
               </div>
-              <div className="text-center">
-                <p className="font-semibold uppercase">RODOLFO DE GUZMAN</p>
-                <p>DESTINADO NG LOKAL</p>
+              <div className="signatures second-row">
+                <div className="signature">
+                  <p className="name">MARIANO M. LEBARDO JR.</p>
+                  <p className="title">PD - TAGASUBAYBAY</p>
+                </div>
+                <div className="signature">
+                  <p className="name">RODOLFO DE GUZMAN</p>
+                  <p className="title">DESTINADO NG LOKAL</p>
+                </div>
               </div>
             </div>
           </div>
         </div>
       ))}
+
+      <style jsx global>{`
+        /* Print Styles */
+        @media print {
+          @page {
+            margin: 0.5in;
+            size: letter;
+          }
+          
+          body {
+            margin: 0;
+            padding: 0;
+            background: white;
+          }
+          
+          .print-container {
+            display: block;
+            margin: 0;
+            padding: 0;
+          }
+          
+          .print-page {
+            break-after: page;
+            page-break-after: always;
+            margin: 0;
+            padding: 0;
+            background: white;
+          }
+          
+          .page-content {
+            padding: 0 !important;
+            margin: 0 !important;
+          }
+          
+          .logo img {
+            print-color-adjust: exact;
+          }
+        }
+        
+        /* Screen Styles */
+        .print-page {
+          background: white;
+          width: 216mm;
+          min-height: 279mm;
+          margin: 0 auto 20px auto;
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+          border-radius: 4px;
+        }
+        
+        .page-content {
+          padding: 0.5in;
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+        }
+        
+        /* Header Styles */
+        .header {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 24px;
+          flex-shrink: 0;
+        }
+        
+        .logo {
+          width: 100px;
+          flex-shrink: 0;
+        }
+        
+        .title-section {
+          text-align: center;
+          flex: 1;
+        }
+        
+        .title-section h1 {
+          font-size: 14px;
+          font-weight: bold;
+          text-transform: uppercase;
+          margin: 0;
+          letter-spacing: 0.5px;
+        }
+        
+        .title-section h2 {
+          font-size: 12px;
+          font-weight: 600;
+          text-transform: uppercase;
+          margin: 4px 0;
+          letter-spacing: 0.3px;
+        }
+        
+        .title-section h3 {
+          font-size: 11px;
+          font-weight: 500;
+          text-transform: uppercase;
+          margin: 4px 0;
+        }
+        
+        .service-type {
+          font-size: 10px;
+          font-weight: bold;
+          text-transform: uppercase;
+          margin: 6px 0 0 0;
+          color: #000;
+          border-top: 1px solid #ccc;
+          display: inline-block;
+          padding-top: 4px;
+        }
+        
+        .spacer {
+          width: 70px;
+          flex-shrink: 0;
+        }
+        
+        /* Schedules Styles */
+        .schedules {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          gap: 20px;
+        }
+        
+        .schedule-table-wrapper {
+          break-inside: avoid;
+          page-break-inside: avoid;
+        }
+        
+        .schedule-table {
+          width: 100%;
+          border-collapse: collapse;
+          font-size: 10px;
+          border: 1px solid #000;
+        }
+        
+        .schedule-table th,
+        .schedule-table td {
+          border: 1px solid #000;
+          padding: 6px 8px;
+          vertical-align: top;
+        }
+        
+        .schedule-header-row th {
+          text-align: left;
+          font-weight: normal;
+          background-color: #f9f9f9;
+          padding: 6px 8px;
+        }
+        
+        .header-date,
+        .header-day,
+        .header-time {
+          width: 33.33%;
+        }
+        
+        .column-headers th {
+          font-weight: bold;
+          text-align: center;
+          background-color: #f5f5f5;
+          font-size: 9px;
+          padding: 6px 4px;
+        }
+        
+        .col-blg {
+          width: 6%;
+          text-align: center;
+        }
+        
+        .col-name {
+          width: 34%;
+        }
+        
+        .col-callsign {
+          width: 12%;
+          text-align: center;
+        }
+        
+        .col-sign-receive,
+        .col-sign-fulfill {
+          width: 20%;
+        }
+        
+        .col-role {
+          width: 8%;
+        }
+        
+        .schedule-table tbody tr:hover {
+          background-color: #fafafa;
+        }
+        
+        .sign-cell {
+          height: 28px;
+        }
+        
+        .role-cell {
+          height: 28px;
+        }
+        
+        .text-center {
+          text-align: center;
+        }
+        
+        /* Footer Styles */
+        .footer {
+          margin-top: 32px;
+          font-size: 10px;
+          flex-shrink: 0;
+        }
+        
+        .prepared-by {
+          margin: 0 0 12px 0;
+          font-weight: 500;
+        }
+        
+        .signatures {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 60px;
+          margin-top: 8px;
+        }
+        
+        .signatures.second-row {
+          margin-top: 40px;
+        }
+        
+        .signature {
+          text-align: center;
+        }
+        
+        .signature .name {
+          font-weight: 600;
+          text-transform: uppercase;
+          margin-bottom: 6px;
+          font-size: 10px;
+          letter-spacing: 0.3px;
+        }
+        
+        .signature .title {
+          font-size: 9px;
+          text-transform: uppercase;
+          color: #333;
+          margin: 0;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+          .print-page {
+            width: 100%;
+            margin: 0 auto 16px auto;
+          }
+          
+          .page-content {
+            padding: 0.3in;
+          }
+          
+          .signatures {
+            gap: 30px;
+          }
+        }
+      `}</style>
     </div>
   );
 }
