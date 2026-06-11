@@ -251,17 +251,16 @@ export function PrintableSuguan({ forms, filipinoDays }: PrintableSuguanProps) {
           width: 100%;
           border-collapse: collapse;
           font-size: 10px;
-          border: 1px solid black;
+          border: 1px solid #c0c0c0;
         }
         
         .schedule-table th,
         .schedule-table td {
-          border: 1px solid black;
+          border: 1px solid #c0c0c0;
           padding: 0.25rem 0.5rem;
         }
         
         .schedule-table th {
-          background-color: #f3f4f6;
           font-weight: 600;
         }
         
