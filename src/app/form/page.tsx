@@ -104,6 +104,9 @@ function getAlignedDate(dayName: string) {
   return result;
 }
 
+// Define the category type to match ScanMasterlist expected props
+type CategoryType = "Emergency First Responder (EFR)" | "Communicators" | "Associate Members (Approved)" | "Associate Members (Not Approved)";
+
 export default function Home() {
   const [activeTab, setActiveTab] = useState<string>('crud');
   const [data, setData] = useState<{ members: Member[] }>({ members: [] });
@@ -334,12 +337,13 @@ export default function Home() {
       remarks: ''
     }));
 
+  // FIXED: Added 'as const' to make this a readonly tuple with literal types
   const categories = [
     "Emergency First Responder (EFR)",
     "Communicators",
     "Associate Members (Approved)",
     "Associate Members (Not Approved)"
-  ];
+  ] as const;
 
   // Filter members
   const filteredMembers = data.members.filter(member =>
@@ -441,7 +445,7 @@ export default function Home() {
           </div>
         </TabPanel>
 
-        {/* Masterlist Tab */}
+        {/* Masterlist Tab - FIXED: Added type assertion */}
         <TabPanel activeTab={activeTab} tabId="masterlist">
           <div className="flex p-5 flex-col">
             {categories.map((category) => {
@@ -450,7 +454,7 @@ export default function Home() {
                 <ScanMasterlist
                   key={category}
                   district="Rizal"
-                  category={category}
+                  category={category as CategoryType}
                   members={filteredMembers.filter((data:any) => data.schedules && data.schedules.length > 0)}
                 />
               ) : null;
