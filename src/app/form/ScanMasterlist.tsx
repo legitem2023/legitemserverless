@@ -305,7 +305,7 @@ export default function ScanMasterlist({
           <div key={pageIndex} className="print-page">
             <table className="masterlist-table">
               {/* Header Section inside table */}
-              <tbody>
+              <thead>
                 <tr>
                   <td colSpan={8} className="header-title">
                     MASTERLIST NG SCAN SA DISTRITO
@@ -321,7 +321,7 @@ export default function ScanMasterlist({
                     <span className="district-label">Distrito:</span> {district}
                   </td>
                 </tr>
-              </tbody>
+              </thead>
               
               {/* Main Table Header */}
               <thead>
