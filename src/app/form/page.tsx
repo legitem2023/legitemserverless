@@ -1,4 +1,4 @@
-Fix the UI proffessionally look but let it desktop view only
+//Fix the UI proffessionally look but let it desktop view only
 
 'use client';
 
