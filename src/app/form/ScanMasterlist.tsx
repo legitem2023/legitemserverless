@@ -38,7 +38,7 @@ export default function ScanMasterlist({
   category,
   members,
 }: Props) {
-  const rowsPerPage = 10;
+  const rowsPerPage = 6;
 
   const parseName = (fullName: string): { firstName: string; lastName: string } => {
     const parts = fullName.trim().split(/\s+/);
