@@ -4,6 +4,7 @@
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { ReusableTabs, TabPanel } from './components/ReusableTabs';
+import SafetyBackground from "./SafetyBackground";
 import { 
   Printer, 
   Users, 
@@ -363,6 +364,7 @@ export default function Home() {
 
   return (
     <div className="bg-gray-300 min-h-screen py-10 print:bg-white print:p-0 print:m-0 print:min-h-0">
+      <SafetyBackground/>
       {/* Notifications */}
       {success && (
         <div className="fixed top-20 left-1/2 transform -translate-x-1/2 z-50 bg-green-500 text-white px-4 py-2 rounded shadow-lg">
