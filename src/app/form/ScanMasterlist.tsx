@@ -139,7 +139,6 @@ export default function ScanMasterlist({
           
           @page {
             size: A4 landscape;
-            margin: 15mm 10mm 15mm 10mm;
           }
         }
       `}</style>
