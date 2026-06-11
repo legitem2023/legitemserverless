@@ -34,14 +34,18 @@ interface PrintableSuguanProps {
 
 export function PrintableSuguan({ forms, filipinoDays }: PrintableSuguanProps) {
   return (
-    <div className="flex p-3 flex-col gap-3 print:block print:p-0 print:m-0">
+    <div className="flex p-3 flex-col gap-3" style={{ printColorAdjust: 'exact' }}>
       {forms.map((formSchedules, formIndex) => (
         <div
           key={formIndex}
-          className="bg-white w-[216mm] min-h-[279mm] shadow-lg text-black overflow-hidden print:shadow-none print:min-h-0 print:mb-0 print:break-after-page"
+          className="bg-white w-[216mm] min-h-[279mm] shadow-lg text-black overflow-hidden"
+          style={{
+            breakAfter: 'page',
+            pageBreakAfter: 'always',
+          }}
         >
-          {/* This wrapper ensures consistent padding on ALL pages */}
-          <div className="print:p-[0.5in]">
+          {/* Wrapper with inline print padding */}
+          <div style={{ padding: '0.5in' }}>
             {/* Header Section - Logo and text now properly aligned */}
             <div className="flex items-center justify-between mb-4 pt-4 pl-4 pr-4">
               <div className="w-[120px] flex items-center">
@@ -95,7 +99,7 @@ export function PrintableSuguan({ forms, filipinoDays }: PrintableSuguanProps) {
                           <th className="border px-1 py-1">Call-Sign</th>
                           <th className="border px-1 py-1">Lagda Pagtanggap</th>
                           <th className="border px-1 py-1">Lagda Pagtupad</th>
-                          <th className="border px-1 py-1">Gampanin</th>
+                          <th className="border px-1 py-1">Gampanan</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -143,6 +147,16 @@ export function PrintableSuguan({ forms, filipinoDays }: PrintableSuguanProps) {
           </div>
         </div>
       ))}
+      
+      <style jsx>{`
+        @media print {
+          .flex {
+            display: block !important;
+            padding: 0 !important;
+            margin: 0 !important;
+          }
+        }
+      `}</style>
     </div>
   );
 }
