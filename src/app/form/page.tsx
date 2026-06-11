@@ -345,7 +345,7 @@ const categories: Array<"Communicators" | "Emergency First Responder (EFR)" | "A
         </div>
       )}
 
-      <div className="fixed top-5 left-5 right-5 z-50 print:hidden bg-white rounded-lg shadow-md flex gap-2 p-2 max-w-md mx-auto">
+      <div className="fixed w-full z-50 print:hidden bg-white rounded-lg shadow-md flex gap-2 p-2 max-w-md mx-auto">
         <button
           onClick={() => setActiveTab('print')}
           className={`flex-1 px-4 py-2 rounded-md transition-colors ${
