@@ -259,6 +259,7 @@ export default function ScanMasterlist({
           text-align: center;
           vertical-align: middle;
           width: 70px;
+          height: 70px;
         }
         
         .picture-container {
