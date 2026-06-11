@@ -3,18 +3,13 @@
 
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
-import { ReusableTabs, TabPanel } from './ReusableTabs';
+import { ReusableTabs, TabPanel } from './components/ReusableTabs';
 import { 
   Printer, 
   Users, 
   FileText, 
   CalendarCheck, 
   ListChecks,
-  Plus,
-  Edit,
-  Trash2,
-  Save,
-  X,
   Search
 } from 'lucide-react';
 import ScanRecommendationLetter from './ScanRecommendationLetter';
@@ -22,6 +17,7 @@ import AttendanceSheet from './AttendanceSheet';
 import ScanMasterlist from './ScanMasterlist';
 import { PrintableSuguan } from './PrintableSuguan';
 
+// Types
 interface Schedule {
   date: string;
   day: string;
@@ -47,7 +43,7 @@ interface GroupedSchedule {
   members: Member[];
 }
 
-// Helper functions (keep as is)
+// Helper functions
 function getWeekStart(date = new Date()) {
   const d = new Date(date);
   const day = d.getDay();
@@ -109,7 +105,7 @@ function getAlignedDate(dayName: string) {
 }
 
 export default function Home() {
-  const [activeTab, setActiveTab] = useState<'print' | 'crud' | 'letter' | 'attendance' | 'masterlist'>('crud');
+  const [activeTab, setActiveTab] = useState<string>('crud');
   const [data, setData] = useState<{ members: Member[] }>({ members: [] });
   const [editingMember, setEditingMember] = useState<{ index: number; member: Member } | null>(null);
   const [newMember, setNewMember] = useState<Member>({
@@ -126,7 +122,7 @@ export default function Home() {
   const [success, setSuccess] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
 
-  // Define tabs configuration - REUSABLE!
+  // Define tabs configuration
   const tabs = [
     { id: 'crud', label: 'Manage Members', icon: Users },
     { id: 'print', label: 'Print Suguan', icon: Printer },
@@ -262,7 +258,7 @@ export default function Home() {
     }
   };
 
-  // Group schedules
+  // Group schedules for printing
   const groupedSchedules: { [key: string]: GroupedSchedule } = {};
 
   data.members.forEach((member) => {
@@ -338,14 +334,14 @@ export default function Home() {
       remarks: ''
     }));
 
-  const categories: Array<"Communicators" | "Emergency First Responder (EFR)" | "Associate Members (Approved)" | "Associate Members (Not Approved)"> = [
+  const categories = [
     "Emergency First Responder (EFR)",
     "Communicators",
     "Associate Members (Approved)",
     "Associate Members (Not Approved)"
   ];
 
-  // Filter members for search
+  // Filter members
   const filteredMembers = data.members.filter(member =>
     member.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     member.callSign.toLowerCase().includes(searchTerm.toLowerCase())
@@ -378,13 +374,13 @@ export default function Home() {
         </div>
       )}
 
-      {/* Reusable Tabs Component - Just change variant to switch styles! */}
-      <div className="fixed w-full z-50 print:hidden max-w-md mx-auto left-1/2 transform -translate-x-1/2">
+      {/* Reusable Tabs Component */}
+      <div className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 print:hidden w-auto min-w-[300px]">
         <ReusableTabs 
           tabs={tabs}
           activeTab={activeTab}
           onTabChange={setActiveTab}
-          variant="pills"  // Try: 'default', 'pills', or 'underline'
+          variant="pills"
           size="md"
         />
       </div>
@@ -401,7 +397,7 @@ export default function Home() {
         </div>
       )}
 
-      {/* Tab Panels */}
+      {/* Tab Content */}
       <div className="pt-24">
         {/* Print Tab */}
         <TabPanel activeTab={activeTab} tabId="print">
@@ -416,7 +412,7 @@ export default function Home() {
               districtMinister="Alfonso O. Rico"
               local="Kadalagahan"
               district="Rizal"
-              members={data.members.filter((data)=> data.kahilingan ==="true").map(member => ({
+              members={data.members.filter((data)=> data.kahilingan === "true").map(member => ({
                 name: member.name,
                 kapisanan: member.kapisanan,
                 recruitedBy: ""
@@ -619,231 +615,234 @@ export default function Home() {
               {filteredMembers.length === 0 ? (
                 <p className="text-gray-500 text-center py-8">No members found</p>
               ) : (
-                filteredMembers.map((member, idx) => (
-                  <div key={idx} className="border rounded-lg p-4 hover:shadow-md transition-shadow">
-                    {editingMember?.index === data.members.findIndex(m => m.name === member.name && m.callSign === member.callSign) ? (
-                      <div>
-                        <div className="grid grid-cols-2 gap-4 mb-3">
-                          <input
-                            type="text"
-                            placeholder="Name"
-                            value={editingMember.member.name}
-                            onChange={(e) => setEditingMember({
-                              index: editingMember.index,
-                              member: { ...editingMember.member, name: e.target.value }
-                            })}
-                            className="border p-2 rounded"
-                          />
-                          <input
-                            type="text"
-                            placeholder="Call Sign"
-                            value={editingMember.member.callSign}
-                            onChange={(e) => setEditingMember({
-                              index: editingMember.index,
-                              member: { ...editingMember.member, callSign: e.target.value }
-                            })}
-                            className="border p-2 rounded"
-                          />
-                        </div>
-                        <div className="grid grid-cols-3 gap-4 mb-3">
-                          <input
-                            type="text"
-                            placeholder="Kapisanan"
-                            value={editingMember.member.kapisanan}
-                            onChange={(e) => setEditingMember({
-                              index: editingMember.index,
-                              member: { ...editingMember.member, kapisanan: e.target.value }
-                            })}
-                            className="border p-2 rounded"
-                          />
-                          <select
-                            value={editingMember.member.kahilingan}
-                            onChange={(e) => setEditingMember({
-                              index: editingMember.index,
-                              member: { ...editingMember.member, kahilingan: e.target.value }
-                            })}
-                            className="border p-2 rounded"
-                          >
-                            <option value="">Select Status</option>
-                            <option value="true">For Recommendation</option>
-                            <option value="false">Not for Recommendation</option>
-                          </select>
-                          <input
-                            type="text"
-                            placeholder="Function"
-                            value={typeof editingMember.member.function === 'string' ? editingMember.member.function : editingMember.member.function.join(', ')}
-                            onChange={(e) => setEditingMember({
-                              index: editingMember.index,
-                              member: { ...editingMember.member, function: e.target.value }
-                            })}
-                            className="border p-2 rounded"
-                          />
-                        </div>
-                        <div className="mb-3">
-                          <label className="block text-sm font-medium mb-1">Schedules</label>
-                          {editingMember.member.schedules.map((schedule, sIdx) => (
-                            <div key={sIdx} className="grid grid-cols-4 gap-2 mb-2">
-                              <input
-                                type="text"
-                                placeholder="Date"
-                                value={schedule.date}
-                                onChange={(e) => {
-                                  const updatedSchedules = [...editingMember.member.schedules];
-                                  updatedSchedules[sIdx] = { ...updatedSchedules[sIdx], date: e.target.value };
-                                  setEditingMember({
-                                    index: editingMember.index,
-                                    member: { ...editingMember.member, schedules: updatedSchedules }
-                                  });
-                                }}
-                                className="border p-2 rounded text-sm"
-                              />
-                              <select
-                                value={schedule.day}
-                                onChange={(e) => {
-                                  const updatedSchedules = [...editingMember.member.schedules];
-                                  updatedSchedules[sIdx] = { ...updatedSchedules[sIdx], day: e.target.value };
-                                  setEditingMember({
-                                    index: editingMember.index,
-                                    member: { ...editingMember.member, schedules: updatedSchedules }
-                                  });
-                                }}
-                                className="border p-2 rounded text-sm"
-                              >
-                                <option value="">Select Day</option>
-                                <option value="Monday">Monday</option>
-                                <option value="Tuesday">Tuesday</option>
-                                <option value="Wednesday">Wednesday</option>
-                                <option value="Thursday">Thursday</option>
-                                <option value="Friday">Friday</option>
-                                <option value="Saturday">Saturday</option>
-                                <option value="Sunday">Sunday</option>
-                              </select>
-                              <input
-                                type="text"
-                                placeholder="Time (e.g., 8:00 AM)"
-                                value={schedule.time}
-                                onChange={(e) => {
-                                  const updatedSchedules = [...editingMember.member.schedules];
-                                  updatedSchedules[sIdx] = { ...updatedSchedules[sIdx], time: e.target.value };
-                                  setEditingMember({
-                                    index: editingMember.index,
-                                    member: { ...editingMember.member, schedules: updatedSchedules }
-                                  });
-                                }}
-                                className="border p-2 rounded text-sm"
-                              />
-                              <select
-                                value={schedule.service || 'worship'}
-                                onChange={(e) => {
-                                  const updatedSchedules = [...editingMember.member.schedules];
-                                  updatedSchedules[sIdx] = { ...updatedSchedules[sIdx], service: e.target.value as 'PNK' | 'worship' | 'Distrito' };
-                                  setEditingMember({
-                                    index: editingMember.index,
-                                    member: { ...editingMember.member, schedules: updatedSchedules }
-                                  });
-                                }}
-                                className="border p-2 rounded text-sm"
-                              >
-                                <option value="worship">Worship</option>
-                                <option value="PNK">PNK</option>
-                                <option value="Distrito">Distrito</option>
-                              </select>
-                              {editingMember.member.schedules.length > 1 && (
-                                <button
-                                  onClick={() => {
-                                    const updatedSchedules = editingMember.member.schedules.filter((_, i) => i !== sIdx);
+                filteredMembers.map((member, idx) => {
+                  const originalIndex = data.members.findIndex(m => m.name === member.name && m.callSign === member.callSign);
+                  return (
+                    <div key={idx} className="border rounded-lg p-4 hover:shadow-md transition-shadow">
+                      {editingMember?.index === originalIndex ? (
+                        <div>
+                          <div className="grid grid-cols-2 gap-4 mb-3">
+                            <input
+                              type="text"
+                              placeholder="Name"
+                              value={editingMember.member.name}
+                              onChange={(e) => setEditingMember({
+                                index: editingMember.index,
+                                member: { ...editingMember.member, name: e.target.value }
+                              })}
+                              className="border p-2 rounded"
+                            />
+                            <input
+                              type="text"
+                              placeholder="Call Sign"
+                              value={editingMember.member.callSign}
+                              onChange={(e) => setEditingMember({
+                                index: editingMember.index,
+                                member: { ...editingMember.member, callSign: e.target.value }
+                              })}
+                              className="border p-2 rounded"
+                            />
+                          </div>
+                          <div className="grid grid-cols-3 gap-4 mb-3">
+                            <input
+                              type="text"
+                              placeholder="Kapisanan"
+                              value={editingMember.member.kapisanan}
+                              onChange={(e) => setEditingMember({
+                                index: editingMember.index,
+                                member: { ...editingMember.member, kapisanan: e.target.value }
+                              })}
+                              className="border p-2 rounded"
+                            />
+                            <select
+                              value={editingMember.member.kahilingan}
+                              onChange={(e) => setEditingMember({
+                                index: editingMember.index,
+                                member: { ...editingMember.member, kahilingan: e.target.value }
+                              })}
+                              className="border p-2 rounded"
+                            >
+                              <option value="">Select Status</option>
+                              <option value="true">For Recommendation</option>
+                              <option value="false">Not for Recommendation</option>
+                            </select>
+                            <input
+                              type="text"
+                              placeholder="Function"
+                              value={typeof editingMember.member.function === 'string' ? editingMember.member.function : editingMember.member.function.join(', ')}
+                              onChange={(e) => setEditingMember({
+                                index: editingMember.index,
+                                member: { ...editingMember.member, function: e.target.value }
+                              })}
+                              className="border p-2 rounded"
+                            />
+                          </div>
+                          <div className="mb-3">
+                            <label className="block text-sm font-medium mb-1">Schedules</label>
+                            {editingMember.member.schedules.map((schedule, sIdx) => (
+                              <div key={sIdx} className="grid grid-cols-4 gap-2 mb-2">
+                                <input
+                                  type="text"
+                                  placeholder="Date"
+                                  value={schedule.date}
+                                  onChange={(e) => {
+                                    const updatedSchedules = [...editingMember.member.schedules];
+                                    updatedSchedules[sIdx] = { ...updatedSchedules[sIdx], date: e.target.value };
                                     setEditingMember({
                                       index: editingMember.index,
                                       member: { ...editingMember.member, schedules: updatedSchedules }
                                     });
                                   }}
-                                  className="bg-red-500 text-white px-2 rounded text-xs hover:bg-red-600"
+                                  className="border p-2 rounded text-sm"
+                                />
+                                <select
+                                  value={schedule.day}
+                                  onChange={(e) => {
+                                    const updatedSchedules = [...editingMember.member.schedules];
+                                    updatedSchedules[sIdx] = { ...updatedSchedules[sIdx], day: e.target.value };
+                                    setEditingMember({
+                                      index: editingMember.index,
+                                      member: { ...editingMember.member, schedules: updatedSchedules }
+                                    });
+                                  }}
+                                  className="border p-2 rounded text-sm"
                                 >
-                                  Delete
-                                </button>
-                              )}
-                            </div>
-                          ))}
-                          <button
-                            onClick={() => setEditingMember({
-                              index: editingMember.index,
-                              member: {
-                                ...editingMember.member,
-                                schedules: [...editingMember.member.schedules, { date: '', day: '', time: '', service: 'worship' }]
-                              }
-                            })}
-                            className="text-blue-600 text-sm mt-1 hover:text-blue-800"
-                          >
-                            + Add Schedule
-                          </button>
-                        </div>
-                        <div className="flex gap-2">
-                          <button
-                            onClick={updateMember}
-                            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-                          >
-                            Save Changes
-                          </button>
-                          <button
-                            onClick={() => setEditingMember(null)}
-                            className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
-                          >
-                            Cancel
-                          </button>
-                        </div>
-                      </div>
-                    ) : (
-                      <div>
-                        <div className="flex justify-between items-start mb-2">
-                          <div>
-                            <h4 className="font-semibold text-lg">{member.name}</h4>
-                            <p className="text-gray-600">Call Sign: {member.callSign}</p>
-                            <p className="text-gray-600 text-sm">Kapisanan: {member.kapisanan || 'N/A'}</p>
-                            <p className="text-gray-600 text-sm">
-                              Status: {member.kahilingan === "true" ? "For Recommendation" : "Not for Recommendation"}
-                            </p>
-                            <p className="text-gray-600 text-sm">
-                              Function: {typeof member.function === 'string' ? member.function : member.function?.join(', ') || 'N/A'}
-                            </p>
+                                  <option value="">Select Day</option>
+                                  <option value="Monday">Monday</option>
+                                  <option value="Tuesday">Tuesday</option>
+                                  <option value="Wednesday">Wednesday</option>
+                                  <option value="Thursday">Thursday</option>
+                                  <option value="Friday">Friday</option>
+                                  <option value="Saturday">Saturday</option>
+                                  <option value="Sunday">Sunday</option>
+                                </select>
+                                <input
+                                  type="text"
+                                  placeholder="Time (e.g., 8:00 AM)"
+                                  value={schedule.time}
+                                  onChange={(e) => {
+                                    const updatedSchedules = [...editingMember.member.schedules];
+                                    updatedSchedules[sIdx] = { ...updatedSchedules[sIdx], time: e.target.value };
+                                    setEditingMember({
+                                      index: editingMember.index,
+                                      member: { ...editingMember.member, schedules: updatedSchedules }
+                                    });
+                                  }}
+                                  className="border p-2 rounded text-sm"
+                                />
+                                <select
+                                  value={schedule.service || 'worship'}
+                                  onChange={(e) => {
+                                    const updatedSchedules = [...editingMember.member.schedules];
+                                    updatedSchedules[sIdx] = { ...updatedSchedules[sIdx], service: e.target.value as 'PNK' | 'worship' | 'Distrito' };
+                                    setEditingMember({
+                                      index: editingMember.index,
+                                      member: { ...editingMember.member, schedules: updatedSchedules }
+                                    });
+                                  }}
+                                  className="border p-2 rounded text-sm"
+                                >
+                                  <option value="worship">Worship</option>
+                                  <option value="PNK">PNK</option>
+                                  <option value="Distrito">Distrito</option>
+                                </select>
+                                {editingMember.member.schedules.length > 1 && (
+                                  <button
+                                    onClick={() => {
+                                      const updatedSchedules = editingMember.member.schedules.filter((_, i) => i !== sIdx);
+                                      setEditingMember({
+                                        index: editingMember.index,
+                                        member: { ...editingMember.member, schedules: updatedSchedules }
+                                      });
+                                    }}
+                                    className="bg-red-500 text-white px-2 rounded text-xs hover:bg-red-600"
+                                  >
+                                    Delete
+                                  </button>
+                                )}
+                              </div>
+                            ))}
+                            <button
+                              onClick={() => setEditingMember({
+                                index: editingMember.index,
+                                member: {
+                                  ...editingMember.member,
+                                  schedules: [...editingMember.member.schedules, { date: '', day: '', time: '', service: 'worship' }]
+                                }
+                              })}
+                              className="text-blue-600 text-sm mt-1 hover:text-blue-800"
+                            >
+                              + Add Schedule
+                            </button>
                           </div>
                           <div className="flex gap-2">
                             <button
-                              onClick={() => setEditingMember({ 
-                                index: data.members.findIndex(m => m.name === member.name && m.callSign === member.callSign), 
-                                member: JSON.parse(JSON.stringify(member)) 
-                              })}
-                              className="bg-yellow-500 text-white px-3 py-1 rounded text-sm hover:bg-yellow-600"
+                              onClick={updateMember}
+                              className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
                             >
-                              Edit
+                              Save Changes
                             </button>
                             <button
-                              onClick={() => deleteMember(data.members.findIndex(m => m.name === member.name && m.callSign === member.callSign))}
-                              className="bg-red-500 text-white px-3 py-1 rounded text-sm hover:bg-red-600"
+                              onClick={() => setEditingMember(null)}
+                              className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
                             >
-                              Delete
+                              Cancel
                             </button>
                           </div>
                         </div>
-                        <div className="mt-2">
-                          <p className="text-sm font-medium text-gray-700">Schedules:</p>
-                          {member.schedules.length === 0 || (member.schedules.length === 1 && !member.schedules[0].day && !member.schedules[0].time) ? (
-                            <p className="text-sm text-gray-500 italic">No schedules assigned</p>
-                          ) : (
-                            <ul className="list-disc list-inside text-sm mt-1">
-                              {member.schedules.map((schedule, sIdx) => (
-                                schedule.day && schedule.time && (
-                                  <li key={sIdx} className="text-gray-600">
-                                    {schedule.day} at {schedule.time} ({schedule.service || 'worship'})
-                                  </li>
-                                )
-                              ))}
-                            </ul>
-                          )}
+                      ) : (
+                        <div>
+                          <div className="flex justify-between items-start mb-2">
+                            <div>
+                              <h4 className="font-semibold text-lg">{member.name}</h4>
+                              <p className="text-gray-600">Call Sign: {member.callSign}</p>
+                              <p className="text-gray-600 text-sm">Kapisanan: {member.kapisanan || 'N/A'}</p>
+                              <p className="text-gray-600 text-sm">
+                                Status: {member.kahilingan === "true" ? "For Recommendation" : "Not for Recommendation"}
+                              </p>
+                              <p className="text-gray-600 text-sm">
+                                Function: {typeof member.function === 'string' ? member.function : member.function?.join(', ') || 'N/A'}
+                              </p>
+                            </div>
+                            <div className="flex gap-2">
+                              <button
+                                onClick={() => setEditingMember({ 
+                                  index: originalIndex, 
+                                  member: JSON.parse(JSON.stringify(member)) 
+                                })}
+                                className="bg-yellow-500 text-white px-3 py-1 rounded text-sm hover:bg-yellow-600"
+                              >
+                                Edit
+                              </button>
+                              <button
+                                onClick={() => deleteMember(originalIndex)}
+                                className="bg-red-500 text-white px-3 py-1 rounded text-sm hover:bg-red-600"
+                              >
+                                Delete
+                              </button>
+                            </div>
+                          </div>
+                          <div className="mt-2">
+                            <p className="text-sm font-medium text-gray-700">Schedules:</p>
+                            {member.schedules.length === 0 || (member.schedules.length === 1 && !member.schedules[0].day && !member.schedules[0].time) ? (
+                              <p className="text-sm text-gray-500 italic">No schedules assigned</p>
+                            ) : (
+                              <ul className="list-disc list-inside text-sm mt-1">
+                                {member.schedules.map((schedule, sIdx) => (
+                                  schedule.day && schedule.time && (
+                                    <li key={sIdx} className="text-gray-600">
+                                      {schedule.day} at {schedule.time} ({schedule.service || 'worship'})
+                                    </li>
+                                  )
+                                ))}
+                              </ul>
+                            )}
+                          </div>
                         </div>
-                      </div>
-                    )}
-                  </div>
-                ))
+                      )}
+                    </div>
+                  );
+                })
               )}
             </div>
           </div>
