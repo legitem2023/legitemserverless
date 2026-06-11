@@ -348,9 +348,9 @@ export default function ScanMasterlist({
                     <td className="picture-cell">
                       <div className="picture-container">
                         {member.picture ? (
-                          <img src={member.picture} alt="ID" />
+                          <img src={member.picture} className="w-full h-auto aspect-[1/1]" alt="ID" />
                         ) : (
-                          <span className="no-photo">No Photo</span>
+                          <img src="https://www.kindpng.com/picc/m/80-807524_no-profile-hd-png-download.png" className="w-full h-auto aspect-[1/1]" alt="ID" />   
                         )}
                       </div>
                     </td>
