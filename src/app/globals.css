@@ -21,7 +21,7 @@ body {
   background:#ffcdb0;
   height: 100%;
 }
-
+/*
 @media print {
   html, body {
     margin: 0 !important;
@@ -37,7 +37,7 @@ body {
     padding: 0 !important;
   }
   
-  /* Force first page to have same top spacing */
+  
   body > div:first-child {
     margin-top: 0 !important;
     padding-top: 0 !important;
@@ -79,7 +79,6 @@ body {
     display: block !important;
   }
   
-  /* Remove any flex centering */
   .min-h-screen {
     min-height: auto !important;
   }
@@ -94,7 +93,7 @@ body {
     page-break-inside: avoid;
   }
   
-  /* Ensure content starts consistently */
+  
   div, section, article {
     break-inside: avoid;
   }
@@ -104,7 +103,7 @@ body {
     margin: 0mm;
   }
 }
-
+*/
 
 
 
