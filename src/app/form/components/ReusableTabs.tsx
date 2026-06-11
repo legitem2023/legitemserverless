@@ -27,20 +27,20 @@ export function ReusableTabs({
   className = ''
 }: ReusableTabsProps) {
   const sizeClasses = {
-    sm: 'px-4 py-2 text-sm',
-    md: 'px-6 py-3 text-base',
-    lg: 'px-8 py-4 text-lg'
+    sm: 'px-3 py-1.5 text-xs',
+    md: 'px-4 py-2 text-sm',
+    lg: 'px-6 py-3 text-base'
   };
 
   const iconSizes = {
-    sm: 'w-4 h-4',
-    md: 'w-5 h-5',
-    lg: 'w-6 h-6'
+    sm: 'w-3 h-3',
+    md: 'w-4 h-4',
+    lg: 'w-5 h-5'
   };
 
   const variantClasses = {
     default: {
-      container: 'border-b border-gray-200 bg-white',
+      container: 'border-b border-gray-200 bg-white rounded-t-lg',
       button: (isActive: boolean) => `
         font-medium transition-all duration-200 border-b-2 -mb-px
         ${isActive 
@@ -49,16 +49,16 @@ export function ReusableTabs({
       `
     },
     pills: {
-      container: 'gap-2 bg-white p-2 rounded-lg shadow-sm',
+      container: 'gap-2 bg-gray-100 p-1 rounded-lg',
       button: (isActive: boolean) => `
-        font-medium transition-all duration-200 rounded-lg
+        font-medium transition-all duration-200 rounded-md
         ${isActive 
           ? 'bg-blue-600 text-white shadow-md' 
-          : 'bg-gray-100 text-gray-600 hover:bg-gray-200 hover:text-gray-900'}
+          : 'text-gray-600 hover:bg-gray-200 hover:text-gray-900'}
       `
     },
     underline: {
-      container: 'gap-8 border-b border-gray-200 bg-white',
+      container: 'gap-6 border-b border-gray-200 bg-white',
       button: (isActive: boolean) => `
         font-medium transition-all duration-200 relative
         ${isActive 
@@ -88,16 +88,14 @@ export function ReusableTabs({
   );
 }
 
-// Tab Panel Component for conditional rendering
-export function TabPanel({ 
-  activeTab, 
-  tabId, 
-  children 
-}: { 
-  activeTab: string; 
-  tabId: string; 
-  children: ReactNode 
-}) {
+// TabPanel Component
+interface TabPanelProps {
+  activeTab: string;
+  tabId: string;
+  children: ReactNode;
+}
+
+export function TabPanel({ activeTab, tabId, children }: TabPanelProps) {
   if (activeTab !== tabId) return null;
   return <div className="animate-fadeIn">{children}</div>;
 }
