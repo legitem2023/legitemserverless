@@ -39,7 +39,7 @@ export function PrintableSuguan({ forms, filipinoDays }: PrintableSuguanProps) {
       {forms.map((formSchedules, formIndex) => (
         <div
           key={formIndex}
-          className="bg-white w-[210mm] min-h-[297mm] shadow-lg text-black print:shadow-none print:page-break-after-always print:m-0 print:p-0 print:mt-0 print:pt-0 m-0 p-0 overflow-hidden"
+          className="bg-white w-[210mm] min-h-[297mm] shadow-lg text-black print:shadow-none print:page-break-after-always print:m-0 print:p-0 print:pt-[10mm] m-0 p-0 overflow-hidden"
         >
           {/* Header Section */}
           <div className="flex items-center justify-between mb-4 pt-4 pl-4 pr-4">
