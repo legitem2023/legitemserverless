@@ -34,11 +34,11 @@ interface PrintableSuguanProps {
 
 export function PrintableSuguan({ forms, filipinoDays }: PrintableSuguanProps) {
   return (
-    <div className="flex w-[210mm] min-h-[297mm] p-5 flex-col gap-3 print:block print:p-0 print:m-0">
+    <div className="flex p-5 flex-col gap-3 print:block print:p-0 print:m-0">
       {forms.map((formSchedules, formIndex) => (
         <div
           key={formIndex}
-          className="bg-white  shadow-lg text-black overflow-hidden"
+          className="bg-white w-[210mm] min-h-[297mm] shadow-lg text-black overflow-hidden"
         >
           {/* Header Section - Logo and text now properly aligned */}
           <div className="flex items-center justify-between mb-4 pt-4 pl-4 pr-4">
