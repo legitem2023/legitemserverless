@@ -258,8 +258,8 @@ export default function ScanMasterlist({
         .picture-cell {
           text-align: center;
           vertical-align: middle;
-          width: 70px;
-          height: 70px;
+          width: 96px;
+          height: 96px;
         }
         
         .picture-container {
@@ -267,13 +267,13 @@ export default function ScanMasterlist({
           justify-content: center;
           align-items: center;
           min-height: 80px;
-          height:100px;
-          width:100px;
+          height:96px;
+          width:96px;
         }
         
         .picture-container img {
-          max-width: 100px;
-          max-height: 100px;
+          max-width: 90px;
+          max-height: 90px;
           object-fit: contain;
         }
         
