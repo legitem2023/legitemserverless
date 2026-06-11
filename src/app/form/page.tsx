@@ -853,66 +853,111 @@ export default function Home() {
         </TabPanel>
       </div>
 
-      <style jsx global>{`
-        @keyframes fadeIn {
-          from {
-            opacity: 0;
-            transform: translateY(10px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-        
-        .animate-fadeIn {
-          animation: fadeIn 0.3s ease-out;
-        }
-        
-        * {
-          print-color-adjust: exact;
-          -webkit-print-color-adjust: exact;
-        }
-        
-        @page {
-          size: A4;
-          margin: 1mm;
-        }
+<style jsx global>{`
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .animate-fadeIn {
+    animation: fadeIn 0.3s ease-out;
+  }
+  
+  * {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+  
+  @page {
+    size: A4;
+    margin: 0mm;
+  }
 
-        @media print {
-          html, body {
-            margin: 0 !important;
-            padding: 0 !important;
-            background: white !important;
-            width: 100%;
-            height: 100%;
-          }
-          
-          .print\\:shadow-none {
-            box-shadow: none !important;
-          }
-          
-          .print\\:page-break-after-always {
-            page-break-after: always;
-          }
-          
-          .print\\:m-0 {
-            margin: 0 !important;
-          }
-          
-          .print\\:p-0 {
-            padding: 0 !important;
-          }
-          
-          .print\\:bg-white {
-            background: white !important;
-          }
-          
-          table {
-            page-break-inside: avoid;
-          }
-        }
-      `}</style>
+  @media print {
+    html, body {
+      margin: 0 !important;
+      padding: 0 !important;
+      background: white !important;
+      width: 100%;
+      height: auto !important;
+      min-height: auto !important;
+    }
+    
+    body {
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+    
+    .print\\:shadow-none {
+      box-shadow: none !important;
+    }
+    
+    .print\\:page-break-after-always {
+      page-break-after: always;
+    }
+    
+    .print\\:m-0 {
+      margin: 0 !important;
+    }
+    
+    .print\\:p-0 {
+      padding: 0 !important;
+    }
+    
+    .print\\:bg-white {
+      background: white !important;
+    }
+    
+    .print\\:pt-0 {
+      padding-top: 0 !important;
+    }
+    
+    .print\\:mt-0 {
+      margin-top: 0 !important;
+    }
+    
+    .print\\:block {
+      display: block !important;
+    }
+    
+    /* Remove any flex centering */
+    .min-h-screen {
+      min-height: auto !important;
+    }
+    
+    .flex, .items-center, .justify-center {
+      display: block !important;
+      align-items: normal !important;
+      justify-content: normal !important;
+    }
+    
+    table {
+      page-break-inside: avoid;
+    }
+    
+    /* Ensure content starts at top */
+    div, section, article {
+      break-inside: avoid;
+    }
+    
+    /* Remove any automatic margins */
+    * {
+      margin-top: 0 !important;
+    }
+    
+    /* First element should be at top */
+    body > div:first-child {
+      margin-top: 0 !important;
+      padding-top: 0 !important;
+    }
+  }
+`}</style>
     </div>
   );
 }
