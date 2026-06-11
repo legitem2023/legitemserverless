@@ -1,12 +1,23 @@
 // PrintableSuguan.tsx
 'use client';
 
-import React from 'react';
+import Image from 'next/image';
 
 interface Member {
   name: string;
+  kapisanan: string;
+  kahilingan: string;
   callSign: string;
   function: string | string[];
+  picture: string;
+  schedules: Schedule[];
+}
+
+interface Schedule {
+  date: string;
+  day: string;
+  time: string;
+  service?: 'PNK' | 'worship' | 'Distrito';
 }
 
 interface GroupedSchedule {
@@ -22,150 +33,114 @@ interface PrintableSuguanProps {
   filipinoDays: Record<string, string>;
 }
 
-export const PrintableSuguan: React.FC<PrintableSuguanProps> = ({ forms, filipinoDays }) => {
-  const formLabels = ['Form 1', 'Form 2', 'Form 3', 'Form 4'];
-
+export function PrintableSuguan({ forms, filipinoDays }: PrintableSuguanProps) {
   return (
-    <>
-      {forms.map((form, formIndex) => (
-        form.length > 0 && (
-          <div 
-            key={formIndex} 
-            className="print-page"
-            style={{ 
-              pageBreakAfter: formIndex < forms.length - 1 ? 'always' : 'auto',
-              breakInside: 'avoid'
-            }}
-          >
-            {/* Header */}
-            <div className="print-header">
-              <div className="text-center">
-                <h1 className="text-2xl font-bold uppercase print:text-xl">Republic of the Philippines</h1>
-                <h2 className="text-xl font-bold uppercase print:text-lg">Iglesia Ni Cristo</h2>
-                <h3 className="text-lg font-semibold print:text-base">Locality of Kadalagahan</h3>
-                <h4 className="text-md font-medium print:text-sm">{formLabels[formIndex]}</h4>
-                <p className="text-sm print:text-xs">Schedule of Church Duties</p>
-              </div>
+    <div className="flex p-5 items-center flex-col gap-3">
+      {forms.map((formSchedules, formIndex) => (
+        <div
+          key={formIndex}
+          className="bg-white w-[210mm] min-h-[297mm] shadow-lg text-black print:shadow-none print:page-break-after-always print:m-0 print:p-0 m-0 p-0 overflow-hidden"
+        >
+          {/* Header Section */}
+          <div className="flex items-center justify-between mb-4 pt-4 pl-4 pr-4">
+            <div className="w-[120px] flex justify-start">
+              <Image
+                src="/images.png"
+                alt="Logo"
+                width={120}
+                height={120}
+                className="object-contain"
+              />
             </div>
 
-            {/* Form content */}
-            <div className="print-content">
-              {form.map((schedule, idx) => (
-                <div key={idx} className="mb-6 print:mb-4 schedule-section">
-                  <div className="mb-2">
-                    <p className="font-semibold print:text-sm">
-                      {filipinoDays[schedule.day.toLowerCase()] || schedule.day}: {schedule.time}
-                    </p>
-                    <p className="text-sm print:text-xs">
-                      Service: {schedule.service === 'PNK' ? 'Pagsamba ng Kabataan' : 
-                               schedule.service === 'Distrito' ? 'Distrito Worship' : 'Worship Service'}
-                    </p>
-                  </div>
+            <div className="text-center flex-1">
+              <h1 className="font-bold text-[13px] uppercase">SCAN INTERNATIONAL</h1>
+              <h2 className="font-semibold text-[12px] uppercase">DISTRITO NG RIZAL</h2>
+              <h3 className="text-[11px] uppercase">LOKAL NG KADALAGAHAN</h3>
+              <p className="text-[10px] uppercase">
+                {formIndex === 2 ? 'SUGUAN NG SCAN SA PNK' : 
+                 formIndex === 3 ? 'SUGUAN NG PAGBABANTAY SA DISTRITO' : 
+                 'SUGUAN NG SCAN SA PAGSAMBA'}
+              </p>
+            </div>
 
-                  <table className="w-full border-collapse border border-black">
+            <div className="w-[70px]" />
+          </div>
+
+          {/* Schedules Section */}
+          <div className="space-y-6 pl-4 pr-4">
+            {formSchedules.map((schedule, idx) => {
+              const dateObj = new Date(schedule.date);
+              const filipinoDay = filipinoDays[schedule.day.toLowerCase()] || schedule.day;
+
+              return (
+                <div key={idx} className="break-inside-avoid">
+                  <table className="w-full border border-black text-[10px] table-fixed">
                     <thead>
-                      <tr className="bg-gray-100 print:bg-gray-200">
-                        <th className="border border-black p-2 text-left print:p-1 print:text-xs" style={{ width: '40%' }}>Name</th>
-                        <th className="border border-black p-2 text-left print:p-1 print:text-xs" style={{ width: '25%' }}>Call Sign</th>
-                        <th className="border border-black p-2 text-left print:p-1 print:text-xs" style={{ width: '35%' }}>Function</th>
+                      <tr>
+                        <th colSpan={5} className="border px-2 py-1 text-left" style={{ width: '33.33%' }}>
+                          Petsa: {dateObj.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+                        </th>
+                        <th colSpan={2} className="border px-2 py-1 text-left" style={{ width: '33.33%' }}>
+                          Araw: {filipinoDay}
+                        </th>
+                        <th colSpan={2} className="border px-2 py-1 text-left" style={{ width: '33.33%' }}>
+                          Oras: {schedule.time}
+                        </th>
+                      </tr>
+                      <tr>
+                        <th className="border px-1 py-1">Blg</th>
+                        <th colSpan={4} className="border px-2 py-1 text-left">Pangalan</th>
+                        <th className="border px-1 py-1">Call-Sign</th>
+                        <th className="border px-1 py-1">Lagda Pagtanggap</th>
+                        <th className="border px-1 py-1">Lagda Pagtupad</th>
+                        <th className="border px-1 py-1">Gampanin</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {schedule.members.map((member, memberIdx) => (
-                        <tr key={memberIdx}>
-                          <td className="border border-black p-2 print:p-1 print:text-xs">{member.name}</td>
-                          <td className="border border-black p-2 print:p-1 print:text-xs">{member.callSign}</td>
-                          <td className="border border-black p-2 print:p-1 print:text-xs">
-                            {typeof member.function === 'string' ? member.function : member.function.join(', ')}
-                          </td>
+                      {schedule.members.map((member, i) => (
+                        <tr key={i}>
+                          <td className="border text-center py-1">{i + 1}</td>
+                          <td colSpan={4} className="border px-2 py-1">{member.name}</td>
+                          <td className="border text-center py-1">{member.callSign}</td>
+                          <td className="border h-[24px]" />
+                          <td className="border h-[24px]" />
+                          <td className="border" />
                         </tr>
                       ))}
                     </tbody>
-                   </table>
+                  </table>
                 </div>
-              ))}
+              );
+            })}
+          </div>
+
+          {/* Footer Signatures Section */}
+          <div className="mt-14 text-[11px] pl-4 pr-4 pb-4">
+            <p className="mb-6">Naghanda:</p>
+            <div className="grid grid-cols-2 gap-20">
+              <div className="text-center">
+                <p className="font-semibold uppercase">JUSTINE JACOB RODRIGUEZ</p>
+                <p>KALIHIM SCAN</p>
+              </div>
+              <div className="text-center">
+                <p className="font-semibold uppercase"></p>
+                <p>PANGULO NG SCAN</p>
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-20 mt-12">
+              <div className="text-center">
+                <p className="font-semibold uppercase">MARIANO M. LEBARDO JR.</p>
+                <p>PD - TAGASUBAYBAY</p>
+              </div>
+              <div className="text-center">
+                <p className="font-semibold uppercase">RODOLFO DE GUZMAN</p>
+                <p>DESTINADO NG LOKAL</p>
+              </div>
             </div>
           </div>
-        )
+        </div>
       ))}
-      
-      <style jsx global>{`
-        @media print {
-          /* Reset all margins and padding */
-          html, body {
-            margin: 0 !important;
-            padding: 0 !important;
-            background: white;
-          }
-          
-          /* Each page container */
-          .print-page {
-            position: relative;
-            margin: 0 !important;
-            padding: 10mm 15mm !important;
-            page-break-after: always;
-            break-inside: avoid;
-            box-sizing: border-box;
-          }
-          
-          /* Remove page break after last page */
-          .print-page:last-child {
-            page-break-after: auto;
-          }
-          
-          /* Header styling */
-          .print-header {
-            margin-top: 0 !important;
-            padding-top: 0 !important;
-            margin-bottom: 10mm;
-          }
-          
-          /* Content styling */
-          .print-content {
-            margin-top: 0 !important;
-          }
-          
-          /* Table styling */
-          table {
-            page-break-inside: avoid;
-            width: 100%;
-          }
-          
-          /* Consistent spacing */
-          .schedule-section {
-            margin-bottom: 8mm;
-            page-break-inside: avoid;
-          }
-          
-          /* Ensure all pages have the same top position */
-          @page {
-            size: A4;
-            margin: 0mm;
-          }
-          
-          /* Remove any automatic spacing from browser */
-          * {
-            margin-top: 0;
-          }
-          
-          /* First child elements should have no top margin */
-          .print-page > *:first-child {
-            margin-top: 0 !important;
-            padding-top: 0 !important;
-          }
-        }
-        
-        /* Screen styles */
-        @media screen {
-          .print-page {
-            margin: 20px auto;
-            padding: 20px;
-            background: white;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            max-width: 210mm;
-          }
-        }
-      `}</style>
-    </>
+    </div>
   );
-};
+}
