@@ -122,21 +122,6 @@ export default function ScanMasterlist({
             display: none !important;
           }
           
-          .print-page {
-            page-break-after: always;
-            break-after: page;
-          }
-          
-          .print-page:last-child {
-            page-break-after: auto;
-            break-after: auto;
-          }
-          
-          .no-break {
-            page-break-inside: avoid;
-            break-inside: avoid;
-          }
-          
           @page {
             size: A4 landscape;
           }
