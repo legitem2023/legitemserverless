@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useEffect, useState } from 'react';
+import { useRef } from 'react';
 
 interface Schedule {
   date: string;
@@ -40,24 +40,7 @@ export default function ScanMasterlist({
   members,
 }: Props) {
   const printRef = useRef<HTMLDivElement>(null);
-  const [scale, setScale] = useState(1);
   const rowsPerPage = 6;
-
-  // Handle responsive scaling
-  useEffect(() => {
-    const handleResize = () => {
-      const container = printRef.current;
-      if (container) {
-        const containerWidth = container.parentElement?.clientWidth || 1200;
-        const originalWidth = 1100; // Approximate original width in px
-        setScale(Math.min(1, containerWidth / originalWidth));
-      }
-    };
-
-    handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
 
   const parseName = (fullName: string): { firstName: string; lastName: string } => {
     const parts = fullName.trim().split(/\s+/);
@@ -125,23 +108,13 @@ export default function ScanMasterlist({
   const handlePrint = () => {
     const printContent = printRef.current?.cloneNode(true) as HTMLDivElement;
     if (printContent) {
-      const styles = document.querySelectorAll('style, link[rel="stylesheet"]');
-      let styleHTML = '';
-      styles.forEach((style) => {
-        if (style.tagName === 'STYLE') {
-          styleHTML += style.outerHTML;
-        } else if (style.tagName === 'LINK') {
-          styleHTML += style.outerHTML;
-        }
-      });
-
       const printWindow = window.open('', '_blank');
       printWindow?.document.write(`
         <!DOCTYPE html>
         <html>
           <head>
             <title>Masterlist ng Scan - ${district}</title>
-            ${styleHTML}
+            <meta charset="utf-8" />
             <style>
               * {
                 margin: 0;
@@ -149,37 +122,26 @@ export default function ScanMasterlist({
                 box-sizing: border-box;
               }
               
+              body {
+                margin: 0;
+                padding: 0;
+                background: white;
+              }
+              
+              @page {
+                size: A4 landscape;
+                margin: 15mm 10mm 15mm 10mm;
+              }
+              
               @media print {
-                @page {
-                  size: landscape;
-                  margin: 0.2in;
-                }
-                
-                body {
-                  margin: 0;
-                  padding: 0;
-                  background: white;
-                  -webkit-print-color-adjust: exact;
-                  print-color-adjust: exact;
-                }
-                
-                .print-container {
-                  margin: 0;
-                  padding: 0;
-                  width: 100%;
-                }
-                
                 .print-page {
                   page-break-after: always;
                   break-after: page;
-                  page-break-inside: avoid;
-                  width: 100%;
-                  min-height: 100vh;
-                  position: relative;
                 }
                 
                 .print-page:last-child {
                   page-break-after: auto;
+                  break-after: auto;
                 }
                 
                 .no-break {
@@ -188,31 +150,97 @@ export default function ScanMasterlist({
                 }
                 
                 table {
-                  width: 100% !important;
-                  table-layout: fixed !important;
+                  width: 100%;
+                  border-collapse: collapse;
                 }
                 
                 td, th {
-                  word-break: break-word;
-                }
-                
-                img {
-                  max-width: 100%;
-                  height: auto;
+                  border: 1px solid black !important;
                 }
               }
               
-              @media screen {
-                .print-page {
-                  margin: 0 auto 20px auto;
-                  box-shadow: 0 0 10px rgba(0,0,0,0.1);
-                }
+              /* Screen styles */
+              .print-page {
+                background: white;
+                width: 100%;
+                max-width: 297mm;
+                min-height: 210mm;
+                margin: 0 auto 20px auto;
+                padding: 10mm;
+                box-shadow: 0 0 10px rgba(0,0,0,0.1);
+                font-family: 'Times New Roman', Times, serif;
+                position: relative;
               }
               
-              body {
+              .header {
+                text-align: center;
+                margin-bottom: 8mm;
+              }
+              
+              .header h1 {
+                font-size: 20px;
+                font-weight: bold;
                 margin: 0;
-                padding: 20px;
-                background: #f0f0f0;
+              }
+              
+              .header p {
+                font-size: 13px;
+                font-style: italic;
+                margin-top: 5px;
+              }
+              
+              .district-line {
+                margin-bottom: 6mm;
+                font-size: 13px;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+              }
+              
+              .district-value {
+                font-weight: bold;
+                position: relative;
+                display: inline-block;
+                min-width: 100px;
+                border-bottom: 1px solid black;
+              }
+              
+              table {
+                width: 100%;
+                border-collapse: collapse;
+                font-size: 9px;
+                table-layout: fixed;
+              }
+              
+              th, td {
+                border: 1px solid black;
+                padding: 3px;
+                vertical-align: top;
+              }
+              
+              .picture-cell {
+                width: 18mm;
+                height: 24mm;
+                text-align: center;
+                vertical-align: middle;
+                padding: 2mm;
+              }
+              
+              .picture-cell img {
+                max-width: 100%;
+                max-height: 100%;
+                object-fit: contain;
+              }
+              
+              .no-photo {
+                color: #9CA3AF;
+                font-size: 7px;
+              }
+              
+              .page-number {
+                margin-top: 6mm;
+                font-size: 11px;
+                text-align: right;
               }
               
               .print-button-container {
@@ -220,31 +248,51 @@ export default function ScanMasterlist({
                 margin-bottom: 20px;
               }
               
+              .print-button {
+                background-color: #2563eb;
+                color: white;
+                padding: 12px 24px;
+                border-radius: 8px;
+                border: none;
+                cursor: pointer;
+                font-size: 16px;
+                font-family: system-ui, -apple-system, sans-serif;
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+              }
+              
+              .print-button:hover {
+                background-color: #1d4ed8;
+              }
+              
               @media print {
                 .print-button-container {
                   display: none;
                 }
-                body {
-                  background: white;
+                
+                .print-page {
+                  box-shadow: none;
+                  margin: 0;
                   padding: 0;
+                  max-width: none;
+                  min-height: auto;
                 }
               }
             </style>
           </head>
           <body>
-            <div style="transform: scale(1); transform-origin: top left; width: 100%;">
-              ${printContent.outerHTML}
-            </div>
+            ${printContent.outerHTML}
           </body>
         </html>
       `);
       printWindow?.document.close();
       
-      // Wait for images to load before printing
-      setTimeout(() => {
+      printWindow?.addEventListener('load', () => {
         printWindow?.print();
         printWindow?.close();
-      }, 500);
+      });
     }
   };
 
@@ -256,186 +304,115 @@ export default function ScanMasterlist({
     <>
       {/* Print Button */}
       <div className="print-button-container">
-        <button
-          onClick={handlePrint}
-          className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg shadow-md transition-colors flex items-center gap-2 mx-auto"
-          style={{ fontFamily: 'system-ui, -apple-system, sans-serif' }}
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <button onClick={handlePrint} className="print-button">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
           </svg>
           I-print ang Masterlist (PDF)
         </button>
       </div>
 
-      {/* Print Content - Responsive Container */}
-      <div 
-        ref={printRef}
-        style={{
-          width: '100%',
-          maxWidth: '100%',
-          overflowX: 'auto',
-        }}
-      >
-        <div 
-          className="print-container"
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            width: '100%',
-          }}
-        >
-          {Array.from({ length: totalPages }).map((_, pageIndex) => {
-            const pageMembers = transformedMembers.slice(
-              pageIndex * rowsPerPage,
-              (pageIndex + 1) * rowsPerPage
-            );
+      {/* Print Content */}
+      <div ref={printRef}>
+        {Array.from({ length: totalPages }).map((_, pageIndex) => {
+          const pageMembers = transformedMembers.slice(
+            pageIndex * rowsPerPage,
+            (pageIndex + 1) * rowsPerPage
+          );
 
-            return (
-              <div
-                key={pageIndex}
-                className="print-page"
-                style={{
-                  backgroundColor: 'white',
-                  width: '100%',
-                  maxWidth: '1200px',
-                  margin: '0 auto 20px auto',
-                  padding: '20px',
-                  boxShadow: '0 0 10px rgba(0,0,0,0.1)',
-                  fontFamily: 'Times New Roman, serif',
-                  position: 'relative',
-                }}
-              >
-                {/* Header */}
-                <div className="text-center mb-4">
-                  <h1 style={{ fontSize: 'clamp(16px, 4vw, 20px)', fontWeight: 'bold', margin: 0 }}>
-                    MASTERLIST NG SCAN SA DISTRITO
-                  </h1>
-                  <p style={{ fontSize: 'clamp(11px, 3vw, 13px)', fontStyle: 'italic', marginTop: '5px' }}>
-                    {category}
-                  </p>
-                </div>
-
-                {/* District Line */}
-                <div className="mb-3" style={{ fontSize: 'clamp(11px, 3vw, 13px)', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <span>Distrito:</span>
-                  <span style={{ fontWeight: 'bold', position: 'relative', display: 'inline-block', minWidth: '100px' }}>
-                    {district}
-                    <div style={{ position: 'absolute', left: 0, bottom: '-2px', width: '100%', borderBottom: '1px solid black' }} />
-                  </span>
-                </div>
-
-                {/* Table - Responsive */}
-                <div style={{ overflowX: 'auto', width: '100%' }}>
-                  <table className="w-full border-collapse" style={{ 
-                    width: '100%', 
-                    fontSize: 'clamp(8px, 2.5vw, 9px)',
-                    borderCollapse: 'collapse',
-                    minWidth: '600px'
-                  }}>
-                    <thead>
-                      <tr>
-                        <th rowSpan={2} style={{ border: '1px solid black', width: 'clamp(60px, 10%, 70px)', padding: '8px 4px' }}>
-                          ID Picture
-                          <br />
-                          (1x1)
-                        </th>
-                        <th colSpan={3} style={{ border: '1px solid black', padding: '8px 4px' }}>
-                          PANGALAN
-                        </th>
-                        <th rowSpan={2} style={{ border: '1px solid black', width: 'clamp(60px, 10%, 70px)', padding: '8px 4px' }}>
-                          LOKAL
-                        </th>
-                        <th rowSpan={2} style={{ border: '1px solid black', width: 'clamp(70px, 12%, 80px)', padding: '8px 4px' }}>
-                          PETSA NG
-                          <br />
-                          MAGING SCAN
-                        </th>
-                        <th rowSpan={2} style={{ border: '1px solid black', width: 'clamp(90px, 15%, 110px)', padding: '8px 4px' }}>
-                          {getSpecialColumnHeader()}
-                        </th>
-                        <th rowSpan={2} style={{ border: '1px solid black', width: 'clamp(70px, 12%, 80px)', padding: '8px 4px' }}>
-                          INTERNAL
-                          <br />
-                          CALLSIGN
-                        </th>
-                      </tr>
-                      <tr>
-                        <th style={{ border: '1px solid black', padding: '8px 4px' }}>FIRST NAME</th>
-                        <th style={{ border: '1px solid black', padding: '8px 4px' }}>MIDDLE NAME</th>
-                        <th style={{ border: '1px solid black', padding: '8px 4px' }}>LAST NAME</th>
-                      </tr>
-                    </thead>
-
-                    <tbody>
-                      {pageMembers.map((member, rowIndex) => (
-                        <tr key={rowIndex} className="no-break">
-                          <td style={{ border: '1px solid black', height: 'clamp(70px, 15vh, 90px)', padding: '4px', textAlign: 'center', verticalAlign: 'middle' }}>
-                            {member?.picture && member.picture.length > 0 ? (
-                              <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', width: '100%' }}>
-                                {/* eslint-disable-next-line @next/next/no-img-element */}
-                                <img
-                                  src={member.picture}
-                                  alt="ID"
-                                  style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }}
-                                />
-                              </div>
-                            ) : (
-                              <div style={{ color: '#9CA3AF', fontSize: 'clamp(6px, 2vw, 7px)' }}>
-                                No Photo
-                              </div>
-                            )}
-                          </td>
-                          <td style={{ border: '1px solid black', padding: '4px', fontSize: 'clamp(7px, 2vw, 8px)' }}>
-                            {member?.firstName || ''}
-                          </td>
-                          <td style={{ border: '1px solid black', padding: '4px', fontSize: 'clamp(7px, 2vw, 8px)' }}>
-                            {member?.middleName || ''}
-                          </td>
-                          <td style={{ border: '1px solid black', padding: '4px', fontSize: 'clamp(7px, 2vw, 8px)' }}>
-                            {member?.lastName || ''}
-                          </td>
-                          <td style={{ border: '1px solid black', padding: '4px', fontSize: 'clamp(7px, 2vw, 8px)' }}>
-                            {member?.local || ''}
-                          </td>
-                          <td style={{ border: '1px solid black', padding: '4px', fontSize: 'clamp(7px, 2vw, 8px)' }}>
-                            {member?.scanDate || ''}
-                          </td>
-                          <td style={{ border: '1px solid black', padding: '4px', fontSize: 'clamp(7px, 2vw, 8px)' }}>
-                            {getSpecialColumnValue(member)}
-                          </td>
-                          <td style={{ border: '1px solid black', padding: '4px', fontSize: 'clamp(7px, 2vw, 8px)' }}>
-                            {member?.internalCallsign || ''}
-                          </td>
-                        </tr>
-                      ))}
-                      
-                      {/* Fill empty rows */}
-                      {Array.from({ length: rowsPerPage - pageMembers.length }).map((_, emptyIndex) => (
-                        <tr key={`empty-${emptyIndex}`} className="no-break">
-                          <td style={{ border: '1px solid black', height: 'clamp(70px, 15vh, 90px)' }}>&nbsp;</td>
-                          <td style={{ border: '1px solid black' }}>&nbsp;</td>
-                          <td style={{ border: '1px solid black' }}>&nbsp;</td>
-                          <td style={{ border: '1px solid black' }}>&nbsp;</td>
-                          <td style={{ border: '1px solid black' }}>&nbsp;</td>
-                          <td style={{ border: '1px solid black' }}>&nbsp;</td>
-                          <td style={{ border: '1px solid black' }}>&nbsp;</td>
-                          <td style={{ border: '1px solid black' }}>&nbsp;</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-
-                {/* Page Number */}
-                <div className="mt-3" style={{ fontSize: 'clamp(10px, 3vw, 12px)', textAlign: 'right' }}>
-                  Page {pageIndex + 1} of {totalPages}
-                </div>
+          return (
+            <div
+              key={pageIndex}
+              className="print-page"
+            >
+              {/* Header */}
+              <div className="header">
+                <h1>MASTERLIST NG SCAN SA DISTRITO</h1>
+                <p>{category}</p>
               </div>
-            );
-          })}
-        </div>
+
+              {/* District Line */}
+              <div className="district-line">
+                <span>Distrito:</span>
+                <span className="district-value">{district}</span>
+              </div>
+
+              {/* Table */}
+              <table>
+                <thead>
+                  <tr>
+                    <th rowSpan={2} className="picture-cell">
+                      ID Picture
+                      <br />
+                      (1x1)
+                    </th>
+                    <th colSpan={3}>PANGALAN</th>
+                    <th rowSpan={2}>LOKAL</th>
+                    <th rowSpan={2}>
+                      PETSA NG
+                      <br />
+                      MAGING SCAN
+                    </th>
+                    <th rowSpan={2}>{getSpecialColumnHeader()}</th>
+                    <th rowSpan={2}>
+                      INTERNAL
+                      <br />
+                      CALLSIGN
+                    </th>
+                  </tr>
+                  <tr>
+                    <th>FIRST NAME</th>
+                    <th>MIDDLE NAME</th>
+                    <th>LAST NAME</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {pageMembers.map((member, rowIndex) => (
+                    <tr key={rowIndex} className="no-break">
+                      <td className="picture-cell">
+                        {member?.picture && member.picture.length > 0 ? (
+                          <img
+                            src={member.picture}
+                            alt="ID"
+                          />
+                        ) : (
+                          <div className="no-photo">No Photo</div>
+                        )}
+                      </td>
+                      <td style={{ fontSize: '8px' }}>{member?.firstName || ''}</td>
+                      <td style={{ fontSize: '8px' }}>{member?.middleName || ''}</td>
+                      <td style={{ fontSize: '8px' }}>{member?.lastName || ''}</td>
+                      <td style={{ fontSize: '8px' }}>{member?.local || ''}</td>
+                      <td style={{ fontSize: '8px' }}>{member?.scanDate || ''}</td>
+                      <td style={{ fontSize: '8px' }}>{getSpecialColumnValue(member)}</td>
+                      <td style={{ fontSize: '8px' }}>{member?.internalCallsign || ''}</td>
+                    </tr>
+                  ))}
+                  
+                  {/* Fill empty rows */}
+                  {Array.from({ length: rowsPerPage - pageMembers.length }).map((_, emptyIndex) => (
+                    <tr key={`empty-${emptyIndex}`} className="no-break">
+                      <td className="picture-cell">&nbsp;</td>
+                      <td>&nbsp;</td>
+                      <td>&nbsp;</td>
+                      <td>&nbsp;</td>
+                      <td>&nbsp;</td>
+                      <td>&nbsp;</td>
+                      <td>&nbsp;</td>
+                      <td>&nbsp;</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+
+              {/* Page Number */}
+              <div className="page-number">
+                Page {pageIndex + 1} of {totalPages}
+              </div>
+            </div>
+          );
+        })}
       </div>
     </>
   );
