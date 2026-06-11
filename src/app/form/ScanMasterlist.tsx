@@ -7,7 +7,6 @@ interface Schedule {
   service?: 'PNK' | 'worship' | 'Distrito';
 }
 
-
 interface ScanMember {
   name: string;
   kapisanan: string;
@@ -190,40 +189,6 @@ export default function ScanMasterlist({
           }
         }
         
-        .header {
-          text-align: center;
-          margin-bottom: 15px;
-        }
-        
-        .header h1 {
-          font-size: 18px;
-          font-weight: bold;
-          margin: 0;
-          letter-spacing: 1px;
-        }
-        
-        .header p {
-          font-size: 12px;
-          font-style: italic;
-          margin-top: 5px;
-        }
-        
-        .district-section {
-          margin-bottom: 15px;
-          font-size: 12px;
-        }
-        
-        .district-label {
-          font-weight: bold;
-        }
-        
-        .district-underline {
-          display: inline-block;
-          border-bottom: 1px solid black;
-          min-width: 200px;
-          margin-left: 10px;
-        }
-        
         .masterlist-table {
           width: 100%;
           border-collapse: collapse;
@@ -267,8 +232,8 @@ export default function ScanMasterlist({
           justify-content: center;
           align-items: center;
           min-height: 80px;
-          height:96px;
-          width:96px;
+          height: 96px;
+          width: 96px;
         }
         
         .picture-container img {
@@ -286,6 +251,28 @@ export default function ScanMasterlist({
           text-align: right;
           font-size: 10px;
           margin-top: 15px;
+        }
+        
+        .header-title {
+          text-align: center;
+          font-size: 18px;
+          font-weight: bold;
+          padding: 15px 5px;
+        }
+        
+        .header-category {
+          text-align: center;
+          font-size: 12px;
+          font-style: italic;
+          padding: 5px;
+        }
+        
+        .district-row {
+          font-size: 12px;
+        }
+        
+        .district-label {
+          font-weight: bold;
         }
         
         /* Fixed column widths */
@@ -316,20 +303,27 @@ export default function ScanMasterlist({
         
         return (
           <div key={pageIndex} className="print-page">
-            {/* Header */}
-            <div className="header">
-              <h1>MASTERLIST NG SCAN SA DISTRITO</h1>
-              <p>{category}</p>
-            </div>
-
-            {/* District */}
-            <div className="district-section">
-              <span className="district-label">Distrito:</span>
-              <span className="district-underline">{district}</span>
-            </div>
-
-            {/* Table */}
             <table className="masterlist-table">
+              {/* Header Section inside table */}
+              <tbody>
+                <tr>
+                  <td colSpan={8} className="header-title">
+                    MASTERLIST NG SCAN SA DISTRITO
+                  </td>
+                </tr>
+                <tr>
+                  <td colSpan={8} className="header-category">
+                    {category}
+                  </td>
+                </tr>
+                <tr>
+                  <td colSpan={8} className="district-row">
+                    <span className="district-label">Distrito:</span> {district}
+                  </td>
+                </tr>
+              </tbody>
+              
+              {/* Main Table Header */}
               <thead>
                 <tr>
                   <th rowSpan={2} className="col-picture">ID Picture<br/>(1x1)</th>
@@ -345,15 +339,17 @@ export default function ScanMasterlist({
                   <th className="col-lastname">LAST NAME</th>
                 </tr>
               </thead>
+              
+              {/* Table Body */}
               <tbody>
                 {pageMembers.map((member, idx) => (
                   <tr key={idx}>
                     <td className="picture-cell">
                       <div className="picture-container">
                         {member.picture ? (
-                          <img src={member.picture} className="w-full h-auto aspect-[1/1]" alt="ID" />
+                          <img src={member.picture} alt="ID" />
                         ) : (
-                          <img src="https://www.kindpng.com/picc/m/80-807524_no-profile-hd-png-download.png" className="w-full h-auto aspect-[1/1]" alt="ID" />   
+                          <img src="https://www.kindpng.com/picc/m/80-807524_no-profile-hd-png-download.png" alt="ID" />   
                         )}
                       </div>
                     </td>
@@ -367,7 +363,7 @@ export default function ScanMasterlist({
                   </tr>
                 ))}
                 
-                {/* Fill empty rows to complete the page */}
+                {/* Fill empty rows */}
                 {Array.from({ length: rowsPerPage - pageMembers.length }).map((_, idx) => (
                   <tr key={`empty-${idx}`}>
                     <td>&nbsp;</td>
@@ -381,12 +377,16 @@ export default function ScanMasterlist({
                   </tr>
                 ))}
               </tbody>
+              
+              {/* Page Number inside table */}
+              <tfoot>
+                <tr>
+                  <td colSpan={8} className="page-number">
+                    Page {pageIndex + 1} of {totalPages}
+                  </td>
+                </tr>
+              </tfoot>
             </table>
-
-            {/* Page Number */}
-            <div className="page-number">
-              Page {pageIndex + 1} of {totalPages}
-            </div>
           </div>
         );
       })}
