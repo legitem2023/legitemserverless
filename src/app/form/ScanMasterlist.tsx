@@ -254,8 +254,8 @@ export default function ScanMasterlist({
         }
         
         .picture-container img {
-          max-width: 50px;
-          max-height: 50px;
+          max-width: 60px;
+          max-height: 60px;
           object-fit: contain;
         }
         
