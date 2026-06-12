@@ -240,22 +240,22 @@ export default function ScanMasterlist({
         .picture-cell {
           text-align: center;
           vertical-align: middle;
-          width: 80px;
-          height: 80px;
+          width: 65px;
+          height: 65px;
         }
         
         .picture-container {
           display: flex;
           justify-content: center;
           align-items: center;
-          min-height: 80px;
-          height: 80px;
-          width: 80px;
+          min-height: 60px;
+          height: 60px;
+          width: 60px;
         }
         
         .picture-container img {
-          max-width: 75px;
-          max-height: 75px;
+          max-width: 50px;
+          max-height: 50px;
           object-fit: contain;
         }
         
