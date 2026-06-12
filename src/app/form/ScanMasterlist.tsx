@@ -174,8 +174,8 @@ export default function ScanMasterlist({
           background: white;
           width: 100%;
           max-width: 1200px;
-          margin: 0 auto 20px auto;
-          padding: 20px;
+          margin: 0 auto 15px auto;
+          padding: 15px;
           box-shadow: 0 0 10px rgba(0,0,0,0.1);
           font-family: 'Times New Roman', Times, serif;
         }
@@ -248,14 +248,14 @@ export default function ScanMasterlist({
           display: flex;
           justify-content: center;
           align-items: center;
-          min-height: 60px;
-          height: 60px;
-          width: 60px;
+          min-height: 65px;
+          height: 65px;
+          width: 65px;
         }
         
         .picture-container img {
-          max-width: 60px;
-          max-height: 60px;
+          max-width: 65px;
+          max-height: 65px;
           object-fit: contain;
         }
         
