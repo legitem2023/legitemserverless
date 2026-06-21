@@ -123,7 +123,7 @@ export function PrintableSuguan({ forms, filipinoDays }: PrintableSuguanProps) {
                 <p className="signature-title">KALIHIM SCAN</p>
               </div>
               <div className="signature-item">
-                <p className="signature-name"></p>
+                <p className="signature-name">FEDERICO HERNANDEZ</p>
                 <p className="signature-title">PANGULO NG SCAN</p>
               </div>
             </div>
