@@ -440,7 +440,7 @@ export default function Home() {
               attendees={attendees}
               seminarLeaders={{
                 secretary: "Justine Jacob Rodriguez",
-                president: "Julian Ramirez",
+                president: "Federico Hernandez",
                 overseer: "MARIANO M. LEBARDO JR."
               }}
               maxAttendees={30}
