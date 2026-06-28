@@ -1,6 +1,6 @@
 // src/graphql/schema.ts
 
-import { gql } from 'graphql-tag';
+import { gql } from 'graphql';
 export const typeDefs = gql`
   type User {
     id: ID!
