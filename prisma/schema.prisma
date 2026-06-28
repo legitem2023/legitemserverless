@@ -46,7 +46,7 @@ model Chat {
   messages      Message[]
   typingStatus  TypingStatus[]
   
-  // Last message reference - removed the @relation directive
+  // Just store the ID - no relation
   lastMessageId String?   @map("last_message_id") @db.ObjectId
   
   createdAt     DateTime  @default(now())
@@ -84,10 +84,6 @@ model Message {
   // Explicit many-to-many relations
   readBy        MessageReadBy[]
   deliveredTo   MessageDeliveredTo[]
-  
-  // Optional: reference to chat where this is the last message
-  // This is the opposite side of the relation
-  lastMessageFor Chat?    @relation("LastMessage")
   
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
