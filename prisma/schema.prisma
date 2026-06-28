@@ -18,13 +18,15 @@ model User {
   status        UserStatus @default(OFFLINE)
   lastSeen      DateTime  @default(now())
   
-  // Relations
+  // Relations - Explicit many-to-many
   sentMessages  Message[]  @relation("SenderMessages")
-  readMessages  Message[]  @relation("ReadMessages")
-  deliveredMessages Message[] @relation("DeliveredMessages")
   chats         ChatParticipant[]
   createdGroups Chat[]     @relation("CreatedGroups")
   typingIn      TypingStatus[]
+  
+  // Explicit relation tables for readBy and deliveredTo
+  readMessages  MessageReadBy[]
+  deliveredMessages MessageDeliveredTo[]
   
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
@@ -42,9 +44,11 @@ model Chat {
   creator       User?     @relation("CreatedGroups", fields: [createdBy], references: [id])
   participants  ChatParticipant[]
   messages      Message[]
+  typingStatus  TypingStatus[]
+  
+  // Last message reference
   lastMessageId String?   @map("last_message_id") @db.ObjectId
   lastMessage   Message?  @relation("LastMessage", fields: [lastMessageId], references: [id])
-  typingStatus  TypingStatus[]
   
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
@@ -77,12 +81,10 @@ model Message {
   // Relations
   chat          Chat      @relation(fields: [chatId], references: [id], onDelete: Cascade)
   sender        User      @relation("SenderMessages", fields: [senderId], references: [id])
-  readBy        User[]    @relation("ReadMessages")
-  deliveredTo   User[]    @relation("DeliveredMessages")
   
-  // For efficiency, we store IDs separately for quick lookups
-  readByIds     String[]  @map("read_by_ids") @default([])
-  deliveredToIds String[] @map("delivered_to_ids") @default([])
+  // Explicit many-to-many relations
+  readBy        MessageReadBy[]
+  deliveredTo   MessageDeliveredTo[]
   
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
@@ -91,6 +93,36 @@ model Message {
   @@index([senderId])
   @@index([createdAt])
   @@map("messages")
+}
+
+// Explicit join table for readBy
+model MessageReadBy {
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  messageId     String    @map("message_id") @db.ObjectId
+  userId        String    @map("user_id") @db.ObjectId
+  readAt        DateTime  @default(now())
+  
+  // Relations
+  message       Message   @relation(fields: [messageId], references: [id], onDelete: Cascade)
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([messageId, userId])
+  @@map("message_read_by")
+}
+
+// Explicit join table for deliveredTo
+model MessageDeliveredTo {
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  messageId     String    @map("message_id") @db.ObjectId
+  userId        String    @map("user_id") @db.ObjectId
+  deliveredAt   DateTime  @default(now())
+  
+  // Relations
+  message       Message   @relation(fields: [messageId], references: [id], onDelete: Cascade)
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([messageId, userId])
+  @@map("message_delivered_to")
 }
 
 model TypingStatus {
