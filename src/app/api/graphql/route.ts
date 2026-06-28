@@ -17,7 +17,7 @@ const schema = makeExecutableSchema({
 });
 
 // Create Yoga instance
-const { handleRequest } = createYoga({
+const yoga = createYoga({
   schema,
   context: async ({ request }) => {
     const authHeader = request.headers.get('authorization') || '';
@@ -33,15 +33,17 @@ const { handleRequest } = createYoga({
   cors: true,
 });
 
-// Handle requests
+// Handle GET requests
 export async function GET(request: NextRequest) {
-  const response = new Response();
-  return handleRequest(request, response);
+  // Use yoga.handleRequest with proper arguments
+  return yoga.handleRequest(request, {
+    // Empty object for context
+  });
 }
 
+// Handle POST requests
 export async function POST(request: NextRequest) {
-  const response = new Response();
-  return handleRequest(request, response);
+  return yoga.handleRequest(request, {});
 }
 
 // Route config
