@@ -1,5 +1,3 @@
-// prisma/schema.prisma
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -18,13 +16,10 @@ model User {
   status        UserStatus @default(OFFLINE)
   lastSeen      DateTime  @default(now())
   
-  // Relations
   sentMessages  Message[]  @relation("SenderMessages")
   chats         ChatParticipant[]
   createdGroups Chat[]     @relation("CreatedGroups")
   typingIn      TypingStatus[]
-  
-  // Explicit relation tables for readBy and deliveredTo
   readMessages  MessageReadBy[]
   deliveredMessages MessageDeliveredTo[]
   
@@ -40,13 +35,10 @@ model Chat {
   isGroup       Boolean   @default(false)
   createdBy     String?   @map("created_by") @db.ObjectId
   
-  // Relations
   creator       User?     @relation("CreatedGroups", fields: [createdBy], references: [id])
   participants  ChatParticipant[]
   messages      Message[]
   typingStatus  TypingStatus[]
-  
-  // Just store the ID - no relation
   lastMessageId String?   @map("last_message_id") @db.ObjectId
   
   createdAt     DateTime  @default(now())
@@ -61,7 +53,6 @@ model ChatParticipant {
   userId        String    @map("user_id") @db.ObjectId
   joinedAt      DateTime  @default(now())
   
-  // Relations
   chat          Chat      @relation(fields: [chatId], references: [id], onDelete: Cascade)
   user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -77,11 +68,8 @@ model Message {
   type          MessageType @default(TEXT)
   attachments   Json      @default("[]")
   
-  // Relations
   chat          Chat      @relation(fields: [chatId], references: [id], onDelete: Cascade)
   sender        User      @relation("SenderMessages", fields: [senderId], references: [id])
-  
-  // Explicit many-to-many relations
   readBy        MessageReadBy[]
   deliveredTo   MessageDeliveredTo[]
   
@@ -94,14 +82,12 @@ model Message {
   @@map("messages")
 }
 
-// Explicit join table for readBy
 model MessageReadBy {
   id            String    @id @default(auto()) @map("_id") @db.ObjectId
   messageId     String    @map("message_id") @db.ObjectId
   userId        String    @map("user_id") @db.ObjectId
   readAt        DateTime  @default(now())
   
-  // Relations
   message       Message   @relation(fields: [messageId], references: [id], onDelete: Cascade)
   user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -109,14 +95,12 @@ model MessageReadBy {
   @@map("message_read_by")
 }
 
-// Explicit join table for deliveredTo
 model MessageDeliveredTo {
   id            String    @id @default(auto()) @map("_id") @db.ObjectId
   messageId     String    @map("message_id") @db.ObjectId
   userId        String    @map("user_id") @db.ObjectId
   deliveredAt   DateTime  @default(now())
   
-  // Relations
   message       Message   @relation(fields: [messageId], references: [id], onDelete: Cascade)
   user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -131,7 +115,6 @@ model TypingStatus {
   isTyping      Boolean   @default(true)
   updatedAt     DateTime  @updatedAt
   
-  // Relations
   user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   chat          Chat      @relation(fields: [chatId], references: [id], onDelete: Cascade)
 
