@@ -1,37 +1,67 @@
-// pages/api/graphql.ts
+// src/app/api/graphql/route.ts
 
 import { createYoga } from 'graphql-yoga';
-import type { NextApiRequest, NextApiResponse } from 'next';
+import { NextRequest } from 'next/server';
 import { PrismaClient } from '@prisma/client';
-import { typeDefs } from '../../../src/graphql/schema';
-import { resolvers } from '../../../src/graphql/resolvers';
-import { extractUserId } from '../../../src/middleware/auth';
+import { typeDefs } from '../../../graphql/schema';
+import { resolvers } from '../../../graphql/resolvers';
+import { extractUserId } from '../../../middleware/auth';
 
 const prisma = new PrismaClient();
 
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
-
-export default createYoga<{
-  req: NextApiRequest;
-  res: NextApiResponse;
-}>({
+// Create Yoga instance
+const yoga = createYoga({
   schema: {
     typeDefs,
     resolvers,
   },
-  context: async ({ req }) => {
-    const authHeader = req.headers.get('authorization') || '';
+  context: async ({ request }) => {
+    const authHeader = request.headers.get('authorization') || '';
     const userId = extractUserId(authHeader);
     return {
       prisma,
       userId,
-      req,
+      request,
     };
   },
   graphqlEndpoint: '/api/graphql',
   graphiql: process.env.NODE_ENV !== 'production',
+  // Enable CORS
+  cors: {
+    origin: '*',
+    credentials: true,
+    methods: ['GET', 'POST', 'OPTIONS'],
+  },
 });
+
+// Handle GET requests
+export async function GET(request: NextRequest) {
+  return yoga.handleRequest(request, {
+    req: request,
+    res: new Response(),
+  });
+}
+
+// Handle POST requests
+export async function POST(request: NextRequest) {
+  return yoga.handleRequest(request, {
+    req: request,
+    res: new Response(),
+  });
+}
+
+// Optional: Handle OPTIONS for CORS preflight
+export async function OPTIONS(request: NextRequest) {
+  return new Response(null, {
+    status: 204,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+    },
+  });
+}
+
+// Route segment config
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
