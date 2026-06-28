@@ -18,7 +18,7 @@ model User {
   status        UserStatus @default(OFFLINE)
   lastSeen      DateTime  @default(now())
   
-  // Relations - Explicit many-to-many
+  // Relations
   sentMessages  Message[]  @relation("SenderMessages")
   chats         ChatParticipant[]
   createdGroups Chat[]     @relation("CreatedGroups")
@@ -46,9 +46,8 @@ model Chat {
   messages      Message[]
   typingStatus  TypingStatus[]
   
-  // Last message reference
+  // Last message reference - removed the @relation directive
   lastMessageId String?   @map("last_message_id") @db.ObjectId
-  lastMessage   Message?  @relation("LastMessage", fields: [lastMessageId], references: [id])
   
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
@@ -85,6 +84,10 @@ model Message {
   // Explicit many-to-many relations
   readBy        MessageReadBy[]
   deliveredTo   MessageDeliveredTo[]
+  
+  // Optional: reference to chat where this is the last message
+  // This is the opposite side of the relation
+  lastMessageFor Chat?    @relation("LastMessage")
   
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
