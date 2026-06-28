@@ -1,38 +1,49 @@
-// pages/api/graphql.ts
+// src/app/api/graphql/route.ts
 
 import { createYoga } from 'graphql-yoga';
-import type { NextApiRequest, NextApiResponse } from 'next';
+import { NextRequest } from 'next/server';
 import { PrismaClient } from '@prisma/client';
 import { makeExecutableSchema } from '@graphql-tools/schema';
-import { typeDefs } from '../../../src/graphql/schema';
-import { resolvers } from '../../../src/graphql/resolvers';
-import { extractUserId } from '../../../src/middleware/auth';
+import { typeDefs } from '../../../graphql/schema';
+import { resolvers } from '../../../graphql/resolvers';
+import { extractUserId } from '../../../middleware/auth';
 
 const prisma = new PrismaClient();
 
+// Create executable schema
 const schema = makeExecutableSchema({
   typeDefs,
   resolvers,
 });
 
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
-
-export default createYoga({
+// Create Yoga instance
+const { handleRequest } = createYoga({
   schema,
-  context: async ({ req }) => {
-    const authHeader = req.headers.authorization || '';
+  context: async ({ request }) => {
+    const authHeader = request.headers.get('authorization') || '';
     const userId = extractUserId(authHeader);
     return {
       prisma,
       userId,
-      req,
+      request,
     };
   },
   graphqlEndpoint: '/api/graphql',
   graphiql: process.env.NODE_ENV !== 'production',
   cors: true,
 });
+
+// Handle requests
+export async function GET(request: NextRequest) {
+  const response = new Response();
+  return handleRequest(request, response);
+}
+
+export async function POST(request: NextRequest) {
+  const response = new Response();
+  return handleRequest(request, response);
+}
+
+// Route config
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
