@@ -1,7 +1,7 @@
 // src/app/api/graphql/route.ts
 
 import { createYoga } from 'graphql-yoga';
-import { NextRequest } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
 import { makeExecutableSchema } from '@graphql-tools/schema';
 import { typeDefs } from '../../../graphql/schema';
@@ -18,7 +18,7 @@ const schema = makeExecutableSchema({
 
 // Create Yoga instance with the executable schema
 const yoga = createYoga({
-  schema, // Pass the executable schema directly
+  schema,
   context: async ({ request }) => {
     const authHeader = request.headers.get('authorization') || '';
     const userId = extractUserId(authHeader);
@@ -30,7 +30,6 @@ const yoga = createYoga({
   },
   graphqlEndpoint: '/api/graphql',
   graphiql: process.env.NODE_ENV !== 'production',
-  // Enable CORS
   cors: {
     origin: '*',
     credentials: true,
@@ -38,25 +37,19 @@ const yoga = createYoga({
   },
 });
 
-// Handle GET requests
+// Handle GET requests - FIXED: removed req and res
 export async function GET(request: NextRequest) {
-  return yoga.handleRequest(request, {
-    req: request,
-    res: new Response(),
-  });
+  return yoga.handleRequest(request);
 }
 
-// Handle POST requests
+// Handle POST requests - FIXED: removed req and res
 export async function POST(request: NextRequest) {
-  return yoga.handleRequest(request, {
-    req: request,
-    res: new Response(),
-  });
+  return yoga.handleRequest(request);
 }
 
-// Optional: Handle OPTIONS for CORS preflight
+// Handle OPTIONS for CORS preflight
 export async function OPTIONS(request: NextRequest) {
-  return new Response(null, {
+  return new NextResponse(null, {
     status: 204,
     headers: {
       'Access-Control-Allow-Origin': '*',
