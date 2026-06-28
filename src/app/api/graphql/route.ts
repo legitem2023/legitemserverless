@@ -3,18 +3,22 @@
 import { createYoga } from 'graphql-yoga';
 import { NextRequest } from 'next/server';
 import { PrismaClient } from '@prisma/client';
+import { makeExecutableSchema } from '@graphql-tools/schema';
 import { typeDefs } from '../../../graphql/schema';
 import { resolvers } from '../../../graphql/resolvers';
 import { extractUserId } from '../../../middleware/auth';
 
 const prisma = new PrismaClient();
 
-// Create Yoga instance
+// Create executable schema
+const schema = makeExecutableSchema({
+  typeDefs,
+  resolvers,
+});
+
+// Create Yoga instance with the executable schema
 const yoga = createYoga({
-  schema: {
-    typeDefs,
-    resolvers,
-  },
+  schema, // Pass the executable schema directly
   context: async ({ request }) => {
     const authHeader = request.headers.get('authorization') || '';
     const userId = extractUserId(authHeader);
