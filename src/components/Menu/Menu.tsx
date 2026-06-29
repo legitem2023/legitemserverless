@@ -82,6 +82,7 @@ export default function Home() {
         tabs={myCustomTabs}
         initialTabId="profile"
         onTabChange={handleTabChange}
+        swipeThreshold={0.5}
       />
     </main>
   );
