@@ -558,7 +558,7 @@ export default function FbMenu({
           }
 
           .tab-panel {
-            padding: 12px 14px 10px;
+            padding:0px;
           }
         }
       `}</style>
