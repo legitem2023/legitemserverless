@@ -1,6 +1,6 @@
 export default function ScanPage() {
   return (
-    <main className="fixed h-screen w-full overflow-hidden bg-[#0a5b13] z-10">
+    <main className="fixed h-screen w-full overflow-hidden bg-[#0a5b13] z-0">
 
       {/* Background Grid */}
       <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.05)_1px,transparent_1px)] bg-[size:40px_40px]" />
