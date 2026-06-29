@@ -3,20 +3,118 @@
 @tailwind utilities;
 
 
-.logoFloat{
+/* Radar Beam */
+
+.radar-sweep{
+    position:absolute;
+
+    width:550px;
+    height:550px;
+
+    border-radius:9999px;
+
+    background:conic-gradient(
+        rgba(34,197,94,.9) 0deg,
+        rgba(34,197,94,.5) 30deg,
+        rgba(34,197,94,.15) 55deg,
+        transparent 70deg
+    );
+
+    filter:blur(2px);
+
+    animation:rotateRadar 4s linear infinite;
+}
+
+/* Infinite Ripples */
+
+.radar-ripple{
+
+    position:absolute;
+
+    width:20px;
+    height:20px;
+
+    border-radius:9999px;
+
+    border:2px solid rgba(74,222,128,.8);
+
+    animation:radarRipple 4s linear infinite;
+}
+
+@keyframes radarRipple{
+
+    0%{
+        width:20px;
+        height:20px;
+        opacity:1;
+    }
+
+    70%{
+        opacity:.4;
+    }
+
+    100%{
+        width:560px;
+        height:560px;
+        opacity:0;
+    }
+
+}
+
+@keyframes rotateRadar{
+
+    from{
+        transform:rotate(0deg);
+    }
+
+    to{
+        transform:rotate(360deg);
+    }
+
+}
+
+/* Logo Floating */
+
+@keyframes logoFloat{
+
+    0%,100%{
+        transform:translateY(0px);
+    }
+
+    50%{
+        transform:translateY(-10px);
+    }
+
+}
+
+.animate-logo{
     animation:logoFloat 4s ease-in-out infinite;
 }
 
-@keyframes logoFloat{
+/* World Map */
+
+@keyframes mapPulse{
+
     0%,100%{
-        transform:translateY(0);
+        opacity:.15;
+        transform:scale(1);
     }
+
     50%{
-        transform:translateY(-8px);
+        opacity:.28;
+        transform:scale(1.02);
     }
+
 }
 
+.animate-map{
+    animation:mapPulse 6s ease-in-out infinite;
+}
+
+/* Text Shine */
+
 .shimmer{
+
     background:linear-gradient(
         90deg,
         white,
@@ -25,6 +123,7 @@
     );
 
     background-size:200%;
+
     -webkit-background-clip:text;
     -webkit-text-fill-color:transparent;
 
@@ -32,74 +131,13 @@
 }
 
 @keyframes shine{
+
+    from{
+        background-position:0%;
+    }
+
     to{
         background-position:200%;
-    }
-}
-
-.radar-ring{
-    position:absolute;
-    border:3px solid rgba(255,255,255,.8);
-    border-radius:9999px;
-    animation:ringPulse 3s ease-in-out infinite;
-}
-
-.radar-sweep{
-    position:absolute;
-    width:520px;
-    height:520px;
-    border-radius:9999px;
-
-    background:conic-gradient(
-        rgba(34,197,94,.85) 0deg,
-        rgba(34,197,94,.25) 35deg,
-        transparent 60deg
-    );
-
-    animation:rotateRadar 4s linear infinite;
-
-    filter:blur(1px);
-}
-
-.particles::before,
-.particles::after{
-    content:"";
-    position:absolute;
-    inset:0;
-
-    background-image:
-      radial-gradient(#8fff9d 1px, transparent 1px);
-
-    background-size:80px 80px;
-
-    opacity:.15;
-
-    animation:floatParticles 20s linear infinite;
-}
-
-@keyframes rotateRadar{
-    from{
-        transform:rotate(0deg);
-    }
-    to{
-        transform:rotate(360deg);
-    }
-}
-
-@keyframes ringPulse{
-
-    0%{
-        transform:scale(.97);
-        opacity:.3;
-    }
-
-    50%{
-        opacity:1;
-    }
-
-    100%{
-        transform:scale(1.02);
-        opacity:.35;
     }
 
 }
