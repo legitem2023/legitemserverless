@@ -5,6 +5,7 @@ import jwt from 'jsonwebtoken';
 import { getUserId } from '../middleware/auth';
 import { getChatsWithLastMessages, getChatWithLastMessage } from '../utils/helpers';
 import pusherServer, { CHANNELS, EVENTS } from '../services/pusher';
+import { convertAttachmentsToJson } from '../utils/helpers';
 import {
   Context,
   AuthPayload,
