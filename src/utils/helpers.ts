@@ -2,6 +2,24 @@
 
 import { PrismaClient, Message, User } from '@prisma/client';
 
+
+// src/utils/helpers.ts
+
+import { AttachmentInput } from '../types';
+
+export const convertAttachmentsToJson = (attachments: AttachmentInput[]) => {
+  return attachments.map(att => ({
+    url: att.url,
+    filename: att.filename,
+    mimeType: att.mimeType,
+    size: att.size,
+    width: att.width || null,
+    height: att.height || null,
+    duration: att.duration || null,
+  }));
+};
+
+
 export async function getLastMessage(
   prisma: PrismaClient,
   lastMessageId?: string | null
