@@ -9,7 +9,7 @@ const myCustomTabs: TabItem[] = [
     label: "Home",
     icon: <span>🏠</span>,
     content: (
-      <ScanPage/>
+      <></>
     ),
   },
   {
