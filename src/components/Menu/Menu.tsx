@@ -2,16 +2,14 @@
 // app/page.tsx
 import FbMenu, { TabItem } from "@/components/FbMenu";
 import ChatApp from "@/components/chat/ChatApp";
+import ScanPage from "@/components/ScanPage";
 const myCustomTabs: TabItem[] = [
   {
     id: "home",
     label: "Home",
     icon: <span>🏠</span>,
     content: (
-      <div>
-        <h3>Welcome Home</h3>
-        <p>This is your custom home tab content.</p>
-      </div>
+      <ScanPage/>
     ),
   },
   {
