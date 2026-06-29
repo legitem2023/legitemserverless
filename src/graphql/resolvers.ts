@@ -873,7 +873,7 @@ sendMessage: async (
       messageId: message.id,
       userId,
     })),
-    skipDuplicates: true,
+    //skipDuplicates: true,
   });
 
   await pusherServer.trigger(CHANNELS.CHAT(chatId), EVENTS.MESSAGE.RECEIVED, {
@@ -1181,7 +1181,7 @@ sendMessage: async (
           messageId: message.id,
           userId,
         })),
-        skipDuplicates: true,
+        //skipDuplicates: true,
       });
 
       await pusherServer.trigger(CHANNELS.CHAT(chatId), EVENTS.READ.CHAT_READ, {
