@@ -39,7 +39,7 @@ export default function ScanPage() {
             key={i}
             className="absolute radar-ripple"
             style={{
-              animationDelay: `${i * .5}s`,
+              animationDelay: `${i * .7}s`,
             }}
           />
         ))}
