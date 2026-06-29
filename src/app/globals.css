@@ -3,6 +3,40 @@
 @tailwind utilities;
 
 
+.logoFloat{
+    animation:logoFloat 4s ease-in-out infinite;
+}
+
+@keyframes logoFloat{
+    0%,100%{
+        transform:translateY(0);
+    }
+    50%{
+        transform:translateY(-8px);
+    }
+}
+
+.shimmer{
+    background:linear-gradient(
+        90deg,
+        white,
+        #b8ffb8,
+        white
+    );
+
+    background-size:200%;
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+
+    animation:shine 3s linear infinite;
+}
+
+@keyframes shine{
+    to{
+        background-position:200%;
+    }
+}
+
 .radar-ring{
     position:absolute;
     border:3px solid rgba(255,255,255,.8);
