@@ -77,7 +77,7 @@ export default function Home() {
   };
 
   return (
-    <main style={{ padding: "20px", background: "#f0f2f5", minHeight: "100vh" }}>
+    <main style={{ background: "#f0f2f5", minHeight: "100vh" }}>
       <FbMenu
         tabs={myCustomTabs}
         initialTabId="profile"
