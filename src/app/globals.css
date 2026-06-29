@@ -38,7 +38,7 @@
 
     border:2px solid rgba(254,254,254,.8);
 
-    animation:radarRipple 4s linear infinite;
+    animation:radarRipple 8s linear infinite;
 }
 
 @keyframes radarRipple{
