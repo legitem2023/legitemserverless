@@ -13,6 +13,8 @@ export interface AuthPayload {
   user: User;
 }
 
+// src/types/index.ts
+
 export interface AttachmentInput {
   url: string;
   filename: string;
@@ -22,6 +24,17 @@ export interface AttachmentInput {
   height?: number | null;
   duration?: number | null;
 }
+
+// Add this type for Prisma JSON
+export type AttachmentJson = {
+  url: string;
+  filename: string;
+  mimeType: string;
+  size: number;
+  width: number | null;
+  height: number | null;
+  duration: number | null;
+};
 
 export interface MessageReadReceipt {
   messageId: string;
