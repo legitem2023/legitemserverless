@@ -1,54 +1,72 @@
 export default function ScanPage() {
   return (
-    <main className="relative flex h-screen w-full items-center justify-center overflow-hidden bg-[#0d5f16]">
+    <main className="relative h-screen w-full overflow-hidden bg-[#0a5b13]">
 
       {/* Background Grid */}
       <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.05)_1px,transparent_1px)] bg-[size:40px_40px]" />
 
-      {/* Floating Particles */}
-      <div className="particles absolute inset-0" />
+      {/* Animated Particles */}
+      <div className="absolute inset-0 overflow-hidden">
+        {Array.from({ length: 40 }).map((_, i) => (
+          <span
+            key={i}
+            className="absolute h-[2px] w-[2px] rounded-full bg-green-300 opacity-30 animate-pulse"
+            style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+              animationDelay: `${Math.random() * 4}s`,
+              animationDuration: `${2 + Math.random() * 3}s`,
+            }}
+          />
+        ))}
+      </div>
 
       {/* World Map */}
-      <div className="absolute opacity-20">
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
         <img
           src="/world-map.png"
           alt=""
-          className="w-[900px] max-w-none"
+          className="w-[110%] opacity-20 animate-map"
         />
       </div>
 
       {/* Radar */}
-      <div className="absolute flex items-center justify-center">
+      <div className="absolute inset-0 flex items-center justify-center">
 
-        {/* Rings */}
-        <div className="radar-ring w-[500px] h-[500px]" />
-        <div className="radar-ring delay-200 w-[380px] h-[380px]" />
-        <div className="radar-ring delay-500 w-[260px] h-[260px]" />
-        <div className="radar-ring delay-700 w-[140px] h-[140px]" />
+        {/* Infinite Ripples */}
+        {Array.from({ length: 8 }).map((_, i) => (
+          <span
+            key={i}
+            className="absolute radar-ripple"
+            style={{
+              animationDelay: `${i * .5}s`,
+            }}
+          />
+        ))}
 
-        {/* Rotating Sweep */}
+        {/* Radar Sweep */}
         <div className="radar-sweep" />
 
-        {/* Center Dot */}
-        <div className="absolute h-5 w-5 rounded-full bg-green-400 shadow-[0_0_30px_#22c55e]" />
+        {/* Center Glow */}
+        <div className="absolute h-5 w-5 rounded-full bg-green-400 shadow-[0_0_40px_#22c55e]" />
+
       </div>
 
-      {/* Content */}
-      <div className="relative z-20 flex flex-col items-center">
+      {/* Logo */}
+      <div className="absolute bottom-24 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center">
 
-        {/* Logo */}
         <img
           src="/scan-logo.png"
-          className="w-72 md:w-96 drop-shadow-2xl"
+          alt=""
+          className="w-80 max-w-[90vw] animate-logo drop-shadow-[0_0_30px_rgba(255,255,0,.4)]"
         />
 
-        <h1 className="mt-3 text-6xl font-black italic text-white tracking-tight">
+        <h1 className="mt-4 text-5xl font-black italic tracking-tight text-white shimmer">
           IN ACTION
         </h1>
 
-        <div className="mt-2 h-1 w-72 rounded-full bg-green-400 animate-pulse" />
-
       </div>
+
     </main>
   );
 }
