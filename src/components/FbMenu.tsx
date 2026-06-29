@@ -445,7 +445,9 @@ export default function FbMenu({
         .tab-panel {
           flex: 0 0 100%;
           padding: 16px 18px 12px;
-          background: white;
+          background: rgba(255, 255, 255, 0.1);
+          backdrop-filter: blur(2px);
+          -webkit-backdrop-filter: blur(2px);
           min-height: 280px;
         }
 
