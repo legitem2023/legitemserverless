@@ -1,7 +1,7 @@
 
 // app/page.tsx
 import FbMenu, { TabItem } from "@/components/FbMenu";
-import ChatApp from "@components/chat/ChatApp";
+import ChatApp from "@/components/chat/ChatApp";
 const myCustomTabs: TabItem[] = [
   {
     id: "home",
