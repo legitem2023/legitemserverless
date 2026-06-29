@@ -798,8 +798,101 @@ export const resolvers = {
 
       return true;
     },
+sendMessage: async (
+  _: any,
+  {
+    chatId,
+    content,
+    type = 'TEXT',
+    attachments = [],
+  }: {
+    chatId: string;
+    content: string;
+    type?: 'TEXT' | 'IMAGE' | 'VIDEO' | 'AUDIO' | 'FILE' | 'LOCATION' | 'SYSTEM';
+    attachments?: AttachmentInput[];
+  },
+  context: Context
+) => {
+  const userId = getUserId(context);
 
-    sendMessage: async (
+  const chat = await context.prisma.chat.findFirst({
+    where: {
+      id: chatId,
+      participants: {
+        some: {
+          userId,
+        },
+      },
+    },
+    include: {
+      participants: true,
+    },
+  });
+
+  if (!chat) {
+    throw new Error('Chat not found or access denied');
+  }
+
+  // Use helper to convert attachments
+  const attachmentsJson = convertAttachmentsToJson(attachments);
+
+  const message = await context.prisma.message.create({
+    data: {
+      chatId,
+      senderId: userId,
+      content,
+      type,
+      attachments: attachmentsJson,
+    },
+    include: {
+      sender: true,
+      readBy: {
+        include: {
+          user: true,
+        },
+      },
+      deliveredTo: {
+        include: {
+          user: true,
+        },
+      },
+    },
+  });
+
+  await context.prisma.chat.update({
+    where: { id: chatId },
+    data: {
+      lastMessageId: message.id,
+      updatedAt: new Date(),
+    },
+  });
+
+  const participantIds = chat.participants.map(p => p.userId);
+  await context.prisma.messageDeliveredTo.createMany({
+    data: participantIds.map(userId => ({
+      messageId: message.id,
+      userId,
+    })),
+    skipDuplicates: true,
+  });
+
+  await pusherServer.trigger(CHANNELS.CHAT(chatId), EVENTS.MESSAGE.RECEIVED, {
+    message,
+    chatId,
+  });
+
+  await Promise.all(
+    participantIds.map(async (participantId) => {
+      await pusherServer.trigger(CHANNELS.USER(participantId), EVENTS.MESSAGE.RECEIVED, {
+        message,
+        chatId,
+      });
+    })
+  );
+
+  return message;
+},
+  /*  sendMessage: async (
       _: any,
       {
         chatId,
@@ -889,7 +982,7 @@ export const resolvers = {
       );
 
       return message;
-    },
+    },*/
 
     editMessage: async (
       _: any,
