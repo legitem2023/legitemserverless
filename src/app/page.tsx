@@ -1,12 +1,12 @@
 'use client'
 
 import { ApolloProvider } from '@/components/providers/ApolloProvider'
-import ChatApp from '@/components/chat/ChatApp'
+import Menu from '@/components/Menu/Menu'
 export default function Home() {
   return (
     <ApolloProvider>
       <main className="h-screen">
-        <ChatApp />
+        <Menu/>
       </main>
     </ApolloProvider>
   )
