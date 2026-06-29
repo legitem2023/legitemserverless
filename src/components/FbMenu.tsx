@@ -10,35 +10,27 @@ export type TabItem = {
   label: string;
   icon?: React.ReactNode;
   content: React.ReactNode;
-  badge?: string | number; // optional badge (e.g., notification count)
+  badge?: string | number;
 };
 
 export interface FbMenuProps {
-  /** Array of tab objects. Each tab must have id, label, and content. */
   tabs?: TabItem[];
-  /** Initial active tab ID. If not provided, first tab is active. */
   initialTabId?: string;
-  /** Callback when tab changes. Receives the new tab ID. */
   onTabChange?: (tabId: string) => void;
-  /** Custom render for the menu icon (hamburger). Receives click handler and active state. */
-  renderMenuIcon?: (props: { onClick: () => void; isActive: boolean }) => React.ReactNode;
-  /** Custom class name for the container. */
   className?: string;
-  /** Whether to show dot indicators. Default: true. */
   showIndicators?: boolean;
-  /** Swipe threshold as percentage of container width (0-1). Default: 0.2. */
   swipeThreshold?: number;
 }
 
 // ============================================================
-// 2. DEFAULT TABS (example data – easily replaceable)
+// 2. DEFAULT TABS (example data)
 // ============================================================
 const DEFAULT_TABS: TabItem[] = [
   {
     id: "feed",
     label: "Feed",
     icon: (
-      <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+      <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
         <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z" />
       </svg>
     ),
@@ -68,7 +60,7 @@ const DEFAULT_TABS: TabItem[] = [
     id: "messages",
     label: "Messages",
     icon: (
-      <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+      <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
         <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z" />
       </svg>
     ),
@@ -99,7 +91,7 @@ const DEFAULT_TABS: TabItem[] = [
     id: "notifications",
     label: "Notifications",
     icon: (
-      <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+      <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
         <path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z" />
       </svg>
     ),
@@ -129,13 +121,12 @@ const DEFAULT_TABS: TabItem[] = [
 ];
 
 // ============================================================
-// 3. MAIN COMPONENT – FbMenu (fully reusable)
+// 3. MAIN COMPONENT – FbMenu (with Facebook-style top tabs)
 // ============================================================
 export default function FbMenu({
   tabs = DEFAULT_TABS,
   initialTabId,
   onTabChange,
-  renderMenuIcon,
   className = "",
   showIndicators = true,
   swipeThreshold = 0.2,
@@ -167,19 +158,12 @@ export default function FbMenu({
       setIsAnimating(true);
       setActiveIndex(index);
       if (onTabChange) onTabChange(tabs[index].id);
-      // reset translate after transition
       setTimeout(() => {
         setIsAnimating(false);
       }, 350);
     },
     [totalTabs, isAnimating, onTabChange, tabs]
   );
-
-  // ----- handle menu icon click (cycle to next tab by default) -----
-  const handleIconClick = () => {
-    const next = (activeIndex + 1) % totalTabs;
-    goToTab(next);
-  };
 
   // ----- swipe handlers (touch & mouse) -----
   const handleDragStart = (clientX: number) => {
@@ -268,41 +252,32 @@ export default function FbMenu({
     return () => window.removeEventListener("mouseup", handleGlobalMouseUp);
   }, [isDragging]);
 
-  // ----- render menu icon (custom or default) -----
-  const renderDefaultMenuIcon = () => (
-    <button
-      className="menu-icon"
-      onClick={handleIconClick}
-      aria-label="Switch tab"
-      title="Click to switch tab"
-    >
-      <span className="bar"></span>
-      <span className="bar"></span>
-      <span className="bar"></span>
-    </button>
-  );
-
-  const menuIconElement = renderMenuIcon ? (
-    renderMenuIcon({ onClick: handleIconClick, isActive: activeIndex > 0 })
-  ) : (
-    renderDefaultMenuIcon()
-  );
-
   // ----- render -----
   return (
     <div className={`fb-menu-container ${className}`} ref={containerRef}>
-      {/* Header with customizable menu icon */}
-      <div className="menu-header">
-        <div className="brand">
-          <svg viewBox="0 0 24 24" width="28" height="28" fill="#1b74e4">
-            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
-          </svg>
-          <span>Reusable</span>
-        </div>
-        {menuIconElement}
+      {/* Facebook-style top tab bar */}
+      <div className="tab-bar">
+        {tabs.map((tab, index) => {
+          const isActive = index === activeIndex;
+          return (
+            <button
+              key={tab.id}
+              className={`tab-button ${isActive ? "active" : ""}`}
+              onClick={() => goToTab(index)}
+              aria-label={tab.label}
+            >
+              <span className="tab-icon-wrapper">
+                {tab.icon && <span className="tab-icon">{tab.icon}</span>}
+                {tab.badge && <span className="tab-badge">{tab.badge}</span>}
+              </span>
+              <span className="tab-label">{tab.label}</span>
+              {isActive && <span className="tab-indicator" />}
+            </button>
+          );
+        })}
       </div>
 
-      {/* Swipe area / tabs */}
+      {/* Swipe area / content */}
       <div
         className="tabs-wrapper"
         onMouseDown={onMouseDown}
@@ -316,11 +291,6 @@ export default function FbMenu({
         <div className="tabs-scroll" ref={scrollRef}>
           {tabs.map((tab) => (
             <div className="tab-panel" key={tab.id}>
-              <h2>
-                {tab.icon && <span className="tab-icon">{tab.icon}</span>}
-                {tab.label}
-                {tab.badge && <span className="badge">{tab.badge}</span>}
-              </h2>
               {tab.content}
             </div>
           ))}
@@ -346,61 +316,117 @@ export default function FbMenu({
       <style jsx>{`
         .fb-menu-container {
           width: 100%;
-          max-width: 420px;
+          
           background: #ffffff;
-          border-radius: 28px 28px 20px 20px;
-          box-shadow: 0 8px 28px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.06);
+          
+          box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
           overflow: hidden;
           position: relative;
-          font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
           touch-action: pan-y;
           margin: 0 auto;
         }
 
-        .menu-header {
+        /* ===== TOP TAB BAR (Facebook style) ===== */
+        .tab-bar {
           display: flex;
-          align-items: center;
-          justify-content: space-between;
-          padding: 14px 18px 10px 18px;
-          background: white;
+          align-items: stretch;
+          background: #ffffff;
           border-bottom: 1px solid #e4e6eb;
-        }
-        .brand {
-          display: flex;
-          align-items: center;
-          gap: 6px;
-        }
-        .brand span {
-          font-size: 20px;
-          font-weight: 700;
-          color: #1b1f23;
-          letter-spacing: -0.3px;
+          padding: 0 4px;
+          position: relative;
         }
 
-        .menu-icon {
+        .tab-button {
+          flex: 1;
           display: flex;
           flex-direction: column;
-          gap: 4px;
-          padding: 6px 4px;
-          cursor: pointer;
-          border-radius: 30px;
-          transition: background 0.15s;
+          align-items: center;
+          justify-content: center;
+          gap: 2px;
+          padding: 10px 4px 8px;
           background: transparent;
           border: none;
-          outline: none;
-        }
-        .menu-icon:hover {
-          background: #f0f2f5;
-        }
-        .menu-icon .bar {
-          display: block;
-          width: 24px;
-          height: 3px;
-          background: #1b1f23;
-          border-radius: 10px;
-          transition: 0.2s;
+          cursor: pointer;
+          position: relative;
+          transition: background 0.15s;
+          border-radius: 8px 8px 0 0;
+          min-height: 56px;
+          color: #65676b;
+          font-family: inherit;
         }
 
+        .tab-button:hover {
+          background: #f0f2f5;
+        }
+
+        .tab-button.active {
+          color: #1b74e4;
+        }
+
+        .tab-icon-wrapper {
+          position: relative;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .tab-icon {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 20px;
+          line-height: 1;
+        }
+
+        .tab-icon svg {
+          width: 24px;
+          height: 24px;
+        }
+
+        .tab-badge {
+          position: absolute;
+          top: -6px;
+          right: -12px;
+          background: #e41e3f;
+          color: white;
+          font-size: 11px;
+          font-weight: 700;
+          min-width: 18px;
+          height: 18px;
+          padding: 0 5px;
+          border-radius: 30px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          line-height: 1;
+          border: 2px solid #ffffff;
+        }
+
+        .tab-label {
+          font-size: 11px;
+          font-weight: 500;
+          letter-spacing: 0.2px;
+          line-height: 1.2;
+        }
+
+        .tab-indicator {
+          position: absolute;
+          bottom: 0;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 20px;
+          height: 3px;
+          background: #1b74e4;
+          border-radius: 10px 10px 0 0;
+          transition: width 0.2s;
+        }
+
+        .tab-button.active .tab-indicator {
+          width: 28px;
+        }
+
+        /* ===== CONTENT AREA ===== */
         .tabs-wrapper {
           position: relative;
           overflow: hidden;
@@ -417,41 +443,29 @@ export default function FbMenu({
 
         .tab-panel {
           flex: 0 0 100%;
-          padding: 16px 18px 20px;
+          padding: 16px 18px 12px;
           background: white;
-          min-height: 300px;
+          min-height: 280px;
         }
-        .tab-panel h2 {
-          font-size: 22px;
+
+        .tab-panel h3 {
+          font-size: 20px;
           font-weight: 600;
           margin-bottom: 12px;
           color: #050505;
-          display: flex;
-          align-items: center;
-          gap: 8px;
         }
-        .tab-icon {
-          display: inline-flex;
-          align-items: center;
-        }
-        .badge {
-          background: #e7f3ff;
-          color: #1b74e4;
-          font-size: 12px;
-          font-weight: 600;
-          padding: 2px 10px;
-          border-radius: 30px;
-          margin-left: auto;
-        }
+
         .tab-panel p {
           color: #4b4f56;
           line-height: 1.5;
           font-size: 15px;
+          margin-bottom: 8px;
         }
 
+        /* Card items */
         .card-item {
           background: #f7f8fa;
-          border-radius: 16px;
+          border-radius: 12px;
           padding: 12px 14px;
           margin-bottom: 10px;
           display: flex;
@@ -459,10 +473,11 @@ export default function FbMenu({
           gap: 12px;
           border: 1px solid #e4e6eb;
         }
+
         .card-item .avatar {
           width: 40px;
           height: 40px;
-          border-radius: 40px;
+          border-radius: 50%;
           background: #e4e6eb;
           display: flex;
           align-items: center;
@@ -471,19 +486,23 @@ export default function FbMenu({
           color: #1b1f23;
           flex-shrink: 0;
         }
+
         .card-item .info {
           flex: 1;
         }
+
         .card-item .info strong {
           display: block;
           font-size: 15px;
           color: #050505;
         }
+
         .card-item .info span {
           font-size: 13px;
           color: #65676b;
         }
 
+        /* Dot indicators */
         .dot-indicators {
           display: flex;
           justify-content: center;
@@ -491,6 +510,7 @@ export default function FbMenu({
           padding: 8px 0 14px 0;
           background: white;
         }
+
         .dot {
           width: 8px;
           height: 8px;
@@ -500,13 +520,16 @@ export default function FbMenu({
           transition: 0.2s;
           display: inline-block;
         }
+
         .dot.active {
           background: #1b74e4;
           width: 22px;
         }
+
         .dot:hover {
           background: #8b8f9c;
         }
+
         .dot.active:hover {
           background: #1b74e4;
         }
@@ -514,10 +537,25 @@ export default function FbMenu({
         @media (max-width: 480px) {
           .fb-menu-container {
             max-width: 100%;
-            border-radius: 20px;
+            border-radius: 12px;
           }
+
+          .tab-button {
+            min-height: 48px;
+            padding: 6px 2px 6px;
+          }
+
+          .tab-label {
+            font-size: 10px;
+          }
+
+          .tab-icon svg {
+            width: 20px;
+            height: 20px;
+          }
+
           .tab-panel {
-            padding: 14px 16px 18px;
+            padding: 12px 14px 10px;
           }
         }
       `}</style>
