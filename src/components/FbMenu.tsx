@@ -317,7 +317,7 @@ export default function FbMenu({
         .fb-menu-container {
           width: 100%;
           
-          background: #ffffff;
+          background:transparent;
           
           box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
           overflow: hidden;
@@ -331,7 +331,8 @@ export default function FbMenu({
         .tab-bar {
           display: flex;
           align-items: stretch;
-          background: #ffffff;
+          background:transparent;
+          filter:blur(0.3);
           border-bottom: 1px solid #e4e6eb;
           padding: 0 4px;
           position: relative;
