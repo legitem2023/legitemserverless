@@ -407,11 +407,12 @@
       "AssociateCategory": "",
       "AmatureCallsign": "",
       "schedules": []
-    },{
+    },
+    {
       "name": "Ronald Pama",
       "kapisanan": "Kadiwa",
       "kahilingan": "false",
-      "callSign": "Rzl-OJT",
+      "callSign": "OJT",
       "function": "Associate Members (Not Approved)",
       "picture": "",
       "Petsa_ng_maging_scan": "",
@@ -432,6 +433,32 @@
           "time": "6:00 AM"
         }
       ]
-    }
+    },
+    {
+      "name": "Althea Balubal",
+      "kapisanan": "Binhi",
+      "kahilingan": "false",
+      "callSign": "OJT",
+      "function": "Associate Members (Not Approved)",
+      "picture": "",
+      "Petsa_ng_maging_scan": "",
+      "Pagpapatibay": "",
+      "AssociateCategory": "",
+      "AmatureCallsign": "",
+      "schedules": [
+        {
+          "service": "worship",
+          "date": "2026-05-07",
+          "day": "Thursday",
+          "time": "6:45 PM"
+        },
+        {
+          "service": "worship",
+          "date": "2026-05-10",
+          "day": "Sunday",
+          "time": "6:00 AM"
+        }
+      ]
+        }
   ]
 }
