@@ -11,20 +11,7 @@
       "Pagpapatibay": "",
       "AssociateCategory": "",
       "AmatureCallsign": "",
-      "schedules": [
-        {
-          "service": "worship",
-          "date": "2026-05-07",
-          "day": "Thursday",
-          "time": "5:45 AM"
-        },
-        {
-          "service": "worship",
-          "date": "2026-05-10",
-          "day": "Sunday",
-          "time": "6:00 AM"
-        }
-      ]
+      "schedules": []
     },
     {
       "name": "Maricris Ramirez",
@@ -191,20 +178,7 @@
       "Pagpapatibay": "",
       "AssociateCategory": "",
       "AmatureCallsign": "",
-      "schedules": [
-        {
-          "service": "worship",
-          "date": "2026-05-07",
-          "day": "Thursday",
-          "time": "5:45 AM"
-        },
-        {
-          "service": "worship",
-          "date": "2026-05-10",
-          "day": "Sunday",
-          "time": "6:00 AM"
-        }
-      ]
+      "schedules": []
     },
     {
       "name": "Benerico Villaluz",
