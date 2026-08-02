@@ -380,7 +380,18 @@
       "Pagpapatibay": "",
       "AssociateCategory": "",
       "AmatureCallsign": "",
-      "schedules": []
+      "schedules": [{
+          "service": "worship",
+          "date": "2026-05-07",
+          "day": "Thursday",
+          "time": "6:45 PM"
+        },
+        {
+          "service": "worship",
+          "date": "2026-05-10",
+          "day": "Saturday",
+          "time": "6:00 PM"
+        }]
     },
     {
       "name": "Ronald Pama",
