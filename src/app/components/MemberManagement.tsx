@@ -13,7 +13,7 @@ import {
   UPDATE_SCHEDULE,
   DELETE_SCHEDULE,
   GET_SCHEDULES_BY_MEMBER,
-} from '../graphql/memberOperations';
+} from '../../graphql/memberOperations';
 import { format } from 'date-fns';
 
 interface Member {
