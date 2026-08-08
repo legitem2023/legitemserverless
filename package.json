@@ -26,6 +26,7 @@
     "@types/react-image-gallery": "^1.2.4",
     "bcryptjs": "^2.4.3",
     "chart.js": "^4.4.0",
+    "date-fns": "^3.0.0",
     "graphql": "^16.8.0",
     "graphql-tag": "^2.12.6",
     "graphql-upload": "^16.0.0",
