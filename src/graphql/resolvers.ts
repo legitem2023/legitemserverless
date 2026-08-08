@@ -251,6 +251,191 @@ export const resolvers = {
 
       return getChatsWithLastMessages(context.prisma, chats);
     },
+
+    // ============ MEMBER QUERIES ============
+    getMember: async (_: any, { id }: { id: string }, context: Context) => {
+      return await context.prisma.member.findUnique({
+        where: { id },
+      });
+    },
+
+    getMemberByUserId: async (_: any, { userId }: { userId: string }, context: Context) => {
+      return await context.prisma.member.findUnique({
+        where: { userId },
+      });
+    },
+
+    getMembers: async (_: any, { filter, limit = 100, offset = 0 }: any, context: Context) => {
+      const where: any = {};
+      
+      if (filter) {
+        if (filter.kapisanan) {
+          where.kapisanan = filter.kapisanan;
+        }
+        if (filter.function) {
+          where.function = filter.function;
+        }
+        if (filter.kahilingan !== undefined) {
+          where.kahilingan = filter.kahilingan;
+        }
+        if (filter.search) {
+          where.OR = [
+            { name: { contains: filter.search, mode: 'insensitive' } },
+            { callSign: { contains: filter.search, mode: 'insensitive' } }
+          ];
+        }
+      }
+
+      return await context.prisma.member.findMany({
+        where,
+        skip: offset,
+        take: limit,
+        orderBy: { name: 'asc' },
+      });
+    },
+
+    getMembersByKapisanan: async (_: any, { kapisanan }: { kapisanan: any }, context: Context) => {
+      return await context.prisma.member.findMany({
+        where: { kapisanan },
+        orderBy: { name: 'asc' },
+      });
+    },
+
+    getMembersByFunction: async (_: any, { function: memberFunction }: { function: any }, context: Context) => {
+      return await context.prisma.member.findMany({
+        where: { function: memberFunction },
+        orderBy: { name: 'asc' },
+      });
+    },
+
+    getMembersWithSchedules: async (_: any, { date }: { date?: string }, context: Context) => {
+      const where: any = {};
+      
+      if (date) {
+        where.schedules = {
+          some: { date },
+        };
+      } else {
+        where.schedules = {
+          some: {},
+        };
+      }
+
+      return await context.prisma.member.findMany({
+        where,
+        include: {
+          schedules: {
+            orderBy: { date: 'asc' },
+          },
+        },
+      });
+    },
+
+    getMembersWithPendingRequests: async (_: any, __: any, context: Context) => {
+      return await context.prisma.member.findMany({
+        where: { kahilingan: true },
+        include: {
+          schedules: true,
+        },
+        orderBy: { name: 'asc' },
+      });
+    },
+
+    getSchedule: async (_: any, { id }: { id: string }, context: Context) => {
+      return await context.prisma.schedule.findUnique({
+        where: { id },
+      });
+    },
+
+    getSchedulesByMember: async (_: any, { memberId }: { memberId: string }, context: Context) => {
+      return await context.prisma.schedule.findMany({
+        where: { memberId },
+        orderBy: { date: 'asc' },
+      });
+    },
+
+    getSchedulesByDate: async (_: any, { date }: { date: string }, context: Context) => {
+      return await context.prisma.schedule.findMany({
+        where: { date },
+        include: {
+          member: true,
+        },
+        orderBy: { time: 'asc' },
+      });
+    },
+
+    getSchedulesByDateRange: async (
+      _: any,
+      { startDate, endDate }: { startDate: string; endDate: string },
+      context: Context
+    ) => {
+      return await context.prisma.schedule.findMany({
+        where: {
+          date: {
+            gte: startDate,
+            lte: endDate,
+          },
+        },
+        include: {
+          member: true,
+        },
+        orderBy: { date: 'asc' },
+      });
+    },
+
+    getSchedulesByService: async (_: any, { service }: { service: any }, context: Context) => {
+      return await context.prisma.schedule.findMany({
+        where: { service },
+        include: {
+          member: true,
+        },
+        orderBy: { date: 'asc' },
+      });
+    },
+
+    getMemberScheduleConflict: async (
+      _: any,
+      { memberId, date, time }: { memberId: string; date: string; time: string },
+      context: Context
+    ) => {
+      const existingSchedule = await context.prisma.schedule.findFirst({
+        where: {
+          memberId,
+          date,
+          time,
+        },
+      });
+      return !!existingSchedule;
+    },
+
+    getSchedulesWithMembers: async (_: any, { date }: { date?: string }, context: Context) => {
+      const where: any = {};
+      if (date) {
+        where.date = date;
+      }
+
+      const schedules = await context.prisma.schedule.findMany({
+        where,
+        include: {
+          member: true,
+        },
+        orderBy: { date: 'asc' },
+      });
+
+      // Group schedules by member
+      const memberMap = new Map();
+      schedules.forEach((schedule: any) => {
+        if (!memberMap.has(schedule.memberId)) {
+          memberMap.set(schedule.memberId, {
+            member: schedule.member,
+            schedules: [],
+          });
+        }
+        memberMap.get(schedule.memberId).schedules.push(schedule);
+      });
+
+      return Array.from(memberMap.values());
+    },
   },
 
   Mutation: {
@@ -798,101 +983,8 @@ export const resolvers = {
 
       return true;
     },
-sendMessage: async (
-  _: any,
-  {
-    chatId,
-    content,
-    type = 'TEXT',
-    attachments = [],
-  }: {
-    chatId: string;
-    content: string;
-    type?: 'TEXT' | 'IMAGE' | 'VIDEO' | 'AUDIO' | 'FILE' | 'LOCATION' | 'SYSTEM';
-    attachments?: AttachmentInput[];
-  },
-  context: Context
-) => {
-  const userId = getUserId(context);
 
-  const chat = await context.prisma.chat.findFirst({
-    where: {
-      id: chatId,
-      participants: {
-        some: {
-          userId,
-        },
-      },
-    },
-    include: {
-      participants: true,
-    },
-  });
-
-  if (!chat) {
-    throw new Error('Chat not found or access denied');
-  }
-
-  // Use helper to convert attachments
-  const attachmentsJson = convertAttachmentsToJson(attachments);
-
-  const message = await context.prisma.message.create({
-    data: {
-      chatId,
-      senderId: userId,
-      content,
-      type,
-      attachments: attachmentsJson,
-    },
-    include: {
-      sender: true,
-      readBy: {
-        include: {
-          user: true,
-        },
-      },
-      deliveredTo: {
-        include: {
-          user: true,
-        },
-      },
-    },
-  });
-
-  await context.prisma.chat.update({
-    where: { id: chatId },
-    data: {
-      lastMessageId: message.id,
-      updatedAt: new Date(),
-    },
-  });
-
-  const participantIds = chat.participants.map(p => p.userId);
-  await context.prisma.messageDeliveredTo.createMany({
-    data: participantIds.map(userId => ({
-      messageId: message.id,
-      userId,
-    })),
-    //skipDuplicates: true,
-  });
-
-  await pusherServer.trigger(CHANNELS.CHAT(chatId), EVENTS.MESSAGE.RECEIVED, {
-    message,
-    chatId,
-  });
-
-  await Promise.all(
-    participantIds.map(async (participantId) => {
-      await pusherServer.trigger(CHANNELS.USER(participantId), EVENTS.MESSAGE.RECEIVED, {
-        message,
-        chatId,
-      });
-    })
-  );
-
-  return message;
-},
-  /*  sendMessage: async (
+    sendMessage: async (
       _: any,
       {
         chatId,
@@ -927,13 +1019,16 @@ sendMessage: async (
         throw new Error('Chat not found or access denied');
       }
 
+      // Use helper to convert attachments
+      const attachmentsJson = convertAttachmentsToJson(attachments);
+
       const message = await context.prisma.message.create({
         data: {
           chatId,
           senderId: userId,
           content,
           type,
-          attachments: attachments,
+          attachments: attachmentsJson,
         },
         include: {
           sender: true,
@@ -964,7 +1059,7 @@ sendMessage: async (
           messageId: message.id,
           userId,
         })),
-        skipDuplicates: true,
+        //skipDuplicates: true,
       });
 
       await pusherServer.trigger(CHANNELS.CHAT(chatId), EVENTS.MESSAGE.RECEIVED, {
@@ -982,7 +1077,7 @@ sendMessage: async (
       );
 
       return message;
-    },*/
+    },
 
     editMessage: async (
       _: any,
@@ -1263,6 +1358,163 @@ sendMessage: async (
 
       return typingStatus;
     },
+
+    // ============ MEMBER MUTATIONS ============
+    createMember: async (_: any, { input }: { input: any }, context: Context) => {
+      const existingMember = await context.prisma.member.findUnique({
+        where: { userId: input.userId },
+      });
+
+      if (existingMember) {
+        throw new Error('User already has a member profile');
+      }
+
+      return await context.prisma.member.create({
+        data: {
+          userId: input.userId,
+          name: input.name,
+          kapisanan: input.kapisanan,
+          kahilingan: input.kahilingan ?? false,
+          callSign: input.callSign,
+          function: input.function,
+          picture: input.picture,
+          Petsa_ng_maging_scan: input.Petsa_ng_maging_scan,
+          Pagpapatibay: input.Pagpapatibay,
+          AssociateCategory: input.AssociateCategory,
+          AmatureCallsign: input.AmatureCallsign,
+        },
+      });
+    },
+
+    updateMember: async (_: any, { id, input }: { id: string; input: any }, context: Context) => {
+      return await context.prisma.member.update({
+        where: { id },
+        data: input,
+      });
+    },
+
+    deleteMember: async (_: any, { id }: { id: string }, context: Context) => {
+      await context.prisma.schedule.deleteMany({
+        where: { memberId: id },
+      });
+
+      const result = await context.prisma.member.delete({
+        where: { id },
+      });
+      return !!result;
+    },
+
+    updateMemberKapisanan: async (_: any, { id, kapisanan }: { id: string; kapisanan: any }, context: Context) => {
+      return await context.prisma.member.update({
+        where: { id },
+        data: { kapisanan },
+      });
+    },
+
+    updateMemberFunction: async (_: any, { id, function: memberFunction }: { id: string; function: any }, context: Context) => {
+      return await context.prisma.member.update({
+        where: { id },
+        data: { function: memberFunction },
+      });
+    },
+
+    toggleMemberKahilingan: async (_: any, { id }: { id: string }, context: Context) => {
+      const member = await context.prisma.member.findUnique({
+        where: { id },
+      });
+      if (!member) {
+        throw new Error('Member not found');
+      }
+
+      return await context.prisma.member.update({
+        where: { id },
+        data: { kahilingan: !member.kahilingan },
+      });
+    },
+
+    createSchedule: async (_: any, { input }: { input: any }, context: Context) => {
+      const existing = await context.prisma.schedule.findFirst({
+        where: {
+          memberId: input.memberId,
+          date: input.date,
+          time: input.time,
+        },
+      });
+
+      if (existing) {
+        throw new Error('Schedule conflict: Member already has a schedule at this time');
+      }
+
+      return await context.prisma.schedule.create({
+        data: input,
+      });
+    },
+
+    createMultipleSchedules: async (_: any, { inputs }: { inputs: any[] }, context: Context) => {
+      const results = [];
+      for (const input of inputs) {
+        try {
+          const schedule = await context.prisma.schedule.create({
+            data: input,
+          });
+          results.push(schedule);
+        } catch (error: any) {
+          throw new Error(`Failed to create schedule for member ${input.memberId}: ${error.message}`);
+        }
+      }
+      return results;
+    },
+
+    updateSchedule: async (_: any, { id, input }: { id: string; input: any }, context: Context) => {
+      return await context.prisma.schedule.update({
+        where: { id },
+        data: input,
+      });
+    },
+
+    deleteSchedule: async (_: any, { id }: { id: string }, context: Context) => {
+      const result = await context.prisma.schedule.delete({
+        where: { id },
+      });
+      return !!result;
+    },
+
+    deleteAllSchedulesByMember: async (_: any, { memberId }: { memberId: string }, context: Context) => {
+      const result = await context.prisma.schedule.deleteMany({
+        where: { memberId },
+      });
+      return result.count > 0;
+    },
+
+    clearScheduleConflicts: async (_: any, { memberId, date }: { memberId: string; date: string }, context: Context) => {
+      const schedules = await context.prisma.schedule.findMany({
+        where: { memberId, date },
+      });
+
+      const timeMap = new Map();
+      const toDelete: string[] = [];
+
+      schedules.forEach((schedule: any) => {
+        if (timeMap.has(schedule.time)) {
+          toDelete.push(schedule.id);
+        } else {
+          timeMap.set(schedule.time, schedule.id);
+        }
+      });
+
+      if (toDelete.length > 0) {
+        await context.prisma.schedule.deleteMany({
+          where: {
+            id: { in: toDelete },
+          },
+        });
+      }
+
+      return await context.prisma.schedule.findMany({
+        where: { memberId, date },
+        orderBy: { time: 'asc' },
+      });
+    },
   },
 
   // Type resolvers
@@ -1376,6 +1628,37 @@ sendMessage: async (
         },
       });
       return deliveredTo.map(d => d.user);
+    },
+  },
+
+  // ============ MEMBER TYPE RESOLVERS ============
+  Member: {
+    user: async (parent: any, _: any, context: Context) => {
+      return await context.prisma.user.findUnique({
+        where: { id: parent.userId },
+      });
+    },
+    schedules: async (parent: any, _: any, context: Context) => {
+      return await context.prisma.schedule.findMany({
+        where: { memberId: parent.id },
+        orderBy: { date: 'asc' },
+      });
+    },
+  },
+
+  Schedule: {
+    member: async (parent: any, _: any, context: Context) => {
+      return await context.prisma.member.findUnique({
+        where: { id: parent.memberId },
+      });
+    },
+  },
+
+  User: {
+    member: async (parent: any, _: any, context: Context) => {
+      return await context.prisma.member.findUnique({
+        where: { userId: parent.id },
+      });
     },
   },
 };
