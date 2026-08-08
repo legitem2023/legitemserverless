@@ -18,7 +18,23 @@ import ScanRecommendationLetter from './ScanRecommendationLetter';
 import AttendanceSheet from './AttendanceSheet';
 import ScanMasterlist from './ScanMasterlist';
 import { PrintableSuguan } from './PrintableSuguan';
-import MemberManagement from '../components/MemberManagement';
+import dynamic from 'next/dynamic';
+
+// Dynamically import MemberManagement with SSR disabled to prevent hydration issues
+const MemberManagement = dynamic(
+  () => import('../components/MemberManagement').then((mod) => mod.default),
+  { 
+    ssr: false,
+    loading: () => (
+      <div className="flex justify-center items-center h-64">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading Member Management...</p>
+        </div>
+      </div>
+    )
+  }
+);
 
 // Types
 interface Schedule {
@@ -971,4 +987,4 @@ export default function Home() {
       `}</style>
     </div>
   );
-        }
+      }
