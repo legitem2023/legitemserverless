@@ -59,7 +59,7 @@ model Schedule {
   id          String    @id @default(auto()) @map("_id") @db.ObjectId
   memberId    String    @map("member_id") @db.ObjectId
   service     ServiceType
-  date        DateTime  @db.String // Stored as string like "2026-05-06"
+  date        String    // Stored as string like "2026-05-06"
   day         String    // "Wednesday", "Sunday", etc.
   time        String    // "6:45 PM", "10:00 AM", etc.
   
