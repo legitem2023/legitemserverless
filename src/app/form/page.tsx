@@ -17,7 +17,7 @@ import ScanRecommendationLetter from './ScanRecommendationLetter';
 import AttendanceSheet from './AttendanceSheet';
 import ScanMasterlist from './ScanMasterlist';
 import { PrintableSuguan } from './PrintableSuguan';
-
+import MemberManagement from '../components/MemberManagement';
 // Types
 interface Schedule {
   date: string;
@@ -395,6 +395,13 @@ export default function Home() {
 
       {/* Tab Content */}
       <div className="pt-24">
+        <TabPanel activeTab={activeTab} tabId="attendance">
+          <div className="flex p-5 items-center justify-center">
+            <MemberManagement/>
+          </div>
+        </TabPanel>
+
+        
         {/* Print Tab */}
         <TabPanel activeTab={activeTab} tabId="print">
       {/* Print Button */}
@@ -448,6 +455,9 @@ export default function Home() {
           </div>
         </TabPanel>
 
+
+
+        
         {/* Masterlist Tab - FIXED: Added type assertion */}
         <TabPanel activeTab={activeTab} tabId="masterlist">
           <div className="flex p-5 flex-col">
