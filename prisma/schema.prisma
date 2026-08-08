@@ -16,6 +16,9 @@ model User {
   status        UserStatus @default(OFFLINE)
   lastSeen      DateTime  @default(now())
   
+  // Member relationship (if user is a member)
+  member        Member?
+  
   sentMessages  Message[]  @relation("SenderMessages")
   chats         ChatParticipant[]
   createdGroups Chat[]     @relation("CreatedGroups")
@@ -29,6 +32,46 @@ model User {
   @@map("users")
 }
 
+model Member {
+  id                  String      @id @default(auto()) @map("_id") @db.ObjectId
+  userId              String      @unique @map("user_id") @db.ObjectId
+  name                String
+  kapisanan           Kapisanan   @default(BUKLOD)
+  kahilingan          Boolean     @default(false)
+  callSign            String?
+  function            MemberFunction
+  picture             String?
+  Petsa_ng_maging_scan String?
+  Pagpapatibay        String?
+  AssociateCategory   String?
+  AmatureCallsign     String?
+  
+  user                User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  schedules           Schedule[]
+  
+  createdAt           DateTime    @default(now())
+  updatedAt           DateTime    @updatedAt
+
+  @@map("members")
+}
+
+model Schedule {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  memberId    String    @map("member_id") @db.ObjectId
+  service     ServiceType
+  date        DateTime  @db.String // Stored as string like "2026-05-06"
+  day         String    // "Wednesday", "Sunday", etc.
+  time        String    // "6:45 PM", "10:00 AM", etc.
+  
+  member      Member    @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@map("schedules")
+}
+
+// Chat models (unchanged from your original)
 model Chat {
   id            String    @id @default(auto()) @map("_id") @db.ObjectId
   name          String?
@@ -127,6 +170,24 @@ enum UserStatus {
   OFFLINE
   AWAY
   BUSY
+}
+
+enum Kapisanan {
+  BUKLOD
+  KADIWA
+  BINHI
+}
+
+enum MemberFunction {
+  ASSOCIATE_MEMBERS_APPROVED
+  ASSOCIATE_MEMBERS_NOT_APPROVED
+  EMERGENCY_FIRST_RESPONDER
+}
+
+enum ServiceType {
+  WORSHIP
+  PNK
+  DISTRITO
 }
 
 enum MessageType {
