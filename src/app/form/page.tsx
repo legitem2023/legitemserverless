@@ -11,13 +11,15 @@ import {
   FileText, 
   CalendarCheck, 
   ListChecks,
-  Search
+  Search,
+  UserCog
 } from 'lucide-react';
 import ScanRecommendationLetter from './ScanRecommendationLetter';
 import AttendanceSheet from './AttendanceSheet';
 import ScanMasterlist from './ScanMasterlist';
 import { PrintableSuguan } from './PrintableSuguan';
 import MemberManagement from '../components/MemberManagement';
+
 // Types
 interface Schedule {
   date: string;
@@ -129,6 +131,7 @@ export default function Home() {
   // Define tabs configuration
   const tabs = [
     { id: 'crud', label: 'Manage Members', icon: Users },
+    { id: 'member-mgmt', label: 'Member Management', icon: UserCog },
     { id: 'print', label: 'Print Suguan', icon: Printer },
     { id: 'letter', label: 'Recommendation Letter', icon: FileText },
     { id: 'attendance', label: 'Attendance Sheet', icon: CalendarCheck },
@@ -391,87 +394,12 @@ export default function Home() {
         />
       </div>
 
-
-
       {/* Tab Content */}
       <div className="pt-24">
-        <TabPanel activeTab={activeTab} tabId="attendance">
+        {/* Member Management Tab */}
+        <TabPanel activeTab={activeTab} tabId="member-mgmt">
           <div className="flex p-5 items-center justify-center">
-            <MemberManagement/>
-          </div>
-        </TabPanel>
-
-        
-        {/* Print Tab */}
-        <TabPanel activeTab={activeTab} tabId="print">
-      {/* Print Button */}
-      {activeTab === 'print' && (
-        <div className="print:hidden z-50">
-          <button
-            onClick={() => window.print()}
-            className="bg-black text-white px-4 py-2 text-sm rounded shadow"
-          >
-            Print
-          </button>
-        </div>
-      )}
-          <PrintableSuguan forms={forms} filipinoDays={filipinoDays} />
-        </TabPanel>
-
-        {/* Letter Tab */}
-        <TabPanel activeTab={activeTab} tabId="letter">
-          <div className="flex p-5 items-center justify-center">
-            <ScanRecommendationLetter 
-              date={new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}
-              districtMinister="Alfonso O. Rico"
-              local="Kadalagahan"
-              district="Rizal"
-              members={data.members.filter((data)=> data.kahilingan === "true").map(member => ({
-                name: member.name,
-                kapisanan: member.kapisanan,
-                recruitedBy: ""
-              }))}
-            />
-          </div>
-        </TabPanel>
-
-        {/* Attendance Tab */}
-        <TabPanel activeTab={activeTab} tabId="attendance">
-          <div className="flex p-5 items-center justify-center">
-            <AttendanceSheet
-              local="Kadalagahan"
-              district="Rizal"
-              venue="CFO Office (Lokal)"
-              date={new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}
-              time="8:00 PM"
-              attendees={attendees}
-              seminarLeaders={{
-                secretary: "Justine Jacob Rodriguez",
-                president: "Federico Hernandez",
-                overseer: "MARIANO M. LEBARDO JR."
-              }}
-              maxAttendees={30}
-            />
-          </div>
-        </TabPanel>
-
-
-
-        
-        {/* Masterlist Tab - FIXED: Added type assertion */}
-        <TabPanel activeTab={activeTab} tabId="masterlist">
-          <div className="flex p-5 flex-col">
-            {categories.map((category) => {
-              const filteredMembers = data.members.filter((m: any) => m.function === category);
-              return filteredMembers.length > 0 ? (
-                <ScanMasterlist
-                  key={category}
-                  district="Rizal"
-                  category={category as CategoryType}
-                  members={filteredMembers.filter((data:any) => data.schedules && data.schedules.length > 0)}
-                />
-              ) : null;
-            })}
+            <MemberManagement />
           </div>
         </TabPanel>
 
@@ -864,113 +792,183 @@ export default function Home() {
             </div>
           </div>
         </TabPanel>
+
+        {/* Print Tab */}
+        <TabPanel activeTab={activeTab} tabId="print">
+          {/* Print Button */}
+          {activeTab === 'print' && (
+            <div className="print:hidden z-50">
+              <button
+                onClick={() => window.print()}
+                className="bg-black text-white px-4 py-2 text-sm rounded shadow"
+              >
+                Print
+              </button>
+            </div>
+          )}
+          <PrintableSuguan forms={forms} filipinoDays={filipinoDays} />
+        </TabPanel>
+
+        {/* Letter Tab */}
+        <TabPanel activeTab={activeTab} tabId="letter">
+          <div className="flex p-5 items-center justify-center">
+            <ScanRecommendationLetter 
+              date={new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}
+              districtMinister="Alfonso O. Rico"
+              local="Kadalagahan"
+              district="Rizal"
+              members={data.members.filter((data)=> data.kahilingan === "true").map(member => ({
+                name: member.name,
+                kapisanan: member.kapisanan,
+                recruitedBy: ""
+              }))}
+            />
+          </div>
+        </TabPanel>
+
+        {/* Attendance Tab */}
+        <TabPanel activeTab={activeTab} tabId="attendance">
+          <div className="flex p-5 items-center justify-center">
+            <AttendanceSheet
+              local="Kadalagahan"
+              district="Rizal"
+              venue="CFO Office (Lokal)"
+              date={new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}
+              time="8:00 PM"
+              attendees={attendees}
+              seminarLeaders={{
+                secretary: "Justine Jacob Rodriguez",
+                president: "Federico Hernandez",
+                overseer: "MARIANO M. LEBARDO JR."
+              }}
+              maxAttendees={30}
+            />
+          </div>
+        </TabPanel>
+
+        {/* Masterlist Tab - FIXED: Added type assertion */}
+        <TabPanel activeTab={activeTab} tabId="masterlist">
+          <div className="flex p-5 flex-col">
+            {categories.map((category) => {
+              const filteredMembers = data.members.filter((m: any) => m.function === category);
+              return filteredMembers.length > 0 ? (
+                <ScanMasterlist
+                  key={category}
+                  district="Rizal"
+                  category={category as CategoryType}
+                  members={filteredMembers.filter((data:any) => data.schedules && data.schedules.length > 0)}
+                />
+              ) : null;
+            })}
+          </div>
+        </TabPanel>
       </div>
 
-<style jsx global>{`
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(10px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  
-  .animate-fadeIn {
-    animation: fadeIn 0.3s ease-out;
-  }
-  
-  * {
-    print-color-adjust: exact;
-    -webkit-print-color-adjust: exact;
-  }
-  
-  @page {
-    size: A4;
-    margin: 0mm;
-  }
+      <style jsx global>{`
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+            transform: translateY(10px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        
+        .animate-fadeIn {
+          animation: fadeIn 0.3s ease-out;
+        }
+        
+        * {
+          print-color-adjust: exact;
+          -webkit-print-color-adjust: exact;
+        }
+        
+        @page {
+          size: A4;
+          margin: 0mm;
+        }
 
-  @media print {
-    html, body {
-      margin: 0 !important;
-      padding: 0 !important;
-      background: white !important;
-      width: 100%;
-      height: auto !important;
-      min-height: auto !important;
-    }
-    
-    body {
-      margin: 0 !important;
-      padding: 0 !important;
-    }
-    
-    .print\\:shadow-none {
-      box-shadow: none !important;
-    }
-    
-    .print\\:page-break-after-always {
-      page-break-after: always;
-    }
-    
-    .print\\:m-0 {
-      margin: 0 !important;
-    }
-    
-    .print\\:p-0 {
-      padding: 0 !important;
-    }
-    
-    .print\\:bg-white {
-      background: white !important;
-    }
-    
-    .print\\:pt-0 {
-      padding-top: 0 !important;
-    }
-    
-    .print\\:mt-0 {
-      margin-top: 0 !important;
-    }
-    
-    .print\\:block {
-      display: block !important;
-    }
-    
-    /* Remove any flex centering */
-    .min-h-screen {
-      min-height: auto !important;
-    }
-    
-    .flex, .items-center, .justify-center {
-      display: block !important;
-      align-items: normal !important;
-      justify-content: normal !important;
-    }
-    
-    table {
-      page-break-inside: avoid;
-    }
-    
-    /* Ensure content starts at top */
-    div, section, article {
-      break-inside: avoid;
-    }
-    
-    /* Remove any automatic margins */
-    * {
-      margin-top: 0 !important;
-    }
-    
-    /* First element should be at top */
-    body > div:first-child {
-      margin-top: 0 !important;
-      padding-top: 0 !important;
-    }
-  }
-`}</style>
+        @media print {
+          html, body {
+            margin: 0 !important;
+            padding: 0 !important;
+            background: white !important;
+            width: 100%;
+            height: auto !important;
+            min-height: auto !important;
+          }
+          
+          body {
+            margin: 0 !important;
+            padding: 0 !important;
+          }
+          
+          .print\\:shadow-none {
+            box-shadow: none !important;
+          }
+          
+          .print\\:page-break-after-always {
+            page-break-after: always;
+          }
+          
+          .print\\:m-0 {
+            margin: 0 !important;
+          }
+          
+          .print\\:p-0 {
+            padding: 0 !important;
+          }
+          
+          .print\\:bg-white {
+            background: white !important;
+          }
+          
+          .print\\:pt-0 {
+            padding-top: 0 !important;
+          }
+          
+          .print\\:mt-0 {
+            margin-top: 0 !important;
+          }
+          
+          .print\\:block {
+            display: block !important;
+          }
+          
+          /* Remove any flex centering */
+          .min-h-screen {
+            min-height: auto !important;
+          }
+          
+          .flex, .items-center, .justify-center {
+            display: block !important;
+            align-items: normal !important;
+            justify-content: normal !important;
+          }
+          
+          table {
+            page-break-inside: avoid;
+          }
+          
+          /* Ensure content starts at top */
+          div, section, article {
+            break-inside: avoid;
+          }
+          
+          /* Remove any automatic margins */
+          * {
+            margin-top: 0 !important;
+          }
+          
+          /* First element should be at top */
+          body > div:first-child {
+            margin-top: 0 !important;
+            padding-top: 0 !important;
+          }
+        }
+      `}</style>
     </div>
   );
-}
+        }
