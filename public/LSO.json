@@ -1,0 +1,200 @@
+{
+  "members": [
+    {
+      "name": "Dan Kevin Balubal",
+      "kapisanan": "Kadiwa",
+      "kahilingan": "false",
+      "callSign": "Rzl-15-26",
+      "function": "Associate Members (Approved)",
+      "picture": "",
+      "Petsa_ng_maging_scan": "",
+      "Pagpapatibay": "",
+      "AssociateCategory": "",
+      "AmatureCallsign": "",
+      "schedules": []
+    },
+    {
+      "name": "Maricris Ramirez",
+      "kapisanan": "Buklod",
+      "kahilingan": "false",
+      "callSign": "Rzl-15-34",
+      "function": "Associate Members (Not Approved)",
+      "picture": "",
+      "Petsa_ng_maging_scan": "",
+      "Pagpapatibay": "",
+      "AssociateCategory": "",
+      "AmatureCallsign": "",
+      "schedules": []
+    },
+    {
+      "name": "Lorenzo Balisi",
+      "kapisanan": "Buklod",
+      "kahilingan": "false",
+      "callSign": "Rzl-15-39",
+      "function": "Associate Members (Not Approved)",
+      "picture": "/Enzo.jpg",
+      "Petsa_ng_maging_scan": "",
+      "Pagpapatibay": "",
+      "AssociateCategory": "",
+      "AmatureCallsign": "",
+      "schedules": [
+        {
+          "service": "worship",
+          "date": "2026-05-06",
+          "day": "Wednesday",
+          "time": "6:45 PM"
+        },
+        {
+          "service": "worship",
+          "date": "2026-05-09",
+          "day": "Saturday",
+          "time": "6:00 PM"
+        }
+      ]
+    },
+    {
+      "name": "Reynaldo Flores",
+      "kapisanan": "Buklod",
+      "kahilingan": "false",
+      "callSign": "Rzl-15-37",
+      "function": "Associate Members (Not Approved)",
+      "picture": "/Rey.jpg",
+      "Petsa_ng_maging_scan": "",
+      "Pagpapatibay": "",
+      "AssociateCategory": "",
+      "AmatureCallsign": "",
+      "schedules": [
+        {
+          "service": "worship",
+          "date": "2026-05-06",
+          "day": "Wednesday",
+          "time": "6:45 PM"
+        },
+        {
+          "service": "worship",
+          "date": "2026-05-10",
+          "day": "Sunday",
+          "time": "10:00 AM"
+        }
+      ]
+    },
+    {
+      "name": "Christian Bulalacao",
+      "kapisanan": "Binhi",
+      "kahilingan": "false",
+      "callSign": "Rzl-15-29",
+      "function": "Associate Members (Not Approved)",
+      "picture": "",
+      "Petsa_ng_maging_scan": "",
+      "Pagpapatibay": "",
+      "AssociateCategory": "",
+      "AmatureCallsign": "",
+      "schedules": []
+    },
+    {
+      "name": "Nelson Mendoza",
+      "kapisanan": "Kadiwa",
+      "kahilingan": "false",
+      "callSign": "Rzl-15-23",
+      "function": "Associate Members (Approved)",
+      "picture": "/Nelson.jpg",
+      "Petsa_ng_maging_scan": "",
+      "Pagpapatibay": "",
+      "AssociateCategory": "",
+      "AmatureCallsign": "",
+      "schedules": [
+        {
+          "service": "worship",
+          "date": "2026-05-07",
+          "day": "Thursday",
+          "time": "5:45 AM"
+        },
+        {
+          "service": "worship",
+          "date": "2026-05-07",
+          "day": "Thursday",
+          "time": "6:45 PM"
+        },
+        {
+          "service": "worship",
+          "date": "2026-05-10",
+          "day": "Sunday",
+          "time": "6:00 AM"
+        },
+        {
+          "service": "PNK",
+          "date": "2026-05-10",
+          "day": "Sunday",
+          "time": "8:00 AM"
+        }
+      ]
+    },
+    {
+      "name": "Alfredo Lebradores",
+      "kapisanan": "Buklod",
+      "kahilingan": "false",
+      "callSign": "Rzl-15-22",
+      "function": "Associate Members (Not Approved)",
+      "picture": "/Fredo.jpg",
+      "Petsa_ng_maging_scan": "",
+      "Pagpapatibay": "",
+      "AssociateCategory": "",
+      "AmatureCallsign": "",
+      "schedules": [
+        {
+          "service": "worship",
+          "date": "2026-05-07",
+          "day": "Thursday",
+          "time": "6:45 PM"
+        }
+      ]
+    },
+
+    {
+      "name": "Eduardo Rosales",
+      "kapisanan": "Buklod",
+      "kahilingan": "false",
+      "callSign": "Rzl-15-36",
+      "function": "Associate Members (Approved)",
+      "picture": "",
+      "Petsa_ng_maging_scan": "",
+      "Pagpapatibay": "",
+      "AssociateCategory": "",
+      "AmatureCallsign": "",
+      "schedules": []
+    },
+    {
+      "name": "Alvin Bancat",
+      "kapisanan": "Kadiwa",
+      "kahilingan": "false",
+      "callSign": "Rzl-15-28",
+      "function": "Associate Members (Approved)",
+      "picture": "/AlvinB.jpg",
+      "Petsa_ng_maging_scan": "",
+      "Pagpapatibay": "",
+      "AssociateCategory": "",
+      "AmatureCallsign": "",
+      "schedules": [
+        {
+          "service": "worship",
+          "date": "2026-05-10",
+          "day": "Sunday",
+          "time": "6:00 AM"
+        }
+      ]
+    },
+    {
+      "name": "Alexander Gagarin",
+      "kapisanan": "Buklod",
+      "kahilingan": "false",
+      "callSign": "",
+      "function": "Associate Members (Not Approved)",
+      "picture": "",
+      "Petsa_ng_maging_scan": "",
+      "Pagpapatibay": "",
+      "AssociateCategory": "",
+      "AmatureCallsign": "",
+      "schedules": []
+    }
+  ]
+}
