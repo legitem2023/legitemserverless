@@ -44,7 +44,7 @@ export function LSOsuguan({ forms, filipinoDays }: LSOSuguanProps) {
           <div className="print-header">
             <div className="logo-container">
               <Image
-                src="/images_lso.png"
+                src="/LSO.png"
                 alt="Logo"
                 width={120}
                 height={120}
