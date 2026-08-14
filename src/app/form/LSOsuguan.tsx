@@ -53,13 +53,13 @@ export function LSOsuguan({ forms, filipinoDays }: LSOSuguanProps) {
             </div>
 
             <div className="title-container">
-              <h1 className="title-main">SCAN INTERNATIONAL</h1>
+              <h1 className="title-main">LOCAL SAFETY OFFICER</h1>
               <h2 className="title-sub">DISTRITO NG RIZAL</h2>
               <h3 className="title-lokal">LOKAL NG KADALAGAHAN</h3>
               <p className="title-service">
-                {formIndex === 2 ? 'SUGUAN NG SCAN SA PNK' : 
+                {formIndex === 2 ? 'SUGUAN NG LSO SA PNK' : 
                  formIndex === 3 ? 'SUGUAN NG PAGBABANTAY SA DISTRITO' : 
-                 'SUGUAN NG SCAN SA PAGSAMBA'}
+                 'SUGUAN NG LSO SA PAGSAMBA'}
               </p>
             </div>
 
@@ -123,8 +123,8 @@ export function LSOsuguan({ forms, filipinoDays }: LSOSuguanProps) {
                 <p className="signature-title">KALIHIM SCAN</p>
               </div>
               <div className="signature-item">
-                <p className="signature-name">FEDERICO HERNANDEZ</p>
-                <p className="signature-title">PANGULO NG SCAN</p>
+                <p className="signature-name">GERALD LISING</p>
+                <p className="signature-title">PANGULO NG LSO</p>
               </div>
             </div>
             <div className="signature-row">
