@@ -162,8 +162,8 @@
         {
           "service": "Distrito",
           "date": "2026-05-13",
-          "day": "Wednesday",
-          "time": "12:00 AM"
+          "day": "Monday",
+          "time": "6:00 AM"
         }
       ]
     },
@@ -292,8 +292,8 @@
         {
           "service": "Distrito",
           "date": "2026-05-13",
-          "day": "Wednesday",
-          "time": "12:00 AM"
+          "day": "Monday",
+          "time": "6:00 AM"
         }
       ]
     },
@@ -361,12 +361,6 @@
           "day": "Sunday",
           "time": "8:00 AM"
         },
-        {
-          "service": "Distrito",
-          "date": "2026-05-13",
-          "day": "Wednesday",
-          "time": "12:00 AM"
-        }
       ]
     },
     {
@@ -415,6 +409,32 @@
           "service": "worship",
           "date": "2026-05-10",
           "day": "Sunday",
+          "time": "6:00 AM"
+        },
+        {
+          "service": "Distrito",
+          "date": "2026-05-10",
+          "day": "Monday",
+          "time": "6:00 AM"
+        }
+      ]
+    },
+    {
+      "name": "George Diocano",
+      "kapisanan": "Buklod",
+      "kahilingan": "false",
+      "callSign": "",
+      "function": "",
+      "picture": "",
+      "Petsa_ng_maging_scan": "",
+      "Pagpapatibay": "",
+      "AssociateCategory": "",
+      "AmatureCallsign": "",
+      "schedules": [
+        {
+          "service": "Distrito",
+          "date": "2026-05-10",
+          "day": "Monday",
           "time": "6:00 AM"
         }
       ]
