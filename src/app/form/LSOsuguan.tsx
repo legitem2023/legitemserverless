@@ -32,7 +32,7 @@ interface LSOSuguanProps {
   filipinoDays: Record<string, string>;
 }
 
-export function LSOSuguan({ forms, filipinoDays }: LSOSuguanProps) {
+export function LSOsuguan({ forms, filipinoDays }: LSOSuguanProps) {
   return (
     <div className="print-container">
       {forms.map((formSchedules, formIndex) => (
@@ -44,7 +44,7 @@ export function LSOSuguan({ forms, filipinoDays }: LSOSuguanProps) {
           <div className="print-header">
             <div className="logo-container">
               <Image
-                src="/images.png"
+                src="/images_lso.png"
                 alt="Logo"
                 width={120}
                 height={120}
