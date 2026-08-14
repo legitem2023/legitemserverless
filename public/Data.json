@@ -360,7 +360,7 @@
           "date": "2026-05-10",
           "day": "Sunday",
           "time": "8:00 AM"
-        },
+        }
       ]
     },
     {
@@ -374,7 +374,8 @@
       "Pagpapatibay": "",
       "AssociateCategory": "",
       "AmatureCallsign": "",
-      "schedules": [{
+      "schedules": [
+        {
           "service": "worship",
           "date": "2026-05-07",
           "day": "Thursday",
@@ -385,7 +386,8 @@
           "date": "2026-05-10",
           "day": "Saturday",
           "time": "6:00 PM"
-        }]
+        }
+      ]
     },
     {
       "name": "Ronald Pama",
@@ -440,6 +442,26 @@
       ]
     },
     {
+      "name": "Mariano Lebardo Jr",
+      "kapisanan": "Buklod",
+      "kahilingan": "false",
+      "callSign": "",
+      "function": "",
+      "picture": "",
+      "Petsa_ng_maging_scan": "",
+      "Pagpapatibay": "",
+      "AssociateCategory": "",
+      "AmatureCallsign": "",
+      "schedules": [
+        {
+          "service": "Distrito",
+          "date": "2026-05-10",
+          "day": "Monday",
+          "time": "6:00 AM"
+        }
+      ]
+    },
+    {
       "name": "Althea Balubal",
       "kapisanan": "Binhi",
       "kahilingan": "false",
@@ -464,6 +486,6 @@
           "time": "6:00 AM"
         }
       ]
-        }
+    }
   ]
-}
+    }
