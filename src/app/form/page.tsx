@@ -883,18 +883,7 @@ export default function Home() {
         {/* Import LSO Tab - NEW */}
         <TabPanel activeTab={activeTab} tabId="import-lso">
           <div className="max-w-6xl mx-auto mt-6 p-6 bg-white rounded-lg shadow-lg">
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold">Imported LSO Suguan</h2>
-              <button
-                onClick={() => {
-                  // You can add export/import functionality here
-                  console.log('Import LSO data:', importedLSOData);
-                }}
-                className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-              >
-                Import Data
-              </button>
-            </div>
+            
             
             {/* Display LSOsuguan with the same data */}
             <LSOsuguan 
@@ -902,11 +891,7 @@ export default function Home() {
               filipinoDays={filipinoDays} 
             />
             
-            {/* Display raw data count */}
-            <div className="mt-4 text-sm text-gray-600">
-              <p>Total Schedules: {importedLSOData.length}</p>
-              <p>Total Members: {data.members.length}</p>
-            </div>
+
           </div>
         </TabPanel>
 
