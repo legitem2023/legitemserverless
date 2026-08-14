@@ -12,7 +12,8 @@ import {
   CalendarCheck, 
   ListChecks,
   Search,
-  UserCog
+  UserCog,
+  Import
 } from 'lucide-react';
 import ScanRecommendationLetter from './ScanRecommendationLetter';
 import AttendanceSheet from './AttendanceSheet';
@@ -145,12 +146,14 @@ export default function Home() {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
+  const [importedLSOData, setImportedLSOData] = useState<GroupedSchedule[]>([]);
 
-  // Define tabs configuration
+  // Define tabs configuration - ADDED "Import LSO" tab
   const tabs = [
     { id: 'crud', label: 'Manage Members', icon: Users },
     { id: 'member-mgmt', label: 'Member Management', icon: UserCog },
     { id: 'print', label: 'Print Suguan', icon: Printer },
+    { id: 'import-lso', label: 'Import LSO', icon: Import },
     { id: 'letter', label: 'Recommendation Letter', icon: FileText },
     { id: 'attendance', label: 'Attendance Sheet', icon: CalendarCheck },
     { id: 'masterlist', label: 'Masterlist', icon: ListChecks },
@@ -174,6 +177,56 @@ export default function Home() {
       setLoading(false);
     }
   };
+
+  // Process data for LSOsuguan display (same logic as PrintableSuguan)
+  useEffect(() => {
+    const groupedSchedules: { [key: string]: GroupedSchedule } = {};
+
+    data.members.forEach((member) => {
+      member.schedules.forEach((schedule) => {
+        if (schedule.day && schedule.time) {
+          const serviceType = schedule.service || 'worship';
+          let computedDate = getAlignedDate(schedule.day);
+          
+          if (serviceType === 'Distrito') {
+            const newDate = new Date(computedDate);
+            newDate.setDate(computedDate.getDate() + 7);
+            computedDate = newDate;
+          }
+
+          const key = `${computedDate.toISOString().split('T')[0]}-${schedule.time}-${serviceType}`;
+
+          if (!groupedSchedules[key]) {
+            groupedSchedules[key] = {
+              date: computedDate.toISOString(),
+              day: schedule.day,
+              time: schedule.time,
+              service: serviceType,
+              members: [],
+            };
+          }
+
+          groupedSchedules[key].members.push(member);
+        }
+      });
+    });
+
+    const sortedSchedules = Object.values(groupedSchedules).sort((a, b) => {
+      const dayA = dayOrder[a.day.toLowerCase()] ?? 999;
+      const dayB = dayOrder[b.day.toLowerCase()] ?? 999;
+      
+      if (dayA !== dayB) {
+        return dayA - dayB;
+      }
+      
+      const timeA = timeToMinutes(a.time);
+      const timeB = timeToMinutes(b.time);
+      
+      return timeA - timeB;
+    });
+
+    setImportedLSOData(sortedSchedules);
+  }, [data.members]);
 
   useEffect(() => {
     if (success || error) {
@@ -827,6 +880,36 @@ export default function Home() {
           <PrintableSuguan forms={forms} filipinoDays={filipinoDays} />
         </TabPanel>
 
+        {/* Import LSO Tab - NEW */}
+        <TabPanel activeTab={activeTab} tabId="import-lso">
+          <div className="max-w-6xl mx-auto mt-6 p-6 bg-white rounded-lg shadow-lg">
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-2xl font-bold">Imported LSO Suguan</h2>
+              <button
+                onClick={() => {
+                  // You can add export/import functionality here
+                  console.log('Import LSO data:', importedLSOData);
+                }}
+                className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+              >
+                Import Data
+              </button>
+            </div>
+            
+            {/* Display LSOsuguan with the same data */}
+            <LSOsuguan 
+              forms={forms} 
+              filipinoDays={filipinoDays} 
+            />
+            
+            {/* Display raw data count */}
+            <div className="mt-4 text-sm text-gray-600">
+              <p>Total Schedules: {importedLSOData.length}</p>
+              <p>Total Members: {data.members.length}</p>
+            </div>
+          </div>
+        </TabPanel>
+
         {/* Letter Tab */}
         <TabPanel activeTab={activeTab} tabId="letter">
           <div className="flex p-5 items-center justify-center">
@@ -989,4 +1072,4 @@ export default function Home() {
       `}</style>
     </div>
   );
-      }
+                                                         }
