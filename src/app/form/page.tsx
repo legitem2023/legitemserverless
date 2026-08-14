@@ -18,6 +18,8 @@ import ScanRecommendationLetter from './ScanRecommendationLetter';
 import AttendanceSheet from './AttendanceSheet';
 import ScanMasterlist from './ScanMasterlist';
 import { PrintableSuguan } from './PrintableSuguan';
+import { LSOSuguan } from './LSOSuguan';
+
 import dynamic from 'next/dynamic';
 
 // Dynamically import MemberManagement with SSR disabled to prevent hydration issues
