@@ -18,7 +18,7 @@ import ScanRecommendationLetter from './ScanRecommendationLetter';
 import AttendanceSheet from './AttendanceSheet';
 import ScanMasterlist from './ScanMasterlist';
 import { PrintableSuguan } from './PrintableSuguan';
-import { LSOSuguan } from './LSOSuguan';
+import { LSOsuguan } from './LSOsuguan';
 
 import dynamic from 'next/dynamic';
 
