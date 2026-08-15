@@ -11,32 +11,6 @@
       "Pagpapatibay": "",
       "AssociateCategory": "",
       "AmatureCallsign": "",
-      "schedules": []
-    },
-    {
-      "name": "Gerald Lising",
-      "kapisanan": "Buklod",
-      "kahilingan": "",
-      "callSign": "",
-      "function": "",
-      "picture": "",
-      "Petsa_ng_maging_scan": "",
-      "Pagpapatibay": "",
-      "AssociateCategory": "",
-      "AmatureCallsign": "",
-      "schedules": []
-    },
-    {
-      "name": "Rosell Villon",
-      "kapisanan": "Buklod",
-      "kahilingan": "",
-      "callSign": "",
-      "function": "",
-      "picture": "",
-      "Petsa_ng_maging_scan": "",
-      "Pagpapatibay": "",
-      "AssociateCategory": "",
-      "AmatureCallsign": "",
       "schedules": [
         {
           "service": "worship",
@@ -53,12 +27,64 @@
       ]
     },
     {
+      "name": "Gerald Lising",
+      "kapisanan": "Buklod",
+      "kahilingan": "",
+      "callSign": "",
+      "function": "",
+      "picture": "",
+      "Petsa_ng_maging_scan": "",
+      "Pagpapatibay": "",
+      "AssociateCategory": "",
+      "AmatureCallsign": "",
+      "schedules": [
+        {
+          "service": "worship",
+          "date": "2026-05-07",
+          "day": "Thursday",
+          "time": "6:45 PM"
+        },
+        {
+          "service": "worship",
+          "date": "2026-05-10",
+          "day": "Sunday",
+          "time": "10:00 AM"
+        }
+      ]
+    },
+    {
+      "name": "Rosell Villon",
+      "kapisanan": "Buklod",
+      "kahilingan": "",
+      "callSign": "",
+      "function": "",
+      "picture": "",
+      "Petsa_ng_maging_scan": "",
+      "Pagpapatibay": "",
+      "AssociateCategory": "",
+      "AmatureCallsign": "",
+      "schedules": [
+        {
+          "service": "worship",
+          "date": "2026-05-07",
+          "day": "Thursday",
+          "time": "5:45 AM"
+        },
+        {
+          "service": "worship",
+          "date": "2026-05-10",
+          "day": "Sunday",
+          "time": "10:00 aM"
+        }
+      ]
+    },
+    {
       "name": "Reynaldo Flores",
       "kapisanan": "Buklod",
       "kahilingan": "",
       "callSign": "",
-      "function": "Associate Members (Not Approved)",
-      "picture": "/Rey.jpg",
+      "function": "",
+      "picture": "",
       "Petsa_ng_maging_scan": "",
       "Pagpapatibay": "",
       "AssociateCategory": "",
@@ -80,35 +106,16 @@
     },
     {
       "name": "Alex Lacanieta",
-      "kapisanan": "Binhi",
-      "kahilingan": "false",
-      "callSign": "Rzl-15-29",
-      "function": "Associate Members (Not Approved)",
+      "kapisanan": "Buklod",
+      "kahilingan": "",
+      "callSign": "",
+      "function": "",
       "picture": "",
       "Petsa_ng_maging_scan": "",
       "Pagpapatibay": "",
       "AssociateCategory": "",
       "AmatureCallsign": "",
-      "schedules": []
-    },
-    {
-      "name": "Nelson Mendoza",
-      "kapisanan": "Kadiwa",
-      "kahilingan": "false",
-      "callSign": "Rzl-15-23",
-      "function": "Associate Members (Approved)",
-      "picture": "/Nelson.jpg",
-      "Petsa_ng_maging_scan": "",
-      "Pagpapatibay": "",
-      "AssociateCategory": "",
-      "AmatureCallsign": "",
       "schedules": [
-        {
-          "service": "worship",
-          "date": "2026-05-07",
-          "day": "Thursday",
-          "time": "5:45 AM"
-        },
         {
           "service": "worship",
           "date": "2026-05-07",
@@ -119,13 +126,33 @@
           "service": "worship",
           "date": "2026-05-10",
           "day": "Sunday",
-          "time": "6:00 AM"
+          "time": "10:00 AM"
+        }
+      ]
+    },
+    {
+      "name": "Nelson Mendoza",
+      "kapisanan": "Kadiwa",
+      "kahilingan": "",
+      "callSign": "",
+      "function": "",
+      "picture": "",
+      "Petsa_ng_maging_scan": "",
+      "Pagpapatibay": "",
+      "AssociateCategory": "",
+      "AmatureCallsign": "",
+      "schedules": [
+        {
+          "service": "worship",
+          "date": "2026-05-07",
+          "day": "Thursday",
+          "time": "6:45 PM"
         },
         {
-          "service": "PNK",
+          "service": "worship",
           "date": "2026-05-10",
           "day": "Sunday",
-          "time": "8:00 AM"
+          "time": "10:00 AM"
         }
       ]
     },
@@ -143,9 +170,9 @@
       "schedules": [
         {
           "service": "worship",
-          "date": "2026-05-07",
-          "day": "Thursday",
-          "time": "6:45 PM"
+          "date": "2026-05-10",
+          "day": "Sunday",
+          "time": "10:00 AM"
         }
       ]
     },
@@ -163,9 +190,9 @@
       "schedules": [
         {
           "service": "worship",
-          "date": "2026-05-10",
-          "day": "Sunday",
-          "time": "6:00 AM"
+          "date": "2026-05-07",
+          "day": "Thursday",
+          "time": "5:45 AM"
         }
       ]
     },
@@ -180,7 +207,20 @@
       "Pagpapatibay": "",
       "AssociateCategory": "",
       "AmatureCallsign": "",
-      "schedules": []
+      "schedules": [
+        {
+          "service": "worship",
+          "date": "2026-05-07",
+          "day": "Thursday",
+          "time": "6:45 PM"
+        },
+        {
+          "service": "worship",
+          "date": "2026-05-10",
+          "day": "Sunday",
+          "time": "10:00 AM"
+        }
+      ]
     }
   ]
 }
