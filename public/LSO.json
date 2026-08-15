@@ -1,11 +1,11 @@
 {
   "members": [
     {
-      "name": "Dan Kevin Balubal",
-      "kapisanan": "Kadiwa",
+      "name": "Michael Villon",
+      "kapisanan": "Buklod",
       "kahilingan": "false",
-      "callSign": "Rzl-15-26",
-      "function": "Associate Members (Approved)",
+      "callSign": "",
+      "function": "",
       "picture": "",
       "Petsa_ng_maging_scan": "",
       "Pagpapatibay": "",
@@ -14,11 +14,11 @@
       "schedules": []
     },
     {
-      "name": "Maricris Ramirez",
+      "name": "Gerald Lising",
       "kapisanan": "Buklod",
-      "kahilingan": "false",
-      "callSign": "Rzl-15-34",
-      "function": "Associate Members (Not Approved)",
+      "kahilingan": "",
+      "callSign": "",
+      "function": "",
       "picture": "",
       "Petsa_ng_maging_scan": "",
       "Pagpapatibay": "",
@@ -27,12 +27,12 @@
       "schedules": []
     },
     {
-      "name": "Lorenzo Balisi",
+      "name": "Rosell Villon",
       "kapisanan": "Buklod",
-      "kahilingan": "false",
-      "callSign": "Rzl-15-39",
-      "function": "Associate Members (Not Approved)",
-      "picture": "/Enzo.jpg",
+      "kahilingan": "",
+      "callSign": "",
+      "function": "",
+      "picture": "",
       "Petsa_ng_maging_scan": "",
       "Pagpapatibay": "",
       "AssociateCategory": "",
@@ -55,8 +55,8 @@
     {
       "name": "Reynaldo Flores",
       "kapisanan": "Buklod",
-      "kahilingan": "false",
-      "callSign": "Rzl-15-37",
+      "kahilingan": "",
+      "callSign": "",
       "function": "Associate Members (Not Approved)",
       "picture": "/Rey.jpg",
       "Petsa_ng_maging_scan": "",
@@ -79,7 +79,7 @@
       ]
     },
     {
-      "name": "Christian Bulalacao",
+      "name": "Alex Lacanieta",
       "kapisanan": "Binhi",
       "kahilingan": "false",
       "callSign": "Rzl-15-29",
@@ -130,12 +130,12 @@
       ]
     },
     {
-      "name": "Alfredo Lebradores",
+      "name": "Jhon Glenard Montemayor",
       "kapisanan": "Buklod",
-      "kahilingan": "false",
-      "callSign": "Rzl-15-22",
-      "function": "Associate Members (Not Approved)",
-      "picture": "/Fredo.jpg",
+      "kahilingan": "",
+      "callSign": "",
+      "function": "",
+      "picture": "",
       "Petsa_ng_maging_scan": "",
       "Pagpapatibay": "",
       "AssociateCategory": "",
@@ -148,20 +148,6 @@
           "time": "6:45 PM"
         }
       ]
-    },
-
-    {
-      "name": "Eduardo Rosales",
-      "kapisanan": "Buklod",
-      "kahilingan": "false",
-      "callSign": "Rzl-15-36",
-      "function": "Associate Members (Approved)",
-      "picture": "",
-      "Petsa_ng_maging_scan": "",
-      "Pagpapatibay": "",
-      "AssociateCategory": "",
-      "AmatureCallsign": "",
-      "schedules": []
     },
     {
       "name": "Alvin Bancat",
