@@ -156,7 +156,7 @@ const sampleMembers: Member[] = [
 ];
 
 export default function Home() {
-  const [activeTab, setActiveTab] = useState<string>('member-mgmt');
+  const [activeTab, setActiveTab] = useState<string>('print');
   // Use static data instead of fetching from API
   const [data, setData] = useState<{ members: Member[] }>({ members: sampleMembers });
   const [lsoData, setLsoData] = useState<{ members: Member[] }>({ members: [] });
