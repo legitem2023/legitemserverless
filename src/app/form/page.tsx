@@ -129,7 +129,7 @@ function getAlignedDate(dayName: string) {
 // Define the category type to match ScanMasterlist expected props
 type CategoryType = "Emergency First Responder (EFR)" | "Communicators" | "Associate Members (Approved)" | "Associate Members (Not Approved)";
 
-// Sample static data since we're not using a database
+// Sample static data as fallback
 const sampleMembers: Member[] = [
   {
     name: "John Doe",
@@ -157,10 +157,9 @@ const sampleMembers: Member[] = [
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState<string>('print');
-  // Use static data instead of fetching from API
   const [data, setData] = useState<{ members: Member[] }>({ members: sampleMembers });
   const [lsoData, setLsoData] = useState<{ members: Member[] }>({ members: [] });
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [lsoLoading, setLsoLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [lsoError, setLsoError] = useState<string | null>(null);
@@ -178,11 +177,29 @@ export default function Home() {
     { id: 'masterlist', label: 'Masterlist', icon: ListChecks },
   ];
 
-  // Fetch LSO data from API
+  // Fetch MEMBER data from API
   useEffect(() => {
-    fetchLSOData();
+    fetchMemberData();
   }, []);
 
+  const fetchMemberData = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch('/api/members');
+      const result = await response.json();
+      setData(result);
+      setError(null);
+    } catch (err) {
+      setError('Failed to load member data');
+      console.error(err);
+      // Use sample data as fallback
+      setData({ members: sampleMembers });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Fetch LSO data from API
   const fetchLSOData = async () => {
     try {
       setLsoLoading(true);
@@ -197,6 +214,11 @@ export default function Home() {
       setLsoLoading(false);
     }
   };
+
+  // Fetch LSO data on component mount
+  useEffect(() => {
+    fetchLSOData();
+  }, []);
 
   // Process LSO data for LSOsuguan display
   useEffect(() => {
@@ -248,12 +270,6 @@ export default function Home() {
     setImportedLSOData(sortedSchedules);
   }, [lsoData.members]);
 
-  // Process member data for PrintableSuguan
-  useEffect(() => {
-    // This effect processes the member data for other components
-    // No need to set state here as we use the groupedSchedules directly in the render
-  }, [data.members]);
-
   useEffect(() => {
     if (success || error) {
       const timer = setTimeout(() => {
@@ -264,7 +280,7 @@ export default function Home() {
     }
   }, [success, error]);
 
-  // Group schedules for printing (from members data)
+  // Group schedules for printing (from MEMBER data)
   const groupedSchedules: { [key: string]: GroupedSchedule } = {};
 
   data.members.forEach((member) => {
@@ -310,6 +326,7 @@ export default function Home() {
     return timeA - timeB;
   });
 
+  // SAME FILTERING for MEMBER data
   const form1 = sortedSchedules.filter(
     (s) =>
       (s.day.toLowerCase() === 'wednesday' || s.day.toLowerCase() === 'thursday') &&
@@ -332,7 +349,7 @@ export default function Home() {
 
   const forms = [form1, form2, form3, form4];
 
-  // Group LSO schedules for LSOsuguan
+  // Group LSO schedules for LSOsuguan - SAME FILTERING just different data
   const lsoGroupedSchedules: { [key: string]: GroupedSchedule } = {};
 
   lsoData.members.forEach((member) => {
@@ -378,6 +395,7 @@ export default function Home() {
     return timeA - timeB;
   });
 
+  // SAME FILTERING applied to LSO data
   const lsoForm1 = lsoSortedSchedules.filter(
     (s) =>
       (s.day.toLowerCase() === 'wednesday' || s.day.toLowerCase() === 'thursday') &&
@@ -408,7 +426,6 @@ export default function Home() {
       remarks: ''
     }));
 
-  // FIXED: Added 'as const' to make this a readonly tuple with literal types
   const categories = [
     "Emergency First Responder (EFR)",
     "Communicators",
@@ -426,7 +443,8 @@ export default function Home() {
     return (
       <div className="bg-gray-300 min-h-screen flex items-center justify-center">
         <div className="bg-white p-6 rounded-lg shadow-lg">
-          <p className="text-lg">Loading data...</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto"></div>
+          <p className="text-lg mt-4">Loading member data...</p>
         </div>
       </div>
     );
@@ -477,7 +495,7 @@ export default function Home() {
           </div>
         </TabPanel>
 
-        {/* Print Tab */}
+        {/* Print Tab - Uses MEMBER data from /api/members with filtering */}
         <TabPanel activeTab={activeTab} tabId="print">
           {/* Print Button */}
           {activeTab === 'print' && (
@@ -491,9 +509,12 @@ export default function Home() {
             </div>
           )}
           <PrintableSuguan forms={forms} filipinoDays={filipinoDays} />
+          <div className="mt-4 text-sm text-gray-500 text-center print:hidden">
+            Data loaded from /api/members • {data.members.length} members
+          </div>
         </TabPanel>
 
-        {/* Import LSO Tab - Now using LSO data from API */}
+        {/* Import LSO Tab - Uses LSO data from /api/LSO with SAME filtering */}
         <TabPanel activeTab={activeTab} tabId="import-lso">
           <div className="max-w-6xl mx-auto mt-6 p-6 bg-white rounded-lg shadow-lg">
             {lsoLoading ? (
@@ -515,7 +536,7 @@ export default function Home() {
               </div>
             ) : (
               <>
-                {/* Display LSOsuguan with LSO data */}
+                {/* LSOsuguan with LSO data and SAME filtering */}
                 <LSOsuguan 
                   forms={lsoForms} 
                   filipinoDays={filipinoDays} 
@@ -690,4 +711,4 @@ export default function Home() {
       `}</style>
     </div>
   );
-          }
+            }
