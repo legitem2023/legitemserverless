@@ -156,16 +156,19 @@ const sampleMembers: Member[] = [
 ];
 
 export default function Home() {
-  const [activeTab, setActiveTab] = useState<string>('print');
+  const [activeTab, setActiveTab] = useState<string>('member-mgmt');
   // Use static data instead of fetching from API
   const [data, setData] = useState<{ members: Member[] }>({ members: sampleMembers });
+  const [lsoData, setLsoData] = useState<{ members: Member[] }>({ members: [] });
   const [loading, setLoading] = useState(false);
+  const [lsoLoading, setLsoLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [lsoError, setLsoError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [importedLSOData, setImportedLSOData] = useState<GroupedSchedule[]>([]);
 
-  // Define tabs configuration - REMOVED "crud" tab
+  // Define tabs configuration
   const tabs = [
     { id: 'member-mgmt', label: 'Member Management', icon: UserCog },
     { id: 'print', label: 'Print Suguan', icon: Printer },
@@ -175,11 +178,31 @@ export default function Home() {
     { id: 'masterlist', label: 'Masterlist', icon: ListChecks },
   ];
 
-  // Process data for LSOsuguan display (same logic as PrintableSuguan)
+  // Fetch LSO data from API
+  useEffect(() => {
+    fetchLSOData();
+  }, []);
+
+  const fetchLSOData = async () => {
+    try {
+      setLsoLoading(true);
+      const response = await fetch('/api/LSO');
+      const result = await response.json();
+      setLsoData(result);
+      setLsoError(null);
+    } catch (err) {
+      setLsoError('Failed to load LSO data');
+      console.error(err);
+    } finally {
+      setLsoLoading(false);
+    }
+  };
+
+  // Process LSO data for LSOsuguan display
   useEffect(() => {
     const groupedSchedules: { [key: string]: GroupedSchedule } = {};
 
-    data.members.forEach((member) => {
+    lsoData.members.forEach((member) => {
       member.schedules.forEach((schedule) => {
         if (schedule.day && schedule.time) {
           const serviceType = schedule.service || 'worship';
@@ -223,6 +246,12 @@ export default function Home() {
     });
 
     setImportedLSOData(sortedSchedules);
+  }, [lsoData.members]);
+
+  // Process member data for PrintableSuguan
+  useEffect(() => {
+    // This effect processes the member data for other components
+    // No need to set state here as we use the groupedSchedules directly in the render
   }, [data.members]);
 
   useEffect(() => {
@@ -235,7 +264,7 @@ export default function Home() {
     }
   }, [success, error]);
 
-  // Group schedules for printing
+  // Group schedules for printing (from members data)
   const groupedSchedules: { [key: string]: GroupedSchedule } = {};
 
   data.members.forEach((member) => {
@@ -303,6 +332,74 @@ export default function Home() {
 
   const forms = [form1, form2, form3, form4];
 
+  // Group LSO schedules for LSOsuguan
+  const lsoGroupedSchedules: { [key: string]: GroupedSchedule } = {};
+
+  lsoData.members.forEach((member) => {
+    member.schedules.forEach((schedule) => {
+      if (schedule.day && schedule.time) {
+        const serviceType = schedule.service || 'worship';
+        let computedDate = getAlignedDate(schedule.day);
+        
+        if (serviceType === 'Distrito') {
+          const newDate = new Date(computedDate);
+          newDate.setDate(computedDate.getDate() + 7);
+          computedDate = newDate;
+        }
+
+        const key = `${computedDate.toISOString().split('T')[0]}-${schedule.time}-${serviceType}`;
+
+        if (!lsoGroupedSchedules[key]) {
+          lsoGroupedSchedules[key] = {
+            date: computedDate.toISOString(),
+            day: schedule.day,
+            time: schedule.time,
+            service: serviceType,
+            members: [],
+          };
+        }
+
+        lsoGroupedSchedules[key].members.push(member);
+      }
+    });
+  });
+
+  const lsoSortedSchedules = Object.values(lsoGroupedSchedules).sort((a, b) => {
+    const dayA = dayOrder[a.day.toLowerCase()] ?? 999;
+    const dayB = dayOrder[b.day.toLowerCase()] ?? 999;
+    
+    if (dayA !== dayB) {
+      return dayA - dayB;
+    }
+    
+    const timeA = timeToMinutes(a.time);
+    const timeB = timeToMinutes(b.time);
+    
+    return timeA - timeB;
+  });
+
+  const lsoForm1 = lsoSortedSchedules.filter(
+    (s) =>
+      (s.day.toLowerCase() === 'wednesday' || s.day.toLowerCase() === 'thursday') &&
+      s.service === 'worship'
+  );
+
+  const lsoForm2 = lsoSortedSchedules.filter(
+    (s) =>
+      (s.day.toLowerCase() === 'saturday' || s.day.toLowerCase() === 'sunday') &&
+      s.service === 'worship'
+  );
+
+  const lsoForm3 = lsoSortedSchedules.filter(
+    (s) => s.service === 'PNK'
+  );
+
+  const lsoForm4 = lsoSortedSchedules.filter(
+    (s) => s.service === 'Distrito'
+  );
+
+  const lsoForms = [lsoForm1, lsoForm2, lsoForm3, lsoForm4];
+
   const attendees = data.members
     .filter(member => member.kahilingan === "true")
     .map(member => ({
@@ -353,6 +450,13 @@ export default function Home() {
         </div>
       )}
 
+      {lsoError && (
+        <div className="fixed top-20 left-1/2 transform -translate-x-1/2 z-50 bg-red-500 text-white px-4 py-2 rounded shadow-lg">
+          LSO Error: {lsoError}
+          <button onClick={() => setLsoError(null)} className="ml-4 font-bold">×</button>
+        </div>
+      )}
+
       {/* Reusable Tabs Component */}
       <div className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 print:hidden w-auto min-w-[300px]">
         <ReusableTabs 
@@ -389,14 +493,38 @@ export default function Home() {
           <PrintableSuguan forms={forms} filipinoDays={filipinoDays} />
         </TabPanel>
 
-        {/* Import LSO Tab */}
+        {/* Import LSO Tab - Now using LSO data from API */}
         <TabPanel activeTab={activeTab} tabId="import-lso">
           <div className="max-w-6xl mx-auto mt-6 p-6 bg-white rounded-lg shadow-lg">
-            {/* Display LSOsuguan with the same data */}
-            <LSOsuguan 
-              forms={forms} 
-              filipinoDays={filipinoDays} 
-            />
+            {lsoLoading ? (
+              <div className="flex justify-center items-center h-64">
+                <div className="text-center">
+                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto"></div>
+                  <p className="mt-4 text-gray-600">Loading LSO Data...</p>
+                </div>
+              </div>
+            ) : lsoData.members.length === 0 ? (
+              <div className="text-center py-12">
+                <p className="text-gray-500">No LSO data available</p>
+                <button
+                  onClick={fetchLSOData}
+                  className="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                >
+                  Refresh LSO Data
+                </button>
+              </div>
+            ) : (
+              <>
+                {/* Display LSOsuguan with LSO data */}
+                <LSOsuguan 
+                  forms={lsoForms} 
+                  filipinoDays={filipinoDays} 
+                />
+                <div className="mt-4 text-sm text-gray-500 text-center">
+                  Data loaded from /api/LSO • {lsoData.members.length} members
+                </div>
+              </>
+            )}
           </div>
         </TabPanel>
 
@@ -562,4 +690,4 @@ export default function Home() {
       `}</style>
     </div>
   );
-      }
+          }
