@@ -327,6 +327,12 @@
           "date": "2026-05-10",
           "day": "Sunday",
           "time": "6:00 AM"
+        },
+        {
+          "service": "Distrito",
+          "date": "2026-05-13",
+          "day": "Monday",
+          "time": "6:00 AM"
         }
       ]
     },
