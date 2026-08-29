@@ -494,6 +494,46 @@
       "schedules": [
 
       ]
+    },
+    {
+      "name": "Jornel Colita Hogan",
+      "kapisanan": "Kad",
+      "kahilingan": "false",
+      "callSign": "OJT",
+      "function": "",
+      "picture": "",
+      "Petsa_ng_maging_scan": "",
+      "Pagpapatibay": "",
+      "AssociateCategory": "",
+      "AmatureCallsign": "",
+      "schedules": [
+        {
+          "service": "worship",
+          "date": "2026-05-06",
+          "day": "Wednesday",
+          "time": "6:45 PM"
+        },
+      ]
+    },
+    {
+      "name": "Celso",
+      "kapisanan": "Kad",
+      "kahilingan": "false",
+      "callSign": "OJT",
+      "function": "",
+      "picture": "",
+      "Petsa_ng_maging_scan": "",
+      "Pagpapatibay": "",
+      "AssociateCategory": "",
+      "AmatureCallsign": "",
+      "schedules": [
+        {
+          "service": "worship",
+          "date": "2026-05-06",
+          "day": "Wednesday",
+          "time": "6:45 PM"
+        },
+      ]
     }
   ]
     }
