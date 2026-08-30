@@ -534,6 +534,19 @@
           "time": "6:45 PM"
         }
       ]
+    },
+      {
+      "name": "Angelo Peloyo",
+      "kapisanan": "Kad",
+      "kahilingan": "false",
+      "callSign": "OJT",
+      "function": "",
+      "picture": "",
+      "Petsa_ng_maging_scan": "",
+      "Pagpapatibay": "",
+      "AssociateCategory": "",
+      "AmatureCallsign": "",
+      "schedules": []
     }
   ]
     }
