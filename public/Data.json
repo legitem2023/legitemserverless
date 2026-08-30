@@ -65,20 +65,7 @@
       "Pagpapatibay": "",
       "AssociateCategory": "",
       "AmatureCallsign": "",
-      "schedules": [
-        {
-          "service": "worship",
-          "date": "2026-05-06",
-          "day": "Wednesday",
-          "time": "6:45 PM"
-        },
-        {
-          "service": "worship",
-          "date": "2026-05-10",
-          "day": "Sunday",
-          "time": "10:00 AM"
-        }
-      ]
+      "schedules": []
     },
     {
       "name": "Christian Bulalacao",
