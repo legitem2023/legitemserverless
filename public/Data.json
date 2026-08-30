@@ -497,6 +497,12 @@
           "date": "2026-05-06",
           "day": "Wednesday",
           "time": "6:45 PM"
+        },
+        {
+          "service": "worship",
+          "date": "2026-05-09",
+          "day": "Saturday",
+          "time": "6:00 PM"
         }
       ]
     },
@@ -517,6 +523,12 @@
           "date": "2026-05-06",
           "day": "Wednesday",
           "time": "6:45 PM"
+        },
+        {
+          "service": "worship",
+          "date": "2026-05-09",
+          "day": "Saturday",
+          "time": "6:00 PM"
         }
       ]
     },
@@ -534,8 +546,8 @@
       "schedules": [
         {
           "service": "worship",
-          "date": "2026-05-07",
-          "day": "Thursday",
+          "date": "2026-05-06",
+          "day": "Wednesday",
           "time": "6:45 PM"
         },
         {
