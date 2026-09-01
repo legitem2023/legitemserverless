@@ -333,12 +333,7 @@
       "AssociateCategory": "",
       "AmatureCallsign": "",
       "schedules": [
-        {
-          "service": "PNK",
-          "date": "2026-05-10",
-          "day": "Sunday",
-          "time": "8:00 AM"
-        }
+        
       ]
     },
     {
@@ -459,7 +454,7 @@
       "kapisanan": "Kadiwa",
       "kahilingan": "true",
       "callSign": "Rzl-15-43",
-      "function": "",
+      "function": "Associate Members (Not Approved)",
       "picture": "/Jornel.jpg",
       "Petsa_ng_maging_scan": "",
       "Pagpapatibay": "",
@@ -485,7 +480,7 @@
       "kapisanan": "Kadiwa",
       "kahilingan": "true",
       "callSign": "Rzl-15-44",
-      "function": "",
+      "function": "Associate Members (Not Approved)",
       "picture": "/Celso.jpg",
       "Petsa_ng_maging_scan": "",
       "Pagpapatibay": "",
@@ -511,7 +506,7 @@
       "kapisanan": "Binhi",
       "kahilingan": "true",
       "callSign": "Rzl-15-45",
-      "function": "",
+      "function": "Associate Members (Not Approved)",
       "picture": "",
       "Petsa_ng_maging_scan": "",
       "Pagpapatibay": "",
