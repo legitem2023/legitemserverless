@@ -579,7 +579,7 @@ export default function Home() {
               seminarLeaders={{
                 secretary: "Justine Jacob Rodriguez",
                 president: "Federico Hernandez",
-                overseer: "MARIANO M. LEBARDO JR."
+                overseer: "Bonnard Jose"
               }}
               maxAttendees={30}
             />
