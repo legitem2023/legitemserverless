@@ -413,6 +413,25 @@
           "time": "6:00 AM"
         }
       ]
+    },{
+      "name": "Alex Lacanienta",
+      "kapisanan": "Buklod",
+      "kahilingan": "false",
+      "callSign": "",
+      "function": "",
+      "picture": "",
+      "Petsa_ng_maging_scan": "",
+      "Pagpapatibay": "",
+      "AssociateCategory": "",
+      "AmatureCallsign": "",
+      "schedules": [
+        {
+          "service": "Distrito",
+          "date": "2026-05-10",
+          "day": "Monday",
+          "time": "6:00 AM"
+        }
+      ]
     },
     {
       "name": "Mariano Lebardo Jr",
