@@ -351,7 +351,7 @@ export default function Home() {
     (s) => s.service === 'Bantay sa Kapilya'
   );
   
-  const forms = [form1, form2, form3, form4];
+  const forms = [form1, form2, form3, form4, form5];
 
   // Group LSO schedules for LSOsuguan - SAME FILTERING just different data
   const lsoGroupedSchedules: { [key: string]: GroupedSchedule } = {};
