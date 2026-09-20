@@ -347,6 +347,10 @@ export default function Home() {
     (s) => s.service === 'Distrito'
   );
 
+  const form5 = sortedSchedules.filter(
+    (s) => s.service === 'Bantay sa Kapilya'
+  );
+  
   const forms = [form1, form2, form3, form4];
 
   // Group LSO schedules for LSOsuguan - SAME FILTERING just different data
