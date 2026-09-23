@@ -8,6 +8,7 @@ interface Member {
   kahilingan: string;
   callSign: string;
   function: string | string[];
+  gampanin:string;
   picture: string;
   schedules: Schedule[];
 }
@@ -105,7 +106,7 @@ export function PrintableSuguan({ forms, filipinoDays }: PrintableSuguanProps) {
                           <td className="text-center">{member.callSign}</td>
                           <td className="signature-cell"></td>
                           <td className="signature-cell"></td>
-                          <td className="role-cell"></td>
+                          <td className="role-cell">{member.gampanin}</td>
                         </tr>
                       ))}
                     </tbody>
