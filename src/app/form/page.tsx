@@ -138,6 +138,7 @@ const sampleMembers: Member[] = [
     kahilingan: "true",
     callSign: "JD001",
     function: "Emergency First Responder (EFR)",
+    gampanin:"",
     picture: "",
     schedules: [
       { date: "", day: "Monday", time: "8:00 AM", service: "worship" }
@@ -149,6 +150,7 @@ const sampleMembers: Member[] = [
     kahilingan: "false",
     callSign: "JS002",
     function: "Communicators",
+    gampanin:"",
     picture: "",
     schedules: [
       { date: "", day: "Wednesday", time: "2:00 PM", service: "PNK" }
