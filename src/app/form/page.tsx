@@ -53,6 +53,7 @@ interface Member {
   kahilingan: string;
   callSign: string;
   function: string | string[];
+  gampanin: string;
   picture: string;
   schedules: Schedule[];
 }
