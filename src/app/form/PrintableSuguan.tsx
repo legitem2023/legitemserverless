@@ -94,7 +94,7 @@ export function PrintableSuguan({ forms, filipinoDays }: PrintableSuguanProps) {
                         <th className="col-callsign">Call-Sign</th>
                         <th className="col-signature">Lagda Pagtanggap</th>
                         <th className="col-signature">Lagda Pagtupad</th>
-                        <th className="col-role">Gampanan</th>
+                        <th className="col-role">Gampanin</th>
                       </tr>
                     </thead>
                     <tbody>
