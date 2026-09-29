@@ -118,8 +118,8 @@ export function PrintableSuguan({ forms, filipinoDays }: PrintableSuguanProps) {
   
   const displayRole =
     isTeamLeader && previousTeamLeaderCount >= 1
-      ? "Sub-Team Leader"
-      : member.gampanin;
+      ? "TL-2"
+      : "TL-1;
 
   return (
     <tr key={i}>
