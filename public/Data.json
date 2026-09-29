@@ -176,7 +176,7 @@
         {
           "service": "Bantay sa Kapilya",
           "date": "2026-05-26",
-          "day": "Monday",
+          "day": "Wednesday",
           "time": "9:00 PM"
         }
       ]
@@ -317,27 +317,12 @@
         {
           "service": "Bantay sa Kapilya",
           "date": "2026-05-17",
-          "day": "Monday",
+          "day": "Wednesday",
           "time": "9:00 PM"
-        }
-      ]
-    },
-    {
-      "name": "Federico Hernandez",
-      "kapisanan": "Buklod",
-      "kahilingan": "false",
-      "callSign": "Rzl-15-3",
-      "function": "",
-      "gampanin": "Team Leader",
-      "picture": "/Rico.jpg",
-      "Petsa_ng_maging_scan": "",
-      "Pagpapatibay": "",
-      "AssociateCategory": "",
-      "AmatureCallsign": "",
-      "schedules": [
+        },
         {
           "service": "Bantay sa Kapilya",
-          "date": "2026-05-26",
+          "date": "2026-05-17",
           "day": "Thursday",
           "time": "9:00 PM"
         }
@@ -594,7 +579,7 @@
         {
           "service": "Bantay sa Kapilya",
           "date": "2026-05-24",
-          "day": "Wednesday",
+          "day": "Thursday",
           "time": "9:00 PM"
         }
       ]
@@ -627,7 +612,7 @@
         {
           "service": "Bantay sa Kapilya",
           "date": "2026-05-25",
-          "day": "Wednesday",
+          "day": "Thursday",
           "time": "9:00 PM"
         }
       ]
