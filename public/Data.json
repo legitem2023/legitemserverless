@@ -319,7 +319,22 @@
           "date": "2026-05-17",
           "day": "Monday",
           "time": "9:00 PM"
-        },
+        }
+      ]
+    },
+    {
+      "name": "Federico Hernandez",
+      "kapisanan": "Buklod",
+      "kahilingan": "false",
+      "callSign": "Rzl-15-3",
+      "function": "",
+      "gampanin": "Team Leader",
+      "picture": "/Rico.jpg",
+      "Petsa_ng_maging_scan": "",
+      "Pagpapatibay": "",
+      "AssociateCategory": "",
+      "AmatureCallsign": "",
+      "schedules": [
         {
           "service": "Bantay sa Kapilya",
           "date": "2026-05-26",
@@ -491,12 +506,6 @@
           "date": "2026-05-10",
           "day": "Monday",
           "time": "6:00 AM"
-        },
-        {
-          "service": "Bantay sa Kapilya",
-          "date": "2026-05-21",
-          "day": "Thursday",
-          "time": "9:00 PM"
         }
       ]
     },{
