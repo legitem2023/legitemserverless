@@ -110,17 +110,28 @@ export function PrintableSuguan({ forms, filipinoDays }: PrintableSuguanProps) {
                         </tr>
                       ))*/}
 {schedule.members.map((member, i) => {
-  const isTeamLeader = member.gampanin === "Team Leader";
+  const isTeamLeader =
+    member.gampanin?.trim().toLowerCase() === "team leader";
+
+  // Count total Team Leaders in the whole schedule
+  const totalTeamLeaders = schedule.members.filter(
+    (m) => m.gampanin?.trim().toLowerCase() === "team leader"
+  ).length;
+
+  // Count Team Leaders before this one
   const previousTeamLeaderCount = schedule.members
     .slice(0, i)
-    .filter((m) => m.gampanin === "Team Leader").length;
+    .filter((m) => m.gampanin?.trim().toLowerCase() === "team leader").length;
 
-  const displayRole =
-    isTeamLeader && previousTeamLeaderCount >= 1
-      ? "TL-2"
-      : isTeamLeader
-      ? "TL-1"
-      : member.gampanin;
+  let displayRole = member.gampanin;
+
+  if (isTeamLeader) {
+    if (totalTeamLeaders === 1) {
+      displayRole = "TL"; // only one TL in schedule
+    } else {
+      displayRole = `TL-${previousTeamLeaderCount + 1}`; // TL-1, TL-2, ...
+    }
+  }
 
   return (
     <tr key={i}>
