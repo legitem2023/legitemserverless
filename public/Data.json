@@ -693,6 +693,20 @@
           "time": "9:00 PM"
         }
       ]
-          }
+    },
+    {
+      "name": "Roel Rodriguez",
+      "kapisanan": "Buklod",
+      "kahilingan": "false",
+      "callSign": "Rzl-15-45",
+      "function": "Associate Members (Not Approved)",
+      "gampanin": "Parking",
+      "picture": "",
+      "Petsa_ng_maging_scan": "",
+      "Pagpapatibay": "",
+      "AssociateCategory": "",
+      "AmatureCallsign": "",
+      "schedules": []
+      }
   ]
 }
