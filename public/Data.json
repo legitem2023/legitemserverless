@@ -649,6 +649,39 @@
           "time": "9:00 PM"
         }
       ]
-    }
+    },
+          {
+      "name": "Joshua Canayon",
+      "kapisanan": "Kadiwa",
+      "kahilingan": "false",
+      "callSign": "Rzl-15-29",
+      "function": "Associate Members (Not Approved)",
+      "gampanin": "Parking",
+      "picture": "",
+      "Petsa_ng_maging_scan": "",
+      "Pagpapatibay": "",
+      "AssociateCategory": "",
+      "AmatureCallsign": "",
+      "schedules": [
+        {
+          "service": "worship",
+          "date": "2026-05-07",
+          "day": "Thursday",
+          "time": "6:45 PM"
+        },
+        {
+          "service": "worship",
+          "date": "2026-05-10",
+          "day": "Sunday",
+          "time": "10:00 AM"
+        },
+        {
+          "service": "Bantay sa Kapilya",
+          "date": "2026-05-26",
+          "day": "Wednesday",
+          "time": "9:00 PM"
+        }
+      ]
+          }
   ]
 }
