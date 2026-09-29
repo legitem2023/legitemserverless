@@ -99,7 +99,7 @@ export function PrintableSuguan({ forms, filipinoDays }: PrintableSuguanProps) {
                       </tr>
                     </thead>
                     <tbody>
-                      {schedule.members.map((member, i) => (
+                      {/*schedule.members.map((member, i) => (
                         <tr key={i}>
                           <td className="text-center">{i + 1}</td>
                           <td colSpan={4}>{member.name}</td>
@@ -108,7 +108,30 @@ export function PrintableSuguan({ forms, filipinoDays }: PrintableSuguanProps) {
                           <td className="signature-cell"></td>
                           <td className="role-cell">{member.gampanin}</td>
                         </tr>
-                      ))}
+                      ))*/}
+                      {schedule.members.map((member, i) => {
+  // Check if this member is a Team Leader and if there's already a Team Leader before them
+  const isTeamLeader = member.gampanin === "Team Leader";
+  const previousTeamLeaderCount = schedule.members
+    .slice(0, i)
+    .filter((m) => m.gampanin === "Team Leader").length;
+  
+  const displayRole =
+    isTeamLeader && previousTeamLeaderCount >= 1
+      ? "Sub-Team Leader"
+      : member.gampanin;
+
+  return (
+    <tr key={i}>
+      <td className="text-center">{i + 1}</td>
+      <td colSpan={4}>{member.name}</td>
+      <td className="text-center">{member.callSign}</td>
+      <td className="signature-cell"></td>
+      <td className="signature-cell"></td>
+      <td className="role-cell">{displayRole}</td>
+    </tr>
+  );
+})}
                     </tbody>
                   </table>
                 </div>
