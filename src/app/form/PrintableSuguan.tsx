@@ -109,16 +109,17 @@ export function PrintableSuguan({ forms, filipinoDays }: PrintableSuguanProps) {
                           <td className="role-cell">{member.gampanin}</td>
                         </tr>
                       ))*/}
-                      {schedule.members.map((member, i) => {
-  // Check if this member is a Team Leader and if there's already a Team Leader before them
+{schedule.members.map((member, i) => {
   const isTeamLeader = member.gampanin === "Team Leader";
   const previousTeamLeaderCount = schedule.members
     .slice(0, i)
     .filter((m) => m.gampanin === "Team Leader").length;
-  
+
   const displayRole =
     isTeamLeader && previousTeamLeaderCount >= 1
       ? "TL-2"
+      : isTeamLeader
+      ? "TL-1"
       : member.gampanin;
 
   return (
