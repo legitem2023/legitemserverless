@@ -172,6 +172,12 @@
           "date": "2026-05-14",
           "day": "Thursday",
           "time": "9:00 PM"
+        },
+        {
+          "service": "Bantay sa Kapilya",
+          "date": "2026-05-26",
+          "day": "Monday",
+          "time": "9:00 PM"
         }
       ]
     },
@@ -312,6 +318,12 @@
           "service": "Bantay sa Kapilya",
           "date": "2026-05-17",
           "day": "Monday",
+          "time": "9:00 PM"
+        },
+        {
+          "service": "Bantay sa Kapilya",
+          "date": "2026-05-26",
+          "day": "Thursday",
           "time": "9:00 PM"
         }
       ]
