@@ -129,7 +129,7 @@ export function LSOsuguan({ forms, filipinoDays }: LSOSuguanProps) {
             </div>
             <div className="signature-row">
               <div className="signature-item">
-                <p className="signature-name">MARIANO M. LEBARDO JR.</p>
+                <p className="signature-name">ALVIN ADAME</p>
                 <p className="signature-title">PD - TAGASUBAYBAY</p>
               </div>
               <div className="signature-item">
