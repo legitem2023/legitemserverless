@@ -14,7 +14,7 @@ interface PersonData {
 const sampleData: PersonData[] = [
   {
     id: 1,
-    picture: 'https://i.pravatar.cc/150?img=1',
+    picture: 'Robert.jpg',
     name: 'Robert Marquez',
     kagamitan: 'Paet, Level bar',
     commento: '',
@@ -22,7 +22,7 @@ const sampleData: PersonData[] = [
   },
   {
     id: 2,
-    picture: 'https://i.pravatar.cc/150?img=2',
+    picture: '/Rico.jpg',
     name: 'Federico Hernandez',
     kagamitan: 'Paet, Level bar',
     commento: '',
@@ -61,7 +61,7 @@ const sampleData: PersonData[] = [
   },
   {
     id: 7,
-    picture: 'https://i.pravatar.cc/150?img=3',
+    picture: '/Alvin.jpg/150?img=3',
     name: 'Alvin Bancat',
     kagamitan: 'Paet, Level bar',
     commento: '',
