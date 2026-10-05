@@ -14,7 +14,7 @@ interface PersonData {
 const sampleData: PersonData[] = [
   {
     id: 1,
-    picture: 'Robert.jpg',
+    picture: '/Robs.jpg',
     name: 'Robert Marquez',
     kagamitan: 'Paet, Level bar',
     commento: '',
@@ -274,7 +274,7 @@ export default function PrintTablePage() {
                         width: '64px',
                         height: '64px',
                         objectFit: 'cover',
-                        borderRadius: '50%',
+                        borderRadius: '2px',
                         border: '2px solid #d1d5db',
                       }}
                     />
