@@ -174,7 +174,7 @@ export default function PrintTablePage() {
           className="a4-paper"
         >
           {/* Header */}
-          <div style={{ textAlign: 'center', marginBottom: '24px' }}>
+          <div style={{ textAlign: 'left', marginBottom: '24px' }}>
             <h1
               style={{
                 fontSize: '22px',
@@ -183,7 +183,7 @@ export default function PrintTablePage() {
                 color: '#111827',
               }}
             >
-              Listahan ng mga Tao
+              Construction Workers
             </h1>
             <p
               style={{
