@@ -61,7 +61,7 @@ const sampleData: PersonData[] = [
   },
   {
     id: 7,
-    picture: '/Alvin.jpg/150?img=3',
+    picture: '/AlvinB.jpg',
     name: 'Alvin Bancat',
     kagamitan: 'Paet, Level bar',
     commento: '',
