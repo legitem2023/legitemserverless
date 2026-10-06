@@ -287,8 +287,8 @@ export default function PrintTablePage() {
                       src={person.picture}
                       alt={person.name}
                       style={{
-                        width: '64px',
-                        height: '64px',
+                        width: '55px',
+                        height: '55px',
                         objectFit: 'cover',
                         borderRadius: '2px',
                         border: '2px solid #d1d5db',
