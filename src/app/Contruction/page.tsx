@@ -14,7 +14,7 @@ interface PersonData {
 const sampleData: PersonData[] = [
   {
     id: 1,
-    picture: '/Robs.jpg',
+    picture: '/pix/RobsM.jpg',
     name: 'Robert Marquez',
     kagamitan: 'Paet, Level bar',
     commento: '',
@@ -22,7 +22,7 @@ const sampleData: PersonData[] = [
   },
   {
     id: 2,
-    picture: '/Rico.jpg',
+    picture: '/pix/RicoH.jpg',
     name: 'Federico Hernandez',
     kagamitan: 'Paet, Level bar',
     commento: '',
@@ -30,7 +30,7 @@ const sampleData: PersonData[] = [
   },
   {
     id: 3,
-    picture: 'https://i.pravatar.cc/150?img=3',
+    picture: '/pix/JorgeD.jpg',
     name: 'Jorge Diocano',
     kagamitan: 'Paet, Level bar',
     commento: '',
@@ -53,7 +53,7 @@ const sampleData: PersonData[] = [
     phone: '0991-259-5112 ',
   },{
     id: 6,
-    picture: 'https://i.pravatar.cc/150?img=3',
+    picture: '/pix/JamesB.jpg',
     name: 'James Barrios',
     kagamitan: 'Paet, Level bar',
     commento: '',
@@ -61,7 +61,7 @@ const sampleData: PersonData[] = [
   },
   {
     id: 7,
-    picture: '/AlvinB.jpg',
+    picture: '/pix/AlvinBancat.jpg',
     name: 'Alvin Bancat',
     kagamitan: 'Paet, Level bar',
     commento: '',
@@ -69,7 +69,7 @@ const sampleData: PersonData[] = [
   },
   {
     id: 8,
-    picture: 'https://i.pravatar.cc/150?img=3',
+    picture: '/pix/AnthonyB.jpg',
     name: 'Anthony Bancat',
     kagamitan: 'Paet, Level bar',
     commento: '',
@@ -77,7 +77,7 @@ const sampleData: PersonData[] = [
   },
   {
     id: 9,
-    picture: 'https://i.pravatar.cc/150?img=3',
+    picture: '/pix/GerwinV.jpg',
     name: 'Gerwin Valle',
     kagamitan: 'Paet, Level bar',
     commento: '',
@@ -85,11 +85,27 @@ const sampleData: PersonData[] = [
   },
   {
     id: 10,
-    picture: 'https://i.pravatar.cc/150?img=3',
+    picture: '/pix/RhodzM.jpg',
     name: 'Rhodz Malabag',
     kagamitan: 'Paet, Level bar',
-    commento: 'Masiglang Mangaawit, PNK',
+    commento: '',
     phone: '0947-752-5480',
+  },
+  {
+    id: 11,
+    picture: '/pix/DavidB.jpg',
+    name: 'David Balubal',
+    kagamitan: 'Paet, Level bar',
+    commento: '',
+    phone: '0963-175-8402',
+  },  
+  {
+    id: 12,
+    picture: '/pix/DanDanB.jpg',
+    name: 'Dan Dan Balubal',
+    kagamitan: 'Paet, Level bar',
+    commento: '',
+    phone: '0970-580-8470',
   },
 ];
 
