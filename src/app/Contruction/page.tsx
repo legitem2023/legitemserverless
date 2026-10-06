@@ -201,15 +201,6 @@ export default function PrintTablePage() {
             >
               Construction Workers
             </h1>
-            <p
-              style={{
-                fontSize: '12px',
-                color: '#6b7280',
-                marginTop: '6px',
-              }}
-            >
-              Petsa: {new Date().toLocaleDateString('fil-PH')}
-            </p>
           </div>
 
           {/* Table */}
