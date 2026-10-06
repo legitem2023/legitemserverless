@@ -179,7 +179,7 @@ export default function PrintTablePage() {
           style={{
             width: '210mm',
             minHeight: '297mm',
-            padding: '15mm',
+            padding: '10mm',
             margin: '0 auto',
             background: 'white',
             boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
