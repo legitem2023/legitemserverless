@@ -38,7 +38,7 @@ const sampleData: PersonData[] = [
   },
   {
     id: 4,
-    picture: 'https://i.pravatar.cc/150?img=3',
+    picture: '/pix/NoImg.jpg',
     name: 'Eduardo Rosales',
     kagamitan: 'Paet, Level bar',
     commento: '',
@@ -46,7 +46,7 @@ const sampleData: PersonData[] = [
   },
   {
     id: 5,
-    picture: 'https://i.pravatar.cc/150?img=3',
+    picture: '/pix/NoImg.jpg',
     name: 'Willy Sabado',
     kagamitan: 'Paet, Level bar, Barreta',
     commento: '',
