@@ -19,6 +19,7 @@ const sampleData: PersonData[] = [
     kagamitan: 'Paet, Level bar',
     commento: 'Masiglang maytungkulin sa scan at mananampalataya',
     phone: '0915-339-2813',
+    color:'#ffffff'
   },
   {
     id: 2,
@@ -27,6 +28,7 @@ const sampleData: PersonData[] = [
     kagamitan: 'Paet, Level bar',
     commento: 'Masiglang maytungkulin sa SCAN maaasahan at mananampalataya',
     phone: '0928-155-3448',
+    color:'#ffffff'
   },
   {
     id: 3,
@@ -35,6 +37,7 @@ const sampleData: PersonData[] = [
     kagamitan: 'Paet, Level bar',
     commento: 'Masiglang Maytungkulin bilang Diakono at mananampalataya',
     phone: '0992-211-5630',
+    color:'#ffffff'
   },
   {
     id: 4,
@@ -43,6 +46,7 @@ const sampleData: PersonData[] = [
     kagamitan: 'Paet, Level bar',
     commento: '',
     phone: '0951-958-4772',
+    color:'#ffffff'
   },
   {
     id: 5,
@@ -51,6 +55,7 @@ const sampleData: PersonData[] = [
     kagamitan: 'Paet, Level bar, Barreta',
     commento: 'Masiglang kaanib at mananampalataya',
     phone: '0991-259-5112 ',
+    color:'#ffffff'
   },{
     id: 6,
     picture: '/pix/JamesB.jpg',
@@ -58,6 +63,7 @@ const sampleData: PersonData[] = [
     kagamitan: 'Paet, Level bar',
     commento: 'Masiglang maytungkulin bilang Diakono',
     phone: '0991-259-5112',
+    color:'#ffffff'
   },
   {
     id: 7,
@@ -66,14 +72,7 @@ const sampleData: PersonData[] = [
     kagamitan: 'Paet, Level bar',
     commento: 'Masiglang maytungkulin bilang LSO at TSV mananampalataya',
     phone: '0993-106-8327',
-  },
-  {
-    id: 8,
-    picture: '/pix/AnthonyB.jpg',
-    name: 'Anthony Bancat',
-    kagamitan: 'Paet, Level bar',
-    commento: 'Masiglang mang-aawit mananampalataya',
-    phone: '0920-367-1941',
+    color:'#ffffff'
   },
   {
     id: 9,
@@ -82,6 +81,7 @@ const sampleData: PersonData[] = [
     kagamitan: 'Paet, Level bar',
     commento: 'Masiglang maytungkulin sa TSV mananampalataya',
     phone: '0992-610-6179',
+    color:'#ffffff'
   },
   {
     id: 10,
@@ -90,6 +90,16 @@ const sampleData: PersonData[] = [
     kagamitan: 'Paet, Level bar',
     commento: 'Masiglang maytungkulin bilang Mang-aawit at kagawad sa PNK',
     phone: '0947-752-5480',
+    color:'#ffffff'
+  },
+  {
+    id: 8,
+    picture: '/pix/AnthonyB.jpg',
+    name: 'Anthony Bancat',
+    kagamitan: 'Paet, Level bar',
+    commento: 'Masiglang mang-aawit mananampalataya',
+    phone: '0920-367-1941',
+    color:'#ffffff'
   },
   {
     id: 11,
@@ -98,6 +108,7 @@ const sampleData: PersonData[] = [
     kagamitan: 'Paet, Level bar',
     commento: 'Masiglang maytungkulin bilang mang-aawit',
     phone: '0963-175-8402',
+    color:'#ffffff'
   },  
   {
     id: 12,
@@ -106,6 +117,7 @@ const sampleData: PersonData[] = [
     kagamitan: 'Paet, Level bar',
     commento: '',
     phone: '0970-580-8470',
+    color:'#ffffff'
   },
 ];
 
@@ -267,7 +279,7 @@ export default function PrintTablePage() {
             </thead>
             <tbody>
               {sampleData.map((person) => (
-                <tr key={person.id} style={{ verticalAlign: 'top' }}>
+                <tr key={person.id} style={{ verticalAlign: 'top',backgroundColor:person.color }}>
                   <td
                     style={{
                       border: '1px solid #9ca3af',
