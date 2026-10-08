@@ -275,7 +275,7 @@ export default function PrintTablePage() {
                     width: '25%',
                   }}
                 >
-                  Commento
+                  Puna
                 </th>
               </tr>
             </thead>
