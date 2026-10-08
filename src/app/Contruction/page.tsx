@@ -17,7 +17,7 @@ const sampleData: PersonData[] = [
     picture: '/pix/RobsM.jpg',
     name: 'Robert Marquez',
     kagamitan: 'Paet, Level bar',
-    commento: '',
+    commento: 'Masiglang maytungkulin sa scan at mananampalataya',
     phone: '0915-339-2813',
   },
   {
@@ -25,7 +25,7 @@ const sampleData: PersonData[] = [
     picture: '/pix/RicoH.jpg',
     name: 'Federico Hernandez',
     kagamitan: 'Paet, Level bar',
-    commento: '',
+    commento: 'Masiglang maytungkulin sa SCAN maaasahan at mananampalataya',
     phone: '0928-155-3448',
   },
   {
@@ -33,7 +33,7 @@ const sampleData: PersonData[] = [
     picture: '/pix/JorgeD.jpg',
     name: 'Jorge Diocano',
     kagamitan: 'Paet, Level bar',
-    commento: '',
+    commento: 'Masiglang Maytungkulin bilang Diakono at mananampalataya',
     phone: '0992-211-5630',
   },
   {
@@ -46,17 +46,17 @@ const sampleData: PersonData[] = [
   },
   {
     id: 5,
-    picture: '/pix/NoImg.jpg',
+    picture: '/pix/WillyS.jpg',
     name: 'Willy Sabado',
     kagamitan: 'Paet, Level bar, Barreta',
-    commento: '',
+    commento: 'Masiglang kaanib at mananampalataya',
     phone: '0991-259-5112 ',
   },{
     id: 6,
     picture: '/pix/JamesB.jpg',
     name: 'James Barrios',
     kagamitan: 'Paet, Level bar',
-    commento: '',
+    commento: 'Masiglang maytungkulin bilang Diakono',
     phone: '0991-259-5112',
   },
   {
@@ -64,7 +64,7 @@ const sampleData: PersonData[] = [
     picture: '/pix/AlvinBancat.jpg',
     name: 'Alvin Bancat',
     kagamitan: 'Paet, Level bar',
-    commento: '',
+    commento: 'Masiglang maytungkulin bilang LSO at TSV mananampalataya',
     phone: '0993-106-8327',
   },
   {
@@ -72,7 +72,7 @@ const sampleData: PersonData[] = [
     picture: '/pix/AnthonyB.jpg',
     name: 'Anthony Bancat',
     kagamitan: 'Paet, Level bar',
-    commento: '',
+    commento: 'Masiglang mang-aawit mananampalataya',
     phone: '0920-367-1941',
   },
   {
@@ -80,7 +80,7 @@ const sampleData: PersonData[] = [
     picture: '/pix/GerwinV.jpg',
     name: 'Gerwin Valle',
     kagamitan: 'Paet, Level bar',
-    commento: '',
+    commento: 'Masiglang maytungkulin sa TSV mananampalataya',
     phone: '0992-610-6179',
   },
   {
@@ -88,7 +88,7 @@ const sampleData: PersonData[] = [
     picture: '/pix/RhodzM.jpg',
     name: 'Rhodz Malabag',
     kagamitan: 'Paet, Level bar',
-    commento: '',
+    commento: 'Masiglang maytungkulin bilang Mang-aawit at kagawad sa PNK',
     phone: '0947-752-5480',
   },
   {
@@ -96,7 +96,7 @@ const sampleData: PersonData[] = [
     picture: '/pix/DavidB.jpg',
     name: 'David Balubal',
     kagamitan: 'Paet, Level bar',
-    commento: '',
+    commento: 'Masiglang maytungkulin bilang mang-aawit',
     phone: '0963-175-8402',
   },  
   {
