@@ -256,16 +256,7 @@ export default function PrintTablePage() {
                 >
                   Kagamitan
                 </th>
-                <th
-                  style={{
-                    border: '1px solid #9ca3af',
-                    padding: '8px',
-                    textAlign: 'left',
-                    width: '25%',
-                  }}
-                >
-                  Commento
-                </th>
+
                 <th
                   style={{
                     border: '1px solid #9ca3af',
@@ -275,6 +266,16 @@ export default function PrintTablePage() {
                   }}
                 >
                   Phone Number
+                </th>
+                <th
+                  style={{
+                    border: '1px solid #9ca3af',
+                    padding: '8px',
+                    textAlign: 'left',
+                    width: '25%',
+                  }}
+                >
+                  Commento
                 </th>
               </tr>
             </thead>
@@ -322,7 +323,7 @@ export default function PrintTablePage() {
                       padding: '8px',
                     }}
                   >
-                    {person.commento}
+                    {person.phone}
                   </td>
                   <td
                     style={{
@@ -330,7 +331,7 @@ export default function PrintTablePage() {
                       padding: '8px',
                     }}
                   >
-                    {person.phone}
+                    {person.commento}
                   </td>
                 </tr>
               ))}
