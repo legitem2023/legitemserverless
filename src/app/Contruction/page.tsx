@@ -76,7 +76,7 @@ const sampleData: PersonData[] = [
     color:'#ffffff'
   },
   {
-    id: 9,
+    id: 8,
     picture: '/pix/GerwinV.jpg',
     name: 'Gerwin Valle',
     kagamitan: 'Paet, Level bar',
@@ -85,7 +85,7 @@ const sampleData: PersonData[] = [
     color:'#ffffff'
   },
   {
-    id: 10,
+    id: 9,
     picture: '/pix/RhodzM.jpg',
     name: 'Rhodz Malabag',
     kagamitan: 'Paet, Level bar',
@@ -94,13 +94,13 @@ const sampleData: PersonData[] = [
     color:'#ffffff'
   },
   {
-    id: 8,
+    id: 10,
     picture: '/pix/AnthonyB.jpg',
     name: 'Anthony Bancat',
     kagamitan: 'Paet, Level bar',
     commento: 'Masiglang mang-aawit mananampalataya',
     phone: '0920-367-1941',
-    color:'#ffffff'
+    color:'#aff0d7'
   },
   {
     id: 11,
@@ -109,7 +109,7 @@ const sampleData: PersonData[] = [
     kagamitan: 'Paet, Level bar',
     commento: 'Masiglang maytungkulin bilang mang-aawit',
     phone: '0963-175-8402',
-    color:'#ffffff'
+    color:'#aff0d7'
   },  
   {
     id: 12,
@@ -118,7 +118,7 @@ const sampleData: PersonData[] = [
     kagamitan: 'Paet, Level bar',
     commento: '',
     phone: '0970-580-8470',
-    color:'#ffffff'
+    color:'#aff0d7'
   },
 ];
 
