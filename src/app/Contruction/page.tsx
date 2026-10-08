@@ -9,6 +9,7 @@ interface PersonData {
   kagamitan: string;
   commento: string;
   phone: string;
+  color: string;
 }
 
 const sampleData: PersonData[] = [
