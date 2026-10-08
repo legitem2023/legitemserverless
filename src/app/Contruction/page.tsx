@@ -212,7 +212,7 @@ export default function PrintTablePage() {
                 color: '#111827',
               }}
             >
-              Construction Workers
+              Construction Workers - KADALAGAHAN
             </h1>
           </div>
 
