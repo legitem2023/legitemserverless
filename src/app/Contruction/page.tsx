@@ -31,43 +31,8 @@ const sampleData: PersonData[] = [
     phone: '0928-155-3448',
     color:'#ffffff'
   },
-  {
+    {
     id: 3,
-    picture: '/pix/JorgeD.jpg',
-    name: 'Jorge Diocano',
-    kagamitan: 'Paet, Level bar',
-    commento: 'Masiglang Maytungkulin bilang Diakono at mananampalataya',
-    phone: '0992-211-5630',
-    color:'#ffffff'
-  },
-  {
-    id: 4,
-    picture: '/pix/NoImg.jpg',
-    name: 'Eduardo Rosales',
-    kagamitan: 'Paet, Level bar',
-    commento: '',
-    phone: '0951-958-4772',
-    color:'#ffffff'
-  },
-  {
-    id: 5,
-    picture: '/pix/WillyS.jpg',
-    name: 'Willy Sabado',
-    kagamitan: 'Paet, Level bar, Barreta',
-    commento: 'Masiglang kaanib at mananampalataya',
-    phone: '0991-259-5112 ',
-    color:'#ffffff'
-  },{
-    id: 6,
-    picture: '/pix/JamesB.jpg',
-    name: 'James Barrios',
-    kagamitan: 'Paet, Level bar',
-    commento: 'Masiglang maytungkulin bilang Diakono',
-    phone: '0991-259-5112',
-    color:'#ffffff'
-  },
-  {
-    id: 7,
     picture: '/pix/AlvinBancat.jpg',
     name: 'Alvin Bancat',
     kagamitan: 'Paet, Level bar',
@@ -76,12 +41,48 @@ const sampleData: PersonData[] = [
     color:'#ffffff'
   },
   {
-    id: 8,
+    id: 4,
     picture: '/pix/GerwinV.jpg',
     name: 'Gerwin Valle',
     kagamitan: 'Paet, Level bar',
     commento: 'Masiglang maytungkulin sa TSV mananampalataya',
     phone: '0992-610-6179',
+    color:'#ffffff'
+  },
+  {
+    id: 5,
+    picture: '/pix/NoImg.jpg',
+    name: 'Eduardo Rosales',
+    kagamitan: 'Paet, Level bar',
+    commento: '',
+    phone: '0951-958-4772',
+    color:'#ffffff'
+  },
+  {
+    id: 6,
+    picture: '/pix/WillyS.jpg',
+    name: 'Willy Sabado',
+    kagamitan: 'Paet, Level bar, Barreta',
+    commento: 'Masiglang kaanib at mananampalataya',
+    phone: '0991-259-5112 ',
+    color:'#ffffff'
+  },
+  {
+    id: 7,
+    picture: '/pix/JamesB.jpg',
+    name: 'James Barrios',
+    kagamitan: 'Paet, Level bar',
+    commento: 'Masiglang maytungkulin bilang Diakono',
+    phone: '0991-259-5112',
+    color:'#ffffff'
+  },
+  {
+    id: 8,
+    picture: '/pix/JorgeD.jpg',
+    name: 'Jorge Diocano',
+    kagamitan: 'Paet, Level bar',
+    commento: 'Masiglang Maytungkulin bilang Diakono at mananampalataya',
+    phone: '0992-211-5630',
     color:'#ffffff'
   },
   {
