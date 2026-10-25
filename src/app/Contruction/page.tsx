@@ -54,7 +54,7 @@ const sampleData: PersonData[] = [
     picture: '/pix/NoImg.jpg',
     name: 'Eduardo Rosales',
     kagamitan: 'Paet, Level bar',
-    commento: '',
+    commento: 'Masiglang Diakono at mananampalataya',
     phone: '0951-958-4772',
     color:'#ffffff'
   },
