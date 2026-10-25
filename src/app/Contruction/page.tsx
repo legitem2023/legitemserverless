@@ -117,7 +117,7 @@ const sampleData: PersonData[] = [
     picture: '/pix/DanDanB.jpg',
     name: 'Dan Dan Balubal',
     kagamitan: 'Paet, Level bar',
-    commento: '',
+    commento: 'Masigla po sa pagsamba at maytungkulin sa scan ngunit hnd po nakakatupad sa ngaun dahil sa hanap buhay.',
     phone: '0970-580-8470',
     color:'#aff0d7'
   },
